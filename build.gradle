@@ -102,6 +102,9 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
+    from('guidebook') {
+        into 'assets/powah/guides/powah/book'
+    }
 }
 
 sourceSets {
