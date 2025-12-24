@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import owmii.powah.api.energy.endernetwork.IEnderExtender;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.EnderConfig;
-import owmii.powah.lib.block.AbstractEnergyBlock;
+import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.IOwnable;
@@ -26,7 +26,7 @@ import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Player;
 import owmii.powah.util.math.RangedInt;
 
-public class AbstractEnderBlockEntity<B extends AbstractEnergyBlock<EnderConfig, B>> extends AbstractEnergyStorageBlockEntity<EnderConfig, B>
+public class AbstractEnderBlockEntity<B extends PowahBaseEnergyBlock<EnderConfig, B>> extends AbstractEnergyStorageBlockEntity<EnderConfig, B>
         implements IOwnable, IInventoryHolder {
     private final RangedInt channel = new RangedInt(12);
 

@@ -28,7 +28,7 @@ import owmii.powah.block.cable.CableBlock;
 import owmii.powah.block.cable.CableBlockEntity;
 import owmii.powah.block.energizing.EnergizingOrbBlock;
 import owmii.powah.components.PowahComponents;
-import owmii.powah.lib.block.AbstractEnergyBlock;
+import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.client.handler.IHudItem;
 import owmii.powah.lib.item.ItemBase;
 import owmii.powah.lib.logistics.energy.SideConfig;
@@ -78,7 +78,7 @@ public class WrenchItem extends ItemBase implements IHudItem, IWrench {
             }
             if (getWrenchMode(stack).rotate()
                     // Only rotate Powah machines
-                    && (state.getBlock() instanceof AbstractEnergyBlock<?, ?> || state.getBlock() instanceof EnergizingOrbBlock)) {
+                    && (state.getBlock() instanceof PowahBaseEnergyBlock<?, ?> || state.getBlock() instanceof EnergizingOrbBlock)) {
                 final BlockState rotatedState = rotateState(world, state, pos);
                 if (!state.equals(rotatedState)) {
                     world.setBlockAndUpdate(pos, rotatedState);

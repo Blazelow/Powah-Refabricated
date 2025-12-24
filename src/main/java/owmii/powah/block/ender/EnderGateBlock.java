@@ -20,12 +20,12 @@ import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.EnderConfig;
 import owmii.powah.inventory.EnderCellContainer;
-import owmii.powah.lib.block.AbstractEnergyBlock;
+import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
-public class EnderGateBlock extends AbstractEnergyBlock<EnderConfig, EnderGateBlock> {
+public class EnderGateBlock extends PowahBaseEnergyBlock<EnderConfig, EnderGateBlock> {
     private static final Map<Direction, VoxelShape> SHAPES = new HashMap<>();
 
     public EnderGateBlock(Properties properties, Tier variant) {

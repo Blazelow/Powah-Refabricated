@@ -19,13 +19,13 @@ import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.ThermoContainer;
-import owmii.powah.lib.block.AbstractGeneratorBlock;
+import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.fluid.Tank;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
-public class ThermoBlock extends AbstractGeneratorBlock<ThermoBlock> {
+public class ThermoBlock extends PowahBaseGeneratorBlock<ThermoBlock> {
     public ThermoBlock(Properties properties, Tier variant) {
         super(properties, variant);
     }

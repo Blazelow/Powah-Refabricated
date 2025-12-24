@@ -27,7 +27,7 @@ import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.ReactorContainer;
 import owmii.powah.item.ReactorItem;
-import owmii.powah.lib.block.AbstractGeneratorBlock;
+import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.item.EnergyBlockItem;
@@ -36,7 +36,7 @@ import owmii.powah.lib.logistics.fluid.Tank;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 import owmii.powah.util.Util;
 
-public class ReactorBlock extends AbstractGeneratorBlock<ReactorBlock> {
+public class ReactorBlock extends PowahBaseGeneratorBlock<ReactorBlock> {
     public static final BooleanProperty CORE = BooleanProperty.create("core");
 
     public ReactorBlock(Properties properties, Tier variant) {

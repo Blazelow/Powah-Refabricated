@@ -21,7 +21,7 @@ import owmii.powah.lib.logistics.inventory.Inventory;
 import owmii.powah.lib.registry.IVariant;
 
 @SuppressWarnings("unchecked")
-public class PowahAbstractBlockEntity<V extends IVariant, B extends PowahAbstractBlock<V, B>> extends BlockEntity implements IBlockEntity, IRedstoneInteract {
+public class PowahAbstractBlockEntity<V extends IVariant, B extends PowahBaseBlock<V, B>> extends BlockEntity implements IBlockEntity, IRedstoneInteract {
     /**
      * Used when this is instance of {@link IInventoryHolder}
      **/

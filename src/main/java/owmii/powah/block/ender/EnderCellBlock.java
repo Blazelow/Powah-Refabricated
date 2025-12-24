@@ -14,12 +14,12 @@ import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.EnderConfig;
 import owmii.powah.inventory.EnderCellContainer;
-import owmii.powah.lib.block.AbstractEnergyBlock;
+import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
-public class EnderCellBlock extends AbstractEnergyBlock<EnderConfig, EnderCellBlock> {
+public class EnderCellBlock extends PowahBaseEnergyBlock<EnderConfig, EnderCellBlock> {
     public EnderCellBlock(Properties properties, Tier variant) {
         super(properties, variant);
     }

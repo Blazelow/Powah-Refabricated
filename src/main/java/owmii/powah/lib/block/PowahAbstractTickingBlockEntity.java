@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import owmii.powah.lib.registry.IVariant;
 
-public class PowahAbstractTickingBlockEntity<V extends IVariant, B extends PowahAbstractBlock<V, B>> extends PowahAbstractBlockEntity<V, B> {
+public class PowahAbstractTickingBlockEntity<V extends IVariant, B extends PowahBaseBlock<V, B>> extends PowahAbstractBlockEntity<V, B> {
     private int syncTicks;
     public int ticks;
 

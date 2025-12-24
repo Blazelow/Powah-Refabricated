@@ -29,13 +29,13 @@ import owmii.powah.lib.registry.IVariant;
 import owmii.powah.util.EnergyUtil;
 import owmii.powah.util.Util;
 
-public abstract class AbstractEnergyBlock<C extends IEnergyConfig<Tier>, B extends AbstractEnergyBlock<C, B>> extends PowahAbstractBlock<Tier, B>
+public abstract class PowahBaseEnergyBlock<C extends IEnergyConfig<Tier>, B extends PowahBaseEnergyBlock<C, B>> extends PowahBaseBlock<Tier, B>
         implements IConfigHolder<Tier, C>, IEnergyItemProvider {
-    public AbstractEnergyBlock(Properties properties) {
+    public PowahBaseEnergyBlock(Properties properties) {
         this(properties, IVariant.getEmpty());
     }
 
-    public AbstractEnergyBlock(Properties properties, Tier variant) {
+    public PowahBaseEnergyBlock(Properties properties, Tier variant) {
         super(properties, variant);
     }
 

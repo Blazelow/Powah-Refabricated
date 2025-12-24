@@ -15,12 +15,12 @@ import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.inventory.EnergyCellContainer;
 import owmii.powah.item.EnergyCellItem;
-import owmii.powah.lib.block.AbstractEnergyBlock;
+import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
-public class EnergyCellBlock extends AbstractEnergyBlock<EnergyConfig, EnergyCellBlock> implements SimpleWaterloggedBlock {
+public class EnergyCellBlock extends PowahBaseEnergyBlock<EnergyConfig, EnergyCellBlock> implements SimpleWaterloggedBlock {
     public EnergyCellBlock(Properties properties, Tier tier) {
         super(properties, tier);
     }

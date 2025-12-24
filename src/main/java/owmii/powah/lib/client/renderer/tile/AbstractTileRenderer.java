@@ -18,7 +18,7 @@ public abstract class AbstractTileRenderer<T extends PowahAbstractBlockEntity<?,
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
         if (player != null) {
-            render(te, pt, matrix, rtb, mc, player.clientLevel, player, light, ov);
+            render(te, pt, matrix, rtb, mc, mc.level, player, light, ov);
         }
     }
 

@@ -32,12 +32,12 @@ import owmii.powah.api.energy.IEnergyConnector;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.CableConfig;
 import owmii.powah.inventory.CableContainer;
-import owmii.powah.lib.block.AbstractEnergyBlock;
+import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 import owmii.powah.util.EnergyUtil;
 
-public class CableBlock extends AbstractEnergyBlock<CableConfig, CableBlock> implements SimpleWaterloggedBlock, IEnergyConnector {
+public class CableBlock extends PowahBaseEnergyBlock<CableConfig, CableBlock> implements SimpleWaterloggedBlock, IEnergyConnector {
     public static final BooleanProperty NORTH = PipeBlock.NORTH;
     public static final BooleanProperty EAST = PipeBlock.EAST;
     public static final BooleanProperty SOUTH = PipeBlock.SOUTH;

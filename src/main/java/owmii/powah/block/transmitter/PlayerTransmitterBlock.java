@@ -28,12 +28,12 @@ import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.ChargingConfig;
 import owmii.powah.inventory.PlayerTransmitterContainer;
-import owmii.powah.lib.block.AbstractEnergyBlock;
+import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
-public class PlayerTransmitterBlock extends AbstractEnergyBlock<ChargingConfig, PlayerTransmitterBlock> {
+public class PlayerTransmitterBlock extends PowahBaseEnergyBlock<ChargingConfig, PlayerTransmitterBlock> {
     public static final BooleanProperty TOP = BooleanProperty.create("top");
     public static final VoxelShape TOP_SHAPE = Shapes.or(box(6, 8, 6, 10, 12, 10), box(7, 4.5D, 7, 9, 8, 9), box(4, 0.5D, 4, 12, 1.5D, 12),
             box(4, 2D, 4, 12, 3D, 12), box(4, 3.5D, 4, 12, 4.5D, 12), box(1, -15, 1, 15, -1, 15), box(4, -1, 4, 12, 0, 12));

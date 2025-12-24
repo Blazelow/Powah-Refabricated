@@ -11,12 +11,12 @@ import owmii.powah.lib.logistics.Transfer;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Util;
 
-public abstract class AbstractGeneratorBlock<B extends AbstractGeneratorBlock<B>> extends AbstractEnergyBlock<GeneratorConfig, B> {
-    public AbstractGeneratorBlock(Properties properties) {
+public abstract class PowahBaseGeneratorBlock<B extends PowahBaseGeneratorBlock<B>> extends PowahBaseEnergyBlock<GeneratorConfig, B> {
+    public PowahBaseGeneratorBlock(Properties properties) {
         super(properties);
     }
 
-    public AbstractGeneratorBlock(Properties properties, Tier variant) {
+    public PowahBaseGeneratorBlock(Properties properties, Tier variant) {
         super(properties, variant);
     }
 

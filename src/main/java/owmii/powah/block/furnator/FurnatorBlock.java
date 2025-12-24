@@ -21,12 +21,12 @@ import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.FurnatorContainer;
-import owmii.powah.lib.block.AbstractGeneratorBlock;
+import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
-public class FurnatorBlock extends AbstractGeneratorBlock<FurnatorBlock> implements SimpleWaterloggedBlock {
+public class FurnatorBlock extends PowahBaseGeneratorBlock<FurnatorBlock> implements SimpleWaterloggedBlock {
     public FurnatorBlock(Properties properties, Tier variant) {
         super(properties, variant);
         setDefaultState();

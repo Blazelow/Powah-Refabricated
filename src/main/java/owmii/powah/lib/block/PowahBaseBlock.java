@@ -40,16 +40,16 @@ import owmii.powah.lib.logistics.inventory.AbstractContainer;
 import owmii.powah.lib.registry.IVariant;
 import owmii.powah.lib.registry.IVariantEntry;
 
-public abstract class PowahAbstractBlock<V extends IVariant, B extends PowahAbstractBlock<V, B>> extends Block implements IVariantEntry<V, B>, IBlock<V, B> {
+public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBlock<V, B>> extends Block implements IVariantEntry<V, B>, IBlock<V, B> {
     public static final VoxelShape SEMI_FULL_SHAPE = box(0.01D, 0.01D, 0.01D, 15.99D, 15.99D, 15.99D);
     protected final Map<Direction, VoxelShape> shapes = new HashMap<>();
     protected final V variant;
 
-    public PowahAbstractBlock(Properties properties) {
+    public PowahBaseBlock(Properties properties) {
         this(properties, IVariant.getEmpty());
     }
 
-    public PowahAbstractBlock(Properties properties, V variant) {
+    public PowahBaseBlock(Properties properties, V variant) {
         super(properties);
         this.variant = variant;
         this.shapes.put(Direction.UP, Shapes.block());
@@ -158,7 +158,7 @@ public abstract class PowahAbstractBlock<V extends IVariant, B extends PowahAbst
             MenuProvider provider = new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    return new ItemStack(PowahAbstractBlock.this).getHoverName();
+                    return new ItemStack(PowahBaseBlock.this).getHoverName();
                 }
 
                 @Nullable

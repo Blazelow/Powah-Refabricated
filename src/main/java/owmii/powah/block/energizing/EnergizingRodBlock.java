@@ -39,14 +39,14 @@ import owmii.powah.block.Tier;
 import owmii.powah.components.PowahComponents;
 import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.item.WrenchItem;
-import owmii.powah.lib.block.AbstractEnergyBlock;
+import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.client.handler.IHud;
 import owmii.powah.lib.client.util.Draw;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.util.Util;
 import owmii.powah.util.math.V3d;
 
-public class EnergizingRodBlock extends AbstractEnergyBlock<EnergyConfig, EnergizingRodBlock> implements SimpleWaterloggedBlock, IWrenchable, IHud {
+public class EnergizingRodBlock extends PowahBaseEnergyBlock<EnergyConfig, EnergizingRodBlock> implements SimpleWaterloggedBlock, IWrenchable, IHud {
     public EnergizingRodBlock(Properties properties, Tier variant) {
         super(properties, variant);
         setStateProps(state -> state.setValue(BlockStateProperties.FACING, Direction.DOWN));

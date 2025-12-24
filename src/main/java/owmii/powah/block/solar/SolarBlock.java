@@ -28,12 +28,12 @@ import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.SolarContainer;
-import owmii.powah.lib.block.AbstractGeneratorBlock;
+import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
-public class SolarBlock extends AbstractGeneratorBlock<SolarBlock> implements SimpleWaterloggedBlock {
+public class SolarBlock extends PowahBaseGeneratorBlock<SolarBlock> implements SimpleWaterloggedBlock {
     protected static final VoxelShape SHAPE = box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);
     public static final BooleanProperty NORTH = PipeBlock.NORTH;
     public static final BooleanProperty EAST = PipeBlock.EAST;

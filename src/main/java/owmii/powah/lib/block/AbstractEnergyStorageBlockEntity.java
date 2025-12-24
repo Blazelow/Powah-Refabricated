@@ -23,7 +23,7 @@ import owmii.powah.lib.registry.IVariant;
 import owmii.powah.util.ChargeUtil;
 import owmii.powah.util.Util;
 
-public abstract class AbstractEnergyStorageBlockEntity<C extends IEnergyConfig<Tier>, B extends AbstractEnergyBlock<C, B>> extends PowahAbstractTickingBlockEntity<Tier, B>
+public abstract class AbstractEnergyStorageBlockEntity<C extends IEnergyConfig<Tier>, B extends PowahBaseEnergyBlock<C, B>> extends PowahAbstractTickingBlockEntity<Tier, B>
         implements IRedstoneInteract {
     protected final SideConfig sideConfig = new SideConfig(this);
     protected final Energy energy = Energy.create(0);

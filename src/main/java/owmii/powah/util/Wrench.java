@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import owmii.powah.block.energizing.EnergizingOrbBlock;
 import owmii.powah.data.ITags;
-import owmii.powah.lib.block.AbstractEnergyBlock;
+import owmii.powah.lib.block.PowahBaseEnergyBlock;
 
 public final class Wrench {
     private Wrench() {
@@ -24,7 +24,7 @@ public final class Wrench {
         }
         var pos = hitResult.getBlockPos();
         var state = world.getBlockState(pos);
-        if (state.getBlock() instanceof AbstractEnergyBlock<?, ?> || state.getBlock() instanceof EnergizingOrbBlock) {
+        if (state.getBlock() instanceof PowahBaseEnergyBlock<?, ?> || state.getBlock() instanceof EnergizingOrbBlock) {
             var entity = world.getBlockEntity(pos);
             world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
             if (!player.isCreative()) {

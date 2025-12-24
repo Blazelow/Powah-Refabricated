@@ -8,7 +8,7 @@ import guideme.libs.mdast.mdx.model.MdxJsxTextElement;
 import java.util.Set;
 import net.minecraft.network.chat.Component;
 import owmii.powah.config.IEnergyConfig;
-import owmii.powah.lib.block.AbstractGeneratorBlock;
+import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.item.EnergyItem;
 import owmii.powah.lib.item.ItemBlock;
@@ -49,7 +49,7 @@ public class PowahTagCompiler implements TagCompiler {
         }
         case "powah:EnergyGeneration" -> {
             long generation = 0L;
-            if (item instanceof ItemBlock<?> blockItem && blockItem.getBlock() instanceof AbstractGeneratorBlock<?> generatorBlock) {
+            if (item instanceof ItemBlock<?> blockItem && blockItem.getBlock() instanceof PowahBaseGeneratorBlock<?> generatorBlock) {
                 generation = generatorBlock.getConfig().getGeneration(generatorBlock.getVariant());
             }
             parent.appendComponent(Component.translatable("info.lollipop.fe.pet.tick", Util.addCommas(generation)));
