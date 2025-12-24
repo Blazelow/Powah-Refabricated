@@ -13,13 +13,13 @@ import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import owmii.powah.Powah;
 import owmii.powah.block.Blcks;
 import owmii.powah.util.Util;
 
 public class EnergizingCategory implements DisplayCategory<EnergizingDisplay> {
-    public static final ResourceLocation GUI_BACK = Powah.id("textures/gui/jei/energizing.png");
+    public static final Identifier GUI_BACK = Powah.id("textures/gui/jei/energizing.png");
     public static final CategoryIdentifier<EnergizingDisplay> ID = CategoryIdentifier.of(Powah.id("energizing"));
     private final Renderer icon;
 

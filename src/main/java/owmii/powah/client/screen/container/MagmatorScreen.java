@@ -8,7 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.api.PowahAPI;
-import owmii.powah.block.magmator.MagmatorTile;
+import owmii.powah.block.magmator.MagmatorBlockEntity;
 import owmii.powah.client.screen.Textures;
 import owmii.powah.inventory.MagmatorContainer;
 import owmii.powah.lib.client.screen.container.AbstractEnergyScreen;
@@ -17,7 +17,7 @@ import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Ticker;
 import owmii.powah.util.Util;
 
-public class MagmatorScreen extends AbstractEnergyScreen<MagmatorTile, MagmatorContainer> {
+public class MagmatorScreen extends AbstractEnergyScreen<MagmatorBlockEntity, MagmatorContainer> {
     private final Ticker heat = new Ticker(20);
 
     public MagmatorScreen(MagmatorContainer container, Inventory inv, Component title) {

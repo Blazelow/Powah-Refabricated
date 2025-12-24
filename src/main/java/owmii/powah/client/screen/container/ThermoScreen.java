@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.api.PowahAPI;
-import owmii.powah.block.thermo.ThermoTile;
+import owmii.powah.block.thermo.ThermoBlockEntity;
 import owmii.powah.client.screen.Textures;
 import owmii.powah.inventory.ThermoContainer;
 import owmii.powah.lib.client.screen.container.AbstractEnergyScreen;
@@ -15,7 +15,7 @@ import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Util;
 
-public class ThermoScreen extends AbstractEnergyScreen<ThermoTile, ThermoContainer> {
+public class ThermoScreen extends AbstractEnergyScreen<ThermoBlockEntity, ThermoContainer> {
     public ThermoScreen(ThermoContainer container, Inventory inv, Component title) {
         super(container, inv, title, Textures.THERMO);
 

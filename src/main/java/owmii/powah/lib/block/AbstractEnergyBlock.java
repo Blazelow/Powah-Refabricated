@@ -29,7 +29,7 @@ import owmii.powah.lib.registry.IVariant;
 import owmii.powah.util.EnergyUtil;
 import owmii.powah.util.Util;
 
-public abstract class AbstractEnergyBlock<C extends IEnergyConfig<Tier>, B extends AbstractEnergyBlock<C, B>> extends AbstractBlock<Tier, B>
+public abstract class AbstractEnergyBlock<C extends IEnergyConfig<Tier>, B extends AbstractEnergyBlock<C, B>> extends PowahAbstractBlock<Tier, B>
         implements IConfigHolder<Tier, C>, IEnergyItemProvider {
     public AbstractEnergyBlock(Properties properties) {
         this(properties, IVariant.getEmpty());
@@ -51,12 +51,12 @@ public abstract class AbstractEnergyBlock<C extends IEnergyConfig<Tier>, B exten
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
+    public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos, Direction side) {
         BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof AbstractEnergyStorage) {
-            return ((AbstractEnergyStorage) tile).getEnergy().toComparatorPower();
+        if (tile instanceof AbstractEnergyStorageBlockEntity) {
+            return ((AbstractEnergyStorageBlockEntity) tile).getEnergy().toComparatorPower();
         }
-        return super.getAnalogOutputSignal(state, world, pos);
+        return super.getAnalogOutputSignal(state, world, pos, side);
     }
 
     @Override

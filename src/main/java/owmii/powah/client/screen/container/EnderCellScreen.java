@@ -7,7 +7,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import owmii.powah.api.energy.endernetwork.IEnderExtender;
-import owmii.powah.block.ender.AbstractEnderTile;
+import owmii.powah.block.ender.AbstractEnderBlockEntity;
 import owmii.powah.client.screen.Textures;
 import owmii.powah.inventory.EnderCellContainer;
 import owmii.powah.lib.client.screen.Texture;
@@ -18,7 +18,7 @@ import owmii.powah.network.Network;
 import owmii.powah.network.packet.SetChannelPacket;
 import owmii.powah.util.Util;
 
-public class EnderCellScreen extends AbstractEnergyScreen<AbstractEnderTile<?>, EnderCellContainer> {
+public class EnderCellScreen extends AbstractEnergyScreen<AbstractEnderBlockEntity<?>, EnderCellContainer> {
     private final IconButton[] iconButtons;
 
     public EnderCellScreen(EnderCellContainer container, Inventory inv, Component title) {

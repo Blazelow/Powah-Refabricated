@@ -10,15 +10,15 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import org.jetbrains.annotations.Nullable;
-import owmii.powah.lib.block.AbstractEnergyStorage;
+import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
 import owmii.powah.lib.logistics.Transfer;
 
 public class SideConfig {
     private final Transfer[] transfers = new Transfer[6];
-    private final AbstractEnergyStorage storage;
+    private final AbstractEnergyStorageBlockEntity storage;
     private boolean isSetFromNBT;
 
-    public SideConfig(AbstractEnergyStorage storage) {
+    public SideConfig(AbstractEnergyStorageBlockEntity storage) {
         this.storage = storage;
         Arrays.fill(this.transfers, NONE);
     }

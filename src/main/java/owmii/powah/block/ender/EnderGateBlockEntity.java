@@ -9,13 +9,13 @@ import org.jetbrains.annotations.Nullable;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 
-public class EnderGateTile extends AbstractEnderTile<EnderGateBlock> {
-    public EnderGateTile(BlockPos pos, BlockState state, Tier variant) {
+public class EnderGateBlockEntity extends AbstractEnderBlockEntity<EnderGateBlock> {
+    public EnderGateBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.ENDER_GATE.get(), pos, state, variant);
         this.inv.add(3);
     }
 
-    public EnderGateTile(BlockPos pos, BlockState state) {
+    public EnderGateBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
     }
 

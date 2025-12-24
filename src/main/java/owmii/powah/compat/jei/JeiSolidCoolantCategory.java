@@ -5,7 +5,7 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -16,22 +16,21 @@ import owmii.powah.block.Blcks;
 import owmii.powah.compat.common.SolidCoolant;
 
 public class JeiSolidCoolantCategory extends AbstractCategory<SolidCoolant> {
-    public static final RecipeType<SolidCoolant> TYPE = RecipeType.create(Powah.MOD_ID, "solid_coolant", SolidCoolant.class);
+    public static final IRecipeType<SolidCoolant> TYPE = IRecipeType.create(Powah.MOD_ID, "solid_coolant", SolidCoolant.class);
 
     public JeiSolidCoolantCategory(IGuiHelper guiHelper) {
-        super(guiHelper, Blcks.DRY_ICE.get(), Component.translatable("gui.powah.jei.category.solid.coolant"),
-                guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build());
+        // TODO 26.1 Background: guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build()
+        super(guiHelper, Blcks.DRY_ICE.get(), Component.translatable("gui.powah.jei.category.solid.coolant"), 160, 24);
     }
 
     @Override
-    public RecipeType<SolidCoolant> getRecipeType() {
+    public IRecipeType<SolidCoolant> getRecipeType() {
         return TYPE;
     }
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, SolidCoolant recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 4, 5)
-                .addItemLike(recipe.item());
+        builder.addSlot(RecipeIngredientRole.INPUT, 4, 5).add(recipe.item());
     }
 
     @Override

@@ -11,7 +11,7 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import owmii.powah.Powah;
 import owmii.powah.block.Blcks;
 import owmii.powah.compat.common.FluidCoolant;
@@ -80,7 +80,7 @@ public class PowahJeiPlugin implements IModPlugin {
     }
 
     @Override
-    public ResourceLocation getPluginUid() {
-        return ResourceLocation.fromNamespaceAndPath(Powah.MOD_ID, "main");
+    public Identifier getPluginUid() {
+        return Identifier.fromNamespaceAndPath(Powah.MOD_ID, "main");
     }
 }

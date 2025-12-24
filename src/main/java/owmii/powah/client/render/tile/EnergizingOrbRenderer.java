@@ -12,14 +12,14 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import owmii.powah.block.energizing.EnergizingOrbTile;
+import owmii.powah.block.energizing.EnergizingOrbBlockEntity;
 import owmii.powah.client.model.OrbModel;
 import owmii.powah.client.model.PowahLayerDefinitions;
 import owmii.powah.lib.client.renderer.tile.AbstractTileRenderer;
 import owmii.powah.lib.logistics.inventory.Inventory;
 import owmii.powah.util.math.V3d;
 
-public class EnergizingOrbRenderer extends AbstractTileRenderer<EnergizingOrbTile> {
+public class EnergizingOrbRenderer extends AbstractTileRenderer<EnergizingOrbBlockEntity> {
     private final OrbModel model;
 
     protected EnergizingOrbRenderer(BlockEntityRendererProvider.Context context) {
@@ -28,8 +28,8 @@ public class EnergizingOrbRenderer extends AbstractTileRenderer<EnergizingOrbTil
     }
 
     @Override
-    public void render(EnergizingOrbTile te, float pt, PoseStack matrix, MultiBufferSource rtb, Minecraft mc, ClientLevel world, LocalPlayer player,
-            int light, int ov) {
+    public void render(EnergizingOrbBlockEntity te, float pt, PoseStack matrix, MultiBufferSource rtb, Minecraft mc, ClientLevel world, LocalPlayer player,
+                       int light, int ov) {
         Inventory inv = te.getInventory();
         if (!inv.isEmpty()) {
             float ticks = (te.ticks + pt) / 200.0F;

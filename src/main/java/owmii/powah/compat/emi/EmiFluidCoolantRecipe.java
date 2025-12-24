@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.compat.common.FluidCoolant;
 
 class EmiFluidCoolantRecipe implements EmiRecipe {
-    public static final ResourceLocation GUI_BACK = Powah.id("textures/gui/jei/misc.png");
+    public static final Identifier GUI_BACK = Powah.id("textures/gui/jei/misc.png");
 
     public static final PowahEmiCategory CATEGORY = new PowahEmiCategory(Powah.id("coolant"), EmiStack.of(Items.WATER_BUCKET),
             Component.translatable("gui.powah.jei.category.coolant"));
@@ -40,7 +40,7 @@ class EmiFluidCoolantRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable ResourceLocation getId() {
+    public @Nullable Identifier getId() {
         return recipe.id();
     }
 

@@ -7,13 +7,13 @@ import owmii.powah.block.Tiles;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.IOwnable;
 
-public class EnderCellTile extends AbstractEnderTile<EnderCellBlock> implements IOwnable, IInventoryHolder {
-    public EnderCellTile(BlockPos pos, BlockState state, Tier variant) {
+public class EnderCellBlockEntity extends AbstractEnderBlockEntity<EnderCellBlock> implements IOwnable, IInventoryHolder {
+    public EnderCellBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.ENDER_CELL.get(), pos, state, variant);
         this.inv.add(3);
     }
 
-    public EnderCellTile(BlockPos pos, BlockState state) {
+    public EnderCellBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
     }
 

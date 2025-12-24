@@ -6,13 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.level.material.Fluid;
 import owmii.powah.Powah;
 import owmii.powah.api.FluidCoolantConfig;
 
-public record FluidCoolant(ResourceLocation id, Fluid fluid, Set<BucketItem> buckets, int coldness) {
+public record FluidCoolant(Identifier id, Fluid fluid, Set<BucketItem> buckets, int coldness) {
     public static List<FluidCoolant> getAll() {
         List<FluidCoolant> result = new ArrayList<>();
 

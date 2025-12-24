@@ -15,7 +15,7 @@ import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.EnderConfig;
 import owmii.powah.inventory.EnderCellContainer;
 import owmii.powah.lib.block.AbstractEnergyBlock;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
@@ -37,14 +37,14 @@ public class EnderCellBlock extends AbstractEnergyBlock<EnderConfig, EnderCellBl
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new EnderCellTile(pos, state, this.variant);
+        return new EnderCellBlockEntity(pos, state, this.variant);
     }
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory inventory, AbstractTileEntity te, BlockHitResult result) {
-        if (te instanceof EnderCellTile) {
-            return new EnderCellContainer(id, inventory, (EnderCellTile) te);
+    public AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+        if (te instanceof EnderCellBlockEntity) {
+            return new EnderCellContainer(id, inventory, (EnderCellBlockEntity) te);
         }
         return null;
     }

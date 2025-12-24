@@ -5,7 +5,7 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import owmii.powah.Powah;
 import owmii.powah.block.Blcks;
@@ -13,7 +13,7 @@ import owmii.powah.block.energizing.EnergizingRecipe;
 import owmii.powah.util.Util;
 
 class EmiEnergizingRecipe extends BasicEmiRecipe {
-    public static final ResourceLocation GUI_BACK = Powah.id("textures/gui/jei/energizing.png");
+    public static final Identifier GUI_BACK = Powah.id("textures/gui/jei/energizing.png");
 
     public static final PowahEmiCategory CATEGORY = new PowahEmiCategory(Powah.id("energizizng"), EmiStack.of(Blcks.ENERGIZING_ORB.get()),
             Component.translatable("gui.powah.jei.category.energizing"));

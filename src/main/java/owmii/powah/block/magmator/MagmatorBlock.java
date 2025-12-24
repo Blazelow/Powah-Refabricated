@@ -3,7 +3,7 @@ package owmii.powah.block.magmator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
@@ -20,7 +20,7 @@ import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.MagmatorContainer;
 import owmii.powah.lib.block.AbstractGeneratorBlock;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.fluid.Tank;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
@@ -44,27 +44,27 @@ public class MagmatorBlock extends AbstractGeneratorBlock<MagmatorBlock> {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new MagmatorTile(pos, state, this.variant);
+        return new MagmatorBlockEntity(pos, state, this.variant);
     }
 
     @Nullable
     @Override
-    public <T extends AbstractTileEntity> AbstractContainer getContainer(int id, Inventory inventory, AbstractTileEntity te, BlockHitResult result) {
-        if (te instanceof MagmatorTile) {
-            return new MagmatorContainer(id, inventory, (MagmatorTile) te);
+    public <T extends PowahAbstractBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+        if (te instanceof MagmatorBlockEntity) {
+            return new MagmatorContainer(id, inventory, (MagmatorBlockEntity) te);
         }
         return null;
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
             BlockHitResult pHitResult) {
         BlockEntity tile = pLevel.getBlockEntity(pPos);
-        if (tile instanceof MagmatorTile magmator) {
+        if (tile instanceof MagmatorBlockEntity magmator) {
             Tank tank = magmator.getTank();
             if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, tank)) {
                 magmator.sync();
-                return ItemInteractionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
         }
 

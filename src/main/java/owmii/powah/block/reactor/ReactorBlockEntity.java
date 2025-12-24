@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import owmii.powah.api.PowahAPI;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.lib.block.AbstractEnergyProvider;
+import owmii.powah.lib.block.AbstractGeneratorBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
 import owmii.powah.lib.logistics.energy.Energy;
@@ -24,7 +24,7 @@ import owmii.powah.util.EnergyUtil;
 import owmii.powah.util.Ticker;
 import owmii.powah.util.Util;
 
-public class ReactorTile extends AbstractEnergyProvider<ReactorBlock> implements IInventoryHolder, ITankHolder {
+public class ReactorBlockEntity extends AbstractGeneratorBlockEntity<ReactorBlock> implements IInventoryHolder, ITankHolder {
     private final Builder builder = new Builder(this);
 
     public final Ticker fuel = new Ticker(1000);
@@ -45,15 +45,15 @@ public class ReactorTile extends AbstractEnergyProvider<ReactorBlock> implements
     private boolean genModeOn;
     private boolean generate = true;
 
-    public ReactorTile(BlockPos pos, BlockState state, Tier variant) {
+    public ReactorBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.REACTOR.get(), pos, state, variant);
         this.tank.setCapacity(Util.bucketAmount())
                 .setValidator(stack -> PowahAPI.getCoolant(stack.getFluid()).isPresent())
-                .setChange(() -> ReactorTile.this.sync(10));
+                .setChange(() -> ReactorBlockEntity.this.sync(10));
         this.inv.add(5);
     }
 
-    public ReactorTile(BlockPos pos, BlockState state) {
+    public ReactorBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
     }
 

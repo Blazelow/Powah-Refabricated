@@ -14,12 +14,12 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 import owmii.powah.Powah;
 
 public class CoolantCategory implements DisplayCategory<CoolantDisplay> {
-    public static final ResourceLocation GUI_BACK = Powah.id("textures/gui/jei/misc.png");
+    public static final Identifier GUI_BACK = Powah.id("textures/gui/jei/misc.png");
     public static final CategoryIdentifier<CoolantDisplay> ID = CategoryIdentifier.of(Powah.id(".coolant"));
     private final Renderer icon;
 

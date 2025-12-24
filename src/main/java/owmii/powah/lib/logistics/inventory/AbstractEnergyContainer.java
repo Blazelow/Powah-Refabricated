@@ -4,10 +4,10 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import org.jetbrains.annotations.Nullable;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 
-public class AbstractEnergyContainer<T extends AbstractTileEntity<?, ?> & IInventoryHolder> extends AbstractTileContainer<T> {
+public class AbstractEnergyContainer<T extends PowahAbstractBlockEntity<?, ?> & IInventoryHolder> extends AbstractTileContainer<T> {
     public AbstractEnergyContainer(@Nullable MenuType<?> containerType, int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(containerType, id, inventory, buffer);
     }

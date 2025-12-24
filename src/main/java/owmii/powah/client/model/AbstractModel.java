@@ -5,13 +5,13 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import java.util.function.Function;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
-import owmii.powah.lib.block.AbstractTileEntity;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.resources.Identifier;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.client.renderer.tile.AbstractTileRenderer;
 
-public abstract class AbstractModel<T extends AbstractTileEntity<?, ?>, R extends AbstractTileRenderer<T>> extends Model {
-    public AbstractModel(Function<ResourceLocation, RenderType> function) {
+public abstract class AbstractModel<T extends PowahAbstractBlockEntity<?, ?>, R extends AbstractTileRenderer<T>> extends Model {
+    public AbstractModel(Function<Identifier, RenderType> function) {
         super(function);
     }
 

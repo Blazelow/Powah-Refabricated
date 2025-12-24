@@ -19,10 +19,10 @@ import org.jetbrains.annotations.Nullable;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.config.v2.types.CableConfig;
-import owmii.powah.lib.block.AbstractEnergyStorage;
+import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 
-public class CableTile extends AbstractEnergyStorage<CableConfig, CableBlock> implements IInventoryHolder {
+public class CableBlockEntity extends AbstractEnergyStorageBlockEntity<CableConfig, CableBlock> implements IInventoryHolder {
 
     /**
      * Tag-Name used for synchronizing connected sides to the client.
@@ -41,7 +41,7 @@ public class CableTile extends AbstractEnergyStorage<CableConfig, CableBlock> im
     @SuppressWarnings("unchecked")
     private final BlockCapabilityCache<IEnergyStorage, @Nullable Direction>[] capabilityCaches = new BlockCapabilityCache[6];
 
-    public CableTile(BlockPos pos, BlockState state, Tier variant) {
+    public CableBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.CABLE.get(), pos, state, variant);
     }
 
@@ -64,7 +64,7 @@ public class CableTile extends AbstractEnergyStorage<CableConfig, CableBlock> im
         return false;
     }
 
-    protected Iterable<CableTile> getCables() {
+    protected Iterable<CableBlockEntity> getCables() {
         if (net == null) {
             CableNet.calculateNetwork(this);
         }
@@ -168,7 +168,7 @@ public class CableTile extends AbstractEnergyStorage<CableConfig, CableBlock> im
         }
     }
 
-    private long pushEnergy(ServerLevel level, long maxReceive, boolean simulate, @Nullable Direction direction, CableTile cable) {
+    private long pushEnergy(ServerLevel level, long maxReceive, boolean simulate, @Nullable Direction direction, CableBlockEntity cable) {
         long received = 0;
         for (int i = 0; i < 6; ++i) {
             // Shift by tick count to ensure that it distributes evenly on average
@@ -197,7 +197,7 @@ public class CableTile extends AbstractEnergyStorage<CableConfig, CableBlock> im
         return energy != null ? energy.receiveEnergy(Ints.saturatedCast(amount), simulate) : 0;
     }
 
-    public boolean canConnectTo(CableTile adjCable) {
+    public boolean canConnectTo(CableBlockEntity adjCable) {
         return variant == adjCable.variant;
     }
 }

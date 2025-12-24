@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import owmii.powah.Powah;
 import owmii.powah.api.SolidCoolantConfig;
 
-public record SolidCoolant(ResourceLocation id, Item item, int amount, int temperature) {
+public record SolidCoolant(Identifier id, Item item, int amount, int temperature) {
     public static List<SolidCoolant> getAll() {
         List<SolidCoolant> result = new ArrayList<>();
 

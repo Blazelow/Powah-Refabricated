@@ -21,7 +21,7 @@ import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.EnderConfig;
 import owmii.powah.inventory.EnderCellContainer;
 import owmii.powah.lib.block.AbstractEnergyBlock;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
@@ -59,14 +59,14 @@ public class EnderGateBlock extends AbstractEnergyBlock<EnderConfig, EnderGateBl
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new EnderGateTile(pos, state, this.variant);
+        return new EnderGateBlockEntity(pos, state, this.variant);
     }
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory inventory, AbstractTileEntity te, BlockHitResult result) {
-        if (te instanceof EnderGateTile) {
-            return new EnderCellContainer(id, inventory, (EnderGateTile) te);
+    public AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+        if (te instanceof EnderGateBlockEntity) {
+            return new EnderCellContainer(id, inventory, (EnderGateBlockEntity) te);
         }
         return null;
     }

@@ -16,7 +16,7 @@ import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.inventory.EnergyCellContainer;
 import owmii.powah.item.EnergyCellItem;
 import owmii.powah.lib.block.AbstractEnergyBlock;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
@@ -38,14 +38,14 @@ public class EnergyCellBlock extends AbstractEnergyBlock<EnergyConfig, EnergyCel
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new EnergyCellTile(pos, state, this.variant);
+        return new EnergyCellBlockEntity(pos, state, this.variant);
     }
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory inventory, AbstractTileEntity te, BlockHitResult result) {
-        if (te instanceof EnergyCellTile) {
-            return new EnergyCellContainer(id, inventory, (EnergyCellTile) te);
+    public AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+        if (te instanceof EnergyCellBlockEntity) {
+            return new EnergyCellContainer(id, inventory, (EnergyCellBlockEntity) te);
         }
         return null;
     }

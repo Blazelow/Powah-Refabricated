@@ -12,7 +12,4 @@ public interface IBlockEntity {
 
     default void onAdded(Level world, BlockState state, BlockState oldState, boolean isMoving) {
     }
-
-    default void onRemoved(Level world, BlockState state, BlockState newState, boolean isMoving) {
-    }
 }

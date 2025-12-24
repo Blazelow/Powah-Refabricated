@@ -8,12 +8,14 @@ import net.minecraft.world.level.ItemLike;
 
 public abstract class AbstractCategory<T> implements IRecipeCategory<T> {
     private final Component title;
-    private final IDrawable background;
+    private final int width;
+    private final int height;
     private final IDrawable icon;
 
-    public AbstractCategory(IGuiHelper guiHelper, ItemLike iconItemLike, Component title, IDrawable background) {
+    public AbstractCategory(IGuiHelper guiHelper, ItemLike iconItemLike, Component title, int width, int height) {
         this.title = title;
-        this.background = background;
+        this.width = width;
+        this.height = height;
         this.icon = guiHelper.createDrawableItemLike(iconItemLike);
     }
 
@@ -23,8 +25,13 @@ public abstract class AbstractCategory<T> implements IRecipeCategory<T> {
     }
 
     @Override
-    public final IDrawable getBackground() {
-        return background;
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
     }
 
     @Override

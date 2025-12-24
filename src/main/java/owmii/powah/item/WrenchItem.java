@@ -25,7 +25,7 @@ import owmii.powah.api.wrench.IWrench;
 import owmii.powah.api.wrench.IWrenchable;
 import owmii.powah.api.wrench.WrenchMode;
 import owmii.powah.block.cable.CableBlock;
-import owmii.powah.block.cable.CableTile;
+import owmii.powah.block.cable.CableBlockEntity;
 import owmii.powah.block.energizing.EnergizingOrbBlock;
 import owmii.powah.components.PowahComponents;
 import owmii.powah.lib.block.AbstractEnergyBlock;
@@ -52,9 +52,9 @@ public class WrenchItem extends ItemBase implements IHudItem, IWrench {
                 && iWrenchable.onWrench(state, world, pos, player, hand, side, getWrenchMode(stack), hit)) {
             return InteractionResult.SUCCESS;
         } else {
-            if (!world.isClientSide && getWrenchMode(stack).config()) {
-                if (te instanceof CableTile) {
-                    CableTile cable = (CableTile) te;
+            if (!world.isClientSide() && getWrenchMode(stack).config()) {
+                if (te instanceof CableBlockEntity) {
+                    CableBlockEntity cable = (CableBlockEntity) te;
                     if (stack.getItem() instanceof WrenchItem) {
                         Optional<Direction> sides = CableBlock.getHitSide(hit, pos);
                         boolean[] flag = { false };
@@ -84,7 +84,7 @@ public class WrenchItem extends ItemBase implements IHudItem, IWrench {
                     world.setBlockAndUpdate(pos, rotatedState);
                     world.playSound(player, pos, rotatedState.getBlock().getSoundType(rotatedState, world, pos, player).getPlaceSound(),
                             SoundSource.BLOCKS, 1F, 1F);
-                    return InteractionResult.sidedSuccess(world.isClientSide);
+                    return InteractionResult.sidedSuccess(world.isClientSide());
                 }
             }
         }

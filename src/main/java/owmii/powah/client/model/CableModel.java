@@ -8,17 +8,17 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import owmii.powah.Powah;
-import owmii.powah.block.cable.CableTile;
+import owmii.powah.block.cable.CableBlockEntity;
 import owmii.powah.client.render.tile.CableRenderer;
 import owmii.powah.lib.logistics.Transfer;
 import owmii.powah.util.EnergyUtil;
 
-public class CableModel extends AbstractModel<CableTile, CableRenderer> {
+public class CableModel extends AbstractModel<CableBlockEntity, CableRenderer> {
     private static final String NORTH = "north";
     private static final String NORTH_PLATE = "north_plate";
     private static final String SOUTH = "south";
@@ -85,7 +85,7 @@ public class CableModel extends AbstractModel<CableTile, CableRenderer> {
         return LayerDefinition.create(meshDefinition, 64, 32);
     }
 
-    private RenderType renderType(CableTile te, Transfer transfer) {
+    private RenderType renderType(CableBlockEntity te, Transfer transfer) {
         var variant = te.getVariant().getName();
         var texture = switch (transfer) {
         case ALL -> Powah.id("textures/model/tile/energy_cable_%s_all.png".formatted(variant));
@@ -97,7 +97,7 @@ public class CableModel extends AbstractModel<CableTile, CableRenderer> {
     }
 
     @Override
-    public void render(CableTile te, CableRenderer renderer, PoseStack matrix, MultiBufferSource rtb, int light, int ov) {
+    public void render(CableBlockEntity te, CableRenderer renderer, PoseStack matrix, MultiBufferSource rtb, int light, int ov) {
         if (te.getLevel() == null)
             return;
         final Direction[] flags = new Direction[6];
@@ -105,7 +105,7 @@ public class CableModel extends AbstractModel<CableTile, CableRenderer> {
             final BlockPos pos = te.getBlockPos().relative(side);
             final BlockEntity tile = te.getLevel().getBlockEntity(pos);
             final Transfer config = te.getSideConfig().getType(side);
-            if (!(tile instanceof CableTile) && EnergyUtil.hasEnergy(te.getLevel(), pos, side.getOpposite())
+            if (!(tile instanceof CableBlockEntity) && EnergyUtil.hasEnergy(te.getLevel(), pos, side.getOpposite())
                     && (config.canExtract || config.canReceive)) {
                 flags[side.get3DDataValue()] = side;
             }

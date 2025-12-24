@@ -1,9 +1,9 @@
 package owmii.powah.compat.jei;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import owmii.powah.Powah;
 
 public class Assets {
-    public static final ResourceLocation ENERGIZING = ResourceLocation.fromNamespaceAndPath(Powah.MOD_ID, "textures/gui/jei/energizing.png");
-    public static final ResourceLocation MISC = ResourceLocation.fromNamespaceAndPath(Powah.MOD_ID, "textures/gui/jei/misc.png");
+    public static final Identifier ENERGIZING = Identifier.fromNamespaceAndPath(Powah.MOD_ID, "textures/gui/jei/energizing.png");
+    public static final Identifier MISC = Identifier.fromNamespaceAndPath(Powah.MOD_ID, "textures/gui/jei/misc.png");
 }

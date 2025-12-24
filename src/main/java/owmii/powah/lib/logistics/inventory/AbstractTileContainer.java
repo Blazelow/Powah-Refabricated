@@ -14,11 +14,11 @@ import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.network.packet.InteractWithTankPacket;
 
-public abstract class AbstractTileContainer<T extends AbstractTileEntity<?, ?> & IInventoryHolder> extends AbstractContainer {
+public abstract class AbstractTileContainer<T extends PowahAbstractBlockEntity<?, ?> & IInventoryHolder> extends AbstractContainer {
     public final T te;
 
     public AbstractTileContainer(@Nullable MenuType<?> containerType, int id, Inventory inventory, FriendlyByteBuf buffer) {
@@ -42,12 +42,12 @@ public abstract class AbstractTileContainer<T extends AbstractTileEntity<?, ?> &
     }
 
     @SuppressWarnings("unchecked")
-    protected static <T extends AbstractTileEntity<?, ?>> T getInventory(Player player, BlockPos pos) {
+    protected static <T extends PowahAbstractBlockEntity<?, ?>> T getInventory(Player player, BlockPos pos) {
         BlockEntity tile = player.level().getBlockEntity(pos);
-        if (tile instanceof AbstractTileEntity<?, ?>)
+        if (tile instanceof PowahAbstractBlockEntity<?, ?>)
             return (T) tile;
         // What the hell is this?
-        return (T) new AbstractTileEntity<>(BlockEntityType.SIGN, pos, Blocks.AIR.defaultBlockState());
+        return (T) new PowahAbstractBlockEntity<>(BlockEntityType.SIGN, pos, Blocks.AIR.defaultBlockState());
     }
 
     @Override

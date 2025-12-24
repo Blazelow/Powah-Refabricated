@@ -12,19 +12,19 @@ import org.jetbrains.annotations.Nullable;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.config.v2.types.EnergyConfig;
-import owmii.powah.lib.block.AbstractEnergyStorage;
+import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
 import owmii.powah.util.NBT;
 import owmii.powah.util.Ticker;
 
-public class EnergizingRodTile extends AbstractEnergyStorage<EnergyConfig, EnergizingRodBlock> {
+public class EnergizingRodBlockEntity extends AbstractEnergyStorageBlockEntity<EnergyConfig, EnergizingRodBlock> {
     private BlockPos orbPos = BlockPos.ZERO;
     public final Ticker coolDown = new Ticker(20);
 
-    public EnergizingRodTile(BlockPos pos, BlockState state, Tier variant) {
+    public EnergizingRodBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.ENERGIZING_ROD.get(), pos, state, variant);
     }
 
-    public EnergizingRodTile(BlockPos pos, BlockState state) {
+    public EnergizingRodBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
     }
 
@@ -43,7 +43,7 @@ public class EnergizingRodTile extends AbstractEnergyStorage<EnergyConfig, Energ
     @Override
     protected int postTick(Level world) {
         boolean flag = false;
-        EnergizingOrbTile orb = getOrbTile();
+        EnergizingOrbBlockEntity orb = getOrbTile();
         if (orb != null) {
             if (orb.containRecipe() && this.energy.hasEnergy()) {
                 this.coolDown.onward();
@@ -63,11 +63,11 @@ public class EnergizingRodTile extends AbstractEnergyStorage<EnergyConfig, Energ
     }
 
     @Nullable
-    public EnergizingOrbTile getOrbTile() {
+    public EnergizingOrbBlockEntity getOrbTile() {
         if (this.level != null && this.orbPos != BlockPos.ZERO && level.isLoaded(this.orbPos)) {
             BlockEntity tile = this.level.getBlockEntity(this.orbPos);
-            if (tile instanceof EnergizingOrbTile) {
-                return (EnergizingOrbTile) tile;
+            if (tile instanceof EnergizingOrbBlockEntity) {
+                return (EnergizingOrbBlockEntity) tile;
             }
         }
         return null;

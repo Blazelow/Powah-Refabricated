@@ -2,12 +2,14 @@ package owmii.powah.compat.jei;
 
 import java.util.List;
 import java.util.function.Supplier;
+
+import com.google.common.base.Suppliers;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
@@ -19,15 +21,15 @@ import owmii.powah.recipe.Recipes;
 import owmii.powah.util.Util;
 
 public class JeiEnergizingCategory extends AbstractCategory<RecipeHolder<EnergizingRecipe>> {
-    public static final Supplier<RecipeType<RecipeHolder<EnergizingRecipe>>> TYPE = RecipeType.createFromDeferredVanilla(Recipes.ENERGIZING);
+    public static final Supplier<IRecipeType<RecipeHolder<EnergizingRecipe>>> TYPE = Suppliers.memoize(() -> IRecipeType.create(Recipes.ENERGIZING.get()));
 
     public JeiEnergizingCategory(IGuiHelper guiHelper) {
-        super(guiHelper, Blcks.ENERGIZING_ORB.get(), Component.translatable("gui.powah.jei.category.energizing"),
-                guiHelper.drawableBuilder(Assets.ENERGIZING, 0, 0, 160, 38).addPadding(1, 0, 0, 0).build());
+        // TODO 26.1 background: guiHelper.drawableBuilder(Assets.ENERGIZING, 0, 0, 160, 38).addPadding(1, 0, 0, 0).build()
+        super(guiHelper, Blcks.ENERGIZING_ORB.get(), Component.translatable("gui.powah.jei.category.energizing"), 160, 38);
     }
 
     @Override
-    public RecipeType<RecipeHolder<EnergizingRecipe>> getRecipeType() {
+    public IRecipeType<RecipeHolder<EnergizingRecipe>> getRecipeType() {
         return TYPE.get();
     }
 
@@ -37,12 +39,10 @@ public class JeiEnergizingCategory extends AbstractCategory<RecipeHolder<Energiz
         var ingredients = recipe.getIngredients();
         int size = ingredients.size();
         for (int i = 0; i < size; i++) {
-            builder.addSlot(RecipeIngredientRole.INPUT, (i * 20) + 4, 5)
-                    .addIngredients(ingredients.get(i));
+            builder.addSlot(RecipeIngredientRole.INPUT, (i * 20) + 4, 5).add(ingredients.get(i));
         }
 
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 137, 5)
-                .addItemStack(recipe.getResultItem());
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 137, 5).add(recipe.getResultItem());
     }
 
     @Override

@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.api.PowahAPI;
-import owmii.powah.block.reactor.ReactorTile;
+import owmii.powah.block.reactor.ReactorBlockEntity;
 import owmii.powah.client.screen.Textures;
 import owmii.powah.inventory.ReactorContainer;
 import owmii.powah.lib.client.screen.container.AbstractEnergyScreen;
@@ -18,7 +18,7 @@ import owmii.powah.network.Network;
 import owmii.powah.network.packet.SwitchGenModePacket;
 import owmii.powah.util.Util;
 
-public class ReactorScreen extends AbstractEnergyScreen<ReactorTile, ReactorContainer> {
+public class ReactorScreen extends AbstractEnergyScreen<ReactorBlockEntity, ReactorContainer> {
     private IconButton modeButton = IconButton.EMPTY;
 
     public ReactorScreen(ReactorContainer container, Inventory inv, Component title) {

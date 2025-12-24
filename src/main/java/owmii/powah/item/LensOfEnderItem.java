@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
-import owmii.powah.block.solar.SolarTile;
+import owmii.powah.block.solar.SolarBlockEntity;
 import owmii.powah.lib.item.ItemBase;
 
 public class LensOfEnderItem extends ItemBase {
@@ -20,9 +20,9 @@ public class LensOfEnderItem extends ItemBase {
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, Level world, BlockPos pos, Player player, InteractionHand hand, Direction side,
             Vec3 hit) {
-        if (!world.isClientSide) {
+        if (!world.isClientSide()) {
             BlockEntity tile = world.getBlockEntity(pos);
-            if (tile instanceof SolarTile solar) {
+            if (tile instanceof SolarBlockEntity solar) {
                 if (!solar.hasLensOfEnder()) {
                     solar.setHasLensOfEnder(true);
                     if (!player.isCreative()) {

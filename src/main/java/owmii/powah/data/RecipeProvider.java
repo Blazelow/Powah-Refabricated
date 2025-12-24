@@ -1,17 +1,17 @@
 package owmii.powah.data;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.PackOutput;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.conditions.NotCondition;
 import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
@@ -22,96 +22,81 @@ import owmii.powah.block.energizing.EnergizingRecipe;
 import owmii.powah.item.Itms;
 
 public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
-    public RecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-        super(output, registries);
+    public RecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
+        super(registries, output);
     }
 
     @Override
-    protected void buildRecipes(RecipeOutput output) {
-        battery(output);
-
-        tools(output);
-
-        energyCable(output);
-
-        capacitors(output);
-
-        materials(output);
-
-        enderCell(output);
-
-        enderGate(output);
-
-        energizingOrb(output);
-
-        energizingRod(output);
-
-        energyCell(output);
-
-        energyDischarger(output);
-
-        energyHopper(output);
-
-        furnator(output);
-
-        magmator(output);
-
-        playerTransmitter(output);
-
-        reactor(output);
-
-        solarPanel(output);
-
-        thermoGenerator(output);
-
-        energizingRecipes(output);
-
-        smelting(output);
+    protected void buildRecipes() {
+        battery();
+        tools();
+        energyCable();
+        capacitors();
+        materials();
+        enderCell();
+        enderGate();
+        energizingOrb();
+        energizingRod();
+        energyCell();
+        energyDischarger();
+        energyHopper();
+        furnator();
+        magmator();
+        playerTransmitter();
+        reactor();
+        solarPanel();
+        thermoGenerator();
+        energizingRecipes();
+        smelting();
 
     }
 
-    private static void tools(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.BINDING_CARD)
+    private static ResourceKey<Recipe<?>> makeId(String id) {
+        return ResourceKey.create(Registries.RECIPE, Powah.id(id));
+    }
+
+    private void tools() {
+        shaped(RecipeCategory.MISC, Itms.BINDING_CARD)
                 .pattern("br")
                 .pattern("rf")
                 .define('b', Itms.BLANK_CARD)
                 .define('r', Items.REDSTONE)
                 .define('f', Items.ROTTEN_FLESH)
                 .unlockedBy(getHasName(Itms.BLANK_CARD), has(Itms.BLANK_CARD))
-                .save(output, Powah.id("crafting/binding_card"));
+                .save(output, makeId("crafting/binding_card"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.BLANK_CARD)
+        shaped(RecipeCategory.MISC, Itms.BLANK_CARD)
                 .pattern("p")
                 .pattern("p")
                 .define('p', Itms.DIELECTRIC_ROD_HORIZONTAL)
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
-                .save(output, Powah.id("crafting/blank_card"));
+                .save(output, makeId("crafting/blank_card"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.BLANK_CARD)
+        shaped(RecipeCategory.MISC, Itms.BLANK_CARD)
                 .pattern("pp")
                 .define('p', Itms.DIELECTRIC_ROD)
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD), has(Itms.DIELECTRIC_ROD))
-                .save(output, Powah.id("crafting/blank_card_2"));
+                .save(output, makeId("crafting/blank_card_2"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Itms.BOOK)
+        shapeless(RecipeCategory.MISC, Itms.BOOK)
                 .requires(Itms.DIELECTRIC_PASTE)
                 .requires(Items.BOOK)
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Items.BOOK), has(Items.BOOK))
-                .save(output, Powah.id("crafting/manual"));
+                .save(output, makeId("crafting/manual"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.WRENCH)
+        shaped(RecipeCategory.MISC, Itms.WRENCH)
                 .pattern(" ip")
                 .pattern(" pi")
                 .pattern("p  ")
                 .define('p', Itms.DIELECTRIC_PASTE)
                 .define('i', Items.IRON_INGOT)
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
-                .save(output, Powah.id("crafting/wrench"));
+                .save(output, makeId("crafting/wrench"));
     }
 
-    private static void solarPanel(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.SOLAR_PANEL.get(Tier.BASIC))
+    private void solarPanel() {
+        shaped(RecipeCategory.MISC, Blcks.SOLAR_PANEL.get(Tier.BASIC))
                 .pattern("ppp")
                 .pattern("cdc")
                 .pattern("iii")
@@ -123,9 +108,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
                 .unlockedBy(getHasName(Blcks.SOLAR_PANEL.get(Tier.STARTER)), has(Blcks.SOLAR_PANEL.get(Tier.STARTER)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/solar_panel_basic"));
+                .save(output, makeId("crafting/solar_panel_basic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.SOLAR_PANEL.get(Tier.BLAZING))
+        shaped(RecipeCategory.MISC, Blcks.SOLAR_PANEL.get(Tier.BLAZING))
                 .pattern("ppp")
                 .pattern("cdc")
                 .pattern("bbb")
@@ -137,9 +122,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.BLAZING_CRYSTAL), has(Itms.BLAZING_CRYSTAL))
                 .unlockedBy(getHasName(Blcks.SOLAR_PANEL.get(Tier.HARDENED)), has(Blcks.SOLAR_PANEL.get(Tier.HARDENED)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/solar_panel_blazing"));
+                .save(output, makeId("crafting/solar_panel_blazing"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.SOLAR_PANEL.get(Tier.HARDENED))
+        shaped(RecipeCategory.MISC, Blcks.SOLAR_PANEL.get(Tier.HARDENED))
                 .pattern("ppp")
                 .pattern("cdc")
                 .pattern("ggg")
@@ -151,9 +136,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.ENERGIZED_STEEL), has(Itms.ENERGIZED_STEEL))
                 .unlockedBy(getHasName(Blcks.SOLAR_PANEL.get(Tier.BASIC)), has(Blcks.SOLAR_PANEL.get(Tier.BASIC)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/solar_panel_hardened"));
+                .save(output, makeId("crafting/solar_panel_hardened"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.SOLAR_PANEL.get(Tier.NIOTIC))
+        shaped(RecipeCategory.MISC, Blcks.SOLAR_PANEL.get(Tier.NIOTIC))
                 .pattern("ppp")
                 .pattern("cdc")
                 .pattern("bbb")
@@ -165,9 +150,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.NIOTIC_CRYSTAL), has(Itms.NIOTIC_CRYSTAL))
                 .unlockedBy(getHasName(Blcks.SOLAR_PANEL.get(Tier.BLAZING)), has(Blcks.SOLAR_PANEL.get(Tier.BLAZING)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/solar_panel_niotic"));
+                .save(output, makeId("crafting/solar_panel_niotic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.SOLAR_PANEL.get(Tier.NITRO))
+        shaped(RecipeCategory.MISC, Blcks.SOLAR_PANEL.get(Tier.NITRO))
                 .pattern("ppp")
                 .pattern("cdc")
                 .pattern("eee")
@@ -179,9 +164,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.NITRO_CRYSTAL), has(Itms.NITRO_CRYSTAL))
                 .unlockedBy(getHasName(Blcks.SOLAR_PANEL.get(Tier.SPIRITED)), has(Blcks.SOLAR_PANEL.get(Tier.SPIRITED)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/solar_panel_nitro"));
+                .save(output, makeId("crafting/solar_panel_nitro"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.SOLAR_PANEL.get(Tier.SPIRITED))
+        shaped(RecipeCategory.MISC, Blcks.SOLAR_PANEL.get(Tier.SPIRITED))
                 .pattern("ppp")
                 .pattern("cdc")
                 .pattern("eee")
@@ -193,9 +178,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.SPIRITED_CRYSTAL), has(Itms.SPIRITED_CRYSTAL))
                 .unlockedBy(getHasName(Blcks.SOLAR_PANEL.get(Tier.NIOTIC)), has(Blcks.SOLAR_PANEL.get(Tier.NIOTIC)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/solar_panel_spirited"));
+                .save(output, makeId("crafting/solar_panel_spirited"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.SOLAR_PANEL.get(Tier.STARTER))
+        shaped(RecipeCategory.MISC, Blcks.SOLAR_PANEL.get(Tier.STARTER))
                 .pattern("ppp")
                 .pattern("cdc")
                 .pattern("eee")
@@ -207,11 +192,11 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.PHOTOELECTRIC_PANE), has(Itms.PHOTOELECTRIC_PANE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/solar_panel_starter"));
+                .save(output, makeId("crafting/solar_panel_starter"));
     }
 
-    private static void reactor(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.REACTOR.get(Tier.BASIC), 4)
+    private void reactor() {
+        shaped(RecipeCategory.MISC, Blcks.REACTOR.get(Tier.BASIC), 4)
                 .pattern("rlr")
                 .pattern("lul")
                 .pattern("rlr")
@@ -221,9 +206,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.URANINITE), has(Itms.URANINITE))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC_LARGE), has(Itms.CAPACITOR_BASIC_LARGE))
                 .unlockedBy(getHasName(Blcks.REACTOR.get(Tier.STARTER)), has(Blcks.REACTOR.get(Tier.STARTER)))
-                .save(output, Powah.id("crafting/reactor_basic"));
+                .save(output, makeId("crafting/reactor_basic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.REACTOR.get(Tier.BLAZING), 4)
+        shaped(RecipeCategory.MISC, Blcks.REACTOR.get(Tier.BLAZING), 4)
                 .pattern("rlr")
                 .pattern("lul")
                 .pattern("rlr")
@@ -233,9 +218,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.URANINITE), has(Itms.URANINITE))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BLAZING), has(Itms.CAPACITOR_BLAZING))
                 .unlockedBy(getHasName(Blcks.REACTOR.get(Tier.HARDENED)), has(Blcks.REACTOR.get(Tier.HARDENED)))
-                .save(output, Powah.id("crafting/reactor_blazing"));
+                .save(output, makeId("crafting/reactor_blazing"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.REACTOR.get(Tier.HARDENED), 4)
+        shaped(RecipeCategory.MISC, Blcks.REACTOR.get(Tier.HARDENED), 4)
                 .pattern("rlr")
                 .pattern("lul")
                 .pattern("rlr")
@@ -245,9 +230,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.URANINITE), has(Itms.URANINITE))
                 .unlockedBy(getHasName(Itms.CAPACITOR_HARDENED), has(Itms.CAPACITOR_HARDENED))
                 .unlockedBy(getHasName(Blcks.REACTOR.get(Tier.BASIC)), has(Blcks.REACTOR.get(Tier.BASIC)))
-                .save(output, Powah.id("crafting/reactor_hardened"));
+                .save(output, makeId("crafting/reactor_hardened"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.REACTOR.get(Tier.NIOTIC), 4)
+        shaped(RecipeCategory.MISC, Blcks.REACTOR.get(Tier.NIOTIC), 4)
                 .pattern("rlr")
                 .pattern("lul")
                 .pattern("rlr")
@@ -257,9 +242,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.URANINITE), has(Itms.URANINITE))
                 .unlockedBy(getHasName(Itms.CAPACITOR_NIOTIC), has(Itms.CAPACITOR_NIOTIC))
                 .unlockedBy(getHasName(Blcks.REACTOR.get(Tier.BLAZING)), has(Blcks.REACTOR.get(Tier.BLAZING)))
-                .save(output, Powah.id("crafting/reactor_niotic"));
+                .save(output, makeId("crafting/reactor_niotic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.REACTOR.get(Tier.NITRO), 4)
+        shaped(RecipeCategory.MISC, Blcks.REACTOR.get(Tier.NITRO), 4)
                 .pattern("rlr")
                 .pattern("lul")
                 .pattern("rlr")
@@ -269,9 +254,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.URANINITE), has(Itms.URANINITE))
                 .unlockedBy(getHasName(Itms.CAPACITOR_NITRO), has(Itms.CAPACITOR_NITRO))
                 .unlockedBy(getHasName(Blcks.REACTOR.get(Tier.SPIRITED)), has(Blcks.REACTOR.get(Tier.SPIRITED)))
-                .save(output, Powah.id("crafting/reactor_nitro"));
+                .save(output, makeId("crafting/reactor_nitro"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.REACTOR.get(Tier.SPIRITED), 4)
+        shaped(RecipeCategory.MISC, Blcks.REACTOR.get(Tier.SPIRITED), 4)
                 .pattern("rlr")
                 .pattern("lul")
                 .pattern("rlr")
@@ -281,9 +266,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.URANINITE), has(Itms.URANINITE))
                 .unlockedBy(getHasName(Itms.CAPACITOR_SPIRITED), has(Itms.CAPACITOR_SPIRITED))
                 .unlockedBy(getHasName(Blcks.REACTOR.get(Tier.NIOTIC)), has(Blcks.REACTOR.get(Tier.NIOTIC)))
-                .save(output, Powah.id("crafting/reactor_spirited"));
+                .save(output, makeId("crafting/reactor_spirited"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.REACTOR.get(Tier.STARTER), 4)
+        shaped(RecipeCategory.MISC, Blcks.REACTOR.get(Tier.STARTER), 4)
                 .pattern("ulu")
                 .pattern("lcl")
                 .pattern("ulu")
@@ -293,11 +278,11 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.URANINITE), has(Itms.URANINITE))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC_TINY), has(Itms.CAPACITOR_BASIC_TINY))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/reactor_starter"));
+                .save(output, makeId("crafting/reactor_starter"));
     }
 
-    private static void playerTransmitter(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.PLAYER_TRANSMITTER.get(Tier.BASIC))
+    private void playerTransmitter() {
+        shaped(RecipeCategory.MISC, Blcks.PLAYER_TRANSMITTER.get(Tier.BASIC))
                 .pattern(" p ")
                 .pattern("ici")
                 .pattern(" r ")
@@ -309,9 +294,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC), has(Itms.CAPACITOR_BASIC))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD), has(Itms.DIELECTRIC_ROD))
-                .save(output, Powah.id("crafting/player_tranmitter_basic"));
+                .save(output, makeId("crafting/player_tranmitter_basic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.PLAYER_TRANSMITTER.get(Tier.BLAZING))
+        shaped(RecipeCategory.MISC, Blcks.PLAYER_TRANSMITTER.get(Tier.BLAZING))
                 .pattern(" p ")
                 .pattern("ici")
                 .pattern(" r ")
@@ -323,9 +308,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_BLAZING), has(Itms.CAPACITOR_BLAZING))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD), has(Itms.DIELECTRIC_ROD))
-                .save(output, Powah.id("crafting/player_tranmitter_blazing"));
+                .save(output, makeId("crafting/player_tranmitter_blazing"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.PLAYER_TRANSMITTER.get(Tier.HARDENED))
+        shaped(RecipeCategory.MISC, Blcks.PLAYER_TRANSMITTER.get(Tier.HARDENED))
                 .pattern(" p ")
                 .pattern("ici")
                 .pattern(" r ")
@@ -337,9 +322,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_HARDENED), has(Itms.CAPACITOR_HARDENED))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD), has(Itms.DIELECTRIC_ROD))
-                .save(output, Powah.id("crafting/player_tranmitter_hardened"));
+                .save(output, makeId("crafting/player_tranmitter_hardened"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.PLAYER_TRANSMITTER.get(Tier.NIOTIC))
+        shaped(RecipeCategory.MISC, Blcks.PLAYER_TRANSMITTER.get(Tier.NIOTIC))
                 .pattern(" p ")
                 .pattern("ici")
                 .pattern(" r ")
@@ -351,9 +336,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_NIOTIC), has(Itms.CAPACITOR_NIOTIC))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD), has(Itms.DIELECTRIC_ROD))
-                .save(output, Powah.id("crafting/player_tranmitter_niotic"));
+                .save(output, makeId("crafting/player_tranmitter_niotic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.PLAYER_TRANSMITTER.get(Tier.NITRO))
+        shaped(RecipeCategory.MISC, Blcks.PLAYER_TRANSMITTER.get(Tier.NITRO))
                 .pattern(" p ")
                 .pattern("ici")
                 .pattern(" r ")
@@ -365,9 +350,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_NITRO), has(Itms.CAPACITOR_NITRO))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD), has(Itms.DIELECTRIC_ROD))
-                .save(output, Powah.id("crafting/player_tranmitter_nitro"));
+                .save(output, makeId("crafting/player_tranmitter_nitro"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.PLAYER_TRANSMITTER.get(Tier.SPIRITED))
+        shaped(RecipeCategory.MISC, Blcks.PLAYER_TRANSMITTER.get(Tier.SPIRITED))
                 .pattern(" p ")
                 .pattern("ici")
                 .pattern(" r ")
@@ -379,9 +364,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_SPIRITED), has(Itms.CAPACITOR_SPIRITED))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD), has(Itms.DIELECTRIC_ROD))
-                .save(output, Powah.id("crafting/player_tranmitter_spirited"));
+                .save(output, makeId("crafting/player_tranmitter_spirited"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.PLAYER_TRANSMITTER.get(Tier.STARTER))
+        shaped(RecipeCategory.MISC, Blcks.PLAYER_TRANSMITTER.get(Tier.STARTER))
                 .pattern(" p ")
                 .pattern("ici")
                 .pattern(" r ")
@@ -393,11 +378,11 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC_TINY), has(Itms.CAPACITOR_BASIC_TINY))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD), has(Itms.DIELECTRIC_ROD))
-                .save(output, Powah.id("crafting/player_tranmitter_starter"));
+                .save(output, makeId("crafting/player_tranmitter_starter"));
     }
 
-    private static void magmator(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.MAGMATOR.get(Tier.BASIC))
+    private void magmator() {
+        shaped(RecipeCategory.MISC, Blcks.MAGMATOR.get(Tier.BASIC))
                 .pattern("iii")
                 .pattern("cdc")
                 .pattern("ifi")
@@ -409,9 +394,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
                 .unlockedBy(getHasName(Blcks.MAGMATOR.get(Tier.STARTER)), has(Blcks.MAGMATOR.get(Tier.STARTER)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/magmator_basic"));
+                .save(output, makeId("crafting/magmator_basic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.MAGMATOR.get(Tier.BLAZING))
+        shaped(RecipeCategory.MISC, Blcks.MAGMATOR.get(Tier.BLAZING))
                 .pattern("bbb")
                 .pattern("cdc")
                 .pattern("bfb")
@@ -423,9 +408,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.BLAZING_CRYSTAL), has(Itms.BLAZING_CRYSTAL))
                 .unlockedBy(getHasName(Blcks.MAGMATOR.get(Tier.HARDENED)), has(Blcks.MAGMATOR.get(Tier.HARDENED)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/magmator_blazing"));
+                .save(output, makeId("crafting/magmator_blazing"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.MAGMATOR.get(Tier.HARDENED))
+        shaped(RecipeCategory.MISC, Blcks.MAGMATOR.get(Tier.HARDENED))
                 .pattern("ggg")
                 .pattern("cdc")
                 .pattern("gfg")
@@ -437,9 +422,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.ENERGIZED_STEEL), has(Itms.ENERGIZED_STEEL))
                 .unlockedBy(getHasName(Blcks.MAGMATOR.get(Tier.BASIC)), has(Blcks.MAGMATOR.get(Tier.BASIC)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/magmator_hardened"));
+                .save(output, makeId("crafting/magmator_hardened"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.MAGMATOR.get(Tier.NIOTIC))
+        shaped(RecipeCategory.MISC, Blcks.MAGMATOR.get(Tier.NIOTIC))
                 .pattern("ggg")
                 .pattern("cdc")
                 .pattern("gfg")
@@ -451,9 +436,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.NIOTIC_CRYSTAL), has(Itms.NIOTIC_CRYSTAL))
                 .unlockedBy(getHasName(Blcks.MAGMATOR.get(Tier.BLAZING)), has(Blcks.MAGMATOR.get(Tier.BLAZING)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/magmator_niotic"));
+                .save(output, makeId("crafting/magmator_niotic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.MAGMATOR.get(Tier.NITRO))
+        shaped(RecipeCategory.MISC, Blcks.MAGMATOR.get(Tier.NITRO))
                 .pattern("ggg")
                 .pattern("cdc")
                 .pattern("gfg")
@@ -465,9 +450,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.NITRO_CRYSTAL), has(Itms.NITRO_CRYSTAL))
                 .unlockedBy(getHasName(Blcks.MAGMATOR.get(Tier.SPIRITED)), has(Blcks.MAGMATOR.get(Tier.SPIRITED)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/magmator_nitro"));
+                .save(output, makeId("crafting/magmator_nitro"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.MAGMATOR.get(Tier.SPIRITED))
+        shaped(RecipeCategory.MISC, Blcks.MAGMATOR.get(Tier.SPIRITED))
                 .pattern("ggg")
                 .pattern("cdc")
                 .pattern("gfg")
@@ -479,9 +464,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.SPIRITED_CRYSTAL), has(Itms.SPIRITED_CRYSTAL))
                 .unlockedBy(getHasName(Blcks.MAGMATOR.get(Tier.NIOTIC)), has(Blcks.MAGMATOR.get(Tier.NIOTIC)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/magmator_spirited"));
+                .save(output, makeId("crafting/magmator_spirited"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.MAGMATOR.get(Tier.STARTER))
+        shaped(RecipeCategory.MISC, Blcks.MAGMATOR.get(Tier.STARTER))
                 .pattern("ggg")
                 .pattern("cdc")
                 .pattern("gfg")
@@ -493,11 +478,11 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Items.BUCKET), has(Items.BUCKET))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/magmator_starter"));
+                .save(output, makeId("crafting/magmator_starter"));
     }
 
-    private static void furnator(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.FURNATOR.get(Tier.BASIC))
+    private void furnator() {
+        shaped(RecipeCategory.MISC, Blcks.FURNATOR.get(Tier.BASIC))
                 .pattern("iii")
                 .pattern("cdc")
                 .pattern("ifi")
@@ -509,9 +494,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
                 .unlockedBy(getHasName(Blcks.FURNATOR.get(Tier.STARTER)), has(Blcks.FURNATOR.get(Tier.STARTER)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/furnator_basic"));
+                .save(output, makeId("crafting/furnator_basic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.FURNATOR.get(Tier.BLAZING))
+        shaped(RecipeCategory.MISC, Blcks.FURNATOR.get(Tier.BLAZING))
                 .pattern("bbb")
                 .pattern("cdc")
                 .pattern("bfb")
@@ -523,9 +508,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.BLAZING_CRYSTAL), has(Itms.BLAZING_CRYSTAL))
                 .unlockedBy(getHasName(Blcks.FURNATOR.get(Tier.HARDENED)), has(Blcks.FURNATOR.get(Tier.HARDENED)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/furnator_blazing"));
+                .save(output, makeId("crafting/furnator_blazing"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.FURNATOR.get(Tier.HARDENED))
+        shaped(RecipeCategory.MISC, Blcks.FURNATOR.get(Tier.HARDENED))
                 .pattern("ggg")
                 .pattern("cdc")
                 .pattern("gfg")
@@ -537,9 +522,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.ENERGIZED_STEEL), has(Itms.ENERGIZED_STEEL))
                 .unlockedBy(getHasName(Blcks.FURNATOR.get(Tier.BASIC)), has(Blcks.FURNATOR.get(Tier.BASIC)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/furnator_hardened"));
+                .save(output, makeId("crafting/furnator_hardened"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.FURNATOR.get(Tier.NIOTIC))
+        shaped(RecipeCategory.MISC, Blcks.FURNATOR.get(Tier.NIOTIC))
                 .pattern("ggg")
                 .pattern("cdc")
                 .pattern("gfg")
@@ -551,9 +536,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.NIOTIC_CRYSTAL), has(Itms.NIOTIC_CRYSTAL))
                 .unlockedBy(getHasName(Blcks.FURNATOR.get(Tier.BLAZING)), has(Blcks.FURNATOR.get(Tier.BLAZING)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/furnator_niotic"));
+                .save(output, makeId("crafting/furnator_niotic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.FURNATOR.get(Tier.NITRO))
+        shaped(RecipeCategory.MISC, Blcks.FURNATOR.get(Tier.NITRO))
                 .pattern("ggg")
                 .pattern("cdc")
                 .pattern("gfg")
@@ -565,9 +550,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.NITRO_CRYSTAL), has(Itms.NITRO_CRYSTAL))
                 .unlockedBy(getHasName(Blcks.FURNATOR.get(Tier.SPIRITED)), has(Blcks.FURNATOR.get(Tier.SPIRITED)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/furnator_nitro"));
+                .save(output, makeId("crafting/furnator_nitro"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.FURNATOR.get(Tier.SPIRITED))
+        shaped(RecipeCategory.MISC, Blcks.FURNATOR.get(Tier.SPIRITED))
                 .pattern("ggg")
                 .pattern("cdc")
                 .pattern("gfg")
@@ -579,9 +564,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.SPIRITED_CRYSTAL), has(Itms.SPIRITED_CRYSTAL))
                 .unlockedBy(getHasName(Blcks.FURNATOR.get(Tier.NIOTIC)), has(Blcks.FURNATOR.get(Tier.NIOTIC)))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/furnator_spirited"));
+                .save(output, makeId("crafting/furnator_spirited"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.FURNATOR.get(Tier.STARTER))
+        shaped(RecipeCategory.MISC, Blcks.FURNATOR.get(Tier.STARTER))
                 .pattern("ggg")
                 .pattern("cdc")
                 .pattern("gfg")
@@ -593,11 +578,11 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Items.FURNACE), has(Items.FURNACE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/furnator_starter"));
+                .save(output, makeId("crafting/furnator_starter"));
     }
 
-    private static void energyHopper(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_HOPPER.get(Tier.BASIC))
+    private void energyHopper() {
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_HOPPER.get(Tier.BASIC))
                 .pattern("ppp")
                 .pattern("cdc")
                 .pattern("php")
@@ -609,9 +594,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
                 .unlockedBy(getHasName(Blcks.ENERGY_HOPPER.get(Tier.STARTER)), has(Blcks.ENERGY_HOPPER.get(Tier.STARTER)))
-                .save(output, Powah.id("crafting/energy_hopper_basic"));
+                .save(output, makeId("crafting/energy_hopper_basic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_HOPPER.get(Tier.BLAZING))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_HOPPER.get(Tier.BLAZING))
                 .pattern("ppp")
                 .pattern("cdc")
                 .pattern("php")
@@ -623,9 +608,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
                 .unlockedBy(getHasName(Blcks.ENERGY_HOPPER.get(Tier.HARDENED)), has(Blcks.ENERGY_HOPPER.get(Tier.HARDENED)))
-                .save(output, Powah.id("crafting/energy_hopper_blazing"));
+                .save(output, makeId("crafting/energy_hopper_blazing"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_HOPPER.get(Tier.HARDENED))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_HOPPER.get(Tier.HARDENED))
                 .pattern("ppp")
                 .pattern("cdc")
                 .pattern("php")
@@ -637,9 +622,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
                 .unlockedBy(getHasName(Blcks.ENERGY_HOPPER.get(Tier.BASIC)), has(Blcks.ENERGY_HOPPER.get(Tier.BASIC)))
-                .save(output, Powah.id("crafting/energy_hopper_hardened"));
+                .save(output, makeId("crafting/energy_hopper_hardened"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_HOPPER.get(Tier.NIOTIC))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_HOPPER.get(Tier.NIOTIC))
                 .pattern("ppp")
                 .pattern("cdc")
                 .pattern("php")
@@ -651,9 +636,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
                 .unlockedBy(getHasName(Blcks.ENERGY_HOPPER.get(Tier.BLAZING)), has(Blcks.ENERGY_HOPPER.get(Tier.BLAZING)))
-                .save(output, Powah.id("crafting/energy_hopper_niotic"));
+                .save(output, makeId("crafting/energy_hopper_niotic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_HOPPER.get(Tier.NITRO))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_HOPPER.get(Tier.NITRO))
                 .pattern("ppp")
                 .pattern("cdc")
                 .pattern("php")
@@ -665,9 +650,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
                 .unlockedBy(getHasName(Blcks.ENERGY_HOPPER.get(Tier.SPIRITED)), has(Blcks.ENERGY_HOPPER.get(Tier.SPIRITED)))
-                .save(output, Powah.id("crafting/energy_hopper_nitro"));
+                .save(output, makeId("crafting/energy_hopper_nitro"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_HOPPER.get(Tier.SPIRITED))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_HOPPER.get(Tier.SPIRITED))
                 .pattern("ppp")
                 .pattern("cdc")
                 .pattern("php")
@@ -679,9 +664,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
                 .unlockedBy(getHasName(Blcks.ENERGY_HOPPER.get(Tier.NIOTIC)), has(Blcks.ENERGY_HOPPER.get(Tier.NIOTIC)))
-                .save(output, Powah.id("crafting/energy_hopper_spirited"));
+                .save(output, makeId("crafting/energy_hopper_spirited"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_HOPPER.get(Tier.STARTER))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_HOPPER.get(Tier.STARTER))
                 .pattern("ppp")
                 .pattern("cdc")
                 .pattern("php")
@@ -693,11 +678,11 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
                 .unlockedBy(getHasName(Items.HOPPER), has(Items.HOPPER))
-                .save(output, Powah.id("crafting/energy_hopper_starter"));
+                .save(output, makeId("crafting/energy_hopper_starter"));
     }
 
-    private static void energyDischarger(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_DISCHARGER.get(Tier.BASIC))
+    private void energyDischarger() {
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_DISCHARGER.get(Tier.BASIC))
                 .pattern("pcp")
                 .pattern("pdp")
                 .pattern("pcp")
@@ -707,9 +692,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC), has(Itms.CAPACITOR_BASIC))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energy_discharger_basic"));
+                .save(output, makeId("crafting/energy_discharger_basic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_DISCHARGER.get(Tier.BLAZING))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_DISCHARGER.get(Tier.BLAZING))
                 .pattern("pcp")
                 .pattern("pdp")
                 .pattern("pcp")
@@ -719,9 +704,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_BLAZING), has(Itms.CAPACITOR_BLAZING))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energy_discharger_blazing"));
+                .save(output, makeId("crafting/energy_discharger_blazing"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_DISCHARGER.get(Tier.HARDENED))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_DISCHARGER.get(Tier.HARDENED))
                 .pattern("pcp")
                 .pattern("pdp")
                 .pattern("pcp")
@@ -731,9 +716,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_HARDENED), has(Itms.CAPACITOR_HARDENED))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energy_discharger_hardened"));
+                .save(output, makeId("crafting/energy_discharger_hardened"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_DISCHARGER.get(Tier.NIOTIC))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_DISCHARGER.get(Tier.NIOTIC))
                 .pattern("pcp")
                 .pattern("pdp")
                 .pattern("pcp")
@@ -743,9 +728,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_NIOTIC), has(Itms.CAPACITOR_NIOTIC))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energy_discharger_niotic"));
+                .save(output, makeId("crafting/energy_discharger_niotic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_DISCHARGER.get(Tier.NITRO))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_DISCHARGER.get(Tier.NITRO))
                 .pattern("pcp")
                 .pattern("pdp")
                 .pattern("pcp")
@@ -755,9 +740,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_NITRO), has(Itms.CAPACITOR_NITRO))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energy_discharger_nitro"));
+                .save(output, makeId("crafting/energy_discharger_nitro"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_DISCHARGER.get(Tier.SPIRITED))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_DISCHARGER.get(Tier.SPIRITED))
                 .pattern("pcp")
                 .pattern("pdp")
                 .pattern("pcp")
@@ -767,9 +752,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_SPIRITED), has(Itms.CAPACITOR_SPIRITED))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energy_discharger_spirited"));
+                .save(output, makeId("crafting/energy_discharger_spirited"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_DISCHARGER.get(Tier.STARTER))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_DISCHARGER.get(Tier.STARTER))
                 .pattern("pcp")
                 .pattern("pdp")
                 .pattern("pcp")
@@ -779,11 +764,11 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC_TINY), has(Itms.CAPACITOR_BASIC_TINY))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energy_discharger_starter"));
+                .save(output, makeId("crafting/energy_discharger_starter"));
     }
 
-    private static void energyCell(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CELL.get(Tier.BASIC))
+    private void energyCell() {
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CELL.get(Tier.BASIC))
                 .pattern("ici")
                 .pattern("cdc")
                 .pattern("ici")
@@ -793,9 +778,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC), has(Itms.CAPACITOR_BASIC))
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energy_cell_basic"));
+                .save(output, makeId("crafting/energy_cell_basic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CELL.get(Tier.BASIC))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CELL.get(Tier.BASIC))
                 .pattern("iii")
                 .pattern("cdc")
                 .pattern("iii")
@@ -805,9 +790,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Blcks.ENERGY_CELL.get(Tier.STARTER)), has(Blcks.ENERGY_CELL.get(Tier.STARTER)))
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energy_cell_basic_2"));
+                .save(output, makeId("crafting/energy_cell_basic_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CELL.get(Tier.BLAZING))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CELL.get(Tier.BLAZING))
                 .pattern("bgb")
                 .pattern("cdc")
                 .pattern("bgb")
@@ -819,9 +804,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_BLAZING), has(Itms.CAPACITOR_BLAZING))
                 .unlockedBy(getHasName(Itms.BLAZING_CRYSTAL), has(Itms.BLAZING_CRYSTAL))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energy_cell_blazing"));
+                .save(output, makeId("crafting/energy_cell_blazing"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CELL.get(Tier.HARDENED))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CELL.get(Tier.HARDENED))
                 .pattern("ghg")
                 .pattern("cdc")
                 .pattern("ghg")
@@ -833,9 +818,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Blcks.ENERGY_CELL.get(Tier.BASIC)), has(Blcks.ENERGY_CELL.get(Tier.BASIC)))
                 .unlockedBy(getHasName(Itms.ENERGIZED_STEEL), has(Itms.ENERGIZED_STEEL))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energy_cell_hardened"));
+                .save(output, makeId("crafting/energy_cell_hardened"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CELL.get(Tier.NIOTIC))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CELL.get(Tier.NIOTIC))
                 .pattern("bnb")
                 .pattern("cdc")
                 .pattern("bnb")
@@ -847,9 +832,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_NIOTIC), has(Itms.CAPACITOR_NIOTIC))
                 .unlockedBy(getHasName(Itms.NIOTIC_CRYSTAL), has(Itms.NIOTIC_CRYSTAL))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energy_cell_niotic"));
+                .save(output, makeId("crafting/energy_cell_niotic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CELL.get(Tier.NITRO))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CELL.get(Tier.NITRO))
                 .pattern("bnb")
                 .pattern("cdc")
                 .pattern("bnb")
@@ -861,9 +846,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_NITRO), has(Itms.CAPACITOR_NITRO))
                 .unlockedBy(getHasName(Itms.NITRO_CRYSTAL), has(Itms.NITRO_CRYSTAL))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energy_cell_nitro"));
+                .save(output, makeId("crafting/energy_cell_nitro"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CELL.get(Tier.SPIRITED))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CELL.get(Tier.SPIRITED))
                 .pattern("bnb")
                 .pattern("cdc")
                 .pattern("bnb")
@@ -875,9 +860,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_SPIRITED), has(Itms.CAPACITOR_SPIRITED))
                 .unlockedBy(getHasName(Itms.SPIRITED_CRYSTAL), has(Itms.SPIRITED_CRYSTAL))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energy_cell_spirited"));
+                .save(output, makeId("crafting/energy_cell_spirited"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CELL.get(Tier.STARTER))
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CELL.get(Tier.STARTER))
                 .pattern("ici")
                 .pattern("cdc")
                 .pattern("ici")
@@ -887,11 +872,11 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC_TINY), has(Itms.CAPACITOR_BASIC_TINY))
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energy_cell_starter"));
+                .save(output, makeId("crafting/energy_cell_starter"));
     }
 
-    private static void energizingRod(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGIZING_ROD.get(Tier.BASIC))
+    private void energizingRod() {
+        shaped(RecipeCategory.MISC, Blcks.ENERGIZING_ROD.get(Tier.BASIC))
                 .pattern(" q ")
                 .pattern("bcb")
                 .pattern(" h ")
@@ -903,9 +888,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Blcks.ENERGIZING_ROD.get(Tier.STARTER)), has(Blcks.ENERGIZING_ROD.get(Tier.STARTER)))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC), has(Itms.CAPACITOR_BASIC))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energizing_rod_basic"));
+                .save(output, makeId("crafting/energizing_rod_basic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGIZING_ROD.get(Tier.BLAZING))
+        shaped(RecipeCategory.MISC, Blcks.ENERGIZING_ROD.get(Tier.BLAZING))
                 .pattern(" q ")
                 .pattern("bcb")
                 .pattern(" h ")
@@ -917,9 +902,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Blcks.ENERGIZING_ROD.get(Tier.HARDENED)), has(Blcks.ENERGIZING_ROD.get(Tier.HARDENED)))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BLAZING), has(Itms.CAPACITOR_BLAZING))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energizing_rod_blazing"));
+                .save(output, makeId("crafting/energizing_rod_blazing"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGIZING_ROD.get(Tier.HARDENED))
+        shaped(RecipeCategory.MISC, Blcks.ENERGIZING_ROD.get(Tier.HARDENED))
                 .pattern(" q ")
                 .pattern("hch")
                 .pattern(" e ")
@@ -931,9 +916,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Blcks.ENERGIZING_ROD.get(Tier.BASIC)), has(Blcks.ENERGIZING_ROD.get(Tier.BASIC)))
                 .unlockedBy(getHasName(Itms.CAPACITOR_HARDENED), has(Itms.CAPACITOR_HARDENED))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energizing_rod_hardened"));
+                .save(output, makeId("crafting/energizing_rod_hardened"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGIZING_ROD.get(Tier.NIOTIC))
+        shaped(RecipeCategory.MISC, Blcks.ENERGIZING_ROD.get(Tier.NIOTIC))
                 .pattern(" q ")
                 .pattern("bcb")
                 .pattern(" h ")
@@ -945,9 +930,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Blcks.ENERGIZING_ROD.get(Tier.BLAZING)), has(Blcks.ENERGIZING_ROD.get(Tier.BLAZING)))
                 .unlockedBy(getHasName(Itms.CAPACITOR_NIOTIC), has(Itms.CAPACITOR_NIOTIC))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energizing_rod_niotic"));
+                .save(output, makeId("crafting/energizing_rod_niotic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGIZING_ROD.get(Tier.NITRO))
+        shaped(RecipeCategory.MISC, Blcks.ENERGIZING_ROD.get(Tier.NITRO))
                 .pattern(" q ")
                 .pattern("bcb")
                 .pattern(" h ")
@@ -959,9 +944,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Blcks.ENERGIZING_ROD.get(Tier.SPIRITED)), has(Blcks.ENERGIZING_ROD.get(Tier.SPIRITED)))
                 .unlockedBy(getHasName(Itms.CAPACITOR_NITRO), has(Itms.CAPACITOR_NITRO))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energizing_rod_nitro"));
+                .save(output, makeId("crafting/energizing_rod_nitro"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGIZING_ROD.get(Tier.SPIRITED))
+        shaped(RecipeCategory.MISC, Blcks.ENERGIZING_ROD.get(Tier.SPIRITED))
                 .pattern(" q ")
                 .pattern("bcb")
                 .pattern(" h ")
@@ -973,9 +958,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Blcks.ENERGIZING_ROD.get(Tier.NIOTIC)), has(Blcks.ENERGIZING_ROD.get(Tier.NIOTIC)))
                 .unlockedBy(getHasName(Itms.CAPACITOR_SPIRITED), has(Itms.CAPACITOR_SPIRITED))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energizing_rod_spirited"));
+                .save(output, makeId("crafting/energizing_rod_spirited"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGIZING_ROD.get(Tier.STARTER))
+        shaped(RecipeCategory.MISC, Blcks.ENERGIZING_ROD.get(Tier.STARTER))
                 .pattern(" q ")
                 .pattern("bcb")
                 .pattern(" h ")
@@ -987,11 +972,11 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD), has(Itms.DIELECTRIC_ROD))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC_TINY), has(Itms.CAPACITOR_BASIC_TINY))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energizing_rod_starter"));
+                .save(output, makeId("crafting/energizing_rod_starter"));
     }
 
-    private static void energizingOrb(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGIZING_ORB)
+    private void energizingOrb() {
+        shaped(RecipeCategory.MISC, Blcks.ENERGIZING_ORB)
                 .pattern("ggg")
                 .pattern("gcg")
                 .pattern("rrr")
@@ -1001,11 +986,11 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
                 .unlockedBy("has_glass", has(Tags.Items.GLASS_BLOCKS))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_CASING), has(Itms.DIELECTRIC_CASING))
-                .save(output, Powah.id("crafting/energizing_orb"));
+                .save(output, makeId("crafting/energizing_orb"));
     }
 
-    private static void enderGate(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.BASIC), 4)
+    private void enderGate() {
+        shaped(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.BASIC), 4)
                 .pattern("oio")
                 .pattern("ici")
                 .pattern("oio")
@@ -1015,14 +1000,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.ENDER_CORE), has(Itms.ENDER_CORE))
                 .unlockedBy(getHasName(Blcks.ENERGY_CABLE.get(Tier.BASIC)), has(Blcks.ENERGY_CABLE.get(Tier.BASIC)))
                 .unlockedBy(getHasName(Items.OBSIDIAN), has(Items.OBSIDIAN))
-                .save(output, Powah.id("crafting/ender_gate_basic"));
+                .save(output, makeId("crafting/ender_gate_basic"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.BASIC))
+        shapeless(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.BASIC))
                 .requires(Blcks.ENDER_GATE.get(Tier.BASIC))
                 .unlockedBy(getHasName(Blcks.ENDER_GATE.get(Tier.BASIC)), has(Blcks.ENDER_GATE.get(Tier.BASIC)))
-                .save(output, Powah.id("crafting/ender_gate_basic_2"));
+                .save(output, makeId("crafting/ender_gate_basic_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.BLAZING), 4)
+        shaped(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.BLAZING), 4)
                 .pattern("oio")
                 .pattern("ici")
                 .pattern("oio")
@@ -1032,14 +1017,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.ENDER_CORE), has(Itms.ENDER_CORE))
                 .unlockedBy(getHasName(Blcks.ENERGY_CABLE.get(Tier.BLAZING)), has(Blcks.ENERGY_CABLE.get(Tier.BLAZING)))
                 .unlockedBy(getHasName(Items.OBSIDIAN), has(Items.OBSIDIAN))
-                .save(output, Powah.id("crafting/ender_gate_blazing"));
+                .save(output, makeId("crafting/ender_gate_blazing"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.BLAZING))
+        shapeless(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.BLAZING))
                 .requires(Blcks.ENDER_GATE.get(Tier.BLAZING))
                 .unlockedBy(getHasName(Blcks.ENDER_GATE.get(Tier.BLAZING)), has(Blcks.ENDER_GATE.get(Tier.BLAZING)))
-                .save(output, Powah.id("crafting/ender_gate_blazing_2"));
+                .save(output, makeId("crafting/ender_gate_blazing_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.HARDENED), 4)
+        shaped(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.HARDENED), 4)
                 .pattern("oio")
                 .pattern("ici")
                 .pattern("oio")
@@ -1049,14 +1034,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.ENDER_CORE), has(Itms.ENDER_CORE))
                 .unlockedBy(getHasName(Blcks.ENERGY_CABLE.get(Tier.HARDENED)), has(Blcks.ENERGY_CABLE.get(Tier.HARDENED)))
                 .unlockedBy(getHasName(Items.OBSIDIAN), has(Items.OBSIDIAN))
-                .save(output, Powah.id("crafting/ender_gate_hardened"));
+                .save(output, makeId("crafting/ender_gate_hardened"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.HARDENED))
+        shapeless(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.HARDENED))
                 .requires(Blcks.ENDER_GATE.get(Tier.HARDENED))
                 .unlockedBy(getHasName(Blcks.ENDER_GATE.get(Tier.HARDENED)), has(Blcks.ENDER_GATE.get(Tier.HARDENED)))
-                .save(output, Powah.id("crafting/ender_gate_hardened_2"));
+                .save(output, makeId("crafting/ender_gate_hardened_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.NIOTIC), 4)
+        shaped(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.NIOTIC), 4)
                 .pattern("oio")
                 .pattern("ici")
                 .pattern("oio")
@@ -1066,14 +1051,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.ENDER_CORE), has(Itms.ENDER_CORE))
                 .unlockedBy(getHasName(Blcks.ENERGY_CABLE.get(Tier.NIOTIC)), has(Blcks.ENERGY_CABLE.get(Tier.NIOTIC)))
                 .unlockedBy(getHasName(Items.OBSIDIAN), has(Items.OBSIDIAN))
-                .save(output, Powah.id("crafting/ender_gate_niotic"));
+                .save(output, makeId("crafting/ender_gate_niotic"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.NIOTIC))
+        shapeless(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.NIOTIC))
                 .requires(Blcks.ENDER_GATE.get(Tier.NIOTIC))
                 .unlockedBy(getHasName(Blcks.ENDER_GATE.get(Tier.NIOTIC)), has(Blcks.ENDER_GATE.get(Tier.NIOTIC)))
-                .save(output, Powah.id("crafting/ender_gate_niotic_2"));
+                .save(output, makeId("crafting/ender_gate_niotic_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.NITRO), 4)
+        shaped(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.NITRO), 4)
                 .pattern("oio")
                 .pattern("ici")
                 .pattern("oio")
@@ -1083,14 +1068,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.ENDER_CORE), has(Itms.ENDER_CORE))
                 .unlockedBy(getHasName(Blcks.ENERGY_CABLE.get(Tier.NITRO)), has(Blcks.ENERGY_CABLE.get(Tier.NITRO)))
                 .unlockedBy(getHasName(Items.OBSIDIAN), has(Items.OBSIDIAN))
-                .save(output, Powah.id("crafting/ender_gate_nitro"));
+                .save(output, makeId("crafting/ender_gate_nitro"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.NITRO))
+        shapeless(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.NITRO))
                 .requires(Blcks.ENDER_GATE.get(Tier.NITRO))
                 .unlockedBy(getHasName(Blcks.ENDER_GATE.get(Tier.NITRO)), has(Blcks.ENDER_GATE.get(Tier.NITRO)))
-                .save(output, Powah.id("crafting/ender_gate_nitro_2"));
+                .save(output, makeId("crafting/ender_gate_nitro_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.SPIRITED), 4)
+        shaped(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.SPIRITED), 4)
                 .pattern("oio")
                 .pattern("ici")
                 .pattern("oio")
@@ -1100,14 +1085,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.ENDER_CORE), has(Itms.ENDER_CORE))
                 .unlockedBy(getHasName(Blcks.ENERGY_CABLE.get(Tier.SPIRITED)), has(Blcks.ENERGY_CABLE.get(Tier.SPIRITED)))
                 .unlockedBy(getHasName(Items.OBSIDIAN), has(Items.OBSIDIAN))
-                .save(output, Powah.id("crafting/ender_gate_spirited"));
+                .save(output, makeId("crafting/ender_gate_spirited"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.SPIRITED))
+        shapeless(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.SPIRITED))
                 .requires(Blcks.ENDER_GATE.get(Tier.SPIRITED))
                 .unlockedBy(getHasName(Blcks.ENDER_GATE.get(Tier.SPIRITED)), has(Blcks.ENDER_GATE.get(Tier.SPIRITED)))
-                .save(output, Powah.id("crafting/ender_gate_spirited_2"));
+                .save(output, makeId("crafting/ender_gate_spirited_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.STARTER), 4)
+        shaped(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.STARTER), 4)
                 .pattern("oio")
                 .pattern("ici")
                 .pattern("oio")
@@ -1117,16 +1102,16 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.ENDER_CORE), has(Itms.ENDER_CORE))
                 .unlockedBy(getHasName(Blcks.ENERGY_CABLE.get(Tier.STARTER)), has(Blcks.ENERGY_CABLE.get(Tier.STARTER)))
                 .unlockedBy(getHasName(Items.OBSIDIAN), has(Items.OBSIDIAN))
-                .save(output, Powah.id("crafting/ender_gate_starter"));
+                .save(output, makeId("crafting/ender_gate_starter"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.STARTER))
+        shapeless(RecipeCategory.MISC, Blcks.ENDER_GATE.get(Tier.STARTER))
                 .requires(Blcks.ENDER_GATE.get(Tier.STARTER))
                 .unlockedBy(getHasName(Blcks.ENDER_GATE.get(Tier.STARTER)), has(Blcks.ENDER_GATE.get(Tier.STARTER)))
-                .save(output, Powah.id("crafting/ender_gate_starter_2"));
+                .save(output, makeId("crafting/ender_gate_starter_2"));
     }
 
-    private static void enderCell(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.BASIC))
+    private void enderCell() {
+        shaped(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.BASIC))
                 .pattern("oio")
                 .pattern("ici")
                 .pattern("oio")
@@ -1136,14 +1121,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.ENDER_CORE), has(Itms.ENDER_CORE))
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
                 .unlockedBy(getHasName(Items.OBSIDIAN), has(Items.OBSIDIAN))
-                .save(output, Powah.id("crafting/ender_cell_basic"));
+                .save(output, makeId("crafting/ender_cell_basic"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.BASIC))
+        shapeless(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.BASIC))
                 .requires(Blcks.ENDER_CELL.get(Tier.BASIC))
                 .unlockedBy(getHasName(Blcks.ENDER_CELL.get(Tier.BASIC)), has(Blcks.ENDER_CELL.get(Tier.BASIC)))
-                .save(output, Powah.id("crafting/ender_cell_basic_2"));
+                .save(output, makeId("crafting/ender_cell_basic_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.BLAZING))
+        shaped(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.BLAZING))
                 .pattern("oio")
                 .pattern("ici")
                 .pattern("oio")
@@ -1153,14 +1138,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.ENDER_CORE), has(Itms.ENDER_CORE))
                 .unlockedBy(getHasName(Itms.BLAZING_CRYSTAL), has(Itms.BLAZING_CRYSTAL))
                 .unlockedBy(getHasName(Items.OBSIDIAN), has(Items.OBSIDIAN))
-                .save(output, Powah.id("crafting/ender_cell_blazing"));
+                .save(output, makeId("crafting/ender_cell_blazing"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.BLAZING))
+        shapeless(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.BLAZING))
                 .requires(Blcks.ENDER_CELL.get(Tier.BLAZING))
                 .unlockedBy(getHasName(Blcks.ENDER_CELL.get(Tier.BLAZING)), has(Blcks.ENDER_CELL.get(Tier.BLAZING)))
-                .save(output, Powah.id("crafting/ender_cell_blazing_2"));
+                .save(output, makeId("crafting/ender_cell_blazing_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.HARDENED))
+        shaped(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.HARDENED))
                 .pattern("oio")
                 .pattern("ici")
                 .pattern("oio")
@@ -1170,14 +1155,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.ENDER_CORE), has(Itms.ENDER_CORE))
                 .unlockedBy(getHasName(Itms.ENERGIZED_STEEL), has(Itms.ENERGIZED_STEEL))
                 .unlockedBy(getHasName(Items.OBSIDIAN), has(Items.OBSIDIAN))
-                .save(output, Powah.id("crafting/ender_cell_hardened"));
+                .save(output, makeId("crafting/ender_cell_hardened"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.HARDENED))
+        shapeless(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.HARDENED))
                 .requires(Blcks.ENDER_CELL.get(Tier.HARDENED))
                 .unlockedBy(getHasName(Blcks.ENDER_CELL.get(Tier.HARDENED)), has(Blcks.ENDER_CELL.get(Tier.HARDENED)))
-                .save(output, Powah.id("crafting/ender_cell_hardened_2"));
+                .save(output, makeId("crafting/ender_cell_hardened_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.NIOTIC))
+        shaped(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.NIOTIC))
                 .pattern("oio")
                 .pattern("ici")
                 .pattern("oio")
@@ -1187,14 +1172,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.ENDER_CORE), has(Itms.ENDER_CORE))
                 .unlockedBy(getHasName(Itms.NIOTIC_CRYSTAL), has(Itms.NIOTIC_CRYSTAL))
                 .unlockedBy(getHasName(Items.OBSIDIAN), has(Items.OBSIDIAN))
-                .save(output, Powah.id("crafting/ender_cell_niotic"));
+                .save(output, makeId("crafting/ender_cell_niotic"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.NIOTIC))
+        shapeless(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.NIOTIC))
                 .requires(Blcks.ENDER_CELL.get(Tier.NIOTIC))
                 .unlockedBy(getHasName(Blcks.ENDER_CELL.get(Tier.NIOTIC)), has(Blcks.ENDER_CELL.get(Tier.NIOTIC)))
-                .save(output, Powah.id("crafting/ender_cell_niotic_2"));
+                .save(output, makeId("crafting/ender_cell_niotic_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.NITRO))
+        shaped(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.NITRO))
                 .pattern("oio")
                 .pattern("ici")
                 .pattern("oio")
@@ -1204,14 +1189,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.ENDER_CORE), has(Itms.ENDER_CORE))
                 .unlockedBy(getHasName(Itms.NITRO_CRYSTAL), has(Itms.NITRO_CRYSTAL))
                 .unlockedBy(getHasName(Items.OBSIDIAN), has(Items.OBSIDIAN))
-                .save(output, Powah.id("crafting/ender_cell_nitro"));
+                .save(output, makeId("crafting/ender_cell_nitro"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.NITRO))
+        shapeless(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.NITRO))
                 .requires(Blcks.ENDER_CELL.get(Tier.NITRO))
                 .unlockedBy(getHasName(Blcks.ENDER_CELL.get(Tier.NITRO)), has(Blcks.ENDER_CELL.get(Tier.NITRO)))
-                .save(output, Powah.id("crafting/ender_cell_nitro_2"));
+                .save(output, makeId("crafting/ender_cell_nitro_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.SPIRITED))
+        shaped(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.SPIRITED))
                 .pattern("oio")
                 .pattern("ici")
                 .pattern("oio")
@@ -1221,14 +1206,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.ENDER_CORE), has(Itms.ENDER_CORE))
                 .unlockedBy(getHasName(Itms.SPIRITED_CRYSTAL), has(Itms.SPIRITED_CRYSTAL))
                 .unlockedBy(getHasName(Items.OBSIDIAN), has(Items.OBSIDIAN))
-                .save(output, Powah.id("crafting/ender_cell_spirited"));
+                .save(output, makeId("crafting/ender_cell_spirited"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.SPIRITED))
+        shapeless(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.SPIRITED))
                 .requires(Blcks.ENDER_CELL.get(Tier.SPIRITED))
                 .unlockedBy(getHasName(Blcks.ENDER_CELL.get(Tier.SPIRITED)), has(Blcks.ENDER_CELL.get(Tier.SPIRITED)))
-                .save(output, Powah.id("crafting/ender_cell_spirited_2"));
+                .save(output, makeId("crafting/ender_cell_spirited_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.STARTER))
+        shaped(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.STARTER))
                 .pattern("oio")
                 .pattern("ici")
                 .pattern("oio")
@@ -1236,16 +1221,16 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .define('i', Items.IRON_NUGGET)
                 .define('o', Items.OBSIDIAN)
                 .unlockedBy(getHasName(Itms.ENDER_CORE), has(Itms.ENDER_CORE))
-                .save(output, Powah.id("crafting/ender_cell_starter"));
+                .save(output, makeId("crafting/ender_cell_starter"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.STARTER))
+        shapeless(RecipeCategory.MISC, Blcks.ENDER_CELL.get(Tier.STARTER))
                 .requires(Blcks.ENDER_CELL.get(Tier.STARTER))
                 .unlockedBy(getHasName(Blcks.ENDER_CELL.get(Tier.STARTER)), has(Blcks.ENDER_CELL.get(Tier.STARTER)))
-                .save(output, Powah.id("crafting/ender_cell_starter_2"));
+                .save(output, makeId("crafting/ender_cell_starter_2"));
     }
 
-    private static void materials(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.AERIAL_PEARL)
+    private void materials() {
+        shaped(RecipeCategory.MISC, Itms.AERIAL_PEARL)
                 .pattern("pbp")
                 .pattern("beb")
                 .pattern("pbp")
@@ -1253,8 +1238,8 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .define('e', Items.ENDER_PEARL)
                 .define('b', Items.IRON_BARS)
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
-                .save(output, Powah.id("crafting/aerial_pearl"));
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.BLAZING_CRYSTAL)
+                .save(output, makeId("crafting/aerial_pearl"));
+        shapeless(RecipeCategory.MISC, Blcks.BLAZING_CRYSTAL)
                 .requires(Itms.BLAZING_CRYSTAL)
                 .requires(Itms.BLAZING_CRYSTAL)
                 .requires(Itms.BLAZING_CRYSTAL)
@@ -1265,29 +1250,29 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .requires(Itms.BLAZING_CRYSTAL)
                 .requires(Itms.BLAZING_CRYSTAL)
                 .unlockedBy(getHasName(Itms.BLAZING_CRYSTAL), has(Itms.BLAZING_CRYSTAL))
-                .save(output, Powah.id("crafting/blazing_crystal_block"));
+                .save(output, makeId("crafting/blazing_crystal_block"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Itms.BLAZING_CRYSTAL, 9)
+        shapeless(RecipeCategory.MISC, Itms.BLAZING_CRYSTAL, 9)
                 .requires(Blcks.BLAZING_CRYSTAL)
                 .unlockedBy(getHasName(Blcks.BLAZING_CRYSTAL), has(Blcks.BLAZING_CRYSTAL))
-                .save(output, Powah.id("crafting/blazing_crystal"));
+                .save(output, makeId("crafting/blazing_crystal"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Itms.NIOTIC_CRYSTAL, 9)
+        shapeless(RecipeCategory.MISC, Itms.NIOTIC_CRYSTAL, 9)
                 .requires(Blcks.NIOTIC_CRYSTAL)
                 .unlockedBy(getHasName(Blcks.NIOTIC_CRYSTAL), has(Blcks.NIOTIC_CRYSTAL))
-                .save(output, Powah.id("crafting/niotic_crystal"));
+                .save(output, makeId("crafting/niotic_crystal"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Itms.NITRO_CRYSTAL, 9)
+        shapeless(RecipeCategory.MISC, Itms.NITRO_CRYSTAL, 9)
                 .requires(Blcks.NITRO_CRYSTAL)
                 .unlockedBy(getHasName(Blcks.NITRO_CRYSTAL), has(Blcks.NITRO_CRYSTAL))
-                .save(output, Powah.id("crafting/nitro_crystal"));
+                .save(output, makeId("crafting/nitro_crystal"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Itms.SPIRITED_CRYSTAL, 9)
+        shapeless(RecipeCategory.MISC, Itms.SPIRITED_CRYSTAL, 9)
                 .requires(Blcks.SPIRITED_CRYSTAL)
                 .unlockedBy(getHasName(Blcks.SPIRITED_CRYSTAL), has(Blcks.SPIRITED_CRYSTAL))
-                .save(output, Powah.id("crafting/spirited_crystal"));
+                .save(output, makeId("crafting/spirited_crystal"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.DIELECTRIC_CASING)
+        shaped(RecipeCategory.MISC, Itms.DIELECTRIC_CASING)
                 .pattern("ihi")
                 .pattern("v v")
                 .pattern("ihi")
@@ -1297,9 +1282,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD), has(Itms.DIELECTRIC_ROD))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
-                .save(output, Powah.id("crafting/dielectric_casing"));
+                .save(output, makeId("crafting/dielectric_casing"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Itms.DIELECTRIC_PASTE, 24)
+        shapeless(RecipeCategory.MISC, Itms.DIELECTRIC_PASTE, 24)
                 .requires(ItemTags.COALS)
                 .requires(ItemTags.COALS)
                 .requires(ItemTags.COALS)
@@ -1309,9 +1294,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy("has_coals", has(ItemTags.COALS))
                 .unlockedBy(getHasName(Items.CLAY_BALL), has(Items.CLAY_BALL))
                 .unlockedBy(getHasName(Items.LAVA_BUCKET), has(Items.LAVA_BUCKET))
-                .save(output, Powah.id("crafting/dielectric_paste"));
+                .save(output, makeId("crafting/dielectric_paste"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Itms.DIELECTRIC_PASTE, 16)
+        shapeless(RecipeCategory.MISC, Itms.DIELECTRIC_PASTE, 16)
                 .requires(ItemTags.COALS)
                 .requires(ItemTags.COALS)
                 .requires(Items.CLAY_BALL)
@@ -1320,9 +1305,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy("has_coals", has(ItemTags.COALS))
                 .unlockedBy(getHasName(Items.CLAY_BALL), has(Items.CLAY_BALL))
                 .unlockedBy(getHasName(Items.BLAZE_POWDER), has(Items.BLAZE_POWDER))
-                .save(output, Powah.id("crafting/dielectric_paste_2"));
+                .save(output, makeId("crafting/dielectric_paste_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.DIELECTRIC_ROD, 8)
+        shaped(RecipeCategory.MISC, Itms.DIELECTRIC_ROD, 8)
                 .pattern("pip")
                 .pattern("pip")
                 .pattern("pip")
@@ -1330,14 +1315,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .define('i', Items.IRON_BARS)
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Items.IRON_BARS), has(Items.IRON_BARS))
-                .save(output, Powah.id("crafting/dielectric_rod"));
+                .save(output, makeId("crafting/dielectric_rod"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Itms.DIELECTRIC_ROD)
+        shapeless(RecipeCategory.MISC, Itms.DIELECTRIC_ROD)
                 .requires(Itms.DIELECTRIC_ROD_HORIZONTAL)
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
-                .save(output, Powah.id("crafting/dielectric_rod_2"));
+                .save(output, makeId("crafting/dielectric_rod_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.DIELECTRIC_ROD_HORIZONTAL, 8)
+        shaped(RecipeCategory.MISC, Itms.DIELECTRIC_ROD_HORIZONTAL, 8)
                 .pattern("ppp")
                 .pattern("iii")
                 .pattern("ppp")
@@ -1345,14 +1330,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .define('i', Items.IRON_BARS)
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Items.IRON_BARS), has(Items.IRON_BARS))
-                .save(output, Powah.id("crafting/dielectric_rod_h"));
+                .save(output, makeId("crafting/dielectric_rod_h"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Itms.DIELECTRIC_ROD_HORIZONTAL)
+        shapeless(RecipeCategory.MISC, Itms.DIELECTRIC_ROD_HORIZONTAL)
                 .requires(Itms.DIELECTRIC_ROD)
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD), has(Itms.DIELECTRIC_ROD))
-                .save(output, Powah.id("crafting/dielectric_rod_h_2"));
+                .save(output, makeId("crafting/dielectric_rod_h_2"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.ENERGIZED_STEEL)
+        shapeless(RecipeCategory.MISC, Blcks.ENERGIZED_STEEL)
                 .requires(Itms.ENERGIZED_STEEL)
                 .requires(Itms.ENERGIZED_STEEL)
                 .requires(Itms.ENERGIZED_STEEL)
@@ -1363,9 +1348,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .requires(Itms.ENERGIZED_STEEL)
                 .requires(Itms.ENERGIZED_STEEL)
                 .unlockedBy(getHasName(Itms.ENERGIZED_STEEL), has(Itms.ENERGIZED_STEEL))
-                .save(output, Powah.id("crafting/energized_steel_block"));
+                .save(output, makeId("crafting/energized_steel_block"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.NIOTIC_CRYSTAL)
+        shapeless(RecipeCategory.MISC, Blcks.NIOTIC_CRYSTAL)
                 .requires(Itms.NIOTIC_CRYSTAL)
                 .requires(Itms.NIOTIC_CRYSTAL)
                 .requires(Itms.NIOTIC_CRYSTAL)
@@ -1376,9 +1361,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .requires(Itms.NIOTIC_CRYSTAL)
                 .requires(Itms.NIOTIC_CRYSTAL)
                 .unlockedBy(getHasName(Itms.NIOTIC_CRYSTAL), has(Itms.NIOTIC_CRYSTAL))
-                .save(output, Powah.id("crafting/niotic_crystal_block"));
+                .save(output, makeId("crafting/niotic_crystal_block"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.NITRO_CRYSTAL)
+        shapeless(RecipeCategory.MISC, Blcks.NITRO_CRYSTAL)
                 .requires(Itms.NITRO_CRYSTAL)
                 .requires(Itms.NITRO_CRYSTAL)
                 .requires(Itms.NITRO_CRYSTAL)
@@ -1389,9 +1374,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .requires(Itms.NITRO_CRYSTAL)
                 .requires(Itms.NITRO_CRYSTAL)
                 .unlockedBy(getHasName(Itms.NITRO_CRYSTAL), has(Itms.NITRO_CRYSTAL))
-                .save(output, Powah.id("crafting/nitro_crystal_block"));
+                .save(output, makeId("crafting/nitro_crystal_block"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.PHOTOELECTRIC_PANE)
+        shaped(RecipeCategory.MISC, Itms.PHOTOELECTRIC_PANE)
                 .pattern("dld")
                 .pattern("lpl")
                 .pattern("dld")
@@ -1401,9 +1386,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy("has_glass_panes", has(Tags.Items.GLASS_PANES))
                 .unlockedBy(getHasName(Items.LAPIS_LAZULI), has(Items.LAPIS_LAZULI))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
-                .save(output, Powah.id("crafting/photoelectric_pane"));
+                .save(output, makeId("crafting/photoelectric_pane"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.SPIRITED_CRYSTAL)
+        shapeless(RecipeCategory.MISC, Blcks.SPIRITED_CRYSTAL)
                 .requires(Itms.SPIRITED_CRYSTAL)
                 .requires(Itms.SPIRITED_CRYSTAL)
                 .requires(Itms.SPIRITED_CRYSTAL)
@@ -1414,14 +1399,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .requires(Itms.SPIRITED_CRYSTAL)
                 .requires(Itms.SPIRITED_CRYSTAL)
                 .unlockedBy(getHasName(Itms.SPIRITED_CRYSTAL), has(Itms.SPIRITED_CRYSTAL))
-                .save(output, Powah.id("crafting/spirited_crystal_block"));
+                .save(output, makeId("crafting/spirited_crystal_block"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Itms.ENERGIZED_STEEL, 9)
+        shapeless(RecipeCategory.MISC, Itms.ENERGIZED_STEEL, 9)
                 .requires(Blcks.ENERGIZED_STEEL)
                 .unlockedBy(getHasName(Blcks.ENERGIZED_STEEL), has(Blcks.ENERGIZED_STEEL))
-                .save(output, Powah.id("crafting/energized_steel"));
+                .save(output, makeId("crafting/energized_steel"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.THERMOELECTRIC_PLATE)
+        shaped(RecipeCategory.MISC, Itms.THERMOELECTRIC_PLATE)
                 .pattern("brb")
                 .pattern("rtr")
                 .pattern("brb")
@@ -1431,14 +1416,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Items.BLAZE_POWDER), has(Items.BLAZE_POWDER))
                 .unlockedBy(getHasName(Items.REDSTONE), has(Items.REDSTONE))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC_TINY), has(Itms.CAPACITOR_BASIC_TINY))
-                .save(output, Powah.id("crafting/thermoelectric_plate"));
+                .save(output, makeId("crafting/thermoelectric_plate"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Itms.URANINITE, 9)
+        shapeless(RecipeCategory.MISC, Itms.URANINITE, 9)
                 .requires(Blcks.URANINITE)
                 .unlockedBy(getHasName(Blcks.URANINITE), has(Blcks.URANINITE))
-                .save(output, Powah.id("crafting/uraninite"));
+                .save(output, makeId("crafting/uraninite"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Blcks.URANINITE)
+        shapeless(RecipeCategory.MISC, Blcks.URANINITE)
                 .requires(Itms.URANINITE)
                 .requires(Itms.URANINITE)
                 .requires(Itms.URANINITE)
@@ -1449,12 +1434,12 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .requires(Itms.URANINITE)
                 .requires(Itms.URANINITE)
                 .unlockedBy(getHasName(Itms.URANINITE), has(Itms.URANINITE))
-                .save(output, Powah.id("crafting/uraninite_block"));
+                .save(output, makeId("crafting/uraninite_block"));
 
     }
 
-    private static void capacitors(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.CAPACITOR_BASIC, 4)
+    private void capacitors() {
+        shaped(RecipeCategory.MISC, Itms.CAPACITOR_BASIC, 4)
                 .pattern(" ip")
                 .pattern("iri")
                 .pattern("pi ")
@@ -1464,21 +1449,21 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
                 .unlockedBy(getHasName(Items.REDSTONE_BLOCK), has(Items.REDSTONE_BLOCK))
-                .save(output, Powah.id("crafting/capacitor_basic"));
+                .save(output, makeId("crafting/capacitor_basic"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Itms.CAPACITOR_BASIC_LARGE)
+        shapeless(RecipeCategory.MISC, Itms.CAPACITOR_BASIC_LARGE)
                 .requires(Itms.CAPACITOR_BASIC)
                 .requires(Itms.CAPACITOR_BASIC)
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC), has(Itms.CAPACITOR_BASIC))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC), has(Itms.CAPACITOR_BASIC))
-                .save(output, Powah.id("crafting/capacitor_basic_large"));
+                .save(output, makeId("crafting/capacitor_basic_large"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Itms.CAPACITOR_BASIC_TINY, 2)
+        shapeless(RecipeCategory.MISC, Itms.CAPACITOR_BASIC_TINY, 2)
                 .requires(Itms.CAPACITOR_BASIC)
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC), has(Itms.CAPACITOR_BASIC))
-                .save(output, Powah.id("crafting/capacitor_basic_tiny"));
+                .save(output, makeId("crafting/capacitor_basic_tiny"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.CAPACITOR_BLAZING, 2)
+        shaped(RecipeCategory.MISC, Itms.CAPACITOR_BLAZING, 2)
                 .pattern("pbp")
                 .pattern("bcb")
                 .pattern("pbp")
@@ -1488,9 +1473,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC_LARGE), has(Itms.CAPACITOR_BASIC_LARGE))
                 .unlockedBy(getHasName(Itms.BLAZING_CRYSTAL), has(Itms.BLAZING_CRYSTAL))
-                .save(output, Powah.id("crafting/capacitor_blazing"));
+                .save(output, makeId("crafting/capacitor_blazing"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.CAPACITOR_HARDENED, 2)
+        shaped(RecipeCategory.MISC, Itms.CAPACITOR_HARDENED, 2)
                 .pattern("pbp")
                 .pattern("bcb")
                 .pattern("pbp")
@@ -1500,9 +1485,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC_LARGE), has(Itms.CAPACITOR_BASIC_LARGE))
                 .unlockedBy(getHasName(Itms.ENERGIZED_STEEL), has(Itms.ENERGIZED_STEEL))
-                .save(output, Powah.id("crafting/capacitor_hardened"));
+                .save(output, makeId("crafting/capacitor_hardened"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.CAPACITOR_NIOTIC)
+        shaped(RecipeCategory.MISC, Itms.CAPACITOR_NIOTIC)
                 .pattern("pbp")
                 .pattern("bcb")
                 .pattern("pbp")
@@ -1512,9 +1497,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC_LARGE), has(Itms.CAPACITOR_BASIC_LARGE))
                 .unlockedBy(getHasName(Itms.NIOTIC_CRYSTAL), has(Itms.NIOTIC_CRYSTAL))
-                .save(output, Powah.id("crafting/capacitor_niotic"));
+                .save(output, makeId("crafting/capacitor_niotic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.CAPACITOR_NITRO)
+        shaped(RecipeCategory.MISC, Itms.CAPACITOR_NITRO)
                 .pattern("pbp")
                 .pattern("bcb")
                 .pattern("pbp")
@@ -1524,9 +1509,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC_LARGE), has(Itms.CAPACITOR_BASIC_LARGE))
                 .unlockedBy(getHasName(Itms.NITRO_CRYSTAL), has(Itms.NITRO_CRYSTAL))
-                .save(output, Powah.id("crafting/capacitor_nitro"));
+                .save(output, makeId("crafting/capacitor_nitro"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.CAPACITOR_SPIRITED)
+        shaped(RecipeCategory.MISC, Itms.CAPACITOR_SPIRITED)
                 .pattern("pbp")
                 .pattern("bcb")
                 .pattern("pbp")
@@ -1536,11 +1521,11 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC_LARGE), has(Itms.CAPACITOR_BASIC_LARGE))
                 .unlockedBy(getHasName(Itms.SPIRITED_CRYSTAL), has(Itms.SPIRITED_CRYSTAL))
-                .save(output, Powah.id("crafting/capacitor_spirited"));
+                .save(output, makeId("crafting/capacitor_spirited"));
     }
 
-    private static void energyCable(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.BASIC), 6)
+    private void energyCable() {
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.BASIC), 6)
                 .pattern("ddd")
                 .pattern("tct")
                 .pattern("ddd")
@@ -1550,9 +1535,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC), has(Itms.CAPACITOR_BASIC))
                 .unlockedBy(getHasName(Blcks.ENERGY_CABLE.get(Tier.STARTER)), has(Blcks.ENERGY_CABLE.get(Tier.STARTER)))
-                .save(output, Powah.id("crafting/cable_basic"));
+                .save(output, makeId("crafting/cable_basic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.BASIC), 12)
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.BASIC), 12)
                 .pattern("ddd")
                 .pattern("ici")
                 .pattern("ddd")
@@ -1562,9 +1547,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC), has(Itms.CAPACITOR_BASIC))
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
-                .save(output, Powah.id("crafting/cable_basic_2"));
+                .save(output, makeId("crafting/cable_basic_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.BLAZING), 6)
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.BLAZING), 6)
                 .pattern("ddd")
                 .pattern("tct")
                 .pattern("ddd")
@@ -1574,9 +1559,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BLAZING), has(Itms.CAPACITOR_BLAZING))
                 .unlockedBy(getHasName(Blcks.ENERGY_CABLE.get(Tier.HARDENED)), has(Blcks.ENERGY_CABLE.get(Tier.HARDENED)))
-                .save(output, Powah.id("crafting/cable_blazing"));
+                .save(output, makeId("crafting/cable_blazing"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.BLAZING), 12)
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.BLAZING), 12)
                 .pattern("ddd")
                 .pattern("kck")
                 .pattern("ddd")
@@ -1586,9 +1571,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BLAZING), has(Itms.CAPACITOR_BLAZING))
                 .unlockedBy(getHasName(Itms.BLAZING_CRYSTAL), has(Itms.BLAZING_CRYSTAL))
-                .save(output, Powah.id("crafting/cable_blazing_2"));
+                .save(output, makeId("crafting/cable_blazing_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.HARDENED), 6)
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.HARDENED), 6)
                 .pattern("ddd")
                 .pattern("tct")
                 .pattern("ddd")
@@ -1598,9 +1583,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
                 .unlockedBy(getHasName(Itms.CAPACITOR_HARDENED), has(Itms.CAPACITOR_HARDENED))
                 .unlockedBy(getHasName(Blcks.ENERGY_CABLE.get(Tier.BASIC)), has(Blcks.ENERGY_CABLE.get(Tier.BASIC)))
-                .save(output, Powah.id("crafting/cable_hardened"));
+                .save(output, makeId("crafting/cable_hardened"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.HARDENED), 12)
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.HARDENED), 12)
                 .pattern("ddd")
                 .pattern("kck")
                 .pattern("ddd")
@@ -1610,9 +1595,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
                 .unlockedBy(getHasName(Itms.CAPACITOR_HARDENED), has(Itms.CAPACITOR_HARDENED))
                 .unlockedBy(getHasName(Itms.ENERGIZED_STEEL), has(Itms.ENERGIZED_STEEL))
-                .save(output, Powah.id("crafting/cable_hardened_2"));
+                .save(output, makeId("crafting/cable_hardened_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.NIOTIC), 6)
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.NIOTIC), 6)
                 .pattern("ddd")
                 .pattern("tct")
                 .pattern("ddd")
@@ -1622,9 +1607,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
                 .unlockedBy(getHasName(Itms.CAPACITOR_NIOTIC), has(Itms.CAPACITOR_NIOTIC))
                 .unlockedBy(getHasName(Blcks.ENERGY_CABLE.get(Tier.BLAZING)), has(Blcks.ENERGY_CABLE.get(Tier.BLAZING)))
-                .save(output, Powah.id("crafting/cable_niotic"));
+                .save(output, makeId("crafting/cable_niotic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.NIOTIC), 12)
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.NIOTIC), 12)
                 .pattern("ddd")
                 .pattern("kck")
                 .pattern("ddd")
@@ -1634,9 +1619,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
                 .unlockedBy(getHasName(Itms.CAPACITOR_NIOTIC), has(Itms.CAPACITOR_NIOTIC))
                 .unlockedBy(getHasName(Itms.NIOTIC_CRYSTAL), has(Itms.NIOTIC_CRYSTAL))
-                .save(output, Powah.id("crafting/cable_niotic_2"));
+                .save(output, makeId("crafting/cable_niotic_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.NITRO), 6)
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.NITRO), 6)
                 .pattern("ddd")
                 .pattern("tct")
                 .pattern("ddd")
@@ -1646,9 +1631,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
                 .unlockedBy(getHasName(Itms.CAPACITOR_NITRO), has(Itms.CAPACITOR_NITRO))
                 .unlockedBy(getHasName(Blcks.ENERGY_CABLE.get(Tier.SPIRITED)), has(Blcks.ENERGY_CABLE.get(Tier.SPIRITED)))
-                .save(output, Powah.id("crafting/cable_nitro"));
+                .save(output, makeId("crafting/cable_nitro"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.NITRO), 12)
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.NITRO), 12)
                 .pattern("ddd")
                 .pattern("kck")
                 .pattern("ddd")
@@ -1658,9 +1643,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
                 .unlockedBy(getHasName(Itms.CAPACITOR_NITRO), has(Itms.CAPACITOR_NITRO))
                 .unlockedBy(getHasName(Itms.NITRO_CRYSTAL), has(Itms.NITRO_CRYSTAL))
-                .save(output, Powah.id("crafting/cable_nitro_2"));
+                .save(output, makeId("crafting/cable_nitro_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.SPIRITED), 6)
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.SPIRITED), 6)
                 .pattern("ddd")
                 .pattern("tct")
                 .pattern("ddd")
@@ -1670,9 +1655,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
                 .unlockedBy(getHasName(Itms.CAPACITOR_SPIRITED), has(Itms.CAPACITOR_SPIRITED))
                 .unlockedBy(getHasName(Blcks.ENERGY_CABLE.get(Tier.NIOTIC)), has(Blcks.ENERGY_CABLE.get(Tier.NIOTIC)))
-                .save(output, Powah.id("crafting/cable_spirited"));
+                .save(output, makeId("crafting/cable_spirited"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.SPIRITED), 12)
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.SPIRITED), 12)
                 .pattern("ddd")
                 .pattern("kck")
                 .pattern("ddd")
@@ -1682,9 +1667,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
                 .unlockedBy(getHasName(Itms.CAPACITOR_SPIRITED), has(Itms.CAPACITOR_SPIRITED))
                 .unlockedBy(getHasName(Itms.SPIRITED_CRYSTAL), has(Itms.SPIRITED_CRYSTAL))
-                .save(output, Powah.id("crafting/cable_spirited_2"));
+                .save(output, makeId("crafting/cable_spirited_2"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.STARTER), 12)
+        shaped(RecipeCategory.MISC, Blcks.ENERGY_CABLE.get(Tier.STARTER), 12)
                 .pattern("ddd")
                 .pattern("iti")
                 .pattern("ddd")
@@ -1694,11 +1679,11 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.DIELECTRIC_ROD_HORIZONTAL), has(Itms.DIELECTRIC_ROD_HORIZONTAL))
                 .unlockedBy(getHasName(Items.IRON_NUGGET), has(Items.IRON_NUGGET))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC_TINY), has(Itms.CAPACITOR_BASIC_TINY))
-                .save(output, Powah.id("crafting/cable_starter"));
+                .save(output, makeId("crafting/cable_starter"));
     }
 
-    private static void battery(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.BATTERY.get(Tier.BASIC))
+    private void battery() {
+        shaped(RecipeCategory.MISC, Itms.BATTERY.get(Tier.BASIC))
                 .pattern("oko")
                 .pattern("iri")
                 .pattern("oco")
@@ -1712,9 +1697,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC_LARGE), has(Itms.CAPACITOR_BASIC_LARGE))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
-                .save(output, Powah.id("crafting/battery_basic"));
+                .save(output, makeId("crafting/battery_basic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.BATTERY.get(Tier.BLAZING))
+        shaped(RecipeCategory.MISC, Itms.BATTERY.get(Tier.BLAZING))
                 .pattern("oko")
                 .pattern("iri")
                 .pattern("oco")
@@ -1728,9 +1713,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_BLAZING), has(Itms.CAPACITOR_BLAZING))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.BLAZING_CRYSTAL), has(Itms.BLAZING_CRYSTAL))
-                .save(output, Powah.id("crafting/battery_blazing"));
+                .save(output, makeId("crafting/battery_blazing"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.BATTERY.get(Tier.HARDENED))
+        shaped(RecipeCategory.MISC, Itms.BATTERY.get(Tier.HARDENED))
                 .pattern("oko")
                 .pattern("iri")
                 .pattern("oco")
@@ -1744,9 +1729,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_HARDENED), has(Itms.CAPACITOR_HARDENED))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.ENERGIZED_STEEL), has(Itms.ENERGIZED_STEEL))
-                .save(output, Powah.id("crafting/battery_hardened"));
+                .save(output, makeId("crafting/battery_hardened"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.BATTERY.get(Tier.NIOTIC))
+        shaped(RecipeCategory.MISC, Itms.BATTERY.get(Tier.NIOTIC))
                 .pattern("oko")
                 .pattern("iri")
                 .pattern("oco")
@@ -1760,9 +1745,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_NIOTIC), has(Itms.CAPACITOR_NIOTIC))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.NIOTIC_CRYSTAL), has(Itms.NIOTIC_CRYSTAL))
-                .save(output, Powah.id("crafting/battery_niotic"));
+                .save(output, makeId("crafting/battery_niotic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.BATTERY.get(Tier.NITRO))
+        shaped(RecipeCategory.MISC, Itms.BATTERY.get(Tier.NITRO))
                 .pattern("oko")
                 .pattern("iri")
                 .pattern("oco")
@@ -1776,9 +1761,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_NITRO), has(Itms.CAPACITOR_NITRO))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.NITRO_CRYSTAL), has(Itms.NITRO_CRYSTAL))
-                .save(output, Powah.id("crafting/battery_nitro"));
+                .save(output, makeId("crafting/battery_nitro"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.BATTERY.get(Tier.SPIRITED))
+        shaped(RecipeCategory.MISC, Itms.BATTERY.get(Tier.SPIRITED))
                 .pattern("oko")
                 .pattern("iri")
                 .pattern("oco")
@@ -1792,9 +1777,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Itms.CAPACITOR_SPIRITED), has(Itms.CAPACITOR_SPIRITED))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .unlockedBy(getHasName(Itms.SPIRITED_CRYSTAL), has(Itms.SPIRITED_CRYSTAL))
-                .save(output, Powah.id("crafting/battery_spirited"));
+                .save(output, makeId("crafting/battery_spirited"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Itms.BATTERY.get(Tier.STARTER))
+        shaped(RecipeCategory.MISC, Itms.BATTERY.get(Tier.STARTER))
                 .pattern("oio")
                 .pattern("ici")
                 .pattern("oio")
@@ -1804,11 +1789,11 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .unlockedBy(getHasName(Items.REDSTONE_BLOCK), has(Items.REDSTONE_BLOCK))
                 .unlockedBy(getHasName(Itms.CAPACITOR_BASIC), has(Itms.CAPACITOR_BASIC))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
-                .save(output, Powah.id("crafting/battery_starter"));
+                .save(output, makeId("crafting/battery_starter"));
     }
 
-    private static void thermoGenerator(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.THERMO_GENERATOR.get(Tier.BASIC))
+    private void thermoGenerator() {
+        shaped(RecipeCategory.MISC, Blcks.THERMO_GENERATOR.get(Tier.BASIC))
                 .pattern("eie")
                 .pattern("cdc")
                 .pattern("ptp")
@@ -1819,9 +1804,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .define('d', Itms.DIELECTRIC_CASING)
                 .define('t', Blcks.THERMO_GENERATOR.get(Tier.STARTER))
                 .unlockedBy(getHasName(Blcks.THERMO_GENERATOR.get(Tier.STARTER)), has(Blcks.THERMO_GENERATOR.get(Tier.STARTER)))
-                .save(output, Powah.id("crafting/thermo_generator_basic"));
+                .save(output, makeId("crafting/thermo_generator_basic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.THERMO_GENERATOR.get(Tier.BLAZING))
+        shaped(RecipeCategory.MISC, Blcks.THERMO_GENERATOR.get(Tier.BLAZING))
                 .pattern("igi")
                 .pattern("cdc")
                 .pattern("ptp")
@@ -1832,9 +1817,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .define('d', Itms.DIELECTRIC_CASING)
                 .define('t', Blcks.THERMO_GENERATOR.get(Tier.HARDENED))
                 .unlockedBy(getHasName(Blcks.THERMO_GENERATOR.get(Tier.HARDENED)), has(Blcks.THERMO_GENERATOR.get(Tier.HARDENED)))
-                .save(output, Powah.id("crafting/thermo_generator_blazing"));
+                .save(output, makeId("crafting/thermo_generator_blazing"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.THERMO_GENERATOR.get(Tier.HARDENED))
+        shaped(RecipeCategory.MISC, Blcks.THERMO_GENERATOR.get(Tier.HARDENED))
                 .pattern("igi")
                 .pattern("cdc")
                 .pattern("ptp")
@@ -1845,9 +1830,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .define('d', Itms.DIELECTRIC_CASING)
                 .define('t', Blcks.THERMO_GENERATOR.get(Tier.BASIC))
                 .unlockedBy(getHasName(Blcks.THERMO_GENERATOR.get(Tier.BASIC)), has(Blcks.THERMO_GENERATOR.get(Tier.BASIC)))
-                .save(output, Powah.id("crafting/thermo_generator_hardened"));
+                .save(output, makeId("crafting/thermo_generator_hardened"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.THERMO_GENERATOR.get(Tier.NIOTIC))
+        shaped(RecipeCategory.MISC, Blcks.THERMO_GENERATOR.get(Tier.NIOTIC))
                 .pattern("igi")
                 .pattern("cdc")
                 .pattern("ptp")
@@ -1858,9 +1843,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .define('d', Itms.DIELECTRIC_CASING)
                 .define('t', Blcks.THERMO_GENERATOR.get(Tier.BLAZING))
                 .unlockedBy(getHasName(Blcks.THERMO_GENERATOR.get(Tier.BLAZING)), has(Blcks.THERMO_GENERATOR.get(Tier.BLAZING)))
-                .save(output, Powah.id("crafting/thermo_generator_niotic"));
+                .save(output, makeId("crafting/thermo_generator_niotic"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.THERMO_GENERATOR.get(Tier.NITRO))
+        shaped(RecipeCategory.MISC, Blcks.THERMO_GENERATOR.get(Tier.NITRO))
                 .pattern("igi")
                 .pattern("cdc")
                 .pattern("ptp")
@@ -1871,9 +1856,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .define('d', Itms.DIELECTRIC_CASING)
                 .define('t', Blcks.THERMO_GENERATOR.get(Tier.SPIRITED))
                 .unlockedBy(getHasName(Blcks.THERMO_GENERATOR.get(Tier.SPIRITED)), has(Blcks.THERMO_GENERATOR.get(Tier.SPIRITED)))
-                .save(output, Powah.id("crafting/thermo_generator_nitro"));
+                .save(output, makeId("crafting/thermo_generator_nitro"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.THERMO_GENERATOR.get(Tier.SPIRITED))
+        shaped(RecipeCategory.MISC, Blcks.THERMO_GENERATOR.get(Tier.SPIRITED))
                 .pattern("igi")
                 .pattern("cdc")
                 .pattern("ptp")
@@ -1884,9 +1869,9 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .define('d', Itms.DIELECTRIC_CASING)
                 .define('t', Blcks.THERMO_GENERATOR.get(Tier.NIOTIC))
                 .unlockedBy(getHasName(Blcks.THERMO_GENERATOR.get(Tier.NIOTIC)), has(Blcks.THERMO_GENERATOR.get(Tier.NIOTIC)))
-                .save(output, Powah.id("crafting/thermo_generator_spirited"));
+                .save(output, makeId("crafting/thermo_generator_spirited"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blcks.THERMO_GENERATOR.get(Tier.STARTER))
+        shaped(RecipeCategory.MISC, Blcks.THERMO_GENERATOR.get(Tier.STARTER))
                 .pattern("iii")
                 .pattern("cdc")
                 .pattern("ppp")
@@ -1895,54 +1880,54 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .define('p', Itms.THERMOELECTRIC_PLATE)
                 .define('d', Itms.DIELECTRIC_CASING)
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
-                .save(output, Powah.id("crafting/thermo_generator_starter"));
+                .save(output, makeId("crafting/thermo_generator_starter"));
     }
 
-    private void energizingRecipes(RecipeOutput output) {
-        output.accept(Powah.id("energizing/blazing_crystal"),
+    private void energizingRecipes() {
+        output.accept(makeId("energizing/blazing_crystal"),
                 new EnergizingRecipe(Itms.BLAZING_CRYSTAL.toStack(), 120000, List.of(Ingredient.of(Items.BLAZE_POWDER),
                         Ingredient.of(Items.BLAZE_POWDER), Ingredient.of(Items.BLAZE_POWDER), Ingredient.of(Items.BLAZE_POWDER))),
                 null);
-        output.accept(Powah.id("energizing/blazing_crystal_2"),
-                new EnergizingRecipe(Itms.BLAZING_CRYSTAL.toStack(), 120000, List.of(Ingredient.of(Tags.Items.RODS_BLAZE))), null);
-        output.accept(Powah.id("energizing/charged_snowball"),
+        output.accept(makeId("energizing/blazing_crystal_2"),
+                new EnergizingRecipe(Itms.BLAZING_CRYSTAL.toStack(), 120000, List.of(tag(Tags.Items.RODS_BLAZE))), null);
+        output.accept(makeId("energizing/charged_snowball"),
                 new EnergizingRecipe(Itms.CHARGED_SNOWBALL.toStack(), 500000, List.of(Ingredient.of(Items.SNOWBALL))), null);
-        output.accept(Powah.id("energizing/dry_ice"), new EnergizingRecipe(Blcks.DRY_ICE.toStack(), 10000,
-                List.of(Ingredient.of(ITags.Items.ICES_BLUE), Ingredient.of(ITags.Items.ICES_BLUE))), null);
-        output.accept(Powah.id("energizing/ender_core"),
+        output.accept(makeId("energizing/dry_ice"), new EnergizingRecipe(Blcks.DRY_ICE.toStack(), 10000,
+                List.of(tag(ITags.Items.ICES_BLUE), tag(ITags.Items.ICES_BLUE))), null);
+        output.accept(makeId("energizing/ender_core"),
                 new EnergizingRecipe(Itms.ENDER_CORE.toStack(), 50000,
                         List.of(Ingredient.of(Items.ENDER_EYE), Ingredient.of(Itms.DIELECTRIC_CASING), Ingredient.of(Itms.CAPACITOR_BASIC_TINY))),
                 null);
-        output.accept(Powah.id("energizing/energized_steel"), new EnergizingRecipe(Itms.ENERGIZED_STEEL.toStack(2), 10000,
-                List.of(Ingredient.of(Tags.Items.INGOTS_IRON), Ingredient.of(Tags.Items.INGOTS_GOLD))), null);
-        output.accept(Powah.id("energizing/niotic_crystal"),
-                new EnergizingRecipe(Itms.NIOTIC_CRYSTAL.toStack(), 300000, List.of(Ingredient.of(Tags.Items.GEMS_DIAMOND))), null);
-        output.accept(Powah.id("energizing/nitro_crystal"),
+        output.accept(makeId("energizing/energized_steel"), new EnergizingRecipe(Itms.ENERGIZED_STEEL.toStack(2), 10000,
+                List.of(tag(Tags.Items.INGOTS_IRON), tag(Tags.Items.INGOTS_GOLD))), null);
+        output.accept(makeId("energizing/niotic_crystal"),
+                new EnergizingRecipe(Itms.NIOTIC_CRYSTAL.toStack(), 300000, List.of(tag(Tags.Items.GEMS_DIAMOND))), null);
+        output.accept(makeId("energizing/nitro_crystal"),
                 new EnergizingRecipe(Itms.NITRO_CRYSTAL.toStack(16), 20000000,
-                        List.of(Ingredient.of(Tags.Items.NETHER_STARS), Ingredient.of(Tags.Items.STORAGE_BLOCKS_REDSTONE),
-                                Ingredient.of(Tags.Items.STORAGE_BLOCKS_REDSTONE), Ingredient.of(Blcks.BLAZING_CRYSTAL))),
+                        List.of(tag(Tags.Items.NETHER_STARS), tag(Tags.Items.STORAGE_BLOCKS_REDSTONE),
+                                tag(Tags.Items.STORAGE_BLOCKS_REDSTONE), Ingredient.of(Blcks.BLAZING_CRYSTAL))),
                 null);
-        output.accept(Powah.id("energizing/spirited_crystal"),
-                new EnergizingRecipe(Itms.SPIRITED_CRYSTAL.toStack(), 1000000, List.of(Ingredient.of(Tags.Items.GEMS_EMERALD))), null);
-        output.accept(Powah.id("energizing/uraninite_from_ore"),
-                new EnergizingRecipe(Itms.URANINITE.toStack(5), 50000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE_REGULAR))), null);
-        output.accept(Powah.id("energizing/uraninite_from_ore_dense"),
-                new EnergizingRecipe(Itms.URANINITE.toStack(10), 100000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE_DENSE))), null);
-        output.accept(Powah.id("energizing/uraninite_from_ore_poor"),
-                new EnergizingRecipe(Itms.URANINITE.toStack(3), 25000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE_POOR))), null);
-        output.accept(Powah.id("energizing/uraninite_from_raw"),
+        output.accept(makeId("energizing/spirited_crystal"),
+                new EnergizingRecipe(Itms.SPIRITED_CRYSTAL.toStack(), 1000000, List.of(tag(Tags.Items.GEMS_EMERALD))), null);
+        output.accept(makeId("energizing/uraninite_from_ore"),
+                new EnergizingRecipe(Itms.URANINITE.toStack(5), 50000, List.of(tag(ITags.Items.URANINITE_ORE_REGULAR))), null);
+        output.accept(makeId("energizing/uraninite_from_ore_dense"),
+                new EnergizingRecipe(Itms.URANINITE.toStack(10), 100000, List.of(tag(ITags.Items.URANINITE_ORE_DENSE))), null);
+        output.accept(makeId("energizing/uraninite_from_ore_poor"),
+                new EnergizingRecipe(Itms.URANINITE.toStack(3), 25000, List.of(tag(ITags.Items.URANINITE_ORE_POOR))), null);
+        output.accept(makeId("energizing/uraninite_from_raw"),
                 new EnergizingRecipe(Itms.URANINITE.toStack(2), 2000, List.of(Ingredient.of(Itms.URANINITE_RAW))), null);
-        output.withConditions(new NotCondition(new TagEmptyCondition(ITags.Items.URANIUM_INGOTS)))
-                .accept(Powah.id("energizing/uraninite_from_uranium"),
-                        new EnergizingRecipe(Itms.URANINITE.toStack(), 30000, List.of(Ingredient.of(ITags.Items.URANIUM_INGOTS))), null);
+        output.withConditions(new NotCondition(new TagEmptyCondition<>(ITags.Items.URANIUM_INGOTS)))
+                .accept(makeId("energizing/uraninite_from_uranium"),
+                        new EnergizingRecipe(Itms.URANINITE.toStack(), 30000, List.of(tag(ITags.Items.URANIUM_INGOTS))), null);
     }
 
-    private void smelting(RecipeOutput output) {
+    private void smelting() {
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(Itms.URANINITE_RAW), RecipeCategory.MISC, Itms.URANINITE.toStack(), 0.7f, 200)
                 .unlockedBy(getHasName(Itms.URANINITE_RAW), has(Itms.URANINITE_RAW))
-                .save(output, Powah.id("smelting/uraninite_from_raw"));
+                .save(output, makeId("smelting/uraninite_from_raw"));
         SimpleCookingRecipeBuilder.blasting(Ingredient.of(Itms.URANINITE_RAW), RecipeCategory.MISC, Itms.URANINITE.toStack(), 0.7f, 100)
                 .unlockedBy(getHasName(Itms.URANINITE_RAW), has(Itms.URANINITE_RAW))
-                .save(output, Powah.id("smelting/uraninite_from_raw_blasting"));
+                .save(output, makeId("smelting/uraninite_from_raw_blasting"));
     }
 }

@@ -5,7 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
@@ -17,13 +17,11 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.util.TriState;
+import net.minecraft.util.TriState;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import owmii.powah.api.FluidCoolantConfig;
 import owmii.powah.api.MagmatorFuelValue;
 import owmii.powah.api.PassiveHeatSourceConfig;
@@ -39,7 +37,7 @@ import owmii.powah.entity.Entities;
 import owmii.powah.inventory.Containers;
 import owmii.powah.item.CreativeTabs;
 import owmii.powah.item.Itms;
-import owmii.powah.lib.block.AbstractEnergyStorage;
+import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
 import owmii.powah.lib.block.IBlock;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
@@ -55,10 +53,9 @@ import owmii.powah.util.Wrench;
 public class Powah {
     public static final String MOD_ID = "powah";
     private static final ConfigHolder<PowahConfig> CONFIG = PowahConfig.register();
-    public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
-    public static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    public static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(MOD_ID, path);
     }
 
     public static PowahConfig config() {
@@ -88,7 +85,7 @@ public class Powah {
             }
             if (Wrench.removeWithWrench(event.getEntity(), event.getLevel(), event.getHand(), event.getHitVec())) {
                 event.setCanceled(true);
-                event.setCancellationResult(InteractionResult.sidedSuccess(event.getLevel().isClientSide));
+                event.setCancellationResult(InteractionResult.SUCCESS);
             }
         });
         NeoForge.EVENT_BUS.addListener((ChunkEvent.Unload event) -> {
@@ -112,16 +109,16 @@ public class Powah {
 
     private void registerTransfer(RegisterCapabilitiesEvent event) {
         // Special handling, since reactor parts delegate to their core
-        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, Tiles.REACTOR_PART.get(), (reactorPart, unused) -> {
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, Tiles.REACTOR_PART.get(), (reactorPart, unused) -> {
             if (reactorPart.isExtractor()) {
                 return reactorPart.getCoreEnergyStorage();
             }
             return null;
         });
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, Tiles.REACTOR_PART.get(), (reactorPart, unused) -> {
+        event.registerBlockEntity(Capabilities.Item.BLOCK, Tiles.REACTOR_PART.get(), (reactorPart, unused) -> {
             return reactorPart.getCoreItemHandler();
         });
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, Tiles.REACTOR_PART.get(), (reactorPart, unused) -> {
+        event.registerBlockEntity(Capabilities.Fluid.BLOCK, Tiles.REACTOR_PART.get(), (reactorPart, unused) -> {
             return reactorPart.getCoreFluidHandler();
         });
 
@@ -137,7 +134,7 @@ public class Powah {
 
         for (var entry : Itms.DR.getEntries()) {
             if (entry.get() instanceof IEnergyContainingItem eci) {
-                event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, unused) -> {
+                event.registerItem(Capabilities.Energy.ITEM, (stack, unused) -> {
                     var info = eci.getEnergyInfo();
                     if (info == null) {
                         return null;
@@ -151,14 +148,14 @@ public class Powah {
     }
 
     private static void registerBlockEntityCapability(RegisterCapabilitiesEvent event, BlockEntityType<?> beType, Class<?> beClass) {
-        if (AbstractEnergyStorage.class.isAssignableFrom(beClass)) {
-            event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, beType, (o, side) -> {
-                var energyStorage = (AbstractEnergyStorage<?, ?>) o;
+        if (AbstractEnergyStorageBlockEntity.class.isAssignableFrom(beClass)) {
+            event.registerBlockEntity(Capabilities.Energy.BLOCK, beType, (o, side) -> {
+                var energyStorage = (AbstractEnergyStorageBlockEntity<?, ?>) o;
                 return energyStorage.getExternalStorage(side);
             });
         }
         if (IInventoryHolder.class.isAssignableFrom(beClass)) {
-            event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, beType, (o, direction) -> {
+            event.registerBlockEntity(Capabilities.Item.BLOCK, beType, (o, direction) -> {
                 var inv = ((IInventoryHolder) o).getInventory();
                 if (!inv.isBlank()) {
                     return inv;
@@ -167,7 +164,7 @@ public class Powah {
             });
         }
         if (ITankHolder.class.isAssignableFrom(beClass)) {
-            event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, beType, (o, direction) -> {
+            event.registerBlockEntity(Capabilities.Fluid.BLOCK, beType, (o, direction) -> {
                 return ((ITankHolder) o).getTank();
             });
         }
@@ -178,7 +175,7 @@ public class Powah {
             if (event.getRegistryKey() == Registries.ITEM) {
                 for (var entry : BuiltInRegistries.BLOCK.entrySet()) {
                     var id = entry.getKey();
-                    if (id.location().getNamespace().equals(MOD_ID)) {
+                    if (id.identifier().getNamespace().equals(MOD_ID)) {
                         var block = entry.getValue();
                         BlockItem blockItem;
                         if (block instanceof IBlock<?, ?> iBlock) {

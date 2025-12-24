@@ -7,35 +7,34 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import owmii.powah.Powah;
 import owmii.powah.block.Blcks;
 import owmii.powah.recipe.ReactorFuel;
 
 public class JeiReactorFuelCategory extends AbstractCategory<JeiReactorFuelCategory.Recipe> {
-    public static final RecipeType<Recipe> TYPE = RecipeType.create(Powah.MOD_ID, "reactor_fuel", Recipe.class);
+    public static final IRecipeType<Recipe> TYPE = IRecipeType.create(Powah.MOD_ID, "reactor_fuel", Recipe.class);
 
     public JeiReactorFuelCategory(IGuiHelper guiHelper) {
-        super(guiHelper, Blcks.URANINITE.get(), Component.translatable("gui.powah.jei.category.reactor.fuels"),
-                guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build());
+        super(guiHelper, Blcks.URANINITE.get(), Component.translatable("gui.powah.jei.category.reactor.fuels"), 160, 24);
+                // TODO 26.1: guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build());
     }
 
     @Override
-    public RecipeType<Recipe> getRecipeType() {
+    public IRecipeType<Recipe> getRecipeType() {
         return TYPE;
     }
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, Recipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 4, 5)
-                .addItemStack(recipe.input());
+        builder.addSlot(RecipeIngredientRole.INPUT, 4, 5).add(recipe.input());
     }
 
     @Override
@@ -66,6 +65,6 @@ public class JeiReactorFuelCategory extends AbstractCategory<JeiReactorFuelCateg
         return recipes;
     }
 
-    public record Recipe(ItemStack input, ResourceLocation id, ReactorFuel reactorFuel) {
+    public record Recipe(ItemStack input, Identifier id, ReactorFuel reactorFuel) {
     }
 }

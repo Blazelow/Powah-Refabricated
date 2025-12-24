@@ -11,7 +11,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -23,7 +23,7 @@ import owmii.powah.Powah;
 import owmii.powah.recipe.Recipes;
 
 public class EnergizingRecipe implements Recipe<RecipeInput> {
-    public static final ResourceLocation ID = Powah.id("energizing");
+    public static final Identifier ID = Powah.id("energizing");
     private final ItemStack output;
     private final long energy;
     private final NonNullList<Ingredient> ingredients;

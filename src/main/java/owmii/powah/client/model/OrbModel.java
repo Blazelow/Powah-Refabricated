@@ -7,13 +7,13 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import owmii.powah.Powah;
-import owmii.powah.block.energizing.EnergizingOrbTile;
+import owmii.powah.block.energizing.EnergizingOrbBlockEntity;
 import owmii.powah.client.render.tile.EnergizingOrbRenderer;
 import owmii.powah.lib.client.util.RenderTypes;
 
-public class OrbModel extends AbstractModel<EnergizingOrbTile, EnergizingOrbRenderer> {
+public class OrbModel extends AbstractModel<EnergizingOrbBlockEntity, EnergizingOrbRenderer> {
     private static final String CUBE = "cube";
 
     final ModelPart cube;
@@ -31,10 +31,10 @@ public class OrbModel extends AbstractModel<EnergizingOrbTile, EnergizingOrbRend
         return LayerDefinition.create(meshDefinition, 20, 10);
     }
 
-    public static final ResourceLocation TEXTURE = Powah.id("textures/model/tile/energy_charge.png");
+    public static final Identifier TEXTURE = Powah.id("textures/model/tile/energy_charge.png");
 
     @Override
-    public void render(EnergizingOrbTile te, EnergizingOrbRenderer renderer, PoseStack matrix, MultiBufferSource rtb, int light, int ov) {
+    public void render(EnergizingOrbBlockEntity te, EnergizingOrbRenderer renderer, PoseStack matrix, MultiBufferSource rtb, int light, int ov) {
         this.cube.render(matrix, rtb.getBuffer(renderType(TEXTURE)), light, ov);
     }
 }

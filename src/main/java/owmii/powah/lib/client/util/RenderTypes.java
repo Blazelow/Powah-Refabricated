@@ -6,8 +6,8 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.resources.Identifier;
 
 public class RenderTypes extends RenderType {
     protected static final RenderStateShard.TransparencyStateShard BLENDED = new RenderStateShard.TransparencyStateShard("blended", () -> {
@@ -29,11 +29,11 @@ public class RenderTypes extends RenderType {
                 RenderSystem.defaultBlendFunc();
             });
 
-    public static RenderType entityBlendedNoDept(ResourceLocation location) {
+    public static RenderType entityBlendedNoDept(Identifier location) {
         return makeBlendNoDept(location, true);
     }
 
-    public static RenderType makeBlendNoDept(ResourceLocation location, boolean b) {
+    public static RenderType makeBlendNoDept(Identifier location, boolean b) {
         CompositeState state = CompositeState.builder().setTextureState(new TextureStateShard(location, false, false))
                 .setTransparencyState(BLENDED_NO_DEPT)
                 .setShaderState(new RenderStateShard.ShaderStateShard(
@@ -43,7 +43,7 @@ public class RenderTypes extends RenderType {
         return create("blend_bo_dept", DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 256, true, true, state);
     }
 
-    public static RenderType createReactorOverlay(ResourceLocation locationIn) {
+    public static RenderType createReactorOverlay(Identifier locationIn) {
         CompositeState state = CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
                 .setShaderState(RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
                 .setTransparencyState(BLENDED)

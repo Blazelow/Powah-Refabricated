@@ -2,16 +2,16 @@ package owmii.powah.inventory;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import owmii.powah.block.energycell.EnergyCellTile;
+import owmii.powah.block.energycell.EnergyCellBlockEntity;
 import owmii.powah.lib.logistics.inventory.AbstractEnergyContainer;
 import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 
-public class EnergyCellContainer extends AbstractEnergyContainer<EnergyCellTile> {
+public class EnergyCellContainer extends AbstractEnergyContainer<EnergyCellBlockEntity> {
     public EnergyCellContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.ENERGY_CELL.get(), id, inventory, buffer);
     }
 
-    public EnergyCellContainer(int id, Inventory inventory, EnergyCellTile te) {
+    public EnergyCellContainer(int id, Inventory inventory, EnergyCellBlockEntity te) {
         super(Containers.ENERGY_CELL.get(), id, inventory, te);
     }
 
@@ -20,7 +20,7 @@ public class EnergyCellContainer extends AbstractEnergyContainer<EnergyCellTile>
     }
 
     @Override
-    protected void init(Inventory inventory, EnergyCellTile te) {
+    protected void init(Inventory inventory, EnergyCellBlockEntity te) {
         super.init(inventory);
         addSlot(new SlotBase(te.getInventory(), 0, 4, 4));
         addSlot(new SlotBase(te.getInventory(), 1, 4, 29));

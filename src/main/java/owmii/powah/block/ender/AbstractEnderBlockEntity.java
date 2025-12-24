@@ -19,14 +19,14 @@ import owmii.powah.api.energy.endernetwork.IEnderExtender;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.EnderConfig;
 import owmii.powah.lib.block.AbstractEnergyBlock;
-import owmii.powah.lib.block.AbstractEnergyStorage;
+import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.IOwnable;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Player;
 import owmii.powah.util.math.RangedInt;
 
-public class AbstractEnderTile<B extends AbstractEnergyBlock<EnderConfig, B>> extends AbstractEnergyStorage<EnderConfig, B>
+public class AbstractEnderBlockEntity<B extends AbstractEnergyBlock<EnderConfig, B>> extends AbstractEnergyStorageBlockEntity<EnderConfig, B>
         implements IOwnable, IInventoryHolder {
     private final RangedInt channel = new RangedInt(12);
 
@@ -34,7 +34,7 @@ public class AbstractEnderTile<B extends AbstractEnergyBlock<EnderConfig, B>> ex
     private GameProfile owner;
     private boolean flag;
 
-    public AbstractEnderTile(BlockEntityType<?> type, BlockPos pos, BlockState state, Tier variant) {
+    public AbstractEnderBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Tier variant) {
         super(type, pos, state, variant);
     }
 

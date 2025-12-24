@@ -17,10 +17,10 @@ import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.util.NBT;
 
-public class ReactorPartTile extends AbstractTileEntity<Tier, ReactorBlock> {
+public class ReactorPartBlockEntity extends PowahAbstractBlockEntity<Tier, ReactorBlock> {
     private BlockPos corePos = BlockPos.ZERO;
     private boolean extractor;
     private boolean built;
@@ -33,11 +33,11 @@ public class ReactorPartTile extends AbstractTileEntity<Tier, ReactorBlock> {
     @Nullable
     private BlockCapabilityCache<IFluidHandler, Direction> coreFluidCache;
 
-    public ReactorPartTile(BlockPos pos, BlockState state, Tier variant) {
+    public ReactorPartBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.REACTOR_PART.get(), pos, state, variant);
     }
 
-    public ReactorPartTile(BlockPos pos, BlockState state) {
+    public ReactorPartBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
     }
 
@@ -59,7 +59,7 @@ public class ReactorPartTile extends AbstractTileEntity<Tier, ReactorBlock> {
 
     public void demolish(Level world) {
         BlockEntity tile = world.getBlockEntity(this.corePos);
-        if (tile instanceof ReactorTile reactor) {
+        if (tile instanceof ReactorBlockEntity reactor) {
             reactor.demolish(world);
         }
     }
@@ -100,11 +100,11 @@ public class ReactorPartTile extends AbstractTileEntity<Tier, ReactorBlock> {
         }
     }
 
-    public Optional<ReactorTile> core() {
+    public Optional<ReactorBlockEntity> core() {
         if (this.level != null) {
             BlockEntity tile = this.level.getBlockEntity(this.corePos);
-            if (tile instanceof ReactorTile reactorTile) {
-                return Optional.of(reactorTile);
+            if (tile instanceof ReactorBlockEntity reactorBlockEntity) {
+                return Optional.of(reactorBlockEntity);
             }
         }
         return Optional.empty();

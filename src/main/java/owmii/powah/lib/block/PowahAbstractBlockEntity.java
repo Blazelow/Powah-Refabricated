@@ -21,7 +21,7 @@ import owmii.powah.lib.logistics.inventory.Inventory;
 import owmii.powah.lib.registry.IVariant;
 
 @SuppressWarnings("unchecked")
-public class AbstractTileEntity<V extends IVariant, B extends AbstractBlock<V, B>> extends BlockEntity implements IBlockEntity, IRedstoneInteract {
+public class PowahAbstractBlockEntity<V extends IVariant, B extends PowahAbstractBlock<V, B>> extends BlockEntity implements IBlockEntity, IRedstoneInteract {
     /**
      * Used when this is instance of {@link IInventoryHolder}
      **/
@@ -38,12 +38,12 @@ public class AbstractTileEntity<V extends IVariant, B extends AbstractBlock<V, B
      **/
     private Redstone redstone = Redstone.IGNORE;
 
-    public AbstractTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public PowahAbstractBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         this(type, pos, state, IVariant.getEmpty());
         this.tank.setValidator(stack -> true);
     }
 
-    public AbstractTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, V variant) {
+    public PowahAbstractBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, V variant) {
         super(type, pos, state);
         this.variant = variant;
         if (this instanceof IInventoryHolder) {
@@ -161,12 +161,10 @@ public class AbstractTileEntity<V extends IVariant, B extends AbstractBlock<V, B
     }
 
     @Override
-    public void onRemoved(Level world, BlockState state, BlockState newState, boolean isMoving) {
-        if (state.getBlock() != newState.getBlock()) {
-            if (this instanceof IInventoryHolder) {
-                if (!keepInventory() || !keepStorable()) {
-                    getInventory().drop(world, this.worldPosition);
-                }
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        if (this instanceof IInventoryHolder) {
+            if (!keepInventory() || !keepStorable()) {
+                getInventory().drop(getLevel(), this.worldPosition);
             }
         }
     }
@@ -221,7 +219,7 @@ public class AbstractTileEntity<V extends IVariant, B extends AbstractBlock<V, B
     }
 
     public boolean isRemote() {
-        return this.level != null && this.level.isClientSide;
+        return this.level != null && this.level.isClientSide();
     }
 
     public void setContainerOpen(boolean value) {

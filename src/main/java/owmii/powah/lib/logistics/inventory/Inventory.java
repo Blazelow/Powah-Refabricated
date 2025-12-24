@@ -10,7 +10,7 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.item.Stacks;
 import owmii.powah.util.Util;
@@ -37,11 +37,11 @@ public class Inventory extends ItemStackHandler {
         this.tile = tile;
     }
 
-    public static <I extends AbstractTileEntity & owmii.powah.lib.block.IInventoryHolder> Inventory create(int size, @Nullable I tile) {
+    public static <I extends PowahAbstractBlockEntity & owmii.powah.lib.block.IInventoryHolder> Inventory create(int size, @Nullable I tile) {
         return new Inventory(size, tile);
     }
 
-    public static <I extends AbstractTileEntity & owmii.powah.lib.block.IInventoryHolder> Inventory createBlank(@Nullable I tile) {
+    public static <I extends PowahAbstractBlockEntity & owmii.powah.lib.block.IInventoryHolder> Inventory createBlank(@Nullable I tile) {
         return new Inventory(0, tile);
     }
 

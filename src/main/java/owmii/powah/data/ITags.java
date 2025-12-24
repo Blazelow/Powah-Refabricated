@@ -1,6 +1,6 @@
 package owmii.powah.data;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -37,7 +37,7 @@ public class ITags {
         public static final TagKey<Block> ENERGY_DISCHARGERS = powah("energy_dischargers");
 
         private static TagKey<Block> tag(String name) {
-            return BlockTags.create(ResourceLocation.fromNamespaceAndPath("c", name));
+            return BlockTags.create(Identifier.fromNamespaceAndPath("c", name));
         }
 
         private static TagKey<Block> powah(String name) {
@@ -77,7 +77,7 @@ public class ITags {
         public static final TagKey<Item> ENERGY_DISCHARGERS = powah("energy_dischargers");
 
         private static TagKey<Item> tag(String name) {
-            return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", name));
+            return ItemTags.create(Identifier.fromNamespaceAndPath("c", name));
         }
 
         private static TagKey<Item> powah(String name) {

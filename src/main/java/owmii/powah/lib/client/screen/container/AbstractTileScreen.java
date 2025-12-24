@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.neoforged.neoforge.fluids.FluidStack;
 import owmii.powah.client.ClientUtils;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.client.screen.Texture;
 import owmii.powah.lib.client.screen.widget.IconButton;
@@ -24,7 +24,7 @@ import owmii.powah.network.Network;
 import owmii.powah.network.packet.NextRedstoneModePacket;
 import owmii.powah.util.Util;
 
-public class AbstractTileScreen<T extends AbstractTileEntity<?, ?> & IInventoryHolder, C extends AbstractTileContainer<T>>
+public class AbstractTileScreen<T extends PowahAbstractBlockEntity<?, ?> & IInventoryHolder, C extends AbstractTileContainer<T>>
         extends AbstractContainerScreen<C> {
     protected final T te;
     protected IconButton redStoneButton = IconButton.EMPTY;

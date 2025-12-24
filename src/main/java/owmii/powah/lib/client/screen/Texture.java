@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import owmii.powah.lib.logistics.Redstone;
 import owmii.powah.lib.logistics.Transfer;
 
@@ -31,24 +31,24 @@ public class Texture {
     public static final Texture REDSTONE_BTN_OFF = BUILDER.make("container/button_ov", 9, 8, 47, 0);
     public static final Texture REDSTONE_BTN_ON = BUILDER.make("container/button_ov", 9, 8, 38, 8);
 
-    private final ResourceLocation location;
+    private final Identifier location;
     private final int width, height;
     private final int u, v;
     private final int tw, th;
 
-    public Texture(ResourceLocation location, int width, int height) {
+    public Texture(Identifier location, int width, int height) {
         this(location, width, height, 0, 0, width, height);
     }
 
-    public Texture(ResourceLocation location, int width, int height, int u, int v) {
+    public Texture(Identifier location, int width, int height, int u, int v) {
         this(location, width, height, u, v, 256, 256);
     }
 
-    public Texture(ResourceLocation location, int width, int height, int u, int v, int dim) {
+    public Texture(Identifier location, int width, int height, int u, int v, int dim) {
         this(location, width, height, u, v, dim, dim);
     }
 
-    public Texture(ResourceLocation location, int width, int height, int u, int v, int tw, int th) {
+    public Texture(Identifier location, int width, int height, int u, int v, int tw, int th) {
         this.location = location;
         this.width = width;
         this.height = height;
@@ -73,7 +73,7 @@ public class Texture {
         }
     }
 
-    public void bindTexture(ResourceLocation guiTexture) {
+    public void bindTexture(Identifier guiTexture) {
         RenderSystem.setShaderTexture(0, guiTexture);
     }
 
@@ -117,7 +117,7 @@ public class Texture {
         return new Texture(this.location, this.width, this.height, this.u + u, this.v + v);
     }
 
-    public ResourceLocation getLocation() {
+    public Identifier getLocation() {
         return this.location;
     }
 
@@ -171,19 +171,19 @@ public class Texture {
         }
 
         public Texture make(String path, int width, int height) {
-            return new Texture(ResourceLocation.fromNamespaceAndPath(this.id, "textures/gui/" + path + ".png"), width, height);
+            return new Texture(Identifier.fromNamespaceAndPath(this.id, "textures/gui/" + path + ".png"), width, height);
         }
 
         public Texture make(String path, int width, int height, int u, int v, int w, int h) {
-            return new Texture(ResourceLocation.fromNamespaceAndPath(this.id, "textures/gui/" + path + ".png"), width, height, u, v, w, h);
+            return new Texture(Identifier.fromNamespaceAndPath(this.id, "textures/gui/" + path + ".png"), width, height, u, v, w, h);
         }
 
         public Texture make(String path, int width, int height, int u, int v, int d) {
-            return new Texture(ResourceLocation.fromNamespaceAndPath(this.id, "textures/gui/" + path + ".png"), width, height, u, v, d);
+            return new Texture(Identifier.fromNamespaceAndPath(this.id, "textures/gui/" + path + ".png"), width, height, u, v, d);
         }
 
         public Texture make(String path, int width, int height, int u, int v) {
-            return new Texture(ResourceLocation.fromNamespaceAndPath(this.id, "textures/gui/" + path + ".png"), width, height, u, v);
+            return new Texture(Identifier.fromNamespaceAndPath(this.id, "textures/gui/" + path + ".png"), width, height, u, v);
         }
     }
 }

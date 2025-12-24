@@ -7,7 +7,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import owmii.powah.Powah;
-import owmii.powah.lib.block.AbstractEnergyStorage;
+import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
 import owmii.powah.network.ServerboundPacket;
 
 public record NextEnergyConfigPacket(
@@ -28,7 +28,7 @@ public record NextEnergyConfigPacket(
     @Override
     public void handleOnServer(ServerPlayer player) {
         var tileEntity = player.level().getBlockEntity(pos);
-        if (tileEntity instanceof AbstractEnergyStorage storage) {
+        if (tileEntity instanceof AbstractEnergyStorageBlockEntity storage) {
             if (mode > 5)
                 storage.getSideConfig().nextTypeAll();
             else

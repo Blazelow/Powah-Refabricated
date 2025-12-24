@@ -2,16 +2,16 @@ package owmii.powah.inventory;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import owmii.powah.block.transmitter.PlayerTransmitterTile;
+import owmii.powah.block.transmitter.PlayerTransmitterBlockEntity;
 import owmii.powah.lib.logistics.inventory.AbstractEnergyContainer;
 import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 
-public class PlayerTransmitterContainer extends AbstractEnergyContainer<PlayerTransmitterTile> {
+public class PlayerTransmitterContainer extends AbstractEnergyContainer<PlayerTransmitterBlockEntity> {
     public PlayerTransmitterContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.PLAYER_TRANSMITTER.get(), id, inventory, buffer);
     }
 
-    public PlayerTransmitterContainer(int id, Inventory inventory, PlayerTransmitterTile te) {
+    public PlayerTransmitterContainer(int id, Inventory inventory, PlayerTransmitterBlockEntity te) {
         super(Containers.PLAYER_TRANSMITTER.get(), id, inventory, te);
     }
 
@@ -20,7 +20,7 @@ public class PlayerTransmitterContainer extends AbstractEnergyContainer<PlayerTr
     }
 
     @Override
-    protected void init(Inventory inventory, PlayerTransmitterTile te) {
+    protected void init(Inventory inventory, PlayerTransmitterBlockEntity te) {
         super.init(inventory);
         addSlot(new SlotBase(te.getInventory(), 0, 4, 29));
         addPlayerInventory(inventory, 8, 59, 4);

@@ -9,7 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import org.apache.commons.lang3.tuple.Pair;
-import owmii.powah.lib.block.AbstractEnergyStorage;
+import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.client.screen.Texture;
 import owmii.powah.lib.client.screen.widget.IconButton;
@@ -18,7 +18,7 @@ import owmii.powah.lib.logistics.inventory.AbstractEnergyContainer;
 import owmii.powah.network.Network;
 import owmii.powah.network.packet.NextEnergyConfigPacket;
 
-public class AbstractEnergyScreen<T extends AbstractEnergyStorage<?, ?> & IInventoryHolder, C extends AbstractEnergyContainer<T>>
+public class AbstractEnergyScreen<T extends AbstractEnergyStorageBlockEntity<?, ?> & IInventoryHolder, C extends AbstractEnergyContainer<T>>
         extends AbstractTileScreen<T, C> {
     protected IconButton[] configButtons = new IconButton[6];
     protected IconButton configButtonAll = IconButton.EMPTY;

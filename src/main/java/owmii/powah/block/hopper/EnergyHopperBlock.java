@@ -15,7 +15,7 @@ import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.ChargingConfig;
 import owmii.powah.inventory.EnergyHopperContainer;
 import owmii.powah.lib.block.AbstractEnergyBlock;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
@@ -44,14 +44,14 @@ public class EnergyHopperBlock extends AbstractEnergyBlock<ChargingConfig, Energ
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new EnergyHopperTile(pos, state, this.variant);
+        return new EnergyHopperBlockEntity(pos, state, this.variant);
     }
 
     @Nullable
     @Override
-    public <T extends AbstractTileEntity> AbstractContainer getContainer(int id, Inventory inventory, AbstractTileEntity te, BlockHitResult result) {
-        if (te instanceof EnergyHopperTile) {
-            return new EnergyHopperContainer(id, inventory, (EnergyHopperTile) te);
+    public <T extends PowahAbstractBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+        if (te instanceof EnergyHopperBlockEntity) {
+            return new EnergyHopperContainer(id, inventory, (EnergyHopperBlockEntity) te);
         }
         return null;
     }

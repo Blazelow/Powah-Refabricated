@@ -29,7 +29,7 @@ import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.ChargingConfig;
 import owmii.powah.inventory.PlayerTransmitterContainer;
 import owmii.powah.lib.block.AbstractEnergyBlock;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
@@ -63,14 +63,14 @@ public class PlayerTransmitterBlock extends AbstractEnergyBlock<ChargingConfig, 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return !state.getValue(TOP) ? new PlayerTransmitterTile(pos, state, this.variant) : null;
+        return !state.getValue(TOP) ? new PlayerTransmitterBlockEntity(pos, state, this.variant) : null;
     }
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory inventory, AbstractTileEntity te, BlockHitResult result) {
-        if (te instanceof PlayerTransmitterTile) {
-            return new PlayerTransmitterContainer(id, inventory, (PlayerTransmitterTile) te);
+    public AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+        if (te instanceof PlayerTransmitterBlockEntity) {
+            return new PlayerTransmitterContainer(id, inventory, (PlayerTransmitterBlockEntity) te);
         }
         return null;
     }
@@ -121,7 +121,7 @@ public class PlayerTransmitterBlock extends AbstractEnergyBlock<ChargingConfig, 
             return state;
         }
         BlockEntity tileEntity = world.getBlockEntity(state.getValue(TOP) ? pos.below() : pos);
-        if (!world.isClientSide() && tileEntity instanceof PlayerTransmitterTile tile) {
+        if (!world.isClientSide() && tileEntity instanceof PlayerTransmitterBlockEntity tile) {
             ItemStack stack = tile.storeToStack(new ItemStack(this));
             popResource(world, pos, stack);
             world.levelEvent(2001, pos, Block.getId(state));

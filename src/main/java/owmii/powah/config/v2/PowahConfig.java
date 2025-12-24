@@ -25,8 +25,8 @@ import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Jankson;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.JsonPrimitive;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.api.DeserializationException;
-import net.minecraft.ResourceLocationException;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.IdentifierException;
+import net.minecraft.resources.Identifier;
 import owmii.powah.config.v2.annotations.DoubleRange;
 import owmii.powah.config.v2.annotations.LongRange;
 import owmii.powah.config.v2.types.CableConfig;
@@ -163,14 +163,14 @@ public class PowahConfig implements ConfigData {
         return AutoConfig.register(PowahConfig.class, (cfg, cfgClass) -> {
             var janksonBuilder = Jankson.builder();
             // Resource Location
-            janksonBuilder.registerDeserializer(String.class, ResourceLocation.class, (string, marshaller) -> {
+            janksonBuilder.registerDeserializer(String.class, Identifier.class, (string, marshaller) -> {
                 try {
-                    return ResourceLocation.parse(string);
-                } catch (ResourceLocationException exception) {
+                    return Identifier.parse(string);
+                } catch (IdentifierException exception) {
                     throw new DeserializationException("Not a valid resource location: " + string, exception);
                 }
             });
-            janksonBuilder.registerSerializer(ResourceLocation.class, (resLoc, marshaller) -> {
+            janksonBuilder.registerSerializer(Identifier.class, (resLoc, marshaller) -> {
                 return new JsonPrimitive(resLoc.toString());
             });
 

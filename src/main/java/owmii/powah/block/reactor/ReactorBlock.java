@@ -7,7 +7,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
@@ -29,7 +28,7 @@ import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.ReactorContainer;
 import owmii.powah.item.ReactorItem;
 import owmii.powah.lib.block.AbstractGeneratorBlock;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.energy.Energy;
@@ -59,9 +58,9 @@ public class ReactorBlock extends AbstractGeneratorBlock<ReactorBlock> {
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         if (state.getValue(CORE)) {
-            return new ReactorTile(pos, state, this.variant);
+            return new ReactorBlockEntity(pos, state, this.variant);
         }
-        return new ReactorPartTile(pos, state, this.variant);
+        return new ReactorPartBlockEntity(pos, state, this.variant);
     }
 
     @Nullable
@@ -72,19 +71,19 @@ public class ReactorBlock extends AbstractGeneratorBlock<ReactorBlock> {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
             BlockHitResult pHitResult) {
         BlockEntity tileentity = pLevel.getBlockEntity(pPos);
-        if (tileentity instanceof ReactorPartTile reactor) {
+        if (tileentity instanceof ReactorPartBlockEntity reactor) {
             if (reactor.isBuilt() && reactor.core().isPresent()) {
                 return reactor.getBlock().useItemOn(pStack, pState, pLevel, reactor.getCorePos(), pPlayer, pHand, pHitResult);
             }
-        } else if (tileentity instanceof ReactorTile reactor) {
+        } else if (tileentity instanceof ReactorBlockEntity reactor) {
             if (reactor.isBuilt()) {
                 Tank tank = reactor.getTank();
                 if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, tank)) {
                     reactor.sync();
-                    return ItemInteractionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
             }
         }
@@ -94,7 +93,7 @@ public class ReactorBlock extends AbstractGeneratorBlock<ReactorBlock> {
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult result) {
         BlockEntity tileentity = world.getBlockEntity(pos);
-        if (tileentity instanceof ReactorPartTile reactor) {
+        if (tileentity instanceof ReactorPartBlockEntity reactor) {
             if (reactor.isBuilt() && reactor.core().isPresent()) {
                 return reactor.getBlock().useWithoutItem(state, world, reactor.getCorePos(), player, result);
             }
@@ -104,9 +103,9 @@ public class ReactorBlock extends AbstractGeneratorBlock<ReactorBlock> {
 
     @Nullable
     @Override
-    public <T extends AbstractTileEntity> AbstractContainer getContainer(int id, Inventory inventory, AbstractTileEntity te, BlockHitResult result) {
-        if (te instanceof ReactorTile) {
-            return new ReactorContainer(id, inventory, (ReactorTile) te);
+    public <T extends PowahAbstractBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+        if (te instanceof ReactorBlockEntity) {
+            return new ReactorContainer(id, inventory, (ReactorBlockEntity) te);
         }
         return null;
     }
@@ -114,11 +113,11 @@ public class ReactorBlock extends AbstractGeneratorBlock<ReactorBlock> {
     @Override
     public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
         BlockEntity tileentity = world.getBlockEntity(pos);
-        if (tileentity instanceof ReactorTile) {
-            ReactorTile tile = (ReactorTile) tileentity;
+        if (tileentity instanceof ReactorBlockEntity) {
+            ReactorBlockEntity tile = (ReactorBlockEntity) tileentity;
             tile.demolish(world);
-        } else if (tileentity instanceof ReactorPartTile) {
-            ReactorPartTile tile = (ReactorPartTile) tileentity;
+        } else if (tileentity instanceof ReactorPartBlockEntity) {
+            ReactorPartBlockEntity tile = (ReactorPartBlockEntity) tileentity;
             tile.demolish(world);
         }
         super.onRemove(state, world, pos, newState, isMoving);

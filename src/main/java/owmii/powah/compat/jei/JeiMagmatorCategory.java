@@ -5,7 +5,7 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -15,22 +15,21 @@ import owmii.powah.block.Tier;
 import owmii.powah.compat.common.MagmatorFuel;
 
 public class JeiMagmatorCategory extends AbstractCategory<MagmatorFuel> {
-    public static final RecipeType<MagmatorFuel> TYPE = RecipeType.create(Powah.MOD_ID, "magmatic", MagmatorFuel.class);
+    public static final IRecipeType<MagmatorFuel> TYPE = IRecipeType.create(Powah.MOD_ID, "magmatic", MagmatorFuel.class);
 
     public JeiMagmatorCategory(IGuiHelper guiHelper) {
-        super(guiHelper, Blcks.MAGMATOR.get(Tier.BASIC), Component.translatable("gui.powah.jei.category.magmatic"),
-                guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build());
+        // TODO 26.1: guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build()
+        super(guiHelper, Blcks.MAGMATOR.get(Tier.BASIC), Component.translatable("gui.powah.jei.category.magmatic"), 160, 24);
     }
 
     @Override
-    public RecipeType<MagmatorFuel> getRecipeType() {
+    public IRecipeType<MagmatorFuel> getRecipeType() {
         return TYPE;
     }
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, MagmatorFuel recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 4, 5)
-                .addFluidStack(recipe.fluid());
+        builder.addSlot(RecipeIngredientRole.INPUT, 4, 5).add(recipe.fluid());
     }
 
     @Override

@@ -1,7 +1,7 @@
 package owmii.powah.item;
 
 import guideme.GuidesCommon;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -12,7 +12,7 @@ import owmii.powah.Powah;
 import owmii.powah.lib.item.ItemBase;
 
 public class PowahBookItem extends ItemBase {
-    public static final ResourceLocation GUIDE_ID = Powah.id("book");
+    public static final Identifier GUIDE_ID = Powah.id("book");
 
     public PowahBookItem(Properties properties) {
         super(properties.rarity(Rarity.UNCOMMON));

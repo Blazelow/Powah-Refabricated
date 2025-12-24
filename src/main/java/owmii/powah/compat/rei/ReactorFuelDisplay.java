@@ -7,16 +7,16 @@ import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import owmii.powah.recipe.ReactorFuel;
 
 public class ReactorFuelDisplay implements Display {
-    private final ResourceLocation id;
+    private final Identifier id;
     private final List<EntryIngredient> inputs, output;
     private final int fuelAmount;
     private final int temperature;
 
-    public ReactorFuelDisplay(ResourceLocation id, ReactorFuel fuel) {
+    public ReactorFuelDisplay(Identifier id, ReactorFuel fuel) {
         this.id = id;
         var stack = BuiltInRegistries.ITEM.get(id).getDefaultInstance();
         this.inputs = List.of(EntryIngredients.of(stack));
@@ -26,7 +26,7 @@ public class ReactorFuelDisplay implements Display {
     }
 
     @Override
-    public Optional<ResourceLocation> getDisplayLocation() {
+    public Optional<Identifier> getDisplayLocation() {
         return Optional.of(id);
     }
 

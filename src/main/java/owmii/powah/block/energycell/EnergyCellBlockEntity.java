@@ -9,18 +9,18 @@ import org.jetbrains.annotations.Nullable;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.config.v2.types.EnergyConfig;
-import owmii.powah.lib.block.AbstractEnergyStorage;
+import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.logistics.Transfer;
 import owmii.powah.lib.logistics.energy.Energy;
 
-public class EnergyCellTile extends AbstractEnergyStorage<EnergyConfig, EnergyCellBlock> implements IInventoryHolder {
-    public EnergyCellTile(BlockPos pos, BlockState state, Tier tier) {
+public class EnergyCellBlockEntity extends AbstractEnergyStorageBlockEntity<EnergyConfig, EnergyCellBlock> implements IInventoryHolder {
+    public EnergyCellBlockEntity(BlockPos pos, BlockState state, Tier tier) {
         super(Tiles.ENERGY_CELL.get(), pos, state, tier);
         this.inv.add(2);
     }
 
-    public EnergyCellTile(BlockPos pos, BlockState state) {
+    public EnergyCellBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
     }
 

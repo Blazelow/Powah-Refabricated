@@ -7,7 +7,7 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import owmii.powah.block.cable.CableTile;
+import owmii.powah.block.cable.CableBlockEntity;
 import owmii.powah.client.screen.Textures;
 import owmii.powah.inventory.CableContainer;
 import owmii.powah.lib.client.screen.container.AbstractEnergyScreen;
@@ -15,7 +15,7 @@ import owmii.powah.lib.client.screen.widget.IconButton;
 import owmii.powah.network.Network;
 import owmii.powah.network.packet.NextEnergyConfigPacket;
 
-public class CableScreen extends AbstractEnergyScreen<CableTile, CableContainer> {
+public class CableScreen extends AbstractEnergyScreen<CableBlockEntity, CableContainer> {
     private IconButton configButton = IconButton.EMPTY;
     private Direction side;
 

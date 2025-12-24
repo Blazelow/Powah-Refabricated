@@ -7,9 +7,9 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 
-public abstract class AbstractTileRenderer<T extends AbstractTileEntity<?, ?>> implements BlockEntityRenderer<T> {
+public abstract class AbstractTileRenderer<T extends PowahAbstractBlockEntity<?, ?>> implements BlockEntityRenderer<T> {
     protected AbstractTileRenderer(BlockEntityRendererProvider.Context context) {
     }
 

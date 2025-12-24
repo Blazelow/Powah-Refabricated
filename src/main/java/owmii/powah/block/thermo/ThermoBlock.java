@@ -3,7 +3,7 @@ package owmii.powah.block.thermo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
@@ -20,7 +20,7 @@ import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.ThermoContainer;
 import owmii.powah.lib.block.AbstractGeneratorBlock;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.fluid.Tank;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
@@ -43,18 +43,18 @@ public class ThermoBlock extends AbstractGeneratorBlock<ThermoBlock> {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new ThermoTile(pos, state, this.variant);
+        return new ThermoBlockEntity(pos, state, this.variant);
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
             BlockHitResult pHitResult) {
         BlockEntity tile = pLevel.getBlockEntity(pPos);
-        if (tile instanceof ThermoTile genTile) {
+        if (tile instanceof ThermoBlockEntity genTile) {
             Tank tank = genTile.getTank();
             if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, tank)) {
                 genTile.sync();
-                return ItemInteractionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
         }
         return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
@@ -62,9 +62,9 @@ public class ThermoBlock extends AbstractGeneratorBlock<ThermoBlock> {
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory inventory, AbstractTileEntity te, BlockHitResult result) {
-        if (te instanceof ThermoTile) {
-            return new ThermoContainer(id, inventory, (ThermoTile) te);
+    public AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+        if (te instanceof ThermoBlockEntity) {
+            return new ThermoContainer(id, inventory, (ThermoBlockEntity) te);
         }
         return null;
     }

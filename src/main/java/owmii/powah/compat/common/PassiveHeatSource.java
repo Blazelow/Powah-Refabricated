@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.api.PassiveHeatSourceConfig;
 
-public record PassiveHeatSource(ResourceLocation id, @Nullable Block block, @Nullable Fluid fluid, int heat) {
+public record PassiveHeatSource(Identifier id, @Nullable Block block, @Nullable Fluid fluid, int heat) {
     public static List<PassiveHeatSource> getAll() {
         var result = new ArrayList<PassiveHeatSource>();
 

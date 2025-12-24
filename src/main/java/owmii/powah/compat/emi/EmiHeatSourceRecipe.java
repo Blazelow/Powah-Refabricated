@@ -7,14 +7,14 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import java.util.List;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.compat.common.PassiveHeatSource;
 
 class EmiHeatSourceRecipe implements EmiRecipe {
-    public static final ResourceLocation GUI_BACK = Powah.id("textures/gui/jei/misc.png");
+    public static final Identifier GUI_BACK = Powah.id("textures/gui/jei/misc.png");
 
     public static final PowahEmiCategory CATEGORY = new PowahEmiCategory(Powah.id("passive_heat_sources"), EmiStack.of(Blocks.MAGMA_BLOCK),
             Component.translatable("gui.powah.jei.category.heat.sources"));
@@ -41,7 +41,7 @@ class EmiHeatSourceRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable ResourceLocation getId() {
+    public @Nullable Identifier getId() {
         return recipe.id();
     }
 

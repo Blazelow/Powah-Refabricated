@@ -7,7 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import owmii.powah.block.furnator.FurnatorTile;
+import owmii.powah.block.furnator.FurnatorBlockEntity;
 import owmii.powah.client.screen.Textures;
 import owmii.powah.inventory.FurnatorContainer;
 import owmii.powah.lib.client.screen.container.AbstractEnergyScreen;
@@ -16,7 +16,7 @@ import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Ticker;
 import owmii.powah.util.Util;
 
-public class FurnatorScreen extends AbstractEnergyScreen<FurnatorTile, FurnatorContainer> {
+public class FurnatorScreen extends AbstractEnergyScreen<FurnatorBlockEntity, FurnatorContainer> {
     private final Ticker heat = new Ticker(20);
 
     public FurnatorScreen(FurnatorContainer container, Inventory inv, Component title) {

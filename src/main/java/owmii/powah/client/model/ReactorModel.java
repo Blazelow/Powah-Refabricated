@@ -8,14 +8,14 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
-import owmii.powah.block.reactor.ReactorTile;
+import owmii.powah.block.reactor.ReactorBlockEntity;
 import owmii.powah.client.render.tile.ReactorRenderer;
 import owmii.powah.lib.client.util.Render;
 
-public class ReactorModel extends AbstractModel<ReactorTile, ReactorRenderer> {
+public class ReactorModel extends AbstractModel<ReactorBlockEntity, ReactorRenderer> {
     private static final String REACTOR = "reactor";
     private final ModelPart reactor;
 
@@ -33,7 +33,7 @@ public class ReactorModel extends AbstractModel<ReactorTile, ReactorRenderer> {
     }
 
     @Override
-    public void render(ReactorTile te, ReactorRenderer renderer, PoseStack matrix, MultiBufferSource rtb, int light, int ov) {
+    public void render(ReactorBlockEntity te, ReactorRenderer renderer, PoseStack matrix, MultiBufferSource rtb, int light, int ov) {
         VertexConsumer buffer = rtb.getBuffer(renderType(Powah.id("textures/model/tile/reactor.png")));
         this.reactor.render(matrix, buffer, light, ov);
 

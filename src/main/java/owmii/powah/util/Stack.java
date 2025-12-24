@@ -1,7 +1,7 @@
 package owmii.powah.util;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import owmii.powah.lib.item.Stacks;
@@ -25,7 +25,7 @@ public class Stack {
         return location(provider).getNamespace();
     }
 
-    public static ResourceLocation location(ItemStack stack) {
+    public static Identifier location(ItemStack stack) {
         return location(stack.getItem());
     }
 
@@ -38,7 +38,7 @@ public class Stack {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public static ResourceLocation location(ItemLike provider) {
+    public static Identifier location(ItemLike provider) {
         return BuiltInRegistries.ITEM.getKey(provider.asItem());
     }
 }

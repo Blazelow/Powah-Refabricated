@@ -22,7 +22,7 @@ import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.FurnatorContainer;
 import owmii.powah.lib.block.AbstractGeneratorBlock;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
@@ -45,7 +45,7 @@ public class FurnatorBlock extends AbstractGeneratorBlock<FurnatorBlock> impleme
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new FurnatorTile(pos, state, this.variant);
+        return new FurnatorBlockEntity(pos, state, this.variant);
     }
 
 //    @Override
@@ -55,9 +55,9 @@ public class FurnatorBlock extends AbstractGeneratorBlock<FurnatorBlock> impleme
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory playerInventory, AbstractTileEntity te, BlockHitResult result) {
-        if (te instanceof FurnatorTile) {
-            return new FurnatorContainer(id, playerInventory, (FurnatorTile) te);
+    public AbstractContainer getContainer(int id, Inventory playerInventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+        if (te instanceof FurnatorBlockEntity) {
+            return new FurnatorContainer(id, playerInventory, (FurnatorBlockEntity) te);
         }
         return null;
     }
@@ -75,7 +75,7 @@ public class FurnatorBlock extends AbstractGeneratorBlock<FurnatorBlock> impleme
     @Override
     public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource rand) {
         BlockEntity te = world.getBlockEntity(pos);
-        if (te instanceof FurnatorTile && ((FurnatorTile) te).isBurning()) {
+        if (te instanceof FurnatorBlockEntity && ((FurnatorBlockEntity) te).isBurning()) {
             double d0 = (double) pos.getX() + 0.5D;
             double d1 = (double) pos.getY() + 0.5D;
             double d2 = (double) pos.getZ() + 0.5D;

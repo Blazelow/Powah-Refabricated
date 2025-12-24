@@ -7,10 +7,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
@@ -18,14 +18,14 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import owmii.powah.Powah;
 import owmii.powah.api.wrench.IWrench;
-import owmii.powah.block.energizing.EnergizingOrbTile;
-import owmii.powah.block.energizing.EnergizingRodTile;
+import owmii.powah.block.energizing.EnergizingOrbBlockEntity;
+import owmii.powah.block.energizing.EnergizingRodBlockEntity;
 import owmii.powah.lib.client.renderer.tile.AbstractTileRenderer;
 import owmii.powah.lib.client.util.RenderTypes;
 import owmii.powah.util.math.V3d;
 
-public class EnergizingRodRenderer extends AbstractTileRenderer<EnergizingRodTile> {
-    public static final ResourceLocation BEAM_TEXTURE = Powah.id("textures/model/tile/beam.png");
+public class EnergizingRodRenderer extends AbstractTileRenderer<EnergizingRodBlockEntity> {
+    public static final Identifier BEAM_TEXTURE = Powah.id("textures/model/tile/beam.png");
     private static final RenderType RENDER_TYPE = RenderTypes.entityBlendedNoDept(BEAM_TEXTURE);
 
     protected EnergizingRodRenderer(BlockEntityRendererProvider.Context context) {
@@ -33,8 +33,8 @@ public class EnergizingRodRenderer extends AbstractTileRenderer<EnergizingRodTil
     }
 
     @Override
-    public void render(EnergizingRodTile te, float pt, PoseStack matrix, MultiBufferSource rtb, Minecraft mc, ClientLevel world, LocalPlayer player,
-            int light, int ov) {
+    public void render(EnergizingRodBlockEntity te, float pt, PoseStack matrix, MultiBufferSource rtb, Minecraft mc, ClientLevel world, LocalPlayer player,
+                       int light, int ov) {
 
         boolean flag = false;
 
@@ -48,7 +48,7 @@ public class EnergizingRodRenderer extends AbstractTileRenderer<EnergizingRodTil
             }
         }
 
-        EnergizingOrbTile orb = te.getOrbTile();
+        EnergizingOrbBlockEntity orb = te.getOrbTile();
         if (orb != null && (te.coolDown.ended() || flag)) {
 
             matrix.pushPose();
@@ -110,7 +110,7 @@ public class EnergizingRodRenderer extends AbstractTileRenderer<EnergizingRodTil
     }
 
     @Override
-    public AABB getRenderBoundingBox(EnergizingRodTile blockEntity) {
+    public AABB getRenderBoundingBox(EnergizingRodBlockEntity blockEntity) {
         int range = Powah.config().general.energizing_range;
         return new AABB(blockEntity.getBlockPos()).inflate(range);
     }

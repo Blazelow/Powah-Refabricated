@@ -40,16 +40,16 @@ import owmii.powah.lib.logistics.inventory.AbstractContainer;
 import owmii.powah.lib.registry.IVariant;
 import owmii.powah.lib.registry.IVariantEntry;
 
-public abstract class AbstractBlock<V extends IVariant, B extends AbstractBlock<V, B>> extends Block implements IVariantEntry<V, B>, IBlock<V, B> {
+public abstract class PowahAbstractBlock<V extends IVariant, B extends PowahAbstractBlock<V, B>> extends Block implements IVariantEntry<V, B>, IBlock<V, B> {
     public static final VoxelShape SEMI_FULL_SHAPE = box(0.01D, 0.01D, 0.01D, 15.99D, 15.99D, 15.99D);
     protected final Map<Direction, VoxelShape> shapes = new HashMap<>();
     protected final V variant;
 
-    public AbstractBlock(Properties properties) {
+    public PowahAbstractBlock(Properties properties) {
         this(properties, IVariant.getEmpty());
     }
 
-    public AbstractBlock(Properties properties, V variant) {
+    public PowahAbstractBlock(Properties properties, V variant) {
         super(properties);
         this.variant = variant;
         this.shapes.put(Direction.UP, Shapes.block());
@@ -74,7 +74,7 @@ public abstract class AbstractBlock<V extends IVariant, B extends AbstractBlock<
     }
 
     public Component getDisplayName(ItemStack stack) {
-        return Component.translatable(asItem().getDescriptionId(stack));
+        return asItem().getName(stack);
     }
 
     @Override
@@ -89,6 +89,7 @@ public abstract class AbstractBlock<V extends IVariant, B extends AbstractBlock<
             ((IBlockEntity) tile).onAdded(world, state, oldState, isMoving);
         }
     }
+
 
     @Override
     public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
@@ -109,8 +110,8 @@ public abstract class AbstractBlock<V extends IVariant, B extends AbstractBlock<
 
     @Override
     public void playerDestroy(Level world, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity te, ItemStack stack) {
-        if (te instanceof AbstractTileEntity) {
-            AbstractTileEntity tile = (AbstractTileEntity) te;
+        if (te instanceof PowahAbstractBlockEntity) {
+            PowahAbstractBlockEntity tile = (PowahAbstractBlockEntity) te;
             ItemStack stack1 = tile.storeToStack(new ItemStack(this));
             popResource(world, pos, stack1);
             player.awardStat(Stats.BLOCK_MINED.get(this));
@@ -127,8 +128,8 @@ public abstract class AbstractBlock<V extends IVariant, B extends AbstractBlock<
             world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         if (!state.canSurvive(world, currentPos)) {
             BlockEntity tileEntity = world.getBlockEntity(currentPos);
-            if (!world.isClientSide() && tileEntity instanceof AbstractTileEntity) {
-                AbstractTileEntity tile = (AbstractTileEntity) tileEntity;
+            if (!world.isClientSide() && tileEntity instanceof PowahAbstractBlockEntity) {
+                PowahAbstractBlockEntity tile = (PowahAbstractBlockEntity) tileEntity;
                 ItemStack stack = tile.storeToStack(new ItemStack(this));
                 popResource((Level) world, currentPos, stack);
                 world.destroyBlock(currentPos, false);
@@ -144,7 +145,7 @@ public abstract class AbstractBlock<V extends IVariant, B extends AbstractBlock<
 
     public ItemStack getCloneItemStack(BlockGetter world, BlockPos pos) {
         BlockEntity te = world.getBlockEntity(pos);
-        if (te instanceof AbstractTileEntity tile) {
+        if (te instanceof PowahAbstractBlockEntity tile) {
             return tile.storeToStack(new ItemStack(this));
         }
         return new ItemStack(this);
@@ -153,17 +154,17 @@ public abstract class AbstractBlock<V extends IVariant, B extends AbstractBlock<
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult result) {
         BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof AbstractTileEntity) {
+        if (tile instanceof PowahAbstractBlockEntity) {
             MenuProvider provider = new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    return new ItemStack(AbstractBlock.this).getHoverName();
+                    return new ItemStack(PowahAbstractBlock.this).getHoverName();
                 }
 
                 @Nullable
                 @Override
                 public AbstractContainerMenu createMenu(int i, Inventory playerInventory, Player playerEntity) {
-                    return getContainer(i, playerInventory, (AbstractTileEntity) tile, result);
+                    return getContainer(i, playerInventory, (PowahAbstractBlockEntity) tile, result);
                 }
             };
             AbstractContainerMenu container = provider.createMenu(0, player.getInventory(), player);
@@ -181,7 +182,7 @@ public abstract class AbstractBlock<V extends IVariant, B extends AbstractBlock<
     }
 
     @Nullable
-    public <T extends AbstractTileEntity> AbstractContainer getContainer(int id, Inventory inventory, AbstractTileEntity te, BlockHitResult result) {
+    public <T extends PowahAbstractBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
         return null;
     }
 

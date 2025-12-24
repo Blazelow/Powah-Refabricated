@@ -4,51 +4,13 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
 plugins {
-    id "java-library"
-    id "net.neoforged.moddev"
-    id "me.shedaniel.unified-publishing"
-    id "com.diffplug.spotless"
-    id "maven-publish"
+    id 'java-library'
+    id 'net.neoforged.moddev'
+    id 'me.shedaniel.unified-publishing'
+    id 'com.diffplug.spotless'
+    id 'maven-publish'
 }
 
-repositories {
-    maven {
-        url = "https://maven.theillusivec4.top"
-        content {
-            includeGroup "top.theillusivec4.curios"
-        }
-    }
-    maven {
-        name = "blamejared"
-        url = "https://maven.blamejared.com/"
-        content {
-            includeGroup "mezz.jei"
-        }
-    }
-    maven {
-        name 'modmaven'
-        url "https://modmaven.dev/"
-        content {
-            includeGroup "mezz.jei"
-        }
-    }
-    maven {
-        url "https://maven.shedaniel.me"
-        content {
-            includeGroup "me.shedaniel"
-            includeGroup "me.shedaniel.cloth"
-            includeGroup "dev.architectury"
-        }
-    }
-    maven {
-        name = "TerraformersMC"
-        url = "https://maven.terraformersmc.com/releases/"
-        content {
-            includeGroup "dev.emi"
-        }
-    }
-    mavenCentral()
-}
 
 apply plugin: "me.shedaniel.unified-publishing"
 
@@ -90,12 +52,13 @@ group = project.maven_group
 java {
     withSourcesJar()
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
     it.options.encoding = "UTF-8"
+    it.options.compilerArgs += ["-Xmaxerrs", "9999"]
 }
 
 jar {
@@ -115,12 +78,13 @@ sourceSets {
     }
 }
 
+final projectVersion = project.version.toString()
 processResources {
-    inputs.property "version", project.version
+    inputs.property "version", projectVersion
 
     filesMatching("META-INF/neoforge.mods.toml") {
         filter { line ->
-            line.replace 'version="0.0.0"', "version=\"$version\""
+            line.replace 'version="0.0.0"', "version=\"$projectVersion\""
         }
     }
 }
@@ -141,7 +105,7 @@ neoForge {
             server()
         }
         data {
-            data()
+            clientData()
             programArguments = ['--mod', 'powah',
                                 '--all',
                                 '--output', file('src/generated/resources/').absolutePath,

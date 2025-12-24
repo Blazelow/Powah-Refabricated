@@ -4,9 +4,58 @@ pluginManagement {
         maven { url "https://maven.architectury.dev/" }
     }
     plugins {
-        id 'net.neoforged.moddev' version '1.0.13'
-        id "me.shedaniel.unified-publishing" version "0.1.+"
         id 'com.diffplug.spotless' version '6.25.0'
+        id 'net.neoforged.moddev' version '2.0.134'
+        id 'net.neoforged.moddev.repositories' version '2.0.134'
+        id 'me.shedaniel.unified-publishing' version '0.1.+'
+    }
+}
+
+plugins {
+    id 'net.neoforged.moddev.repositories'
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}
+
+dependencyResolutionManagement {
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
+    rulesMode = RulesMode.FAIL_ON_PROJECT_RULES
+    repositories {
+        maven {
+            url = "https://maven.theillusivec4.top"
+            content {
+                includeGroup "top.theillusivec4.curios"
+            }
+        }
+        maven {
+            name = "blamejared"
+            url = "https://maven.blamejared.com/"
+            content {
+                includeGroup "mezz.jei"
+            }
+        }
+        maven {
+            name 'modmaven'
+            url "https://modmaven.dev/"
+            content {
+                includeGroup "mezz.jei"
+            }
+        }
+        maven {
+            url "https://maven.shedaniel.me"
+            content {
+                includeGroup "me.shedaniel"
+                includeGroup "me.shedaniel.cloth"
+                includeGroup "dev.architectury"
+            }
+        }
+        maven {
+            name = "TerraformersMC"
+            url = "https://maven.terraformersmc.com/releases/"
+            content {
+                includeGroup "dev.emi"
+            }
+        }
+        mavenCentral()
     }
 }
 

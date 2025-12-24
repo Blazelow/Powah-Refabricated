@@ -17,13 +17,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import owmii.powah.util.NBT;
 
 public class Builder {
-    private final ReactorTile reactor;
+    private final ReactorBlockEntity reactor;
     private List<BlockPos> queue = new ArrayList<>();
     public boolean built;
 
     private int delay = 5;
 
-    public Builder(ReactorTile reactor) {
+    public Builder(ReactorBlockEntity reactor) {
         this.reactor = reactor;
     }
 
@@ -56,8 +56,8 @@ public class Builder {
                     }
                     world.setBlock(pos, state.setValue(ReactorBlock.CORE, false), 3);
                     BlockEntity tileEntity = world.getBlockEntity(pos);
-                    if (tileEntity instanceof ReactorPartTile) {
-                        ReactorPartTile part = (ReactorPartTile) tileEntity;
+                    if (tileEntity instanceof ReactorPartBlockEntity) {
+                        ReactorPartBlockEntity part = (ReactorPartBlockEntity) tileEntity;
                         part.setCorePos(this.reactor.getBlockPos());
                         world.levelEvent(2001, pos, Block.getId(this.reactor.getBlockState()));
                         itr.remove();
@@ -72,7 +72,7 @@ public class Builder {
                     continue;
                 BlockPos pos = this.reactor.getBlockPos().relative(side).above(side.equals(Direction.UP) ? 2 : 0);
                 BlockEntity tileEntity = world.getBlockEntity(pos);
-                if (tileEntity instanceof ReactorPartTile part) {
+                if (tileEntity instanceof ReactorPartBlockEntity part) {
                     part.setExtractor(true);
                     // Send block update to make cables reconnect
                     world.updateNeighborsAt(pos, part.getBlock());
@@ -80,7 +80,7 @@ public class Builder {
             }
             for (BlockPos pos : getPosList()) {
                 BlockEntity tileEntity = world.getBlockEntity(pos);
-                if (tileEntity instanceof ReactorPartTile part) {
+                if (tileEntity instanceof ReactorPartBlockEntity part) {
                     part.setBuilt(true);
                     part.sync();
                 }

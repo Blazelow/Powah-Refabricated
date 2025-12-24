@@ -14,7 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -33,14 +33,14 @@ import owmii.powah.api.wrench.IWrenchable;
 import owmii.powah.api.wrench.WrenchMode;
 import owmii.powah.components.PowahComponents;
 import owmii.powah.item.WrenchItem;
-import owmii.powah.lib.block.AbstractBlock;
+import owmii.powah.lib.block.PowahAbstractBlock;
 import owmii.powah.lib.client.handler.IHud;
 import owmii.powah.lib.logistics.inventory.Inventory;
 import owmii.powah.lib.registry.IVariant;
 import owmii.powah.util.Util;
 import owmii.powah.util.math.V3d;
 
-public class EnergizingOrbBlock extends AbstractBlock<IVariant.Single, EnergizingOrbBlock> implements SimpleWaterloggedBlock, IWrenchable, IHud {
+public class EnergizingOrbBlock extends PowahAbstractBlock<IVariant.Single, EnergizingOrbBlock> implements SimpleWaterloggedBlock, IWrenchable, IHud {
     public EnergizingOrbBlock(Properties properties) {
         super(properties);
         setStateProps(state -> state.setValue(BlockStateProperties.FACING, Direction.DOWN));
@@ -56,29 +56,29 @@ public class EnergizingOrbBlock extends AbstractBlock<IVariant.Single, Energizin
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new EnergizingOrbTile(pos, state);
+        return new EnergizingOrbBlockEntity(pos, state);
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
+    protected InteractionResult useItemOn(ItemStack held, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
             BlockHitResult hitResult) {
         BlockEntity tileentity = level.getBlockEntity(pos);
-        if (tileentity instanceof EnergizingOrbTile) {
-            EnergizingOrbTile orb = (EnergizingOrbTile) tileentity;
+        if (tileentity instanceof EnergizingOrbBlockEntity) {
+            EnergizingOrbBlockEntity orb = (EnergizingOrbBlockEntity) tileentity;
             Inventory inv = orb.getInventory();
             ItemStack output = inv.getStackInSlot(0);
             if (held.isEmpty() || !output.isEmpty()) {
-                if (!level.isClientSide) {
+                if (!level.isClientSide()) {
                     player.getInventory().placeItemBackInInventory(inv.removeNext());
                 }
-                return ItemInteractionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             } else {
                 ItemStack copy = held.copy();
                 copy.setCount(1);
                 if (!inv.addNext(copy).isEmpty() && !player.isCreative()) {
                     held.shrink(1);
                 }
-                return ItemInteractionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
         }
         return super.useItemOn(held, state, level, pos, player, hand, hitResult);
@@ -95,13 +95,13 @@ public class EnergizingOrbBlock extends AbstractBlock<IVariant.Single, Energizin
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
+    public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos, Direction side) {
         BlockEntity tileentity = world.getBlockEntity(pos);
-        if (tileentity instanceof EnergizingOrbTile) {
-            EnergizingOrbTile orb = (EnergizingOrbTile) tileentity;
+        if (tileentity instanceof EnergizingOrbBlockEntity) {
+            EnergizingOrbBlockEntity orb = (EnergizingOrbBlockEntity) tileentity;
             return orb.getInventory().getNonEmptyStacks().size();
         }
-        return super.getAnalogOutputSignal(state, world, pos);
+        return super.getAnalogOutputSignal(state, world, pos, side);
     }
 
     @Override
@@ -109,41 +109,15 @@ public class EnergizingOrbBlock extends AbstractBlock<IVariant.Single, Energizin
         return true;
     }
 
-    @Override
-    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        int range = Powah.config().general.energizing_range;
-        List<BlockPos> list = BlockPos.betweenClosedStream(pos.offset(-range, -range, -range), pos.offset(range, range, range))
-                .map(BlockPos::immutable)
-                .filter(pos1 -> !pos.equals(pos1))
-                .collect(Collectors.toList());
-
-        list.forEach(pos1 -> {
-            BlockEntity tileEntity1 = worldIn.getBlockEntity(pos1);
-            if (tileEntity1 instanceof EnergizingRodTile) {
-                if (pos.equals(((EnergizingRodTile) tileEntity1).getOrbPos())) {
-                    ((EnergizingRodTile) tileEntity1).setOrbPos(BlockPos.ZERO);
-                }
-            }
-        });
-
-        list.forEach(pos1 -> {
-            BlockState state1 = worldIn.getBlockState(pos1);
-            if (state1.getBlock() instanceof EnergizingOrbBlock) {
-                ((EnergizingOrbBlock) state1.getBlock()).search(worldIn, pos1);
-            }
-        });
-        super.onRemove(state, worldIn, pos, newState, isMoving);
-    }
-
     public void search(Level worldIn, BlockPos pos) {
         int range = Powah.config().general.energizing_range;
         List<BlockPos> list = BlockPos.betweenClosedStream(pos.offset(-range, -range, -range), pos.offset(range, range, range))
                 .map(BlockPos::immutable).filter(pos1 -> !pos.equals(pos1)).collect(Collectors.toList());
-        list.stream().filter(p -> worldIn.isLoaded(pos)).forEach(pos1 -> {
+        list.stream().filter(worldIn::isLoaded).forEach(pos1 -> {
             BlockEntity tileEntity1 = worldIn.getBlockEntity(pos1);
-            if (tileEntity1 instanceof EnergizingRodTile) {
-                if (!((EnergizingRodTile) tileEntity1).hasOrb()) {
-                    ((EnergizingRodTile) tileEntity1).setOrbPos(pos);
+            if (tileEntity1 instanceof EnergizingRodBlockEntity) {
+                if (!((EnergizingRodBlockEntity) tileEntity1).hasOrb()) {
+                    ((EnergizingRodBlockEntity) tileEntity1).setOrbPos(pos);
                 }
             }
         });
@@ -156,10 +130,10 @@ public class EnergizingOrbBlock extends AbstractBlock<IVariant.Single, Energizin
             ItemStack stack = player.getItemInHand(hand);
             if (stack.getItem() instanceof WrenchItem) {
                 BlockEntity tileEntity = world.getBlockEntity(pos);
-                if (tileEntity instanceof EnergizingOrbTile) {
+                if (tileEntity instanceof EnergizingOrbBlockEntity) {
                     BlockPos rodPos = stack.get(PowahComponents.LINK_ROD_POS);
                     if (rodPos != null) {
-                        if (world.getBlockEntity(rodPos) instanceof EnergizingRodTile rod) {
+                        if (world.getBlockEntity(rodPos) instanceof EnergizingRodBlockEntity rod) {
                             V3d v3d = V3d.from(rodPos);
                             if ((int) v3d.distance(pos) <= Powah.config().general.energizing_range) {
                                 rod.setOrbPos(pos);
@@ -186,7 +160,7 @@ public class EnergizingOrbBlock extends AbstractBlock<IVariant.Single, Energizin
     @OnlyIn(Dist.CLIENT)
     public boolean renderHud(GuiGraphics gui, BlockState state, Level world, BlockPos pos, Player player, BlockHitResult result,
             @Nullable BlockEntity te) {
-        if (te instanceof EnergizingOrbTile orb) {
+        if (te instanceof EnergizingOrbBlockEntity orb) {
             if (orb.getBuffer().getCapacity() > 0) {
                 RenderSystem.getModelViewStack().pushMatrix();
                 RenderSystem.enableBlend();

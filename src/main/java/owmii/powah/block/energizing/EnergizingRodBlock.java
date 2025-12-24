@@ -15,7 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
@@ -77,7 +77,7 @@ public class EnergizingRodBlock extends AbstractEnergyBlock<EnergyConfig, Energi
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new EnergizingRodTile(pos, state, this.variant);
+        return new EnergizingRodBlockEntity(pos, state, this.variant);
     }
 
     @Override
@@ -89,12 +89,12 @@ public class EnergizingRodBlock extends AbstractEnergyBlock<EnergyConfig, Energi
     public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
         super.onPlace(state, worldIn, pos, oldState, isMoving);
         BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-        if (tileEntity instanceof EnergizingRodTile) {
-            setOrbPos(worldIn, pos, (EnergizingRodTile) tileEntity);
+        if (tileEntity instanceof EnergizingRodBlockEntity) {
+            setOrbPos(worldIn, pos, (EnergizingRodBlockEntity) tileEntity);
         }
     }
 
-    public void setOrbPos(Level worldIn, BlockPos pos, EnergizingRodTile tile) {
+    public void setOrbPos(Level worldIn, BlockPos pos, EnergizingRodBlockEntity tile) {
         int range = Powah.config().general.energizing_range;
         List<BlockPos> list = BlockPos.betweenClosedStream(pos.offset(-range, -range, -range), pos.offset(range, range, range))
                 .map(BlockPos::immutable).collect(Collectors.toList());
@@ -102,7 +102,7 @@ public class EnergizingRodBlock extends AbstractEnergyBlock<EnergyConfig, Energi
             if (pos1.equals(BlockPos.ZERO))
                 continue;
             BlockEntity tileEntity1 = worldIn.getBlockEntity(pos1);
-            if (tileEntity1 instanceof EnergizingOrbTile) {
+            if (tileEntity1 instanceof EnergizingOrbBlockEntity) {
                 tile.setOrbPos(pos1);
                 break;
             }
@@ -121,10 +121,10 @@ public class EnergizingRodBlock extends AbstractEnergyBlock<EnergyConfig, Energi
             ItemStack stack = player.getItemInHand(hand);
             if (stack.getItem() instanceof WrenchItem) {
                 BlockEntity tileEntity = world.getBlockEntity(pos);
-                if (tileEntity instanceof EnergizingRodTile rod) {
+                if (tileEntity instanceof EnergizingRodBlockEntity rod) {
                     var orbPos = stack.get(PowahComponents.LINK_ORB_POS);
                     if (orbPos != null) {
-                        if (world.getBlockEntity(orbPos) instanceof EnergizingOrbTile) {
+                        if (world.getBlockEntity(orbPos) instanceof EnergizingOrbBlockEntity) {
                             V3d v3d = V3d.from(orbPos);
                             if ((int) v3d.distance(pos) <= Powah.config().general.energizing_range) {
                                 rod.setOrbPos(orbPos);
@@ -151,7 +151,7 @@ public class EnergizingRodBlock extends AbstractEnergyBlock<EnergyConfig, Energi
     @OnlyIn(Dist.CLIENT)
     public boolean renderHud(GuiGraphics gui, BlockState state, Level world, BlockPos pos, Player player, BlockHitResult result,
             @Nullable BlockEntity te) {
-        if (te instanceof EnergizingRodTile rod) {
+        if (te instanceof EnergizingRodBlockEntity rod) {
             RenderSystem.getModelViewStack().pushMatrix();
             RenderSystem.enableBlend();
             Minecraft mc = Minecraft.getInstance();
@@ -161,9 +161,9 @@ public class EnergizingRodBlock extends AbstractEnergyBlock<EnergyConfig, Energi
             String s = ChatFormatting.GRAY + I18n.get("info.lollipop.stored") + ": " + I18n.get("info.lollipop.fe.stored",
                     Util.addCommas(rod.getEnergy().getEnergyStored()), Util.numFormat(rod.getEnergy().getCapacity()));
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath("lollipop", "textures/gui/ov_energy.png"));
+            RenderSystem.setShaderTexture(0, Identifier.fromNamespaceAndPath("lollipop", "textures/gui/ov_energy.png"));
             Draw.drawTexturedModalRect(gui, x - 37 - 1, y - 80, 0, 0, 74, 9, 0);
-            Draw.gaugeH(x - 37, y - 79, 72, 16, 0, 9, ((EnergizingRodTile) te).getEnergy());
+            Draw.gaugeH(x - 37, y - 79, 72, 16, 0, 9, ((EnergizingRodBlockEntity) te).getEnergy());
             gui.drawString(font, s, Math.round(x - (font.width(s) / 2.0f)), y - 67, 0xffffff);
             RenderSystem.disableBlend();
             RenderSystem.getModelViewStack().popMatrix();

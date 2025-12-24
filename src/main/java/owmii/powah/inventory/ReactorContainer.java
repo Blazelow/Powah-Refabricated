@@ -2,16 +2,16 @@ package owmii.powah.inventory;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import owmii.powah.block.reactor.ReactorTile;
+import owmii.powah.block.reactor.ReactorBlockEntity;
 import owmii.powah.lib.logistics.inventory.AbstractEnergyContainer;
 import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 
-public class ReactorContainer extends AbstractEnergyContainer<ReactorTile> {
+public class ReactorContainer extends AbstractEnergyContainer<ReactorBlockEntity> {
     public ReactorContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.REACTOR.get(), id, inventory, buffer);
     }
 
-    public ReactorContainer(int id, Inventory inventory, ReactorTile te) {
+    public ReactorContainer(int id, Inventory inventory, ReactorBlockEntity te) {
         super(Containers.REACTOR.get(), id, inventory, te);
     }
 
@@ -20,7 +20,7 @@ public class ReactorContainer extends AbstractEnergyContainer<ReactorTile> {
     }
 
     @Override
-    protected void init(Inventory inventory, ReactorTile te) {
+    protected void init(Inventory inventory, ReactorBlockEntity te) {
         super.init(inventory, te);
         addSlot(new SlotBase(te.getInventory(), 0, 4, 54));
         addSlot(new SlotBase(te.getInventory(), 1, 73, 29));

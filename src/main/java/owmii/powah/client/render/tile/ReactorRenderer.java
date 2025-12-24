@@ -6,17 +6,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.phys.AABB;
 import owmii.powah.Powah;
-import owmii.powah.block.reactor.ReactorTile;
+import owmii.powah.block.reactor.ReactorBlockEntity;
 import owmii.powah.client.model.CubeModel;
 import owmii.powah.client.model.PowahLayerDefinitions;
 import owmii.powah.client.model.ReactorModel;
 import owmii.powah.lib.client.renderer.tile.AbstractTileRenderer;
 
-public class ReactorRenderer extends AbstractTileRenderer<ReactorTile> {
+public class ReactorRenderer extends AbstractTileRenderer<ReactorBlockEntity> {
     private final ReactorModel reactorModel;
     private final CubeModel reactorPartModel;
 
@@ -27,8 +27,8 @@ public class ReactorRenderer extends AbstractTileRenderer<ReactorTile> {
     }
 
     @Override
-    public void render(ReactorTile te, float pt, PoseStack matrix, MultiBufferSource rtb, Minecraft mc, ClientLevel world, LocalPlayer player,
-            int light, int ov) {
+    public void render(ReactorBlockEntity te, float pt, PoseStack matrix, MultiBufferSource rtb, Minecraft mc, ClientLevel world, LocalPlayer player,
+                       int light, int ov) {
         matrix.pushPose();
         matrix.translate(0.5, 0.5, 0.5);
         matrix.scale(1.0f, -1.0f, -1.0f);
@@ -44,12 +44,12 @@ public class ReactorRenderer extends AbstractTileRenderer<ReactorTile> {
     }
 
     @Override
-    public boolean shouldRenderOffScreen(ReactorTile te) {
+    public boolean shouldRenderOffScreen(ReactorBlockEntity te) {
         return te.isBuilt();
     }
 
     @Override
-    public AABB getRenderBoundingBox(ReactorTile blockEntity) {
+    public AABB getRenderBoundingBox(ReactorBlockEntity blockEntity) {
         return new AABB(blockEntity.getBlockPos()).inflate(1.0D, 3.0D, 1.0D);
     }
 }

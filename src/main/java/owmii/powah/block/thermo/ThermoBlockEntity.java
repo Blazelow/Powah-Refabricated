@@ -11,24 +11,24 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import owmii.powah.api.PowahAPI;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.lib.block.AbstractEnergyProvider;
+import owmii.powah.lib.block.AbstractGeneratorBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Util;
 
-public class ThermoTile extends AbstractEnergyProvider<ThermoBlock> implements IInventoryHolder, ITankHolder {
+public class ThermoBlockEntity extends AbstractGeneratorBlockEntity<ThermoBlock> implements IInventoryHolder, ITankHolder {
     public long generating;
 
-    public ThermoTile(BlockPos pos, BlockState state, Tier variant) {
+    public ThermoBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.THERMO_GEN.get(), pos, state, variant);
         this.tank.setCapacity(Util.bucketAmount() * 4)
                 .setValidator(stack -> PowahAPI.getCoolant(stack.getFluid()).isPresent())
-                .setChange(() -> ThermoTile.this.sync(10));
+                .setChange(() -> ThermoBlockEntity.this.sync(10));
         this.inv.add(1);
     }
 
-    public ThermoTile(BlockPos pos, BlockState state) {
+    public ThermoBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
     }
 

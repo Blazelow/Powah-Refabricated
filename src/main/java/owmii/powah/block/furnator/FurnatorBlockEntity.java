@@ -10,21 +10,21 @@ import net.minecraft.world.level.block.state.BlockState;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.lib.block.AbstractEnergyProvider;
+import owmii.powah.lib.block.AbstractGeneratorBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Ticker;
 
-public class FurnatorTile extends AbstractEnergyProvider<FurnatorBlock> implements IInventoryHolder {
+public class FurnatorBlockEntity extends AbstractGeneratorBlockEntity<FurnatorBlock> implements IInventoryHolder {
     protected final Ticker carbon = Ticker.empty();
     protected boolean burning;
 
-    public FurnatorTile(BlockPos pos, BlockState state, Tier variant) {
+    public FurnatorBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.FURNATOR.get(), pos, state, variant);
         this.inv.set(2);
     }
 
-    public FurnatorTile(BlockPos pos, BlockState state) {
+    public FurnatorBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
     }
 

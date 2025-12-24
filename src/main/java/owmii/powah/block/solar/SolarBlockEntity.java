@@ -12,23 +12,23 @@ import org.jetbrains.annotations.Nullable;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.item.Itms;
-import owmii.powah.lib.block.AbstractEnergyProvider;
+import owmii.powah.lib.block.AbstractGeneratorBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Misc;
 
-public class SolarTile extends AbstractEnergyProvider<SolarBlock> implements IInventoryHolder {
+public class SolarBlockEntity extends AbstractGeneratorBlockEntity<SolarBlock> implements IInventoryHolder {
     public static final String CAN_SEE_SKY = "can_see_sky";
     public static final String HAS_LENS_OF_ENDER = "has_lens_of_ender";
     private boolean canSeeSky;
     private boolean hasLensOfEnder;
 
-    public SolarTile(BlockPos pos, BlockState state, Tier variant) {
+    public SolarBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.SOLAR_PANEL.get(), pos, state, variant);
         this.inv.add(1);
     }
 
-    public SolarTile(BlockPos pos, BlockState state) {
+    public SolarBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
     }
 
@@ -70,12 +70,10 @@ public class SolarTile extends AbstractEnergyProvider<SolarBlock> implements IIn
     }
 
     @Override
-    public void onRemoved(Level world, BlockState state, BlockState newState, boolean isMoving) {
-        super.onRemoved(world, state, newState, isMoving);
-        if (state.getBlock() != newState.getBlock()) {
-            if (this.hasLensOfEnder) {
-                Block.popResource(world, this.worldPosition, new ItemStack(Itms.LENS_OF_ENDER.get()));
-            }
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos, state);
+        if (this.hasLensOfEnder) {
+            Block.popResource(getLevel(), this.worldPosition, new ItemStack(Itms.LENS_OF_ENDER.get()));
         }
     }
 

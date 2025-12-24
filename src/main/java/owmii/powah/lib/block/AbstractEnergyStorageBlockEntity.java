@@ -23,7 +23,7 @@ import owmii.powah.lib.registry.IVariant;
 import owmii.powah.util.ChargeUtil;
 import owmii.powah.util.Util;
 
-public abstract class AbstractEnergyStorage<C extends IEnergyConfig<Tier>, B extends AbstractEnergyBlock<C, B>> extends AbstractTickableTile<Tier, B>
+public abstract class AbstractEnergyStorageBlockEntity<C extends IEnergyConfig<Tier>, B extends AbstractEnergyBlock<C, B>> extends PowahAbstractTickingBlockEntity<Tier, B>
         implements IRedstoneInteract {
     protected final SideConfig sideConfig = new SideConfig(this);
     protected final Energy energy = Energy.create(0);
@@ -31,11 +31,11 @@ public abstract class AbstractEnergyStorage<C extends IEnergyConfig<Tier>, B ext
     @SuppressWarnings("unchecked")
     private final BlockCapabilityCache<IEnergyStorage, @Nullable Direction>[] capabilityCaches = new BlockCapabilityCache[6];
 
-    public AbstractEnergyStorage(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public AbstractEnergyStorageBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         this(type, pos, state, IVariant.getEmpty());
     }
 
-    public AbstractEnergyStorage(BlockEntityType<?> type, BlockPos pos, BlockState state, Tier variant) {
+    public AbstractEnergyStorageBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Tier variant) {
         super(type, pos, state, variant);
     }
 
@@ -207,7 +207,7 @@ public abstract class AbstractEnergyStorage<C extends IEnergyConfig<Tier>, B ext
 
         @Override
         public int extractEnergy(int maxExtract, boolean simulate) {
-            return Util.safeInt(AbstractEnergyStorage.this.extractEnergy(maxExtract, simulate, side));
+            return Util.safeInt(AbstractEnergyStorageBlockEntity.this.extractEnergy(maxExtract, simulate, side));
         }
 
         @Override
@@ -222,17 +222,17 @@ public abstract class AbstractEnergyStorage<C extends IEnergyConfig<Tier>, B ext
 
         @Override
         public int receiveEnergy(int maxReceive, boolean simulate) {
-            return Util.safeInt(AbstractEnergyStorage.this.receiveEnergy(maxReceive, simulate, side));
+            return Util.safeInt(AbstractEnergyStorageBlockEntity.this.receiveEnergy(maxReceive, simulate, side));
         }
 
         @Override
         public boolean canReceive() {
-            return AbstractEnergyStorage.this.canReceiveEnergy(side);
+            return AbstractEnergyStorageBlockEntity.this.canReceiveEnergy(side);
         }
 
         @Override
         public boolean canExtract() {
-            return AbstractEnergyStorage.this.canExtractEnergy(side);
+            return AbstractEnergyStorageBlockEntity.this.canExtractEnergy(side);
         }
     }
 

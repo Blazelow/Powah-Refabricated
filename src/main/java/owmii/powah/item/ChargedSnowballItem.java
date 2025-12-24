@@ -26,7 +26,7 @@ public class ChargedSnowballItem extends ItemBase {
 
         worldIn.playSound(null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F,
                 0.4F / (playerIn.getRandom().nextFloat() * 0.4F + 0.8F));
-        if (!worldIn.isClientSide) {
+        if (!worldIn.isClientSide()) {
             ChargedSnowballEntity entity = new ChargedSnowballEntity(worldIn, playerIn);
             entity.setItem(itemstack);
             entity.shootFromRotation(playerIn, playerIn.getXRot(), playerIn.getYRot(), 0.0F, 1.5F, 1.0F);

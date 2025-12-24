@@ -7,7 +7,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
-import owmii.powah.lib.block.AbstractBlock;
+import owmii.powah.lib.block.PowahAbstractBlock;
 
 public class ItemBlock<B extends Block> extends BlockItem {
     private final B block;
@@ -26,8 +26,8 @@ public class ItemBlock<B extends Block> extends BlockItem {
 
     @Override
     public Component getName(ItemStack stack) {
-        if (this.block instanceof AbstractBlock) {
-            return ((AbstractBlock<?, ?>) this.block).getDisplayName(stack);
+        if (this.block instanceof PowahAbstractBlock) {
+            return ((PowahAbstractBlock<?, ?>) this.block).getDisplayName(stack);
         }
         return super.getName(stack);
     }

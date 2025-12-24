@@ -7,22 +7,22 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.neoforged.neoforge.fluids.FluidStack;
-import owmii.powah.block.magmator.MagmatorTile;
+import owmii.powah.block.magmator.MagmatorBlockEntity;
 import owmii.powah.client.ClientUtils;
 import owmii.powah.lib.client.renderer.tile.AbstractTileRenderer;
 import owmii.powah.lib.client.util.Render;
 
-public class MagmatorRenderer extends AbstractTileRenderer<MagmatorTile> {
+public class MagmatorRenderer extends AbstractTileRenderer<MagmatorBlockEntity> {
     protected MagmatorRenderer(BlockEntityRendererProvider.Context context) {
         super(context);
     }
 
     @Override
-    public void render(MagmatorTile te, float pt, PoseStack matrix, MultiBufferSource rtb, Minecraft mc, ClientLevel world, LocalPlayer player,
-            int light, int ov) {
+    public void render(MagmatorBlockEntity te, float pt, PoseStack matrix, MultiBufferSource rtb, Minecraft mc, ClientLevel world, LocalPlayer player,
+                       int light, int ov) {
         var tank = te.getTank();
         if (!tank.isEmpty()) {
             FluidStack fluidStack = tank.getFluid();

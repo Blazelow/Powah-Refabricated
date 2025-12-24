@@ -7,7 +7,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +22,7 @@ import owmii.powah.lib.client.util.Render;
 import owmii.powah.lib.client.util.RenderTypes;
 
 public class ReactorOverlayHandler {
-    static final ResourceLocation OV_TEXTURE = Powah.id("textures/misc/reactor_ov.png");
+    static final Identifier OV_TEXTURE = Powah.id("textures/misc/reactor_ov.png");
 
     public static void onRenderLast(PoseStack poseStack, Camera camera) {
         Minecraft mc = Minecraft.getInstance();

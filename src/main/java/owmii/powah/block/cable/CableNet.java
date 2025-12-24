@@ -19,9 +19,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class CableNet {
     // Level -> ChunkPos -> BlockPos -> Tile
-    private static final Map<ServerLevel, Long2ObjectMap<Long2ObjectMap<CableTile>>> loadedCables = new WeakHashMap<>();
+    private static final Map<ServerLevel, Long2ObjectMap<Long2ObjectMap<CableBlockEntity>>> loadedCables = new WeakHashMap<>();
 
-    static void addCable(CableTile cable) {
+    static void addCable(CableBlockEntity cable) {
         if (!(cable.getLevel() instanceof ServerLevel level)) {
             return;
         }
@@ -38,7 +38,7 @@ public class CableNet {
         updateAdjacentCables(cable);
     }
 
-    static void removeCable(CableTile cable) {
+    static void removeCable(CableBlockEntity cable) {
         if (!(cable.getLevel() instanceof ServerLevel level)) {
             return;
         }
@@ -67,7 +67,7 @@ public class CableNet {
     }
 
     @Nullable
-    private static CableTile getCableAt(Long2ObjectMap<Long2ObjectMap<CableTile>> levelMap, BlockPos pos) {
+    private static CableBlockEntity getCableAt(Long2ObjectMap<Long2ObjectMap<CableBlockEntity>> levelMap, BlockPos pos) {
         var chunkMap = levelMap.get(ChunkPos.asLong(pos));
         if (chunkMap == null) {
             return null;
@@ -75,7 +75,7 @@ public class CableNet {
         return chunkMap.get(pos.asLong());
     }
 
-    static void updateAdjacentCables(CableTile cable) {
+    static void updateAdjacentCables(CableBlockEntity cable) {
         if (!(cable.getLevel() instanceof ServerLevel level)) {
             return;
         }
@@ -95,7 +95,7 @@ public class CableNet {
         }
     }
 
-    static void calculateNetwork(CableTile cable) {
+    static void calculateNetwork(CableBlockEntity cable) {
         if (!(cable.getLevel() instanceof ServerLevel level)) {
             return;
         }
@@ -103,8 +103,8 @@ public class CableNet {
         var levelMap = Objects.requireNonNull(loadedCables.get(level), "No level map?");
 
         // Here we go again...
-        var cables = new LinkedHashSet<CableTile>();
-        var queue = new ArrayDeque<CableTile>();
+        var cables = new LinkedHashSet<CableBlockEntity>();
+        var queue = new ArrayDeque<CableBlockEntity>();
         cables.add(cable);
         queue.add(cable);
 
@@ -129,9 +129,9 @@ public class CableNet {
         }
     }
 
-    List<CableTile> cableList;
+    List<CableBlockEntity> cableList;
 
-    CableNet(List<CableTile> cableList) {
+    CableNet(List<CableBlockEntity> cableList) {
         this.cableList = cableList;
     }
 

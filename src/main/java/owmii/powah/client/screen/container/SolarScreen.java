@@ -4,14 +4,14 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import owmii.powah.block.solar.SolarTile;
+import owmii.powah.block.solar.SolarBlockEntity;
 import owmii.powah.client.screen.Textures;
 import owmii.powah.inventory.SolarContainer;
 import owmii.powah.lib.client.screen.container.AbstractEnergyScreen;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Util;
 
-public class SolarScreen extends AbstractEnergyScreen<SolarTile, SolarContainer> {
+public class SolarScreen extends AbstractEnergyScreen<SolarBlockEntity, SolarContainer> {
     public SolarScreen(SolarContainer container, Inventory inv, Component title) {
         super(container, inv, title, Textures.WIDE_ENERGY);
     }

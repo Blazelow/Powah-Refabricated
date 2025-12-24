@@ -6,15 +6,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import owmii.powah.Powah;
-import owmii.powah.block.reactor.ReactorPartTile;
+import owmii.powah.block.reactor.ReactorPartBlockEntity;
 import owmii.powah.client.model.CubeModel;
 import owmii.powah.client.model.PowahLayerDefinitions;
 import owmii.powah.lib.client.renderer.tile.AbstractTileRenderer;
 
-public class ReactorPartRenderer extends AbstractTileRenderer<ReactorPartTile> {
+public class ReactorPartRenderer extends AbstractTileRenderer<ReactorPartBlockEntity> {
     private final CubeModel reactorPartModel;
 
     protected ReactorPartRenderer(BlockEntityRendererProvider.Context context) {
@@ -23,8 +23,8 @@ public class ReactorPartRenderer extends AbstractTileRenderer<ReactorPartTile> {
     }
 
     @Override
-    public void render(ReactorPartTile te, float pt, PoseStack matrix, MultiBufferSource rtb, Minecraft mc, ClientLevel world, LocalPlayer player,
-            int light, int ov) {
+    public void render(ReactorPartBlockEntity te, float pt, PoseStack matrix, MultiBufferSource rtb, Minecraft mc, ClientLevel world, LocalPlayer player,
+                       int light, int ov) {
         if (te.isBuilt())
             return;
         matrix.pushPose();

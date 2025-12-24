@@ -1,6 +1,8 @@
 package owmii.powah.block.energizing;
 
+import java.util.List;
 import java.util.Optional;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -9,26 +11,28 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+import owmii.powah.Powah;
 import owmii.powah.block.Tiles;
-import owmii.powah.lib.block.AbstractTickableTile;
+import owmii.powah.lib.block.PowahAbstractTickingBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.lib.logistics.inventory.Inventory;
 import owmii.powah.lib.registry.IVariant;
 import owmii.powah.recipe.Recipes;
 
-public class EnergizingOrbTile extends AbstractTickableTile<IVariant.Single, EnergizingOrbBlock> implements IInventoryHolder {
+public class EnergizingOrbBlockEntity extends PowahAbstractTickingBlockEntity<IVariant.Single, EnergizingOrbBlock> implements IInventoryHolder {
     private final Energy buffer = Energy.create(0);
     private boolean containRecipe;
 
     @Nullable
     private RecipeHolder<EnergizingRecipe> recipe;
 
-    public EnergizingOrbTile(BlockPos pos, BlockState state) {
+    public EnergizingOrbBlockEntity(BlockPos pos, BlockState state) {
         super(Tiles.ENERGIZING_ORB.get(), pos, state);
         this.inv.set(7);
     }
@@ -170,5 +174,32 @@ public class EnergizingOrbTile extends AbstractTickableTile<IVariant.Single, Ene
     @Override
     public boolean canInsert(int index, ItemStack stack) {
         return index != 0 && this.inv.getStackInSlot(0).isEmpty() && this.inv.getStackInSlot(index).isEmpty();
+    }
+
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos, state);
+
+        int range = Powah.config().general.energizing_range;
+        List<BlockPos> list = BlockPos.betweenClosedStream(pos.offset(-range, -range, -range), pos.offset(range, range, range))
+                .map(BlockPos::immutable)
+                .filter(pos1 -> !pos.equals(pos1))
+                .toList();
+
+        list.forEach(pos1 -> {
+            BlockEntity tileEntity1 = getLevel().getBlockEntity(pos1);
+            if (tileEntity1 instanceof EnergizingRodBlockEntity rod) {
+                if (pos.equals(rod.getOrbPos())) {
+                    rod.setOrbPos(BlockPos.ZERO);
+                }
+            }
+        });
+
+        list.forEach(pos1 -> {
+            BlockState state1 = getLevel().getBlockState(pos1);
+            if (state1.getBlock() instanceof EnergizingOrbBlock otherOrb) {
+                otherOrb.search(getLevel(), pos1);
+            }
+        });
     }
 }

@@ -11,26 +11,26 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import owmii.powah.api.PowahAPI;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.lib.block.AbstractEnergyProvider;
+import owmii.powah.lib.block.AbstractGeneratorBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.lib.logistics.fluid.Tank;
 import owmii.powah.util.Util;
 
-public class MagmatorTile extends AbstractEnergyProvider<MagmatorBlock> implements IInventoryHolder, ITankHolder {
+public class MagmatorBlockEntity extends AbstractGeneratorBlockEntity<MagmatorBlock> implements IInventoryHolder, ITankHolder {
     protected final Energy buffer = Energy.create(0);
     protected boolean burning;
 
-    public MagmatorTile(BlockPos pos, BlockState state, Tier variant) {
+    public MagmatorBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.MAGMATOR.get(), pos, state, variant);
         this.tank.setCapacity(Util.bucketAmount() * 4)
                 .setValidator(stack -> PowahAPI.getMagmaticFluidEnergyProduced(stack.getFluid()) != 0)
-                .setChange(() -> MagmatorTile.this.sync(10));
+                .setChange(() -> MagmatorBlockEntity.this.sync(10));
         this.inv.add(1);
     }
 
-    public MagmatorTile(BlockPos pos, BlockState state) {
+    public MagmatorBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
     }
 

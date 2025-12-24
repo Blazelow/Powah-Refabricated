@@ -12,13 +12,13 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import owmii.powah.Powah;
 import owmii.powah.block.Blcks;
 import owmii.powah.block.Tier;
 
 public class MagmatorCategory implements DisplayCategory<MagmatorDisplay> {
-    public static final ResourceLocation GUI_BACK = Powah.id("textures/gui/jei/misc.png");
+    public static final Identifier GUI_BACK = Powah.id("textures/gui/jei/misc.png");
     public static final CategoryIdentifier<MagmatorDisplay> ID = CategoryIdentifier.of(Powah.id("magmatic"));
     private final Renderer icon;
 

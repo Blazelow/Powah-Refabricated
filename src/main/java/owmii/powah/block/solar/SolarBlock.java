@@ -29,7 +29,7 @@ import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.SolarContainer;
 import owmii.powah.lib.block.AbstractGeneratorBlock;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
@@ -58,7 +58,7 @@ public class SolarBlock extends AbstractGeneratorBlock<SolarBlock> implements Si
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new SolarTile(pos, state, this.variant);
+        return new SolarBlockEntity(pos, state, this.variant);
     }
 
     @Override
@@ -68,9 +68,9 @@ public class SolarBlock extends AbstractGeneratorBlock<SolarBlock> implements Si
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory inventory, AbstractTileEntity te, BlockHitResult result) {
-        if (te instanceof SolarTile) {
-            return new SolarContainer(id, inventory, (SolarTile) te);
+    public AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+        if (te instanceof SolarBlockEntity) {
+            return new SolarContainer(id, inventory, (SolarBlockEntity) te);
         }
         return null;
     }

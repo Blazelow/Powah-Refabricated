@@ -5,7 +5,7 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -16,15 +16,15 @@ import owmii.powah.Powah;
 import owmii.powah.compat.common.PassiveHeatSource;
 
 public class JeiHeatSourceCategory extends AbstractCategory<PassiveHeatSource> {
-    public static final RecipeType<PassiveHeatSource> TYPE = RecipeType.create(Powah.MOD_ID, "heat_source", PassiveHeatSource.class);
+    public static final IRecipeType<PassiveHeatSource> TYPE = IRecipeType.create(Powah.MOD_ID, "heat_source", PassiveHeatSource.class);
 
     public JeiHeatSourceCategory(IGuiHelper guiHelper) {
-        super(guiHelper, Blocks.MAGMA_BLOCK, Component.translatable("gui.powah.jei.category.heat.sources"),
-                guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build());
+        // TODO 26.1 background: guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build());
+        super(guiHelper, Blocks.MAGMA_BLOCK, Component.translatable("gui.powah.jei.category.heat.sources"), 160, 24);
     }
 
     @Override
-    public RecipeType<PassiveHeatSource> getRecipeType() {
+    public IRecipeType<PassiveHeatSource> getRecipeType() {
         return TYPE;
     }
 
@@ -33,10 +33,10 @@ public class JeiHeatSourceCategory extends AbstractCategory<PassiveHeatSource> {
         var input = builder.addSlot(RecipeIngredientRole.INPUT, 4, 5);
 
         if (recipe.block() != null) {
-            input.addItemLike(recipe.block());
+            input.add(recipe.block());
         }
         if (recipe.fluid() != null) {
-            input.addFluidStack(recipe.fluid());
+            input.add(recipe.fluid());
         }
     }
 

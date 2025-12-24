@@ -6,7 +6,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import owmii.powah.Powah;
-import owmii.powah.block.ender.AbstractEnderTile;
+import owmii.powah.block.ender.AbstractEnderBlockEntity;
 import owmii.powah.network.ServerboundPacket;
 
 public record SetChannelPacket(BlockPos pos, int channel) implements ServerboundPacket {
@@ -24,7 +24,7 @@ public record SetChannelPacket(BlockPos pos, int channel) implements Serverbound
 
     @Override
     public void handleOnServer(ServerPlayer player) {
-        if (player.serverLevel().getBlockEntity(pos) instanceof AbstractEnderTile<?> cell) {
+        if (player.serverLevel().getBlockEntity(pos) instanceof AbstractEnderBlockEntity<?> cell) {
             cell.getChannel().set(channel);
             cell.sync();
         }

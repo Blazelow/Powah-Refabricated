@@ -33,7 +33,7 @@ import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.CableConfig;
 import owmii.powah.inventory.CableContainer;
 import owmii.powah.lib.block.AbstractEnergyBlock;
-import owmii.powah.lib.block.AbstractTileEntity;
+import owmii.powah.lib.block.PowahAbstractBlockEntity;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 import owmii.powah.util.EnergyUtil;
 
@@ -62,7 +62,7 @@ public class CableBlock extends AbstractEnergyBlock<CableConfig, CableBlock> imp
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new CableTile(pos, state, this.variant);
+        return new CableBlockEntity(pos, state, this.variant);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class CableBlock extends AbstractEnergyBlock<CableConfig, CableBlock> imp
             level.setBlock(pos, newState, Block.UPDATE_CLIENTS);
         }
 
-        if (level.getBlockEntity(pos) instanceof CableTile cable) {
+        if (level.getBlockEntity(pos) instanceof CableBlockEntity cable) {
             var oldSides = EnumSet.copyOf(cable.energySides);
 
             cable.energySides.clear();
@@ -147,9 +147,9 @@ public class CableBlock extends AbstractEnergyBlock<CableConfig, CableBlock> imp
 
     @Nullable
     @Override
-    public <T extends AbstractTileEntity> AbstractContainer getContainer(int id, Inventory inventory, AbstractTileEntity te, BlockHitResult result) {
-        if (te instanceof CableTile) {
-            return new CableContainer(id, inventory, (CableTile) te);
+    public <T extends PowahAbstractBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+        if (te instanceof CableBlockEntity) {
+            return new CableContainer(id, inventory, (CableBlockEntity) te);
         }
         return super.getContainer(id, inventory, te, result);
     }
@@ -164,7 +164,7 @@ public class CableBlock extends AbstractEnergyBlock<CableConfig, CableBlock> imp
     @Override
     public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean isMoving) {
         BlockEntity tileEntity = world.getBlockEntity(pos);
-        if (tileEntity instanceof CableTile cable) {
+        if (tileEntity instanceof CableBlockEntity cable) {
             cable.energySides.clear();
             for (Direction direction : Direction.values()) {
                 if (canConnectEnergy(world, pos, direction)) {
@@ -186,7 +186,7 @@ public class CableBlock extends AbstractEnergyBlock<CableConfig, CableBlock> imp
         // Connections between cables are handled by building energy networks (see CableNet) of the same tier
         // Cables of different tiers cannot connect, so we have to skip cables here to avoid connecting to them
         // via the exposed FE capability
-        return !(tile instanceof CableTile) && EnergyUtil.hasEnergy(world, pos.relative(direction), direction.getOpposite());
+        return !(tile instanceof CableBlockEntity) && EnergyUtil.hasEnergy(world, pos.relative(direction), direction.getOpposite());
     }
 
     public static Optional<Direction> getHitSide(Vec3 hit, BlockPos pos) {

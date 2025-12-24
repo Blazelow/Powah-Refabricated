@@ -7,18 +7,18 @@ import net.minecraft.world.level.block.state.BlockState;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.config.v2.types.EnergyConfig;
-import owmii.powah.lib.block.AbstractEnergyStorage;
+import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.logistics.Transfer;
 import owmii.powah.util.ChargeUtil;
 
-public class EnergyDischargerTile extends AbstractEnergyStorage<EnergyConfig, EnergyDischargerBlock> implements IInventoryHolder {
-    public EnergyDischargerTile(BlockPos pos, BlockState state, Tier variant) {
+public class EnergyDischargerBlockEntity extends AbstractEnergyStorageBlockEntity<EnergyConfig, EnergyDischargerBlock> implements IInventoryHolder {
+    public EnergyDischargerBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.ENERGY_DISCHARGER.get(), pos, state, variant);
         this.inv.add(7);
     }
 
-    public EnergyDischargerTile(BlockPos pos, BlockState state) {
+    public EnergyDischargerBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
     }
 

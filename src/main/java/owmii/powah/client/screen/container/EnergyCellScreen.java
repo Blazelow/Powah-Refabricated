@@ -5,14 +5,14 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import owmii.powah.block.energycell.EnergyCellTile;
+import owmii.powah.block.energycell.EnergyCellBlockEntity;
 import owmii.powah.client.screen.Textures;
 import owmii.powah.inventory.EnergyCellContainer;
 import owmii.powah.lib.client.screen.container.AbstractEnergyScreen;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Util;
 
-public class EnergyCellScreen extends AbstractEnergyScreen<EnergyCellTile, EnergyCellContainer> {
+public class EnergyCellScreen extends AbstractEnergyScreen<EnergyCellBlockEntity, EnergyCellContainer> {
     public EnergyCellScreen(EnergyCellContainer container, Inventory inv, Component title) {
         super(container, inv, title, Textures.ENERGY_CELL);
     }

@@ -6,9 +6,10 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.registries.datamaps.DataMapType;
 import owmii.powah.Powah;
+import owmii.powah.block.magmator.MagmatorBlockEntity;
 
 /**
- * Fuel for the {@link owmii.powah.block.magmator.MagmatorTile}.
+ * Fuel for the {@link MagmatorBlockEntity}.
  *
  * @param energyProduced FE per 100mb of fluid
  */
