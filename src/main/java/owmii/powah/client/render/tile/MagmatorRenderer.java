@@ -24,7 +24,8 @@ public class MagmatorRenderer implements BlockEntityRenderer<MagmatorBlockEntity
     }
 
     @Override
-    public void extractRenderState(MagmatorBlockEntity blockEntity, MagmatorRendererState state, float partialTicks, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+    public void extractRenderState(MagmatorBlockEntity blockEntity, MagmatorRendererState state, float partialTicks, Vec3 cameraPosition,
+            ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
         Tank tank = blockEntity.getTank();
         state.tank = tank.getFluid();

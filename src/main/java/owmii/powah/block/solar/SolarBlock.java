@@ -30,8 +30,8 @@ import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.SolarContainer;
-import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
+import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
@@ -78,7 +78,8 @@ public class SolarBlock extends PowahBaseGeneratorBlock<SolarBlock> implements S
     }
 
     @Override
-    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction directionToNeighbour, BlockPos neighbourPos, BlockState neighbourState, RandomSource random) {
+    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction directionToNeighbour,
+            BlockPos neighbourPos, BlockState neighbourState, RandomSource random) {
         return createState(level, pos);
     }
 

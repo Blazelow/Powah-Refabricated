@@ -1,5 +1,10 @@
 package owmii.powah.block;
 
+import static owmii.powah.lib.block.Properties.deepslate;
+import static owmii.powah.lib.block.Properties.metal;
+import static owmii.powah.lib.block.Properties.metalNoSolid;
+import static owmii.powah.lib.block.Properties.rock;
+
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
@@ -21,11 +26,6 @@ import owmii.powah.block.solar.SolarBlock;
 import owmii.powah.block.thermo.ThermoBlock;
 import owmii.powah.block.transmitter.PlayerTransmitterBlock;
 import owmii.powah.lib.registry.TieredBlockReg;
-
-import static owmii.powah.lib.block.Properties.deepslate;
-import static owmii.powah.lib.block.Properties.metal;
-import static owmii.powah.lib.block.Properties.metalNoSolid;
-import static owmii.powah.lib.block.Properties.rock;
 
 public class Blcks {
 
@@ -59,10 +59,13 @@ public class Blcks {
             (variant, props) -> new EnergyHopperBlock(metalNoSolid(props, 2.0f, 20.0f), variant), Tier.getNormalVariants());
     public static final TieredBlockReg ENERGY_DISCHARGER = new TieredBlockReg(DR, "energy_discharger",
             (variant, props) -> new EnergyDischargerBlock(metalNoSolid(props, 2.0f, 20.0f), variant), Tier.getNormalVariants());
-    public static final DeferredBlock<Block> ENERGIZED_STEEL = DR.registerBlock("energized_steel_block", props -> new Block(metal(props, 2.0f, 20.0f)));
-    public static final DeferredBlock<Block> BLAZING_CRYSTAL = DR.registerBlock("blazing_crystal_block", props -> new Block(metal(props, 2.0f, 20.0f)));
+    public static final DeferredBlock<Block> ENERGIZED_STEEL = DR.registerBlock("energized_steel_block",
+            props -> new Block(metal(props, 2.0f, 20.0f)));
+    public static final DeferredBlock<Block> BLAZING_CRYSTAL = DR.registerBlock("blazing_crystal_block",
+            props -> new Block(metal(props, 2.0f, 20.0f)));
     public static final DeferredBlock<Block> NIOTIC_CRYSTAL = DR.registerBlock("niotic_crystal_block", props -> new Block(metal(props, 2.0f, 20.0f)));
-    public static final DeferredBlock<Block> SPIRITED_CRYSTAL = DR.registerBlock("spirited_crystal_block", props -> new Block(metal(props, 2.0f, 20.0f)));
+    public static final DeferredBlock<Block> SPIRITED_CRYSTAL = DR.registerBlock("spirited_crystal_block",
+            props -> new Block(metal(props, 2.0f, 20.0f)));
     public static final DeferredBlock<Block> NITRO_CRYSTAL = DR.registerBlock("nitro_crystal_block", props -> new Block(metal(props, 2.0f, 20.0f)));
     public static final DeferredBlock<Block> URANINITE = DR.registerBlock("uraninite_block", props -> new Block(metal(props, 2.0f, 20.0f)));
     public static final DeferredBlock<Block> DEEPSLATE_URANINITE_ORE_POOR = DR.registerBlock("deepslate_uraninite_ore_poor",

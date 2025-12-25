@@ -2,14 +2,9 @@ package owmii.powah.block.energizing;
 
 import static net.minecraft.world.phys.shapes.Shapes.join;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.List;
 import java.util.stream.Collectors;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -25,8 +20,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.api.wrench.IWrenchable;
@@ -34,10 +27,8 @@ import owmii.powah.api.wrench.WrenchMode;
 import owmii.powah.components.PowahComponents;
 import owmii.powah.item.WrenchItem;
 import owmii.powah.lib.block.PowahBaseBlock;
-import owmii.powah.client.render.hud.BlockHudRenderer;
 import owmii.powah.lib.logistics.inventory.Inventory;
 import owmii.powah.lib.registry.IVariant;
-import owmii.powah.util.Util;
 import owmii.powah.util.math.V3d;
 
 public class EnergizingOrbBlock extends PowahBaseBlock<IVariant.Single, EnergizingOrbBlock> implements SimpleWaterloggedBlock, IWrenchable {

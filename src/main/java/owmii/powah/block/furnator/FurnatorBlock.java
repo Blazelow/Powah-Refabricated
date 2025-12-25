@@ -21,8 +21,8 @@ import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.FurnatorContainer;
-import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
+import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
@@ -83,7 +83,7 @@ public class FurnatorBlock extends PowahBaseGeneratorBlock<FurnatorBlock> implem
                 world.playLocalSound(d0, d1, d2, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0F, 1.0F, false);
             }
 
-            Direction direction = state.getValue(BlockStateProperties.FACING);
+            Direction direction = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
             Direction.Axis direction$axis = direction.getAxis();
             double d3 = 0.52D;
             double d4 = rand.nextDouble() * 0.6D - 0.3D;

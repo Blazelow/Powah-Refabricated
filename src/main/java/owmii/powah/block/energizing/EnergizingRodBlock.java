@@ -2,20 +2,13 @@ package owmii.powah.block.energizing;
 
 import static net.minecraft.world.phys.shapes.Shapes.join;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.List;
 import java.util.stream.Collectors;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
@@ -26,11 +19,8 @@ import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.api.wrench.IWrenchable;
@@ -40,10 +30,7 @@ import owmii.powah.components.PowahComponents;
 import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.item.WrenchItem;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
-import owmii.powah.client.render.hud.BlockHudRenderer;
-import owmii.powah.lib.client.util.Draw;
 import owmii.powah.lib.item.EnergyBlockItem;
-import owmii.powah.util.Util;
 import owmii.powah.util.math.V3d;
 
 public class EnergizingRodBlock extends PowahBaseEnergyBlock<EnergyConfig, EnergizingRodBlock> implements SimpleWaterloggedBlock, IWrenchable {
@@ -81,7 +68,7 @@ public class EnergizingRodBlock extends PowahBaseEnergyBlock<EnergyConfig, Energ
     }
 
     @Override
-    protected boolean checkValidEnergySide() {
+    protected boolean checkValidEnergySideProperty() {
         return true;
     }
 

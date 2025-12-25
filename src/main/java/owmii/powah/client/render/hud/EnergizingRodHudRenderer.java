@@ -20,7 +20,7 @@ import owmii.powah.util.Util;
 public class EnergizingRodHudRenderer implements BlockHudRenderer {
     @Override
     public boolean renderHud(GuiGraphics gui, BlockState state, Level world, BlockPos pos, Player player, BlockHitResult result,
-                             @Nullable BlockEntity te) {
+            @Nullable BlockEntity te) {
         if (te instanceof EnergizingRodBlockEntity rod) {
             RenderSystem.getModelViewStack().pushMatrix();
             // TODO 26.1 RenderSystem.enableBlend();

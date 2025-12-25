@@ -1,17 +1,13 @@
 package owmii.powah.client.model;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.Identifier;
 import owmii.powah.Powah;
-import owmii.powah.block.energizing.EnergizingOrbBlockEntity;
-import owmii.powah.client.render.tile.EnergizingOrbRenderer;
 import owmii.powah.lib.client.util.RenderTypes;
 
 public class OrbModel extends Model<Object> {

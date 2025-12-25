@@ -3,6 +3,7 @@ package owmii.powah.client.render.tile;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.util.function.Consumer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
@@ -14,8 +15,6 @@ import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.client.model.CubeModel;
 import owmii.powah.client.model.PowahLayerDefinitions;
-
-import java.util.function.Consumer;
 
 public class ReactorItemRenderer implements NoDataSpecialModelRenderer {
     public static final Identifier ID = Powah.id("reactor");
@@ -30,12 +29,12 @@ public class ReactorItemRenderer implements NoDataSpecialModelRenderer {
 
     @Override
     public void submit(ItemDisplayContext type,
-                       PoseStack poseStack,
-                       SubmitNodeCollector submitNodeCollector,
-                       int lightCoords,
-                       int overlayCoords,
-                       boolean hasFoil,
-                       int outlineColor) {
+            PoseStack poseStack,
+            SubmitNodeCollector submitNodeCollector,
+            int lightCoords,
+            int overlayCoords,
+            boolean hasFoil,
+            int outlineColor) {
 
         poseStack.pushPose();
         poseStack.translate(0.5, 0.5, 0.5);
@@ -55,8 +54,7 @@ public class ReactorItemRenderer implements NoDataSpecialModelRenderer {
 
     public record Unbaked(Tier tier) implements SpecialModelRenderer.Unbaked {
         public static final MapCodec<ReactorItemRenderer.Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-                Tier.CODEC.fieldOf("tier").forGetter(Unbaked::tier)
-        ).apply(builder, Unbaked::new));
+                Tier.CODEC.fieldOf("tier").forGetter(Unbaked::tier)).apply(builder, Unbaked::new));
 
         @Override
         public MapCodec<ReactorItemRenderer.Unbaked> type() {

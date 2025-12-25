@@ -2,7 +2,6 @@ package owmii.powah.item;
 
 import java.util.Optional;
 import java.util.function.Consumer;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -79,7 +78,8 @@ public class BindingCardItem extends PowahBaseItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder,
+            TooltipFlag tooltipFlag) {
         var boundPlayer = itemStack.get(PowahComponents.BOUND_PLAYER);
         if (boundPlayer == null) {
             builder.accept(Component.translatable("info.powah.click.to.bind").withStyle(ChatFormatting.DARK_GRAY));

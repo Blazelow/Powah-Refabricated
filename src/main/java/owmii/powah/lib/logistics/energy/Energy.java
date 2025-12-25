@@ -1,17 +1,15 @@
 package owmii.powah.lib.logistics.energy;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
-
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
-import net.neoforged.neoforge.transfer.item.ItemResource;
 import owmii.powah.components.PowahComponents;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.item.IEnergyContainingItem;
@@ -20,12 +18,11 @@ import owmii.powah.util.Util;
 public class Energy {
     public static final Codec<Energy> STORAGE_CODEC = RecordCodecBuilder.create(builder -> builder.group(
             Codec.LONG.fieldOf("capacity").forGetter(e -> e.capacity),
-            Codec.LONG.fieldOf("stored").forGetter(e -> e.stored)
-    ).apply(builder, (capacity, stored) -> {
-        var energy = Energy.create(capacity);
-        energy.stored = stored;
-        return energy;
-    }));
+            Codec.LONG.fieldOf("stored").forGetter(e -> e.stored)).apply(builder, (capacity, stored) -> {
+                var energy = Energy.create(capacity);
+                energy.stored = stored;
+                return energy;
+            }));
 
     public static final Energy EMPTY = Energy.create(0);
     public static final long MAX = 9_000_000_000_000_000_000L;

@@ -1,13 +1,10 @@
 package owmii.powah.lib.client.util;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import java.util.HashSet;
 import java.util.Set;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.joml.Matrix4fc;
 import owmii.powah.util.math.V3d;
 
@@ -53,11 +50,6 @@ public class Cube {
 
     public Cube light(int light) {
         this.light = light;
-        return this;
-    }
-
-    public Cube side(BlockState state) {
-        this.sides.add(Side.from(state.getValue(BlockStateProperties.FACING)));
         return this;
     }
 

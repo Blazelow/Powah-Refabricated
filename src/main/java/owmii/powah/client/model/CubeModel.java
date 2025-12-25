@@ -1,5 +1,6 @@
 package owmii.powah.client.model;
 
+import java.util.function.Function;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -8,8 +9,6 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.resources.Identifier;
-
-import java.util.function.Function;
 
 public class CubeModel extends Model<Object> {
     private static final String CUBE = "cube";

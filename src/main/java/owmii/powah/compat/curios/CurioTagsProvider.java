@@ -1,5 +1,6 @@
 package owmii.powah.compat.curios;
 
+import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
@@ -9,8 +10,6 @@ import net.minecraft.world.item.Item;
 import owmii.powah.Powah;
 import owmii.powah.item.Itms;
 import top.theillusivec4.curios.api.CuriosApi;
-
-import java.util.concurrent.CompletableFuture;
 
 public class CurioTagsProvider extends net.neoforged.neoforge.common.data.ItemTagsProvider {
 
@@ -35,7 +34,7 @@ public class CurioTagsProvider extends net.neoforged.neoforge.common.data.ItemTa
          * We have to use the curios namespace.
          *
          * @see <a href="https://github.com/TheIllusiveC4/Curios/wiki/How-to-Use:-Developers#marking-items-with-curio-types">Marking Items with Curio
-         * Types</a>
+         *      Types</a>
          */
         private static TagKey<Item> tag(String name) {
             return ItemTags.create(Identifier.fromNamespaceAndPath(CuriosApi.MODID, name));

@@ -1,15 +1,14 @@
 package owmii.powah.lib.registry;
 
-import net.minecraft.world.item.Item;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import owmii.powah.block.Tier;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import net.minecraft.world.item.Item;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import owmii.powah.block.Tier;
 
 public class TieredItemReg {
     private static final Map<String, List<String>> ALL_VARIANTS = new HashMap<>();

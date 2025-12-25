@@ -19,8 +19,8 @@ import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.MagmatorContainer;
-import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
+import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.fluid.Tank;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
@@ -49,7 +49,8 @@ public class MagmatorBlock extends PowahBaseGeneratorBlock<MagmatorBlock> {
 
     @Nullable
     @Override
-    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
+    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te,
+            BlockHitResult result) {
         if (te instanceof MagmatorBlockEntity) {
             return new MagmatorContainer(id, inventory, (MagmatorBlockEntity) te);
         }

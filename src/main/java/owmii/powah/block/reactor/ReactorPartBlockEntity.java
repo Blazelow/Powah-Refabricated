@@ -11,7 +11,6 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
@@ -85,7 +84,7 @@ public class ReactorPartBlockEntity extends PowahBaseBlockEntity<Tier, ReactorBl
             }
             return coreItemCache.getCapability();
         } else {
-            return null; // TODO 26.1  return level.getCapability(Capabilities.Item.BLOCK, getCorePos(), null);
+            return null; // TODO 26.1 return level.getCapability(Capabilities.Item.BLOCK, getCorePos(), null);
         }
     }
 
@@ -93,7 +92,7 @@ public class ReactorPartBlockEntity extends PowahBaseBlockEntity<Tier, ReactorBl
     public IFluidHandler getCoreFluidHandler() {
         if (this.level instanceof ServerLevel serverLevel) {
             if (coreFluidCache == null) {
-                // TODO 26.1  coreFluidCache = BlockCapabilityCache.create(Capabilities.Fluid.BLOCK, serverLevel, getCorePos(), null);
+                // TODO 26.1 coreFluidCache = BlockCapabilityCache.create(Capabilities.Fluid.BLOCK, serverLevel, getCorePos(), null);
             }
             return coreFluidCache.getCapability();
         } else {

@@ -24,7 +24,7 @@ public class JeiReactorFuelCategory extends AbstractCategory<JeiReactorFuelCateg
 
     public JeiReactorFuelCategory(IGuiHelper guiHelper) {
         super(guiHelper, Blcks.URANINITE.get(), Component.translatable("gui.powah.jei.category.reactor.fuels"), 160, 24);
-                // TODO 26.1: guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build());
+        // TODO 26.1: guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build());
     }
 
     @Override

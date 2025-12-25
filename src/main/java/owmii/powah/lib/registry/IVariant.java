@@ -1,7 +1,6 @@
 package owmii.powah.lib.registry;
 
 import java.util.Locale;
-import net.minecraft.nbt.CompoundTag;
 
 public interface IVariant<V extends Enum<V> & IVariant<V>> {
     V[] getVariants();

@@ -1,7 +1,6 @@
 package owmii.powah.item;
 
 import java.util.Objects;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;

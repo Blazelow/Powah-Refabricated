@@ -34,7 +34,8 @@ public class HudHandler {
                             ItemStack stack = player.getItemInHand(hand);
                             if (!stack.isEmpty()) {
                                 var itemHudRenderer = powahClient.getItemHudRenderer(stack);
-                                if (itemHudRenderer.renderHud(world, pos, player, hand, result.getDirection(), result.getLocation())) {
+                                if (itemHudRenderer != null
+                                        && itemHudRenderer.renderHud(world, pos, player, hand, result.getDirection(), result.getLocation())) {
                                     break;
                                 }
                             }

@@ -11,9 +11,9 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import owmii.powah.api.PowahAPI;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
+import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Util;
 

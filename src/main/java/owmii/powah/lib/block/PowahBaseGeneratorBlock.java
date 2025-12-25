@@ -1,8 +1,6 @@
 package owmii.powah.lib.block;
 
-import java.util.List;
 import java.util.function.Consumer;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;

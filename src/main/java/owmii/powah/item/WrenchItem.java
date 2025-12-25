@@ -1,5 +1,8 @@
 package owmii.powah.item;
 
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,10 +30,6 @@ import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.item.PowahBaseItem;
 import owmii.powah.lib.logistics.energy.SideConfig;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Consumer;
-
 public class WrenchItem extends PowahBaseItem implements IWrench {
     private static final WrenchMode DEFAULT_WRENCH_MODE = WrenchMode.values()[0];
     private static final Direction[] DIRECTIONS = Direction.values();
@@ -41,7 +40,7 @@ public class WrenchItem extends PowahBaseItem implements IWrench {
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, Level world, BlockPos pos, Player player, InteractionHand hand, Direction side,
-                                            Vec3 hit) {
+            Vec3 hit) {
         if (player.isShiftKeyDown())
             return InteractionResult.PASS;
         BlockEntity te = world.getBlockEntity(pos);
@@ -55,7 +54,7 @@ public class WrenchItem extends PowahBaseItem implements IWrench {
                     CableBlockEntity cable = (CableBlockEntity) te;
                     if (stack.getItem() instanceof WrenchItem) {
                         Optional<Direction> sides = CableBlock.getHitSide(hit, pos);
-                        boolean[] flag = {false};
+                        boolean[] flag = { false };
                         sides.ifPresent(direction -> {
                             SideConfig config = cable.getSideConfig();
                             config.nextType(direction);
@@ -131,7 +130,8 @@ public class WrenchItem extends PowahBaseItem implements IWrench {
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder,
+            TooltipFlag tooltipFlag) {
         builder.accept(Component.translatable("info.powah.wrench.mode",
                 Component.translatable("info.powah.wrench.mode." + getWrenchMode(itemStack).name().toLowerCase())
                         .withStyle(ChatFormatting.YELLOW)));

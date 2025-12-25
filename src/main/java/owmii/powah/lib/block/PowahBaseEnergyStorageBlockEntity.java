@@ -14,7 +14,6 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
-import org.jetbrains.annotations.UnknownNullability;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.block.Tier;
 import owmii.powah.config.IEnergyConfig;
@@ -26,7 +25,8 @@ import owmii.powah.lib.registry.IVariant;
 import owmii.powah.util.ChargeUtil;
 import owmii.powah.util.Util;
 
-public abstract class PowahBaseEnergyStorageBlockEntity<C extends IEnergyConfig<Tier>, B extends PowahBaseEnergyBlock<C, B>> extends PowahBaseTickingBlockEntity<Tier, B>
+public abstract class PowahBaseEnergyStorageBlockEntity<C extends IEnergyConfig<Tier>, B extends PowahBaseEnergyBlock<C, B>>
+        extends PowahBaseTickingBlockEntity<Tier, B>
         implements IRedstoneInteract {
     protected final SideConfig sideConfig = new SideConfig(this);
     protected final Energy energy = Energy.create(0);
@@ -129,8 +129,8 @@ public abstract class PowahBaseEnergyStorageBlockEntity<C extends IEnergyConfig<
         final Energy energy = getEnergy();
         long extracted = Math.min(energy.getStored(), Math.min(energy.getMaxExtract(), maxExtract));
         // TODO 26.1: if (!simulate && extracted > 0) {
-        // TODO 26.1:     energy.consume(extracted);
-        // TODO 26.1:     sync(10);
+        // TODO 26.1: energy.consume(extracted);
+        // TODO 26.1: sync(10);
         // TODO 26.1: }
         return extracted;
     }
@@ -141,8 +141,8 @@ public abstract class PowahBaseEnergyStorageBlockEntity<C extends IEnergyConfig<
         final Energy energy = getEnergy();
         long received = Math.min(energy.getEmpty(), Math.min(energy.getMaxReceive(), maxReceive));
         // TODO 26.1 if (!simulate && received > 0) {
-        // TODO 26.1     energy.produce(received);
-        // TODO 26.1     sync(10);
+        // TODO 26.1 energy.produce(received);
+        // TODO 26.1 sync(10);
         // TODO 26.1 }
         return received;
     }

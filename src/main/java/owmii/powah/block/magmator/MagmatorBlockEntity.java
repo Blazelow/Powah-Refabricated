@@ -3,7 +3,9 @@ package owmii.powah.block.magmator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -11,9 +13,9 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import owmii.powah.api.PowahAPI;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
+import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.lib.logistics.fluid.Tank;
 import owmii.powah.util.Util;
@@ -21,6 +23,7 @@ import owmii.powah.util.Util;
 public class MagmatorBlockEntity extends PowahBaseGeneratorBlockEntity<MagmatorBlock> implements IInventoryHolder, ITankHolder {
     protected final Energy buffer = Energy.create(0);
     protected boolean burning;
+    protected int burningTicks;
 
     public MagmatorBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.MAGMATOR.get(), pos, state, variant);
@@ -50,32 +53,35 @@ public class MagmatorBlockEntity extends PowahBaseGeneratorBlockEntity<MagmatorB
 
     @Override
     protected int postTick(Level world) {
-        if (!isRemote() && checkRedstone()) {
-            boolean flag = false;
-            if (this.buffer.isEmpty() && !this.tank.isEmpty()) {
-                FluidStack fluid = this.tank.getFluid();
-                int energyProduced = PowahAPI.getMagmaticFluidEnergyProduced(fluid.getFluid());
-                if (energyProduced > 0) {
-                    var amountPerDrain = 100;
-                    var minStored = Math.min(this.tank.getFluidAmount(), amountPerDrain);
-                    this.buffer.setStored((long) minStored * energyProduced / amountPerDrain);
-                    this.buffer.setCapacity((long) minStored * energyProduced / amountPerDrain);
-                    this.tank.drain(minStored, IFluidHandler.FluidAction.EXECUTE);
+        if (!isRemote()) {
+            if (checkRedstone()) {
+                if (this.buffer.isEmpty() && !this.tank.isEmpty()) {
+                    FluidStack fluid = this.tank.getFluid();
+                    int energyProduced = PowahAPI.getMagmaticFluidEnergyProduced(fluid.getFluid());
+                    if (energyProduced > 0) {
+                        var amountPerDrain = 100;
+                        var minStored = Math.min(this.tank.getFluidAmount(), amountPerDrain);
+                        this.buffer.setStored((long) minStored * energyProduced / amountPerDrain);
+                        this.buffer.setCapacity((long) minStored * energyProduced / amountPerDrain);
+                        this.tank.drain(minStored, IFluidHandler.FluidAction.EXECUTE);
+                        burningTicks = 20;
+                    }
+                }
+
+                long min = Math.min(getGeneration(), this.buffer.getStored());
+                if (min > 0 && this.energy.getEmpty() >= min) {
+                    this.energy.produce(min);
+                    this.buffer.consume(min);
+                    sync(4);
                 }
             }
 
-            long min = Math.min(getGeneration(), this.buffer.getStored());
-            if (min > 0 && this.energy.getEmpty() >= min) {
-                this.energy.produce(min);
-                this.buffer.consume(min);
-                flag = true;
+            var visiblyBurning = burningTicks-- > 0;
+            if (this.burning != visiblyBurning) {
+                this.burning = visiblyBurning;
+                level.setBlock(getBlockPos(), getBlockState().setValue(BlockStateProperties.LIT, visiblyBurning), Block.UPDATE_ALL);
                 sync(4);
             }
-
-            if (this.burning != flag) {
-                this.burning = flag;
-                sync(4);
-            } // TODO
         }
         return chargeItems(1) + extractFromSides(world) > 0 ? 10 : -1;
     }

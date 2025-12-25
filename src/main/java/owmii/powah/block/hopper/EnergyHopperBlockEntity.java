@@ -11,8 +11,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.config.v2.types.ChargingConfig;
-import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
+import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.util.ChargeUtil;
 
 public class EnergyHopperBlockEntity extends PowahBaseEnergyStorageBlockEntity<ChargingConfig, EnergyHopperBlock> implements IInventoryHolder {

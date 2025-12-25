@@ -1,5 +1,7 @@
 package owmii.powah.item;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -17,9 +19,6 @@ import owmii.powah.block.reactor.ReactorBlock;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.util.Player;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class ReactorItem extends EnergyBlockItem<GeneratorConfig, ReactorBlock> {
     /**

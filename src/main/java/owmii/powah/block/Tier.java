@@ -1,10 +1,9 @@
 package owmii.powah.block;
 
 import com.mojang.serialization.Codec;
+import java.util.Locale;
 import net.minecraft.util.StringRepresentable;
 import owmii.powah.lib.registry.IVariant;
-
-import java.util.Locale;
 
 public enum Tier implements IVariant<Tier>, StringRepresentable {
     STARTER(0xA7A7A7),

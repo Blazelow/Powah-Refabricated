@@ -98,6 +98,11 @@ neoForge {
             client()
             systemProperty('guideme.powah.book.sources', file('guidebook').absolutePath)
         }
+        gametestWorld {
+            client()
+            programArguments = ["--quickPlaySingleplayer", "GametestWorld"]
+            systemProperty('guideme.powah.book.sources', file('guidebook').absolutePath)
+        }
         server {
             server()
         }

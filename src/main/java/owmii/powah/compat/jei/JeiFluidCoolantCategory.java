@@ -20,7 +20,7 @@ public class JeiFluidCoolantCategory extends AbstractCategory<FluidCoolant> {
 
     public JeiFluidCoolantCategory(IGuiHelper guiHelper) {
         super(guiHelper, Items.WATER_BUCKET, Component.translatable("gui.powah.jei.category.coolant"), 160, 24);
-                // TODO 26.1: guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build());
+        // TODO 26.1: guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build());
     }
 
     @Override

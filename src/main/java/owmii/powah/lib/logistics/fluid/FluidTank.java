@@ -1,8 +1,6 @@
 package owmii.powah.lib.logistics.fluid;
 
 import java.util.function.Predicate;
-
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;

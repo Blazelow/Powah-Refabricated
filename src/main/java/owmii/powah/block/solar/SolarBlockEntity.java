@@ -12,8 +12,8 @@ import org.jspecify.annotations.Nullable;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.item.Itms;
-import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
+import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Misc;
 

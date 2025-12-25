@@ -1,6 +1,5 @@
 package owmii.powah.lib.client.screen.container;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.Minecraft;

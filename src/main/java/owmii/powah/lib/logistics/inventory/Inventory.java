@@ -1,5 +1,7 @@
 package owmii.powah.lib.logistics.inventory;
 
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
@@ -12,9 +14,6 @@ import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.item.Stacks;
 import owmii.powah.util.Util;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Inventory extends ItemStackHandler {
     @Nullable

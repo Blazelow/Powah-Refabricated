@@ -1,8 +1,6 @@
 package owmii.powah.lib.block;
 
-import java.util.List;
 import java.util.function.Consumer;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -64,8 +62,9 @@ public abstract class PowahBaseEnergyBlock<C extends IEnergyConfig<Tier>, B exte
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-        if (checkValidEnergySide()) {
-            Direction side = state.getValue(BlockStateProperties.FACING);
+        if (checkValidEnergySideProperty() && getFacing() != Facing.NONE) {
+            var property = getFacing() == Facing.ALL ? BlockStateProperties.FACING : BlockStateProperties.HORIZONTAL_FACING;
+            Direction side = state.getValue(property);
             BlockPos pos1 = pos.relative(side);
             return world.getBlockState(pos1).getBlock() instanceof IEnergyConnector ||
                     world instanceof Level level && EnergyUtil.hasEnergy(level, pos1, side.getOpposite());
@@ -73,7 +72,7 @@ public abstract class PowahBaseEnergyBlock<C extends IEnergyConfig<Tier>, B exte
         return super.canSurvive(state, world, pos);
     }
 
-    protected boolean checkValidEnergySide() {
+    protected boolean checkValidEnergySideProperty() {
         return false;
     }
 
@@ -87,7 +86,8 @@ public abstract class PowahBaseEnergyBlock<C extends IEnergyConfig<Tier>, B exte
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> builder,
+            TooltipFlag tooltipFlag) {
         Energy.ifPresent(itemStack, energy -> {
             addEnergyInfo(itemStack, energy, builder);
             addEnergyTransferInfo(itemStack, energy, builder);

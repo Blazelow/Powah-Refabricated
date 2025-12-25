@@ -38,6 +38,12 @@ public class PowahDataGenerator {
                 .add(Registries.PLACED_FEATURE, Features::initPlacedFeatures)
                 .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Features::initBiomeModifiers);
         pack.addProvider(output -> new DatapackBuiltinEntriesProvider(output, registries, worldgenBuilder, Set.of(Powah.MOD_ID)));
+
+        // Models
+        pack.addProvider(PowahModelProvider.create(
+                Powah.MOD_ID,
+                BlockModelProvider::new,
+                ItemModelProvider::new));
     }
 
     public static LootTableProvider createLoot(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {

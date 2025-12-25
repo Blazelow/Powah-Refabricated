@@ -18,8 +18,8 @@ import owmii.powah.block.energycell.EnergyCellBlockEntity;
 import owmii.powah.block.furnator.FurnatorBlockEntity;
 import owmii.powah.block.hopper.EnergyHopperBlockEntity;
 import owmii.powah.block.magmator.MagmatorBlockEntity;
-import owmii.powah.block.reactor.ReactorPartBlockEntity;
 import owmii.powah.block.reactor.ReactorBlockEntity;
+import owmii.powah.block.reactor.ReactorPartBlockEntity;
 import owmii.powah.block.solar.SolarBlockEntity;
 import owmii.powah.block.thermo.ThermoBlockEntity;
 import owmii.powah.block.transmitter.PlayerTransmitterBlockEntity;
@@ -44,18 +44,23 @@ public class Tiles {
             () -> List.of(Blcks.ENERGIZING_ORB.get()));
     public static final Supplier<BlockEntityType<EnergizingRodBlockEntity>> ENERGIZING_ROD = register("energizing_rod", EnergizingRodBlockEntity::new,
             () -> Blcks.ENERGIZING_ROD.getAll());
-    public static final Supplier<BlockEntityType<SolarBlockEntity>> SOLAR_PANEL = register("solar_panel", SolarBlockEntity::new, () -> Blcks.SOLAR_PANEL.getAll());
-    public static final Supplier<BlockEntityType<FurnatorBlockEntity>> FURNATOR = register("furnator", FurnatorBlockEntity::new, () -> Blcks.FURNATOR.getAll());
-    public static final Supplier<BlockEntityType<MagmatorBlockEntity>> MAGMATOR = register("magmator", MagmatorBlockEntity::new, () -> Blcks.MAGMATOR.getAll());
+    public static final Supplier<BlockEntityType<SolarBlockEntity>> SOLAR_PANEL = register("solar_panel", SolarBlockEntity::new,
+            () -> Blcks.SOLAR_PANEL.getAll());
+    public static final Supplier<BlockEntityType<FurnatorBlockEntity>> FURNATOR = register("furnator", FurnatorBlockEntity::new,
+            () -> Blcks.FURNATOR.getAll());
+    public static final Supplier<BlockEntityType<MagmatorBlockEntity>> MAGMATOR = register("magmator", MagmatorBlockEntity::new,
+            () -> Blcks.MAGMATOR.getAll());
     public static final Supplier<BlockEntityType<ThermoBlockEntity>> THERMO_GEN = register("thermo_gen", ThermoBlockEntity::new,
             () -> Blcks.THERMO_GENERATOR.getAll());
-    public static final Supplier<BlockEntityType<ReactorBlockEntity>> REACTOR = register("reactor", ReactorBlockEntity::new, () -> Blcks.REACTOR.getAll());
+    public static final Supplier<BlockEntityType<ReactorBlockEntity>> REACTOR = register("reactor", ReactorBlockEntity::new,
+            () -> Blcks.REACTOR.getAll());
     public static final Supplier<BlockEntityType<ReactorPartBlockEntity>> REACTOR_PART = register("reactor_part", ReactorPartBlockEntity::new,
             () -> Blcks.REACTOR.getAll());
     public static final Supplier<BlockEntityType<PlayerTransmitterBlockEntity>> PLAYER_TRANSMITTER = register("player_transmitter",
             PlayerTransmitterBlockEntity::new, () -> Blcks.PLAYER_TRANSMITTER.getAll());
     public static final Supplier<BlockEntityType<EnergyHopperBlockEntity>> ENERGY_HOPPER = register("energy_hopper", EnergyHopperBlockEntity::new,
             () -> Blcks.ENERGY_HOPPER.getAll());
-    public static final Supplier<BlockEntityType<EnergyDischargerBlockEntity>> ENERGY_DISCHARGER = register("energy_discharger", EnergyDischargerBlockEntity::new,
+    public static final Supplier<BlockEntityType<EnergyDischargerBlockEntity>> ENERGY_DISCHARGER = register("energy_discharger",
+            EnergyDischargerBlockEntity::new,
             () -> Blcks.ENERGY_DISCHARGER.getAll());
 }

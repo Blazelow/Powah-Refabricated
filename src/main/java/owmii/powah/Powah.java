@@ -8,6 +8,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -18,7 +19,6 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.minecraft.util.TriState;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -38,10 +38,8 @@ import owmii.powah.entity.Entities;
 import owmii.powah.inventory.Containers;
 import owmii.powah.item.CreativeTabs;
 import owmii.powah.item.Itms;
-import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.block.IBlock;
-import owmii.powah.lib.block.IInventoryHolder;
-import owmii.powah.lib.block.ITankHolder;
+import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.item.IEnergyContainingItem;
 import owmii.powah.lib.item.PowahBlockItem;
 import owmii.powah.lib.logistics.energy.Energy;
@@ -117,10 +115,10 @@ public class Powah {
             return null;
         });
         // TODO 26.1 event.registerBlockEntity(Capabilities.Item.BLOCK, Tiles.REACTOR_PART.get(), (reactorPart, unused) -> {
-        // TODO 26.1     return reactorPart.getCoreItemHandler();
+        // TODO 26.1 return reactorPart.getCoreItemHandler();
         // TODO 26.1 });
         // TODO 26.1 event.registerBlockEntity(Capabilities.Fluid.BLOCK, Tiles.REACTOR_PART.get(), (reactorPart, unused) -> {
-        // TODO 26.1     return reactorPart.getCoreFluidHandler();
+        // TODO 26.1 return reactorPart.getCoreFluidHandler();
         // TODO 26.1 });
 
         for (var entry : Tiles.DR.getEntries()) {
@@ -156,18 +154,18 @@ public class Powah {
             });
         }
         // TODO 26.1 if (IInventoryHolder.class.isAssignableFrom(beClass)) {
-        // TODO 26.1     event.registerBlockEntity(Capabilities.Item.BLOCK, beType, (o, direction) -> {
-        // TODO 26.1         var inv = ((IInventoryHolder) o).getInventory();
-        // TODO 26.1         if (!inv.isBlank()) {
-        // TODO 26.1             return inv;
-        // TODO 26.1         }
-        // TODO 26.1         return null;
-        // TODO 26.1     });
+        // TODO 26.1 event.registerBlockEntity(Capabilities.Item.BLOCK, beType, (o, direction) -> {
+        // TODO 26.1 var inv = ((IInventoryHolder) o).getInventory();
+        // TODO 26.1 if (!inv.isBlank()) {
+        // TODO 26.1 return inv;
+        // TODO 26.1 }
+        // TODO 26.1 return null;
+        // TODO 26.1 });
         // TODO 26.1 }
         // TODO 26.1 if (ITankHolder.class.isAssignableFrom(beClass)) {
-        // TODO 26.1     event.registerBlockEntity(Capabilities.Fluid.BLOCK, beType, (o, direction) -> {
-        // TODO 26.1         return ((ITankHolder) o).getTank();
-        // TODO 26.1     });
+        // TODO 26.1 event.registerBlockEntity(Capabilities.Fluid.BLOCK, beType, (o, direction) -> {
+        // TODO 26.1 return ((ITankHolder) o).getTank();
+        // TODO 26.1 });
         // TODO 26.1 }
     }
 

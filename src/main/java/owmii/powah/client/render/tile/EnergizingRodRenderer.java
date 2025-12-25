@@ -36,7 +36,8 @@ public class EnergizingRodRenderer implements BlockEntityRenderer<EnergizingRodB
     }
 
     @Override
-    public void extractRenderState(EnergizingRodBlockEntity blockEntity, EnergizingRodRendererState state, float partialTicks, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+    public void extractRenderState(EnergizingRodBlockEntity blockEntity, EnergizingRodRendererState state, float partialTicks, Vec3 cameraPosition,
+            ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
 
         boolean wrenchInLinkMode = false;

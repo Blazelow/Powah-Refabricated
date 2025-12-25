@@ -1,5 +1,6 @@
 package owmii.powah.lib.item;
 
+import java.util.function.Consumer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
@@ -10,8 +11,6 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 import owmii.powah.lib.block.PowahBaseBlock;
-
-import java.util.function.Consumer;
 
 public class PowahBlockItem<B extends Block> extends BlockItem {
     private final B block;
@@ -30,17 +29,18 @@ public class PowahBlockItem<B extends Block> extends BlockItem {
 
     @Override
     public Component getName(ItemStack stack) {
-        if (this.block instanceof PowahBaseBlock<?,?> baseBlock) {
-            return baseBlock.getDisplayName(stack);
+        if (this.block instanceof PowahBaseBlock<?, ?> baseBlock) {
+            return baseBlock.getName();
         }
         return super.getName(stack);
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder,
+            TooltipFlag tooltipFlag) {
         super.appendHoverText(itemStack, context, display, builder, tooltipFlag);
 
-        if (this.block instanceof PowahBaseBlock<?,?> baseBlock) {
+        if (this.block instanceof PowahBaseBlock<?, ?> baseBlock) {
             baseBlock.appendHoverText(itemStack, context, display, builder, tooltipFlag);
         }
     }

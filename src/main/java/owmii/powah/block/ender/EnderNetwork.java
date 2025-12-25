@@ -1,7 +1,8 @@
 package owmii.powah.block.ender;
 
 import com.google.common.collect.ImmutableList;
-
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,9 +10,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.IntStream;
-
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -103,13 +101,11 @@ public class EnderNetwork extends SavedData {
         public static Codec<PackedNetwork> CODEC = RecordCodecBuilder.create(builder -> builder.group(
                 UUIDUtil.STRING_CODEC.fieldOf("owner").forGetter(PackedNetwork::owner),
                 Codec.INT.fieldOf("channel").forGetter(PackedNetwork::channel),
-                Energy.STORAGE_CODEC.fieldOf("energy").forGetter(PackedNetwork::energy)
-        ).apply(builder, PackedNetwork::new));
+                Energy.STORAGE_CODEC.fieldOf("energy").forGetter(PackedNetwork::energy)).apply(builder, PackedNetwork::new));
     }
 
     record Packed(List<PackedNetwork> networks) {
         public static Codec<Packed> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-                PackedNetwork.CODEC.listOf().fieldOf("networks").forGetter(Packed::networks)
-        ).apply(builder, Packed::new));
+                PackedNetwork.CODEC.listOf().fieldOf("networks").forGetter(Packed::networks)).apply(builder, Packed::new));
     }
 }

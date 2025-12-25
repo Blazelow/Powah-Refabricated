@@ -1,8 +1,6 @@
 package owmii.powah.block.reactor;
 
-import java.util.List;
 import java.util.function.Consumer;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -29,8 +27,8 @@ import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.ReactorContainer;
 import owmii.powah.item.ReactorItem;
-import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
+import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.energy.Energy;
@@ -105,7 +103,8 @@ public class ReactorBlock extends PowahBaseGeneratorBlock<ReactorBlock> {
 
     @Nullable
     @Override
-    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
+    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te,
+            BlockHitResult result) {
         if (te instanceof ReactorBlockEntity) {
             return new ReactorContainer(id, inventory, (ReactorBlockEntity) te);
         }

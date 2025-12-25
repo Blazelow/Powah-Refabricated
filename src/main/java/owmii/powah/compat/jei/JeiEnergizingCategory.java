@@ -1,9 +1,8 @@
 package owmii.powah.compat.jei;
 
+import com.google.common.base.Suppliers;
 import java.util.List;
 import java.util.function.Supplier;
-
-import com.google.common.base.Suppliers;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -21,7 +20,8 @@ import owmii.powah.recipe.Recipes;
 import owmii.powah.util.Util;
 
 public class JeiEnergizingCategory extends AbstractCategory<RecipeHolder<EnergizingRecipe>> {
-    public static final Supplier<IRecipeType<RecipeHolder<EnergizingRecipe>>> TYPE = Suppliers.memoize(() -> IRecipeType.create(Recipes.ENERGIZING.get()));
+    public static final Supplier<IRecipeType<RecipeHolder<EnergizingRecipe>>> TYPE = Suppliers
+            .memoize(() -> IRecipeType.create(Recipes.ENERGIZING.get()));
 
     public JeiEnergizingCategory(IGuiHelper guiHelper) {
         // TODO 26.1 background: guiHelper.drawableBuilder(Assets.ENERGIZING, 0, 0, 160, 38).addPadding(1, 0, 0, 0).build()

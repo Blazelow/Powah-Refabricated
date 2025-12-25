@@ -1,6 +1,5 @@
 package owmii.powah.lib.client.screen.container;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -10,11 +9,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.neoforged.neoforge.fluids.FluidStack;
 import owmii.powah.client.ClientUtils;
-import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
+import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.client.screen.Texture;
 import owmii.powah.lib.client.screen.widget.IconButton;
 import owmii.powah.lib.client.util.Draw;

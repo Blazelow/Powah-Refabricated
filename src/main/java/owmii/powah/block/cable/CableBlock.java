@@ -33,8 +33,8 @@ import owmii.powah.api.energy.IEnergyConnector;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.CableConfig;
 import owmii.powah.inventory.CableContainer;
-import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
+import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 import owmii.powah.util.EnergyUtil;
 
@@ -92,7 +92,8 @@ public class CableBlock extends PowahBaseEnergyBlock<CableConfig, CableBlock> im
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @Nullable Orientation orientation, boolean movedByPiston) {
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @Nullable Orientation orientation,
+            boolean movedByPiston) {
         var newState = createCableState(level, pos);
 
         if (newState != state) {
@@ -148,7 +149,8 @@ public class CableBlock extends PowahBaseEnergyBlock<CableConfig, CableBlock> im
 
     @Nullable
     @Override
-    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
+    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te,
+            BlockHitResult result) {
         if (te instanceof CableBlockEntity) {
             return new CableContainer(id, inventory, (CableBlockEntity) te);
         }

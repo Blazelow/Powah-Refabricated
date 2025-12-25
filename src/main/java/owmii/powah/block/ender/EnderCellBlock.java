@@ -14,8 +14,8 @@ import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.EnderConfig;
 import owmii.powah.inventory.EnderCellContainer;
-import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
+import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 

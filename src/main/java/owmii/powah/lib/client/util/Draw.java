@@ -60,12 +60,12 @@ public class Draw {
         final float uScale = 1f / 0x100;
         final float vScale = 1f / 0x100;
 
-    // TODO 26.1    var wr = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-    // TODO 26.1    var matrix = gui.pose().last().pose();
-    // TODO 26.1    wr.addVertex(matrix, x, y + height, zLevel).setUv(u * uScale, ((v + height) * vScale));
-    // TODO 26.1    wr.addVertex(matrix, x + width, y + height, zLevel).setUv((u + width) * uScale, ((v + height) * vScale));
-    // TODO 26.1    wr.addVertex(matrix, x + width, y, zLevel).setUv((u + width) * uScale, (v * vScale));
-    // TODO 26.1    wr.addVertex(matrix, x, y, zLevel).setUv(u * uScale, (v * vScale));
-    // TODO 26.1    BufferUploader.drawWithShader(wr.buildOrThrow());
+        // TODO 26.1 var wr = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        // TODO 26.1 var matrix = gui.pose().last().pose();
+        // TODO 26.1 wr.addVertex(matrix, x, y + height, zLevel).setUv(u * uScale, ((v + height) * vScale));
+        // TODO 26.1 wr.addVertex(matrix, x + width, y + height, zLevel).setUv((u + width) * uScale, ((v + height) * vScale));
+        // TODO 26.1 wr.addVertex(matrix, x + width, y, zLevel).setUv((u + width) * uScale, (v * vScale));
+        // TODO 26.1 wr.addVertex(matrix, x, y, zLevel).setUv(u * uScale, (v * vScale));
+        // TODO 26.1 BufferUploader.drawWithShader(wr.buildOrThrow());
     }
 }

@@ -13,8 +13,8 @@ import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
-import owmii.powah.util.ValueIOUtil;
 import owmii.powah.util.Ticker;
+import owmii.powah.util.ValueIOUtil;
 
 public class EnergizingRodBlockEntity extends PowahBaseEnergyStorageBlockEntity<EnergyConfig, EnergizingRodBlock> {
     private BlockPos orbPos = BlockPos.ZERO;

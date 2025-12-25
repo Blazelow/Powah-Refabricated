@@ -7,8 +7,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.config.v2.types.EnergyConfig;
-import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
+import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.logistics.Transfer;
 import owmii.powah.util.ChargeUtil;
 

@@ -3,12 +3,8 @@ package owmii.powah.lib.logistics.energy;
 import static owmii.powah.lib.logistics.Transfer.ALL;
 import static owmii.powah.lib.logistics.Transfer.NONE;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jspecify.annotations.Nullable;

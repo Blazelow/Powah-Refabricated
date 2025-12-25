@@ -1,8 +1,6 @@
 package owmii.powah.block.energizing;
 
 import java.util.List;
-import java.util.Optional;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -19,8 +17,8 @@ import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tiles;
-import owmii.powah.lib.block.PowahBaseTickingBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
+import owmii.powah.lib.block.PowahBaseTickingBlockEntity;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.lib.logistics.inventory.Inventory;
 import owmii.powah.lib.registry.IVariant;

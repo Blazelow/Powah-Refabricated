@@ -4,8 +4,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import org.jspecify.annotations.Nullable;
-import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
+import owmii.powah.lib.block.PowahBaseBlockEntity;
 
 public class AbstractEnergyContainer<T extends PowahBaseBlockEntity<?, ?> & IInventoryHolder> extends AbstractTileContainer<T> {
     public AbstractEnergyContainer(@Nullable MenuType<?> containerType, int id, Inventory inventory, FriendlyByteBuf buffer) {

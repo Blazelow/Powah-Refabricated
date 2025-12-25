@@ -1,25 +1,14 @@
 package owmii.powah.client.model;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import owmii.powah.Powah;
-import owmii.powah.block.cable.CableBlockEntity;
-import owmii.powah.client.render.tile.CableRenderer;
 import owmii.powah.client.render.tile.CableRendererState;
-import owmii.powah.lib.logistics.Transfer;
-import owmii.powah.util.EnergyUtil;
 
 public class CableModel extends Model<CableRendererState> {
     private static final String NORTH = "north";
@@ -64,6 +53,30 @@ public class CableModel extends Model<CableRendererState> {
         this.upPlate = root.getChild(UP_PLATE);
     }
 
+    public ModelPart getIndicatorPart(Direction side) {
+        // These odd flips w.r.t. direction result from entity rendering usually being flipped on the Z and Y axis
+        return switch (side) {
+        case DOWN -> up;
+        case UP -> down;
+        case NORTH -> south;
+        case SOUTH -> north;
+        case WEST -> west;
+        case EAST -> east;
+        };
+    }
+
+    public ModelPart getPlatePart(Direction side) {
+        // These odd flips w.r.t. direction result from entity rendering usually being flipped on the Z and Y axis
+        return switch (side) {
+        case DOWN -> upPlate;
+        case UP -> downPlate;
+        case NORTH -> southPlate;
+        case SOUTH -> northPlate;
+        case WEST -> westPlate;
+        case EAST -> eastPlate;
+        };
+    }
+
     public static LayerDefinition createDefinition() {
         var meshDefinition = new MeshDefinition();
         var root = meshDefinition.getRoot();
@@ -88,83 +101,4 @@ public class CableModel extends Model<CableRendererState> {
         return LayerDefinition.create(meshDefinition, 64, 32);
     }
 
-    private RenderType renderType(CableBlockEntity te, Transfer transfer) {
-        var variant = te.getVariant().getName();
-        var texture = switch (transfer) {
-        case ALL -> Powah.id("textures/model/tile/energy_cable_%s_all.png".formatted(variant));
-        case RECEIVE -> Powah.id("textures/model/tile/energy_cable_%s_out.png".formatted(variant));
-        case EXTRACT -> Powah.id("textures/model/tile/energy_cable_%s_in.png".formatted(variant));
-        case NONE -> throw new UnsupportedOperationException();
-        };
-        return renderType(texture);
-    }
-
-    // TODO 26.1
-    public void render(CableBlockEntity te, CableRenderer renderer, PoseStack matrix, MultiBufferSource rtb, int light, int ov) {
-        if (te.getLevel() == null)
-            return;
-        final Direction[] flags = new Direction[6];
-        for (Direction side : te.energySides) {
-            final BlockPos pos = te.getBlockPos().relative(side);
-            final BlockEntity tile = te.getLevel().getBlockEntity(pos);
-            final Transfer config = te.getSideConfig().getType(side);
-            if (!(tile instanceof CableBlockEntity) && EnergyUtil.hasEnergy(te.getLevel(), pos, side.getOpposite())
-                    && (config.canExtract || config.canReceive)) {
-                flags[side.get3DDataValue()] = side;
-            }
-        }
-
-        if (flags[0] != null) {
-            Transfer type = te.getSideConfig().getType(flags[0]);
-            if (!type.equals(Transfer.NONE)) {
-                VertexConsumer buffer = rtb.getBuffer(renderType(te, type));
-                this.up.render(matrix, buffer, light, ov);
-                this.upPlate.render(matrix, buffer, light, ov);
-            }
-        }
-
-        if (flags[1] != null) {
-            Transfer type = te.getSideConfig().getType(flags[1]);
-            if (!type.equals(Transfer.NONE)) {
-                VertexConsumer buffer = rtb.getBuffer(renderType(te, type));
-                this.down.render(matrix, buffer, light, ov);
-                this.downPlate.render(matrix, buffer, light, ov);
-            }
-        }
-
-        if (flags[2] != null) {
-            Transfer type = te.getSideConfig().getType(flags[2]);
-            if (!type.equals(Transfer.NONE)) {
-                VertexConsumer buffer = rtb.getBuffer(renderType(te, type));
-                this.south.render(matrix, buffer, light, ov);
-                this.southPlate.render(matrix, buffer, light, ov);
-            }
-        }
-        if (flags[3] != null) {
-            Transfer type = te.getSideConfig().getType(flags[3]);
-            if (!type.equals(Transfer.NONE)) {
-                VertexConsumer buffer = rtb.getBuffer(renderType(te, type));
-                this.north.render(matrix, buffer, light, ov);
-                this.northPlate.render(matrix, buffer, light, ov);
-            }
-        }
-
-        if (flags[4] != null) {
-            Transfer type = te.getSideConfig().getType(flags[4]);
-            if (!type.equals(Transfer.NONE)) {
-                VertexConsumer buffer = rtb.getBuffer(renderType(te, type));
-                this.west.render(matrix, buffer, light, ov);
-                this.westPlate.render(matrix, buffer, light, ov);
-            }
-        }
-
-        if (flags[5] != null) {
-            Transfer type = te.getSideConfig().getType(flags[5]);
-            if (!type.equals(Transfer.NONE)) {
-                VertexConsumer buffer = rtb.getBuffer(renderType(te, type));
-                this.east.render(matrix, buffer, light, ov);
-                this.eastPlate.render(matrix, buffer, light, ov);
-            }
-        }
-    }
 }

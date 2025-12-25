@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "powah:block/thermo_generator_starter"
+  }
+}

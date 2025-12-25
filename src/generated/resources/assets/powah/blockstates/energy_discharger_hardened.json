@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "powah:block/energy_discharger_hardened",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "powah:block/energy_discharger_hardened"
+    },
+    "facing=south": {
+      "model": "powah:block/energy_discharger_hardened",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "powah:block/energy_discharger_hardened",
+      "y": 270
+    }
+  }
+}

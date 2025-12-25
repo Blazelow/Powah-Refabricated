@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "powah:block/furnator_basic",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "powah:block/furnator_basic"
+    },
+    "facing=south": {
+      "model": "powah:block/furnator_basic",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "powah:block/furnator_basic",
+      "y": 270
+    }
+  }
+}

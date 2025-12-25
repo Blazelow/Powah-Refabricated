@@ -2,7 +2,6 @@ package owmii.powah.util;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;

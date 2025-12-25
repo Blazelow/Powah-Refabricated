@@ -14,7 +14,6 @@ import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
-import owmii.powah.block.Blcks;
 import owmii.powah.block.energizing.EnergizingOrbBlock;
 import owmii.powah.block.energizing.EnergizingRodBlock;
 import owmii.powah.client.book.PowahTagCompiler;

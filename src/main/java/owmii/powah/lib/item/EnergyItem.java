@@ -1,11 +1,8 @@
 package owmii.powah.lib.item;
 
-import java.util.List;
 import java.util.function.Consumer;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
@@ -39,7 +36,8 @@ public abstract class EnergyItem<V extends Enum<V> & IVariant<V>, C extends IEne
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder,
+            TooltipFlag tooltipFlag) {
         Energy.ifPresent(itemStack, energy -> {
             if (energy.getCapacity() > 0) {
                 builder.accept(Component.translatable("info.lollipop.stored").withStyle(ChatFormatting.GRAY).append(Text.COLON)

@@ -29,8 +29,8 @@ import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.ChargingConfig;
 import owmii.powah.inventory.PlayerTransmitterContainer;
-import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
+import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
@@ -88,7 +88,8 @@ public class PlayerTransmitterBlock extends PowahBaseEnergyBlock<ChargingConfig,
     }
 
     @Override
-    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction directionToNeighbour, BlockPos neighbourPos, BlockState neighbourState, RandomSource random) {
+    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction directionToNeighbour,
+            BlockPos neighbourPos, BlockState neighbourState, RandomSource random) {
         BlockState bottomState = level.getBlockState(pos.below());
         BlockState topState = level.getBlockState(pos.above());
         if (!state.getValue(TOP) && !(topState.getBlock() instanceof PlayerTransmitterBlock)

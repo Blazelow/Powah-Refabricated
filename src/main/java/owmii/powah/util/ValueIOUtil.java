@@ -1,10 +1,9 @@
 package owmii.powah.util;
 
+import java.util.Collection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-
-import java.util.Collection;
 
 public class ValueIOUtil {
     public static <T extends Collection<BlockPos>> T readPosList(ValueInput input, String key, T list) {

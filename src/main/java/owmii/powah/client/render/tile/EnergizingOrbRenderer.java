@@ -2,6 +2,8 @@ package owmii.powah.client.render.tile;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import java.util.Arrays;
+import java.util.List;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -20,9 +22,6 @@ import owmii.powah.client.model.PowahLayerDefinitions;
 import owmii.powah.lib.logistics.inventory.Inventory;
 import owmii.powah.util.math.V3d;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class EnergizingOrbRenderer implements BlockEntityRenderer<EnergizingOrbBlockEntity, EnergizingOrbRendererState> {
     private final OrbModel model;
     private final ItemModelResolver itemModelResolver;
@@ -38,7 +37,8 @@ public class EnergizingOrbRenderer implements BlockEntityRenderer<EnergizingOrbB
     }
 
     @Override
-    public void extractRenderState(EnergizingOrbBlockEntity blockEntity, EnergizingOrbRendererState state, float partialTicks, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+    public void extractRenderState(EnergizingOrbBlockEntity blockEntity, EnergizingOrbRendererState state, float partialTicks, Vec3 cameraPosition,
+            ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
 
         Inventory inv = blockEntity.getInventory();
@@ -57,7 +57,8 @@ public class EnergizingOrbRenderer implements BlockEntityRenderer<EnergizingOrbB
                     if (state.inputItems[i] == null) {
                         state.inputItems[i] = new ItemStackRenderState();
                     }
-                    itemModelResolver.updateForTopItem(state.inputItems[i], nonEmptyStacks.get(i), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, 0);
+                    itemModelResolver.updateForTopItem(state.inputItems[i], nonEmptyStacks.get(i), ItemDisplayContext.FIXED, blockEntity.getLevel(),
+                            null, 0);
                 }
             }
         }

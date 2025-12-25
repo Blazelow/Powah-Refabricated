@@ -10,8 +10,8 @@ import net.minecraft.world.level.storage.ValueOutput;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
+import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Ticker;
 

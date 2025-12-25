@@ -5,7 +5,6 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
@@ -49,7 +48,6 @@ import owmii.powah.lib.registry.IVariant;
 import owmii.powah.lib.registry.IVariantEntry;
 
 public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBlock<V, B>> extends Block implements IVariantEntry<V, B>, IBlock<V, B> {
-    public static final VoxelShape SEMI_FULL_SHAPE = box(0.01D, 0.01D, 0.01D, 15.99D, 15.99D, 15.99D);
     protected final Map<Direction, VoxelShape> shapes = new HashMap<>();
     protected final V variant;
 
@@ -74,8 +72,10 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-        if (!this.shapes.isEmpty() && !getFacing().equals(Facing.NONE)) {
+        if (getFacing() == Facing.ALL) {
             return this.shapes.get(state.getValue(FACING));
+        } else if (getFacing() == Facing.HORIZONTAL) {
+            return this.shapes.get(state.getValue(HORIZONTAL_FACING));
         } else {
             return super.getShape(state, worldIn, pos, context);
         }
@@ -85,7 +85,8 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
         return asItem().getName(stack);
     }
 
-    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> builder,
+            TooltipFlag tooltipFlag) {
     }
 
     @Override
@@ -123,11 +124,12 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
     }
 
     @Override
-    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction directionToNeighbour, BlockPos neighbourPos, BlockState neighbourState, RandomSource random) {
+    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction directionToNeighbour,
+            BlockPos neighbourPos, BlockState neighbourState, RandomSource random) {
         if (this instanceof SimpleWaterloggedBlock && state.getValue(WATERLOGGED))
             ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         if (!state.canSurvive(level, pos)) {
-            if (!level.isClientSide() && level.getBlockEntity(pos) instanceof PowahBaseBlockEntity<?,?> blockEntity) {
+            if (!level.isClientSide() && level.getBlockEntity(pos) instanceof PowahBaseBlockEntity<?, ?> blockEntity) {
                 ItemStack stack = blockEntity.storeToStack(new ItemStack(this));
                 popResource((Level) level, pos, stack);
                 return Blocks.AIR.defaultBlockState();
@@ -180,7 +182,8 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
     }
 
     @Nullable
-    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
+    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te,
+            BlockHitResult result) {
         return null;
     }
 
@@ -202,8 +205,9 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
         if (this instanceof SimpleWaterloggedBlock) {
             state = state.setValue(WATERLOGGED, false);
         }
-        if (!getFacing().equals(Facing.NONE)) {
-            state = state.setValue(FACING, Direction.NORTH);
+        switch (getFacing()) {
+        case HORIZONTAL -> state = state.setValue(HORIZONTAL_FACING, Direction.NORTH);
+        case ALL -> state = state.setValue(FACING, Direction.NORTH);
         }
         if (hasLitProp()) {
             state = state.setValue(LIT, false);
@@ -240,7 +244,7 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
             if (!isPlacerFacing()) {
                 state = facing(context, false);
             } else {
-                state = defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+                state = defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
             }
         } else if (getFacing().equals(Facing.ALL)) {
             if (!isPlacerFacing()) {
@@ -258,10 +262,11 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
 
     @Nullable
     private BlockState facing(BlockPlaceContext context, boolean b) {
+        var prop = getFacing() == Facing.ALL ? FACING : HORIZONTAL_FACING;
         BlockState blockstate = this.defaultBlockState();
         for (Direction direction : context.getNearestLookingDirections()) {
             if (b || direction.getAxis().isHorizontal()) {
-                blockstate = blockstate.setValue(FACING, b ? direction : direction.getOpposite());
+                blockstate = blockstate.setValue(prop, b ? direction : direction.getOpposite());
                 if (blockstate.canSurvive(context.getLevel(), context.getClickedPos())) {
                     return blockstate;
                 }
@@ -270,38 +275,22 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
         return null;
     }
 
-    /*
-     * TODO ARCH - not essential (what the hell is this even?)
-     * 
-     * @Override
-     * public BlockState rotate(BlockState state, LevelAccessor world, BlockPos pos, Rotation direction) {
-     * if (!getFacing().equals(Facing.NONE)) {
-     * for (Rotation rotation : Rotation.values()) {
-     * if (!rotation.equals(Rotation.NONE)) {
-     * if (canSurvive(super.rotate(state, world, pos, rotation), world, pos)) {
-     * return super.rotate(state, world, pos, rotation);
-     * }
-     * }
-     * }
-     * }
-     * return state;
-     * }
-     */
-
     @Override
     public BlockState rotate(BlockState state, Rotation rot) {
-        if (getFacing().equals(Facing.ALL) || getFacing().equals(Facing.HORIZONTAL)) {
-            return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
-        }
-        return super.rotate(state, rot);
+        return switch (getFacing()) {
+        case HORIZONTAL -> state.setValue(HORIZONTAL_FACING, rot.rotate(state.getValue(HORIZONTAL_FACING)));
+        case ALL -> state.setValue(FACING, rot.rotate(state.getValue(FACING)));
+        case NONE -> super.rotate(state, rot);
+        };
     }
 
     @Override
     public BlockState mirror(BlockState state, Mirror mirror) {
-        if (getFacing().equals(Facing.ALL) || getFacing().equals(Facing.HORIZONTAL)) {
-            return state.rotate(mirror.getRotation(state.getValue(FACING)));
-        }
-        return super.mirror(state, mirror);
+        return switch (getFacing()) {
+        case HORIZONTAL -> state.setValue(HORIZONTAL_FACING, mirror.mirror(state.getValue(HORIZONTAL_FACING)));
+        case ALL -> state.setValue(FACING, mirror.mirror(state.getValue(FACING)));
+        case NONE -> super.mirror(state, mirror);
+        };
     }
 
     @Override
@@ -317,8 +306,10 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        if (getFacing().equals(Facing.ALL) || getFacing().equals(Facing.HORIZONTAL))
-            builder.add(FACING);
+        switch (getFacing()) {
+        case ALL -> builder.add(FACING);
+        case HORIZONTAL -> builder.add(HORIZONTAL_FACING);
+        }
         if (this instanceof SimpleWaterloggedBlock)
             builder.add(WATERLOGGED);
         if (hasLitProp())

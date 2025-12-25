@@ -3,9 +3,7 @@ package owmii.powah.client;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import owmii.powah.Powah;
 import owmii.powah.components.PowahComponents;
-import owmii.powah.item.Itms;
 
 public class ItemModelProperties {
     public static void register() {
