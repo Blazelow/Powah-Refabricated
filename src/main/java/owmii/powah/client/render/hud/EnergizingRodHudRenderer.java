@@ -39,8 +39,7 @@ public class EnergizingRodHudRenderer implements BlockHudRenderer {
                     x - 37 - 1, y - 80,
                     0, 0,
                     74, 9,
-                    256, 256
-            );
+                    256, 256);
             Draw.gaugeH(gui, energyOverlay, x - 37, y - 79, 72, 16, 0, 9, rod.getEnergy());
             gui.drawString(font, s, Math.round(x - (font.width(s) / 2.0f)), y - 67, 0xffffffff);
             RenderSystem.getModelViewStack().popMatrix();

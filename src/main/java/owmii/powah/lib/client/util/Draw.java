@@ -9,7 +9,8 @@ import owmii.powah.lib.logistics.energy.Energy;
 
 public class Draw {
 
-    public static void gaugeV(GuiGraphics gui, RenderPipeline pipeline, TextureAtlasSprite sprite, int x, int y, int w, int h, int cap, int cur, int color) {
+    public static void gaugeV(GuiGraphics gui, RenderPipeline pipeline, TextureAtlasSprite sprite, int x, int y, int w, int h, int cap, int cur,
+            int color) {
         if (cap > 0 && cur > 0) {
             int i = (int) (((float) cur / cap) * h);
             final int j = i / 16;
@@ -54,8 +55,7 @@ public class Draw {
                     w, h,
                     w, h,
                     256, 256,
-                    -1
-            );
+                    -1);
         }
     }
 }
