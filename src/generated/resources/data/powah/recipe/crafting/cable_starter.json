@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "d": {
-      "item": "powah:dielectric_rod_horizontal"
-    },
-    "i": {
-      "item": "minecraft:iron_nugget"
-    },
-    "t": {
-      "item": "powah:capacitor_basic_tiny"
-    }
+    "d": "powah:dielectric_rod_horizontal",
+    "i": "minecraft:iron_nugget",
+    "t": "powah:capacitor_basic_tiny"
   },
   "pattern": [
     "ddd",

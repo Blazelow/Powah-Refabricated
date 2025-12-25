@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "d": {
-      "item": "powah:dielectric_paste"
-    },
-    "l": {
-      "item": "minecraft:lapis_lazuli"
-    },
-    "p": {
-      "tag": "c:glass_panes"
-    }
+    "d": "powah:dielectric_paste",
+    "l": "minecraft:lapis_lazuli",
+    "p": "#c:glass_panes"
   },
   "pattern": [
     "dld",

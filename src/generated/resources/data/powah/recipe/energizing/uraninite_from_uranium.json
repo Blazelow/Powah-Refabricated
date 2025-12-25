@@ -11,9 +11,7 @@
   "type": "powah:energizing",
   "energy": 30000,
   "ingredients": [
-    {
-      "tag": "c:ingots/uranium"
-    }
+    "#c:ingots/uranium"
   ],
   "result": {
     "count": 1,

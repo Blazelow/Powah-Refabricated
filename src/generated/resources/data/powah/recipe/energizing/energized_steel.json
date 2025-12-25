@@ -2,12 +2,8 @@
   "type": "powah:energizing",
   "energy": 10000,
   "ingredients": [
-    {
-      "tag": "c:ingots/iron"
-    },
-    {
-      "tag": "c:ingots/gold"
-    }
+    "#c:ingots/iron",
+    "#c:ingots/gold"
   ],
   "result": {
     "count": 2,

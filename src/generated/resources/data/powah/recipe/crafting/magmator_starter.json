@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:capacitor_basic_tiny"
-    },
-    "d": {
-      "item": "powah:dielectric_casing"
-    },
-    "f": {
-      "item": "minecraft:bucket"
-    },
-    "g": {
-      "item": "powah:dielectric_paste"
-    }
+    "c": "powah:capacitor_basic_tiny",
+    "d": "powah:dielectric_casing",
+    "f": "minecraft:bucket",
+    "g": "powah:dielectric_paste"
   },
   "pattern": [
     "ggg",

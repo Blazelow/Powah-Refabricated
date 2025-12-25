@@ -2,33 +2,15 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "powah:crystal_spirited"
-    },
-    {
-      "item": "powah:crystal_spirited"
-    },
-    {
-      "item": "powah:crystal_spirited"
-    },
-    {
-      "item": "powah:crystal_spirited"
-    },
-    {
-      "item": "powah:crystal_spirited"
-    },
-    {
-      "item": "powah:crystal_spirited"
-    },
-    {
-      "item": "powah:crystal_spirited"
-    },
-    {
-      "item": "powah:crystal_spirited"
-    },
-    {
-      "item": "powah:crystal_spirited"
-    }
+    "powah:crystal_spirited",
+    "powah:crystal_spirited",
+    "powah:crystal_spirited",
+    "powah:crystal_spirited",
+    "powah:crystal_spirited",
+    "powah:crystal_spirited",
+    "powah:crystal_spirited",
+    "powah:crystal_spirited",
+    "powah:crystal_spirited"
   ],
   "result": {
     "count": 1,

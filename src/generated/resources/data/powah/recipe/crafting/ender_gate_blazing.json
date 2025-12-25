@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:ender_core"
-    },
-    "i": {
-      "item": "powah:energy_cable_blazing"
-    },
-    "o": {
-      "item": "minecraft:obsidian"
-    }
+    "c": "powah:ender_core",
+    "i": "powah:energy_cable_blazing",
+    "o": "minecraft:obsidian"
   },
   "pattern": [
     "oio",

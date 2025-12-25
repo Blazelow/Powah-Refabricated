@@ -2,9 +2,7 @@
   "type": "powah:energizing",
   "energy": 1000000,
   "ingredients": [
-    {
-      "tag": "c:gems/emerald"
-    }
+    "#c:gems/emerald"
   ],
   "result": {
     "count": 1,

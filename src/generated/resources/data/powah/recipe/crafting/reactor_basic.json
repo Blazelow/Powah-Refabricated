@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "l": {
-      "item": "powah:capacitor_basic_large"
-    },
-    "r": {
-      "item": "powah:reactor_starter"
-    },
-    "u": {
-      "item": "powah:uraninite"
-    }
+    "l": "powah:capacitor_basic_large",
+    "r": "powah:reactor_starter",
+    "u": "powah:uraninite"
   },
   "pattern": [
     "rlr",

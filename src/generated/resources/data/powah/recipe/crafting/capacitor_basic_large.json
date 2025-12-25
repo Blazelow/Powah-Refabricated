@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "powah:capacitor_basic"
-    },
-    {
-      "item": "powah:capacitor_basic"
-    }
+    "powah:capacitor_basic",
+    "powah:capacitor_basic"
   ],
   "result": {
     "count": 1,

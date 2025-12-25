@@ -4,20 +4,16 @@ import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.IntrinsicHolderTagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagCopyingItemTagProvider;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
-import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import owmii.powah.Powah;
 import owmii.powah.block.Blcks;
-import owmii.powah.block.Tier;
 import owmii.powah.item.Itms;
-import owmii.powah.lib.registry.VarReg;
+import owmii.powah.lib.registry.TieredBlockReg;
 
 public class TagsProvider {
     public static class Blocks extends BlockTagsProvider {
@@ -82,8 +78,8 @@ public class TagsProvider {
             tag(BlockTags.NEEDS_IRON_TOOL).addTag(ITags.Blocks.URANINITE_ORE);
         }
 
-        private void varReg(TagKey<Block> tagKey, VarReg<Tier, Block> varReg) {
-            tag(tagKey).add(varReg.getArr(Block[]::new));
+        private void varReg(TagKey<Block> tagKey, TieredBlockReg tieredBlock) {
+            tag(tagKey).add(tieredBlock.getArr());
         }
     }
 

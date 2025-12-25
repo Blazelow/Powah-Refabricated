@@ -20,58 +20,62 @@ import owmii.powah.block.reactor.ReactorBlock;
 import owmii.powah.block.solar.SolarBlock;
 import owmii.powah.block.thermo.ThermoBlock;
 import owmii.powah.block.transmitter.PlayerTransmitterBlock;
-import owmii.powah.lib.block.Properties;
-import owmii.powah.lib.registry.VarReg;
+import owmii.powah.lib.registry.TieredBlockReg;
+
+import static owmii.powah.lib.block.Properties.deepslate;
+import static owmii.powah.lib.block.Properties.metal;
+import static owmii.powah.lib.block.Properties.metalNoSolid;
+import static owmii.powah.lib.block.Properties.rock;
 
 public class Blcks {
 
     public static final DeferredRegister.Blocks DR = DeferredRegister.createBlocks(Powah.MOD_ID);
 
-    public static final VarReg<Tier, Block> ENERGY_CELL = new VarReg<>(DR, "energy_cell",
-            variant -> new EnergyCellBlock(Properties.metalNoSolid(2.0f, 20.0f), variant), Tier.values());
-    public static final VarReg<Tier, Block> ENDER_CELL = new VarReg<>(DR, "ender_cell",
-            variant -> new EnderCellBlock(Properties.metalNoSolid(2.0f, 20.0f), variant), Tier.getNormalVariants());
-    public static final VarReg<Tier, Block> ENERGY_CABLE = new VarReg<>(DR, "energy_cable",
-            variant -> new CableBlock(Properties.metalNoSolid(2.0f, 20.0f).noCollision(), variant), Tier.getNormalVariants());
-    public static final VarReg<Tier, Block> ENDER_GATE = new VarReg<>(DR, "ender_gate",
-            variant -> new EnderGateBlock(Properties.metalNoSolid(2.0f, 20.0f).noCollision(), variant), Tier.getNormalVariants());
-    public static final DeferredBlock<Block> ENERGIZING_ORB = DR.register("energizing_orb",
-            () -> new EnergizingOrbBlock(Properties.metalNoSolid(2.0f, 20.0f)));
-    public static final VarReg<Tier, Block> ENERGIZING_ROD = new VarReg<>(DR, "energizing_rod",
-            variant -> new EnergizingRodBlock(Properties.metalNoSolid(2.0f, 20.0f).noCollision(), variant), Tier.getNormalVariants());
-    public static final VarReg<Tier, Block> FURNATOR = new VarReg<>(DR, "furnator",
-            variant -> new FurnatorBlock(Properties.metalNoSolid(2.0f, 20.0f), variant), Tier.getNormalVariants());
-    public static final VarReg<Tier, Block> MAGMATOR = new VarReg<>(DR, "magmator",
-            variant -> new MagmatorBlock(Properties.metalNoSolid(2.0f, 20.0f), variant), Tier.getNormalVariants());
-    public static final VarReg<Tier, Block> THERMO_GENERATOR = new VarReg<>(DR, "thermo_generator",
-            variant -> new ThermoBlock(Properties.metalNoSolid(2.0f, 20.0f), variant), Tier.getNormalVariants());
-    public static final VarReg<Tier, Block> SOLAR_PANEL = new VarReg<>(DR, "solar_panel",
-            variant -> new SolarBlock(Properties.metalNoSolid(2.0f, 20.0f), variant), Tier.getNormalVariants());
-    public static final VarReg<Tier, Block> REACTOR = new VarReg<>(DR, "reactor",
-            variant -> new ReactorBlock(Properties.metalNoSolid(2.0f, 20.0f), variant), Tier.getNormalVariants());
-    public static final VarReg<Tier, Block> PLAYER_TRANSMITTER = new VarReg<>(DR, "player_transmitter",
-            variant -> new PlayerTransmitterBlock(Properties.metalNoSolid(2.0f, 20.0f), variant), Tier.getNormalVariants());
-    public static final VarReg<Tier, Block> ENERGY_HOPPER = new VarReg<>(DR, "energy_hopper",
-            variant -> new EnergyHopperBlock(Properties.metalNoSolid(2.0f, 20.0f), variant), Tier.getNormalVariants());
-    public static final VarReg<Tier, Block> ENERGY_DISCHARGER = new VarReg<>(DR, "energy_discharger",
-            variant -> new EnergyDischargerBlock(Properties.metalNoSolid(2.0f, 20.0f), variant), Tier.getNormalVariants());
-    public static final DeferredBlock<Block> ENERGIZED_STEEL = DR.register("energized_steel_block", () -> new Block(Properties.metal(2.0f, 20.0f)));
-    public static final DeferredBlock<Block> BLAZING_CRYSTAL = DR.register("blazing_crystal_block", () -> new Block(Properties.metal(2.0f, 20.0f)));
-    public static final DeferredBlock<Block> NIOTIC_CRYSTAL = DR.register("niotic_crystal_block", () -> new Block(Properties.metal(2.0f, 20.0f)));
-    public static final DeferredBlock<Block> SPIRITED_CRYSTAL = DR.register("spirited_crystal_block", () -> new Block(Properties.metal(2.0f, 20.0f)));
-    public static final DeferredBlock<Block> NITRO_CRYSTAL = DR.register("nitro_crystal_block", () -> new Block(Properties.metal(2.0f, 20.0f)));
-    public static final DeferredBlock<Block> URANINITE = DR.register("uraninite_block", () -> new Block(Properties.metal(2.0f, 20.0f)));
-    public static final DeferredBlock<Block> DEEPSLATE_URANINITE_ORE_POOR = DR.register("deepslate_uraninite_ore_poor",
-            () -> new DropExperienceBlock(ConstantInt.of(0), Properties.deepslate()));
-    public static final DeferredBlock<Block> DEEPSLATE_URANINITE_ORE = DR.register("deepslate_uraninite_ore",
-            () -> new DropExperienceBlock(ConstantInt.of(0), Properties.deepslate()));
-    public static final DeferredBlock<Block> DEEPSLATE_URANINITE_ORE_DENSE = DR.register("deepslate_uraninite_ore_dense",
-            () -> new DropExperienceBlock(ConstantInt.of(0), Properties.deepslate()));
-    public static final DeferredBlock<Block> URANINITE_ORE_POOR = DR.register("uraninite_ore_poor",
-            () -> new DropExperienceBlock(ConstantInt.of(0), Properties.rock(3.0f, 8.0f)));
-    public static final DeferredBlock<Block> URANINITE_ORE = DR.register("uraninite_ore",
-            () -> new DropExperienceBlock(ConstantInt.of(0), Properties.rock(3.2f, 8.0f)));
-    public static final DeferredBlock<Block> URANINITE_ORE_DENSE = DR.register("uraninite_ore_dense",
-            () -> new DropExperienceBlock(ConstantInt.of(0), Properties.rock(4.0f, 8.0f)));
-    public static final DeferredBlock<Block> DRY_ICE = DR.register("dry_ice", () -> new Block(Properties.rock(2.0f, 8.0f)));
+    public static final TieredBlockReg ENERGY_CELL = new TieredBlockReg(DR, "energy_cell",
+            (variant, props) -> new EnergyCellBlock(metalNoSolid(props, 2.0f, 20.0f), variant), Tier.values());
+    public static final TieredBlockReg ENDER_CELL = new TieredBlockReg(DR, "ender_cell",
+            (variant, props) -> new EnderCellBlock(metalNoSolid(props, 2.0f, 20.0f), variant), Tier.getNormalVariants());
+    public static final TieredBlockReg ENERGY_CABLE = new TieredBlockReg(DR, "energy_cable",
+            (variant, props) -> new CableBlock(metalNoSolid(props, 2.0f, 20.0f).noCollision(), variant), Tier.getNormalVariants());
+    public static final TieredBlockReg ENDER_GATE = new TieredBlockReg(DR, "ender_gate",
+            (variant, props) -> new EnderGateBlock(metalNoSolid(props, 2.0f, 20.0f).noCollision(), variant), Tier.getNormalVariants());
+    public static final DeferredBlock<Block> ENERGIZING_ORB = DR.registerBlock("energizing_orb",
+            props -> new EnergizingOrbBlock(metalNoSolid(props, 2.0f, 20.0f)));
+    public static final TieredBlockReg ENERGIZING_ROD = new TieredBlockReg(DR, "energizing_rod",
+            (variant, props) -> new EnergizingRodBlock(metalNoSolid(props, 2.0f, 20.0f).noCollision(), variant), Tier.getNormalVariants());
+    public static final TieredBlockReg FURNATOR = new TieredBlockReg(DR, "furnator",
+            (variant, props) -> new FurnatorBlock(metalNoSolid(props, 2.0f, 20.0f), variant), Tier.getNormalVariants());
+    public static final TieredBlockReg MAGMATOR = new TieredBlockReg(DR, "magmator",
+            (variant, props) -> new MagmatorBlock(metalNoSolid(props, 2.0f, 20.0f), variant), Tier.getNormalVariants());
+    public static final TieredBlockReg THERMO_GENERATOR = new TieredBlockReg(DR, "thermo_generator",
+            (variant, props) -> new ThermoBlock(metalNoSolid(props, 2.0f, 20.0f), variant), Tier.getNormalVariants());
+    public static final TieredBlockReg SOLAR_PANEL = new TieredBlockReg(DR, "solar_panel",
+            (variant, props) -> new SolarBlock(metalNoSolid(props, 2.0f, 20.0f), variant), Tier.getNormalVariants());
+    public static final TieredBlockReg REACTOR = new TieredBlockReg(DR, "reactor",
+            (variant, props) -> new ReactorBlock(metalNoSolid(props, 2.0f, 20.0f), variant), Tier.getNormalVariants());
+    public static final TieredBlockReg PLAYER_TRANSMITTER = new TieredBlockReg(DR, "player_transmitter",
+            (variant, props) -> new PlayerTransmitterBlock(metalNoSolid(props, 2.0f, 20.0f), variant), Tier.getNormalVariants());
+    public static final TieredBlockReg ENERGY_HOPPER = new TieredBlockReg(DR, "energy_hopper",
+            (variant, props) -> new EnergyHopperBlock(metalNoSolid(props, 2.0f, 20.0f), variant), Tier.getNormalVariants());
+    public static final TieredBlockReg ENERGY_DISCHARGER = new TieredBlockReg(DR, "energy_discharger",
+            (variant, props) -> new EnergyDischargerBlock(metalNoSolid(props, 2.0f, 20.0f), variant), Tier.getNormalVariants());
+    public static final DeferredBlock<Block> ENERGIZED_STEEL = DR.registerBlock("energized_steel_block", props -> new Block(metal(props, 2.0f, 20.0f)));
+    public static final DeferredBlock<Block> BLAZING_CRYSTAL = DR.registerBlock("blazing_crystal_block", props -> new Block(metal(props, 2.0f, 20.0f)));
+    public static final DeferredBlock<Block> NIOTIC_CRYSTAL = DR.registerBlock("niotic_crystal_block", props -> new Block(metal(props, 2.0f, 20.0f)));
+    public static final DeferredBlock<Block> SPIRITED_CRYSTAL = DR.registerBlock("spirited_crystal_block", props -> new Block(metal(props, 2.0f, 20.0f)));
+    public static final DeferredBlock<Block> NITRO_CRYSTAL = DR.registerBlock("nitro_crystal_block", props -> new Block(metal(props, 2.0f, 20.0f)));
+    public static final DeferredBlock<Block> URANINITE = DR.registerBlock("uraninite_block", props -> new Block(metal(props, 2.0f, 20.0f)));
+    public static final DeferredBlock<Block> DEEPSLATE_URANINITE_ORE_POOR = DR.registerBlock("deepslate_uraninite_ore_poor",
+            props -> new DropExperienceBlock(ConstantInt.of(0), deepslate(props)));
+    public static final DeferredBlock<Block> DEEPSLATE_URANINITE_ORE = DR.registerBlock("deepslate_uraninite_ore",
+            props -> new DropExperienceBlock(ConstantInt.of(0), deepslate(props)));
+    public static final DeferredBlock<Block> DEEPSLATE_URANINITE_ORE_DENSE = DR.registerBlock("deepslate_uraninite_ore_dense",
+            props -> new DropExperienceBlock(ConstantInt.of(0), deepslate(props)));
+    public static final DeferredBlock<Block> URANINITE_ORE_POOR = DR.registerBlock("uraninite_ore_poor",
+            props -> new DropExperienceBlock(ConstantInt.of(0), rock(props, 3.0f, 8.0f)));
+    public static final DeferredBlock<Block> URANINITE_ORE = DR.registerBlock("uraninite_ore",
+            props -> new DropExperienceBlock(ConstantInt.of(0), rock(props, 3.2f, 8.0f)));
+    public static final DeferredBlock<Block> URANINITE_ORE_DENSE = DR.registerBlock("uraninite_ore_dense",
+            props -> new DropExperienceBlock(ConstantInt.of(0), rock(props, 4.0f, 8.0f)));
+    public static final DeferredBlock<Block> DRY_ICE = DR.registerBlock("dry_ice", props -> new Block(rock(props, 2.0f, 8.0f)));
 }

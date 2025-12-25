@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "powah:ender_cell_spirited"
-    }
+    "powah:ender_cell_spirited"
   ],
   "result": {
     "count": 1,

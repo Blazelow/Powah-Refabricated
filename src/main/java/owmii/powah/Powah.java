@@ -6,6 +6,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
@@ -178,10 +179,12 @@ public class Powah {
                     if (id.identifier().getNamespace().equals(MOD_ID)) {
                         var block = entry.getValue();
                         BlockItem blockItem;
+                        var itemId = ResourceKey.create(Registries.ITEM, id.identifier());
+                        var props = new Item.Properties().setId(itemId);
                         if (block instanceof IBlock<?, ?> iBlock) {
-                            blockItem = iBlock.getBlockItem(new Item.Properties(), CreativeTabs.MAIN_KEY);
+                            blockItem = iBlock.getBlockItem(props, CreativeTabs.MAIN_KEY);
                         } else {
-                            blockItem = new PowahBlockItem<>(block, new Item.Properties(), CreativeTabs.MAIN_KEY);
+                            blockItem = new PowahBlockItem<>(block, props, CreativeTabs.MAIN_KEY);
                         }
                         var name = BuiltInRegistries.BLOCK.getKey(block);
                         Registry.register(BuiltInRegistries.ITEM, name, blockItem);

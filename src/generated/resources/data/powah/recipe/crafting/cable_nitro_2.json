@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:capacitor_nitro"
-    },
-    "d": {
-      "item": "powah:dielectric_rod_horizontal"
-    },
-    "k": {
-      "item": "powah:crystal_nitro"
-    }
+    "c": "powah:capacitor_nitro",
+    "d": "powah:dielectric_rod_horizontal",
+    "k": "powah:crystal_nitro"
   },
   "pattern": [
     "ddd",

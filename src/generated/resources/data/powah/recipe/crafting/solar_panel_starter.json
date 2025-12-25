@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:capacitor_basic_tiny"
-    },
-    "d": {
-      "item": "powah:dielectric_casing"
-    },
-    "e": {
-      "item": "powah:dielectric_paste"
-    },
-    "p": {
-      "item": "powah:photoelectric_pane"
-    }
+    "c": "powah:capacitor_basic_tiny",
+    "d": "powah:dielectric_casing",
+    "e": "powah:dielectric_paste",
+    "p": "powah:photoelectric_pane"
   },
   "pattern": [
     "ppp",

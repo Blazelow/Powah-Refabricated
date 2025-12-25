@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:battery_basic"
-    },
-    "i": {
-      "item": "powah:capacitor_hardened"
-    },
-    "k": {
-      "item": "powah:steel_energized"
-    },
-    "o": {
-      "item": "powah:dielectric_paste"
-    },
-    "r": {
-      "item": "minecraft:redstone_block"
-    }
+    "c": "powah:battery_basic",
+    "i": "powah:capacitor_hardened",
+    "k": "powah:steel_energized",
+    "o": "powah:dielectric_paste",
+    "r": "minecraft:redstone_block"
   },
   "pattern": [
     "oko",

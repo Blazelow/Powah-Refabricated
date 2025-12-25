@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "i": {
-      "item": "minecraft:iron_bars"
-    },
-    "p": {
-      "item": "powah:dielectric_paste"
-    }
+    "i": "minecraft:iron_bars",
+    "p": "powah:dielectric_paste"
   },
   "pattern": [
     "ppp",

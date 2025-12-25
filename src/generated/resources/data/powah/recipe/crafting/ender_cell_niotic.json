@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:ender_core"
-    },
-    "i": {
-      "item": "powah:crystal_niotic"
-    },
-    "o": {
-      "item": "minecraft:obsidian"
-    }
+    "c": "powah:ender_core",
+    "i": "powah:crystal_niotic",
+    "o": "minecraft:obsidian"
   },
   "pattern": [
     "oio",

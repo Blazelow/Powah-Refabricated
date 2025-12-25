@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "b": {
-      "item": "powah:blank_card"
-    },
-    "f": {
-      "item": "minecraft:rotten_flesh"
-    },
-    "r": {
-      "item": "minecraft:redstone"
-    }
+    "b": "powah:blank_card",
+    "f": "minecraft:rotten_flesh",
+    "r": "minecraft:redstone"
   },
   "pattern": [
     "br",

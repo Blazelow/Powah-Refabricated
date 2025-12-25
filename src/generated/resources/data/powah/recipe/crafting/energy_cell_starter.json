@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:capacitor_basic_tiny"
-    },
-    "d": {
-      "item": "powah:dielectric_casing"
-    },
-    "i": {
-      "item": "minecraft:iron_ingot"
-    }
+    "c": "powah:capacitor_basic_tiny",
+    "d": "powah:dielectric_casing",
+    "i": "minecraft:iron_ingot"
   },
   "pattern": [
     "ici",

@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "b": {
-      "item": "powah:steel_energized"
-    },
-    "c": {
-      "item": "powah:capacitor_basic_large"
-    },
-    "p": {
-      "item": "powah:dielectric_paste"
-    }
+    "b": "powah:steel_energized",
+    "c": "powah:capacitor_basic_large",
+    "p": "powah:dielectric_paste"
   },
   "pattern": [
     "pbp",

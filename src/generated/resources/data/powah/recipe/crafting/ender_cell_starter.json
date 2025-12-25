@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:ender_core"
-    },
-    "i": {
-      "item": "minecraft:iron_nugget"
-    },
-    "o": {
-      "item": "minecraft:obsidian"
-    }
+    "c": "powah:ender_core",
+    "i": "minecraft:iron_nugget",
+    "o": "minecraft:obsidian"
   },
   "pattern": [
     "oio",

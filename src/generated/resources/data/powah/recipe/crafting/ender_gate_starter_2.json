@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "powah:ender_gate_starter"
-    }
+    "powah:ender_gate_starter"
   ],
   "result": {
     "count": 1,

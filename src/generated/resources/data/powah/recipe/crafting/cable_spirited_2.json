@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:capacitor_spirited"
-    },
-    "d": {
-      "item": "powah:dielectric_rod_horizontal"
-    },
-    "k": {
-      "item": "powah:crystal_spirited"
-    }
+    "c": "powah:capacitor_spirited",
+    "d": "powah:dielectric_rod_horizontal",
+    "k": "powah:crystal_spirited"
   },
   "pattern": [
     "ddd",

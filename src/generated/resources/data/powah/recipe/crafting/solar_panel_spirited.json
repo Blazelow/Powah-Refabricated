@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:capacitor_spirited"
-    },
-    "d": {
-      "item": "powah:dielectric_casing"
-    },
-    "e": {
-      "item": "powah:crystal_spirited"
-    },
-    "p": {
-      "item": "powah:solar_panel_niotic"
-    }
+    "c": "powah:capacitor_spirited",
+    "d": "powah:dielectric_casing",
+    "e": "powah:crystal_spirited",
+    "p": "powah:solar_panel_niotic"
   },
   "pattern": [
     "ppp",

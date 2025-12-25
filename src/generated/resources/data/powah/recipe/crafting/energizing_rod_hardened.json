@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:dielectric_casing"
-    },
-    "e": {
-      "item": "powah:energizing_rod_basic"
-    },
-    "h": {
-      "item": "powah:capacitor_hardened"
-    },
-    "q": {
-      "tag": "c:storage_blocks/quartz"
-    }
+    "c": "powah:dielectric_casing",
+    "e": "powah:energizing_rod_basic",
+    "h": "powah:capacitor_hardened",
+    "q": "#c:storage_blocks/quartz"
   },
   "pattern": [
     " q ",

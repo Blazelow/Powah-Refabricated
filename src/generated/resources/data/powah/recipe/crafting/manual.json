@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "powah:dielectric_paste"
-    },
-    {
-      "item": "minecraft:book"
-    }
+    "powah:dielectric_paste",
+    "minecraft:book"
   ],
   "result": {
     "count": 1,

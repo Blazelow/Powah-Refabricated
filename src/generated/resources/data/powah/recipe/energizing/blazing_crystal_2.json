@@ -2,9 +2,7 @@
   "type": "powah:energizing",
   "energy": 120000,
   "ingredients": [
-    {
-      "tag": "c:rods/blaze"
-    }
+    "#c:rods/blaze"
   ],
   "result": {
     "count": 1,

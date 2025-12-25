@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "powah:ender_gate_blazing"
-    }
+    "powah:ender_gate_blazing"
   ],
   "result": {
     "count": 1,

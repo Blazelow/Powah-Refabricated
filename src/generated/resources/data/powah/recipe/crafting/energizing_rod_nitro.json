@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "b": {
-      "item": "powah:capacitor_nitro"
-    },
-    "c": {
-      "item": "powah:dielectric_casing"
-    },
-    "h": {
-      "item": "powah:energizing_rod_spirited"
-    },
-    "q": {
-      "tag": "c:storage_blocks/quartz"
-    }
+    "b": "powah:capacitor_nitro",
+    "c": "powah:dielectric_casing",
+    "h": "powah:energizing_rod_spirited",
+    "q": "#c:storage_blocks/quartz"
   },
   "pattern": [
     " q ",

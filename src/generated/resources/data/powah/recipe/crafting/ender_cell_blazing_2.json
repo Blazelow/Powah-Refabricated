@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "powah:ender_cell_blazing"
-    }
+    "powah:ender_cell_blazing"
   ],
   "result": {
     "count": 1,

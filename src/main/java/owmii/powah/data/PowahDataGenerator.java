@@ -17,7 +17,7 @@ import owmii.powah.compat.curios.CurioTagsProvider;
 import owmii.powah.world.gen.Features;
 
 public class PowahDataGenerator {
-    public static void gatherData(GatherDataEvent event) {
+    public static void gatherData(GatherDataEvent.Client event) {
         var generator = event.getGenerator();
         var pack = generator.getVanillaPack(true);
 

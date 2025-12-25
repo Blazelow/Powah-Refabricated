@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:capacitor_nitro"
-    },
-    "d": {
-      "item": "powah:dielectric_casing"
-    },
-    "p": {
-      "item": "powah:dielectric_paste"
-    }
+    "c": "powah:capacitor_nitro",
+    "d": "powah:dielectric_casing",
+    "p": "powah:dielectric_paste"
   },
   "pattern": [
     "pcp",

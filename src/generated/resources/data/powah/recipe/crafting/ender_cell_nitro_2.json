@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "powah:ender_cell_nitro"
-    }
+    "powah:ender_cell_nitro"
   ],
   "result": {
     "count": 1,

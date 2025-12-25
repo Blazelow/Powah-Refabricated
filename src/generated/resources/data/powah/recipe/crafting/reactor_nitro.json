@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "l": {
-      "item": "powah:capacitor_nitro"
-    },
-    "r": {
-      "item": "powah:reactor_spirited"
-    },
-    "u": {
-      "item": "powah:uraninite"
-    }
+    "l": "powah:capacitor_nitro",
+    "r": "powah:reactor_spirited",
+    "u": "powah:uraninite"
   },
   "pattern": [
     "rlr",

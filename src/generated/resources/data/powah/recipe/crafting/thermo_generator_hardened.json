@@ -2,24 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:capacitor_hardened"
-    },
-    "d": {
-      "item": "powah:dielectric_casing"
-    },
-    "g": {
-      "item": "powah:steel_energized"
-    },
-    "i": {
-      "item": "powah:dielectric_paste"
-    },
-    "p": {
-      "item": "powah:thermoelectric_plate"
-    },
-    "t": {
-      "item": "powah:thermo_generator_basic"
-    }
+    "c": "powah:capacitor_hardened",
+    "d": "powah:dielectric_casing",
+    "g": "powah:steel_energized",
+    "i": "powah:dielectric_paste",
+    "p": "powah:thermoelectric_plate",
+    "t": "powah:thermo_generator_basic"
   },
   "pattern": [
     "igi",

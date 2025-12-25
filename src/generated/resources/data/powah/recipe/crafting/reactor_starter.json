@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:dielectric_casing"
-    },
-    "l": {
-      "item": "powah:capacitor_basic_tiny"
-    },
-    "u": {
-      "item": "powah:uraninite"
-    }
+    "c": "powah:dielectric_casing",
+    "l": "powah:capacitor_basic_tiny",
+    "u": "powah:uraninite"
   },
   "pattern": [
     "ulu",

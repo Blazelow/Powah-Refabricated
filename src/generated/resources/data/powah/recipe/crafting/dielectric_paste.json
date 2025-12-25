@@ -2,24 +2,12 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "tag": "minecraft:coals"
-    },
-    {
-      "tag": "minecraft:coals"
-    },
-    {
-      "tag": "minecraft:coals"
-    },
-    {
-      "item": "minecraft:clay_ball"
-    },
-    {
-      "item": "minecraft:clay_ball"
-    },
-    {
-      "item": "minecraft:lava_bucket"
-    }
+    "#minecraft:coals",
+    "#minecraft:coals",
+    "#minecraft:coals",
+    "minecraft:clay_ball",
+    "minecraft:clay_ball",
+    "minecraft:lava_bucket"
   ],
   "result": {
     "count": 24,

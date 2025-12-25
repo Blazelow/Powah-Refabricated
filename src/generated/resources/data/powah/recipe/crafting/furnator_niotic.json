@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:capacitor_niotic"
-    },
-    "d": {
-      "item": "powah:dielectric_casing"
-    },
-    "f": {
-      "item": "powah:furnator_blazing"
-    },
-    "g": {
-      "item": "powah:crystal_niotic"
-    }
+    "c": "powah:capacitor_niotic",
+    "d": "powah:dielectric_casing",
+    "f": "powah:furnator_blazing",
+    "g": "powah:crystal_niotic"
   },
   "pattern": [
     "ggg",

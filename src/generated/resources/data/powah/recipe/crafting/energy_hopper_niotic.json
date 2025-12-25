@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:capacitor_niotic"
-    },
-    "d": {
-      "item": "powah:dielectric_casing"
-    },
-    "h": {
-      "item": "powah:energy_hopper_blazing"
-    },
-    "p": {
-      "item": "powah:dielectric_paste"
-    }
+    "c": "powah:capacitor_niotic",
+    "d": "powah:dielectric_casing",
+    "h": "powah:energy_hopper_blazing",
+    "p": "powah:dielectric_paste"
   },
   "pattern": [
     "ppp",

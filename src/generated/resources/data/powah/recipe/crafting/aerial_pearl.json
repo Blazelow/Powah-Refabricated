@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "b": {
-      "item": "minecraft:iron_bars"
-    },
-    "e": {
-      "item": "minecraft:ender_pearl"
-    },
-    "p": {
-      "item": "powah:dielectric_paste"
-    }
+    "b": "minecraft:iron_bars",
+    "e": "minecraft:ender_pearl",
+    "p": "powah:dielectric_paste"
   },
   "pattern": [
     "pbp",

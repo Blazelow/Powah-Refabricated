@@ -2,9 +2,7 @@
   "type": "powah:energizing",
   "energy": 300000,
   "ingredients": [
-    {
-      "tag": "c:gems/diamond"
-    }
+    "#c:gems/diamond"
   ],
   "result": {
     "count": 1,

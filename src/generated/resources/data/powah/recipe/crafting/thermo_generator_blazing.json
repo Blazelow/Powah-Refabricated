@@ -2,24 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "powah:capacitor_blazing"
-    },
-    "d": {
-      "item": "powah:dielectric_casing"
-    },
-    "g": {
-      "item": "powah:crystal_blazing"
-    },
-    "i": {
-      "item": "powah:dielectric_paste"
-    },
-    "p": {
-      "item": "powah:thermoelectric_plate"
-    },
-    "t": {
-      "item": "powah:thermo_generator_hardened"
-    }
+    "c": "powah:capacitor_blazing",
+    "d": "powah:dielectric_casing",
+    "g": "powah:crystal_blazing",
+    "i": "powah:dielectric_paste",
+    "p": "powah:thermoelectric_plate",
+    "t": "powah:thermo_generator_hardened"
   },
   "pattern": [
     "igi",
