@@ -7,7 +7,7 @@
     },
     {
       "apply": {
-        "model": "powah:block/solar_panel_frame_"
+        "model": "powah:block/solar_panel_starter_frame"
       },
       "when": {
         "north": "true"
@@ -15,7 +15,7 @@
     },
     {
       "apply": {
-        "model": "powah:block/solar_panel_frame_",
+        "model": "powah:block/solar_panel_starter_frame",
         "y": 90
       },
       "when": {
@@ -24,7 +24,7 @@
     },
     {
       "apply": {
-        "model": "powah:block/solar_panel_frame_",
+        "model": "powah:block/solar_panel_starter_frame",
         "y": 180
       },
       "when": {
@@ -33,7 +33,7 @@
     },
     {
       "apply": {
-        "model": "powah:block/solar_panel_frame_",
+        "model": "powah:block/solar_panel_starter_frame",
         "y": 270
       },
       "when": {

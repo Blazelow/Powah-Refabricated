@@ -6,7 +6,10 @@
 	"1": "#back",
 	"3": "#pointer",
 	"4": "#ov",
-	"particle": "#side"
+	"particle": "#side",
+	"side": "powah:block/energy_hopper_side",
+    "back": "powah:block/energy_hopper_back",
+	"pointer": "powah:block/energy_hopper_pointer"
   },
   "elements": [
 	{

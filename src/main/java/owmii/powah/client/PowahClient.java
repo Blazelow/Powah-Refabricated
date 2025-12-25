@@ -7,7 +7,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterRenderPipelinesEvent;
 import net.neoforged.neoforge.client.event.RegisterSpecialModelRendererEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
@@ -34,8 +33,6 @@ import owmii.powah.lib.client.util.RenderTypes;
 @Mod(value = Powah.MOD_ID, dist = Dist.CLIENT)
 public final class PowahClient {
     public PowahClient(IEventBus modEventBus) {
-        modEventBus.addListener(PowahClient::clientSetup);
-
         modEventBus.addListener(PowahLayerDefinitions::register);
         HudHandler.register(this);
         modEventBus.addListener(EntityRenderer::register);
@@ -52,14 +49,6 @@ public final class PowahClient {
                 .defaultLanguage("en_us")
                 .extension(TagCompiler.EXTENSION_POINT, new PowahTagCompiler())
                 .build();
-    }
-
-    public static void clientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(PowahClient::clientSetupSequential);
-    }
-
-    public static void clientSetupSequential() {
-        ItemModelProperties.register();
     }
 
     private void registerRenderPipelines(RegisterRenderPipelinesEvent event) {

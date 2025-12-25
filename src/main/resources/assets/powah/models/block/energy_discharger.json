@@ -5,7 +5,9 @@
 	"0": "#side",
 	"1": "#comps",
 	"2": "#ov",
-	"particle": "#side"
+	"particle": "#side",
+    "side": "powah:block/energy_discharger_side",
+    "comps": "powah:block/energy_discharger_comps"
   },
   "elements": [
 	{

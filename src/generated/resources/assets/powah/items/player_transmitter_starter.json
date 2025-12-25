@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "powah:block/player_transmitter_starter"
+    "model": "powah:item/player_transmitter_starter"
   }
 }

@@ -1,6 +1,10 @@
-{
+  {
   "model": {
-    "type": "minecraft:model",
-    "model": "powah:block/reactor_basic"
+    "type": "minecraft:special",
+    "base": "powah:block/reactor_basic",
+    "model": {
+      "type": "powah:reactor",
+      "tier": "basic"
+    }
   }
 }

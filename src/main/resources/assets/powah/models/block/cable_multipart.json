@@ -2,8 +2,8 @@
   "credit": "Made with Blockbench",
   "parent": "block/block",
   "textures": {
-	"0": "#mp",
-	"particle": "#mp"
+	"0": "#all",
+	"particle": "#all"
   },
   "elements": [
 	{

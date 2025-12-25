@@ -1,6 +1,15 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "powah:item/binding_card"
+    "type": "minecraft:condition",
+    "component": "powah:bound_player",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "powah:item/binding_card"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "powah:item/binding_card_bound"
+    },
+    "property": "minecraft:has_component"
   }
 }

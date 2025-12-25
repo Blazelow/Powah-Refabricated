@@ -3,7 +3,8 @@
   "textures": {
 	"0": "#gate",
 	"1": "#ov",
-	"particle": "#gate"
+	"particle": "#gate",
+    "gate": "powah:block/ender_gate"
   },
   "elements": [
 	{

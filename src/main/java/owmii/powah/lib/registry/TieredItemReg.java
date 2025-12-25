@@ -1,29 +1,29 @@
 package owmii.powah.lib.registry;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import owmii.powah.block.Tier;
 
 public class TieredItemReg {
-    private static final Map<String, List<String>> ALL_VARIANTS = new HashMap<>();
+    private final String name;
+    private final EnumSet<Tier> tiers;
 
-    public static List<String> getSiblingIds(String name) {
-        return ALL_VARIANTS.getOrDefault(name, List.of(name));
-    }
-
-    private final LinkedHashMap<Tier, Supplier<Item>> all = new LinkedHashMap<>();
+    private final Map<Tier, Supplier<Item>> all = new EnumMap<>(Tier.class);
 
     public TieredItemReg(DeferredRegister.Items dr, String name, Factory factory, Tier[] variants) {
-        for (Tier variant : variants) {
-            var entryName = name + "_" + variant.getName();
-            ALL_VARIANTS.computeIfAbsent(name, s -> new ArrayList<>()).add(entryName);
-            this.all.put(variant, dr.registerItem(entryName, props -> factory.get(variant, props)));
+        this.name = name;
+        this.tiers = EnumSet.noneOf(Tier.class);
+        for (Tier tier : variants) {
+            var entryName = name + "_" + tier.getName();
+            this.all.put(tier, dr.registerItem(entryName, props -> factory.get(tier, props)));
+            this.tiers.add(tier);
         }
     }
 
@@ -35,8 +35,20 @@ public class TieredItemReg {
         return all.values().stream().map(Supplier::get).toList();
     }
 
-    public Item get(Tier variant) {
-        return this.all.get(variant).get();
+    public Set<Tier> getTiers() {
+        return Collections.unmodifiableSet(tiers);
+    }
+
+    public Item get(Tier tier) {
+        if (!this.all.containsKey(tier)) {
+            throw new IllegalStateException("Tiered item " + name + " does not have tier " + tier);
+        }
+        return this.all.get(tier).get();
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     @FunctionalInterface

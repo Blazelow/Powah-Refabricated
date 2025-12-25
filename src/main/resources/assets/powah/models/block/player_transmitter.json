@@ -4,7 +4,8 @@
   "textures": {
 	"0": "#var",
 	"1": "#core",
-	"particle": "#core"
+	"particle": "#core",
+    "core": "powah:block/player_transmitter_core"
   },
   "elements": [
 	{

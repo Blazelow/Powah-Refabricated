@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/block",
   "textures": {
-    "all": "powah:block/reactor_blazing"
+    "particle": "powah:block/furnator_face"
   }
 }

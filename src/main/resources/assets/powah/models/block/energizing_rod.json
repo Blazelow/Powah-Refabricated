@@ -4,7 +4,8 @@
   "textures": {
 	"1": "#gem",
 	"2": "#rod",
-	"particle": "#rod"
+	"particle": "#rod",
+    "rod": "powah:block/energizing_rod"
   },
   "elements": [
 	{
