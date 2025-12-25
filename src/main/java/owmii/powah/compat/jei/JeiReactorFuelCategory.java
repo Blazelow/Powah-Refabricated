@@ -57,9 +57,9 @@ public class JeiReactorFuelCategory extends AbstractCategory<JeiReactorFuelCateg
         List<Recipe> recipes = new ArrayList<>();
         for (var entry : BuiltInRegistries.ITEM.getDataMap(ReactorFuel.DATA_MAP_TYPE).entrySet()) {
             var key = entry.getKey();
-            var item = BuiltInRegistries.ITEM.get(key);
+            var item = BuiltInRegistries.ITEM.getOptional(key).orElse(null);
             if (item != null) {
-                recipes.add(new Recipe(item.getDefaultInstance(), key.location(), entry.getValue()));
+                recipes.add(new Recipe(item.getDefaultInstance(), key.identifier(), entry.getValue()));
             }
         }
         return recipes;

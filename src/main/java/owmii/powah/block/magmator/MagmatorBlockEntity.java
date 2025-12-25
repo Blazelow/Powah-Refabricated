@@ -1,24 +1,24 @@
 package owmii.powah.block.magmator;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import owmii.powah.api.PowahAPI;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.lib.block.AbstractGeneratorBlockEntity;
+import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.lib.logistics.fluid.Tank;
 import owmii.powah.util.Util;
 
-public class MagmatorBlockEntity extends AbstractGeneratorBlockEntity<MagmatorBlock> implements IInventoryHolder, ITankHolder {
+public class MagmatorBlockEntity extends PowahBaseGeneratorBlockEntity<MagmatorBlock> implements IInventoryHolder, ITankHolder {
     protected final Energy buffer = Energy.create(0);
     protected boolean burning;
 
@@ -35,17 +35,17 @@ public class MagmatorBlockEntity extends AbstractGeneratorBlockEntity<MagmatorBl
     }
 
     @Override
-    public void readSync(CompoundTag nbt, HolderLookup.Provider registries) {
-        super.readSync(nbt, registries);
-        this.energy.read(nbt, "energy_buffer", true, false);
-        this.burning = nbt.getBoolean("burning");
+    public void readSync(ValueInput input) {
+        super.readSync(input);
+        this.energy.read(input, "energy_buffer", true, false);
+        this.burning = input.getBooleanOr("burning", false);
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag nbt, HolderLookup.Provider registries) {
-        this.energy.write(nbt, "energy_buffer", true, false);
-        nbt.putBoolean("burning", this.burning);
-        return super.writeSync(nbt, registries);
+    public void writeSync(ValueOutput output) {
+        this.energy.write(output, "energy_buffer", true, false);
+        output.putBoolean("burning", this.burning);
+        super.writeSync(output);
     }
 
     @Override

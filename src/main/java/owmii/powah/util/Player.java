@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.stream.Stream;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -48,7 +49,13 @@ public class Player {
     public static Stacks invStacks(net.minecraft.world.entity.player.Player player) {
         Stacks stacks = Stacks.create();
         Inventory inventory = player.getInventory();
-        Stream.of(inventory.items, inventory.armor, inventory.offhand).forEach(stacks::addAll);
+        stacks.addAll(inventory.getNonEquipmentItems());
+        for (var slot : EquipmentSlot.values()) {
+            var item = player.getItemBySlot(slot);
+            if (!item.isEmpty()) {
+                stacks.add(item);
+            }
+        }
         return stacks;
     }
 }

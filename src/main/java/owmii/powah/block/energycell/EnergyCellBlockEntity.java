@@ -5,16 +5,18 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
+import org.jetbrains.annotations.UnknownNullability;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.config.v2.types.EnergyConfig;
-import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
+import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.logistics.Transfer;
 import owmii.powah.lib.logistics.energy.Energy;
 
-public class EnergyCellBlockEntity extends AbstractEnergyStorageBlockEntity<EnergyConfig, EnergyCellBlock> implements IInventoryHolder {
+public class EnergyCellBlockEntity extends PowahBaseEnergyStorageBlockEntity<EnergyConfig, EnergyCellBlock> implements IInventoryHolder {
     public EnergyCellBlockEntity(BlockPos pos, BlockState state, Tier tier) {
         super(Tiles.ENERGY_CELL.get(), pos, state, tier);
         this.inv.add(2);
@@ -38,8 +40,11 @@ public class EnergyCellBlockEntity extends AbstractEnergyStorageBlockEntity<Ener
     }
 
     @Override
-    public long extractEnergy(long maxExtract, boolean simulate, @Nullable Direction side) {
-        return super.extractEnergy(maxExtract, simulate || isCreative(), side);
+    public long extractEnergy(long maxExtract, TransactionContext tx, @Nullable Direction side) {
+        if (isCreative()) {
+            return maxExtract;
+        }
+        return super.extractEnergy(maxExtract, tx, side);
     }
 
     @Override

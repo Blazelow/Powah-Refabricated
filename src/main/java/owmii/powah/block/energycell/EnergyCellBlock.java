@@ -9,14 +9,14 @@ import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.inventory.EnergyCellContainer;
 import owmii.powah.item.EnergyCellItem;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
-import owmii.powah.lib.block.PowahAbstractBlockEntity;
+import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
@@ -43,7 +43,7 @@ public class EnergyCellBlock extends PowahBaseEnergyBlock<EnergyConfig, EnergyCe
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+    public AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
         if (te instanceof EnergyCellBlockEntity) {
             return new EnergyCellContainer(id, inventory, (EnergyCellBlockEntity) te);
         }

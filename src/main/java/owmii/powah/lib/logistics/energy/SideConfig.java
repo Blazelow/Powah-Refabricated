@@ -9,16 +9,18 @@ import java.util.List;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import org.jetbrains.annotations.Nullable;
-import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import org.jspecify.annotations.Nullable;
+import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.logistics.Transfer;
 
 public class SideConfig {
     private final Transfer[] transfers = new Transfer[6];
-    private final AbstractEnergyStorageBlockEntity storage;
+    private final PowahBaseEnergyStorageBlockEntity storage;
     private boolean isSetFromNBT;
 
-    public SideConfig(AbstractEnergyStorageBlockEntity storage) {
+    public SideConfig(PowahBaseEnergyStorageBlockEntity storage) {
         this.storage = storage;
         Arrays.fill(this.transfers, NONE);
     }
@@ -31,23 +33,21 @@ public class SideConfig {
         }
     }
 
-    public void read(CompoundTag nbt) {
-        if (nbt.contains("side_transfer_type", Tag.TAG_INT_ARRAY)) {
-            int[] arr = nbt.getIntArray("side_transfer_type");
+    public void read(ValueInput input) {
+        input.getIntArray("side_transfer_type").ifPresent(arr -> {
             for (int i = 0; i < arr.length; i++) {
                 this.transfers[i] = Transfer.values()[arr[i]];
             }
             this.isSetFromNBT = true;
-        }
+        });
     }
 
-    public CompoundTag write(CompoundTag nbt) {
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0, valuesLength = this.transfers.length; i < valuesLength; i++) {
-            list.add(i, this.transfers[i].ordinal());
+    public void write(ValueOutput output) {
+        int[] list = new int[this.transfers.length];
+        for (int i = 0; i < this.transfers.length; i++) {
+            list[i] = this.transfers[i].ordinal();
         }
-        nbt.putIntArray("side_transfer_type", list);
-        return nbt;
+        output.putIntArray("side_transfer_type", list);
     }
 
     public void nextTypeAll() {

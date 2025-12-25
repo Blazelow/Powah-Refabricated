@@ -1,9 +1,9 @@
 package owmii.powah.lib.logistics.energy;
 
-import com.google.common.primitives.Ints;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
-final class ItemEnergyStorageAdapter implements IEnergyStorage {
+final class ItemEnergyStorageAdapter implements EnergyHandler {
     private final Energy.Item energyItem;
 
     public ItemEnergyStorageAdapter(Energy.Item energyItem) {
@@ -11,38 +11,28 @@ final class ItemEnergyStorageAdapter implements IEnergyStorage {
     }
 
     @Override
-    public int receiveEnergy(int i, boolean bl) {
-        if (energyItem.getCapacity() == 0 || !canReceive()) {
-            return 0;
-        }
-        return Ints.saturatedCast(energyItem.receiveEnergy(i, bl));
+    public long getAmountAsLong() {
+        return energyItem.getEnergyStored();
     }
 
     @Override
-    public int extractEnergy(int i, boolean bl) {
+    public long getCapacityAsLong() {
+        return energyItem.getMaxEnergyStored();
+    }
+
+    @Override
+    public int insert(int amount, TransactionContext tx) {
+        if (energyItem.getCapacity() == 0 || !energyItem.canReceive()) {
+            return 0;
+        }
+        return 0; // TODO 26.1 return Ints.saturatedCast(energyItem.receiveEnergy(amount, bl));
+    }
+
+    @Override
+    public int extract(int amount, TransactionContext tx) {
         if (!energyItem.canExtract()) {
             return 0;
         }
-        return Ints.saturatedCast(energyItem.extractEnergy(i, bl));
-    }
-
-    @Override
-    public int getEnergyStored() {
-        return Ints.saturatedCast(energyItem.getEnergyStored());
-    }
-
-    @Override
-    public int getMaxEnergyStored() {
-        return Ints.saturatedCast(energyItem.getMaxEnergyStored());
-    }
-
-    @Override
-    public boolean canExtract() {
-        return energyItem.canExtract();
-    }
-
-    @Override
-    public boolean canReceive() {
-        return energyItem.canReceive();
+        return 0; // TODO 26.1 return Ints.saturatedCast(energyItem.extractEnergy(i, bl));
     }
 }

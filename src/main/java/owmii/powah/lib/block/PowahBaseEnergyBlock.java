@@ -1,6 +1,8 @@
 package owmii.powah.lib.block;
 
 import java.util.List;
+import java.util.function.Consumer;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -10,12 +12,13 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.api.energy.IEnergyConnector;
 import owmii.powah.block.Tier;
 import owmii.powah.config.IConfigHolder;
@@ -53,8 +56,8 @@ public abstract class PowahBaseEnergyBlock<C extends IEnergyConfig<Tier>, B exte
     @Override
     public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos, Direction side) {
         BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof AbstractEnergyStorageBlockEntity) {
-            return ((AbstractEnergyStorageBlockEntity) tile).getEnergy().toComparatorPower();
+        if (tile instanceof PowahBaseEnergyStorageBlockEntity) {
+            return ((PowahBaseEnergyStorageBlockEntity) tile).getEnergy().toComparatorPower();
         }
         return super.getAnalogOutputSignal(state, world, pos, side);
     }
@@ -84,43 +87,43 @@ public abstract class PowahBaseEnergyBlock<C extends IEnergyConfig<Tier>, B exte
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
-        Energy.ifPresent(stack, energy -> {
-            addEnergyInfo(stack, energy, tooltip);
-            addEnergyTransferInfo(stack, energy, tooltip);
-            additionalEnergyInfo(stack, energy, tooltip);
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
+        Energy.ifPresent(itemStack, energy -> {
+            addEnergyInfo(itemStack, energy, builder);
+            addEnergyTransferInfo(itemStack, energy, builder);
+            additionalEnergyInfo(itemStack, energy, builder);
         });
     }
 
-    public void addEnergyInfo(ItemStack stack, Energy.Item storage, List<Component> tooltip) {
+    public void addEnergyInfo(ItemStack stack, Energy.Item storage, Consumer<Component> tooltip) {
         if (storage.getCapacity() > 0)
-            tooltip.add(Component.translatable("info.lollipop.stored").withStyle(ChatFormatting.GRAY).append(Text.COLON)
+            tooltip.accept(Component.translatable("info.lollipop.stored").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                     .append(Component
                             .translatable("info.lollipop.fe.stored", Util.addCommas(storage.getStored()), Util.numFormat(storage.getCapacity()))
                             .withStyle(ChatFormatting.DARK_GRAY)));
     }
 
-    public void addEnergyTransferInfo(ItemStack stack, Energy.Item storage, List<Component> tooltip) {
+    public void addEnergyTransferInfo(ItemStack stack, Energy.Item storage, Consumer<Component> tooltip) {
         long ext = storage.getMaxExtract();
         long re = storage.getMaxReceive();
         if (ext + re > 0) {
             if (ext == re) {
-                tooltip.add(Component.translatable("info.lollipop.max.io").withStyle(ChatFormatting.GRAY).append(Text.COLON)
+                tooltip.accept(Component.translatable("info.lollipop.max.io").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                         .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(ext))
                                 .withStyle(ChatFormatting.DARK_GRAY)));
             } else {
                 if (ext > 0)
-                    tooltip.add(Component.translatable("info.lollipop.max.extract").withStyle(ChatFormatting.GRAY).append(Text.COLON)
+                    tooltip.accept(Component.translatable("info.lollipop.max.extract").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                             .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(ext))
                                     .withStyle(ChatFormatting.DARK_GRAY)));
                 if (re > 0)
-                    tooltip.add(Component.translatable("info.lollipop.max.receive").withStyle(ChatFormatting.GRAY).append(Text.COLON)
+                    tooltip.accept(Component.translatable("info.lollipop.max.receive").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                             .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(re))
                                     .withStyle(ChatFormatting.DARK_GRAY)));
             }
         }
     }
 
-    public void additionalEnergyInfo(ItemStack stack, Energy.Item energy, List<Component> tooltip) {
+    public void additionalEnergyInfo(ItemStack stack, Energy.Item energy, Consumer<Component> tooltip) {
     }
 }

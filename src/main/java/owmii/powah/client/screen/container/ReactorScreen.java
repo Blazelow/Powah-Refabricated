@@ -43,7 +43,7 @@ public class ReactorScreen extends AbstractEnergyScreen<ReactorBlockEntity, Reac
                 new IconButton(this.leftPos - 11, this.topPos + 10, Textures.REACTOR_GEN_MODE.get(this.te.isGenModeOn()), b -> {
                     Network.toServer(new SwitchGenModePacket(this.te.getBlockPos()));
                     this.te.setGenModeOn(!this.te.isGenModeOn());
-                }, this).setTooltipSupplier(() -> List.of(
+                }).setTooltipSupplier(() -> List.of(
                         Component.translatable("info.powah.gen.mode").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                                 .append(Component.translatable("info.lollipop." + (this.te.isGenModeOn() ? "on" : "off"))
                                         .withStyle(this.te.isGenModeOn() ? ChatFormatting.GREEN : ChatFormatting.RED)),
@@ -92,13 +92,13 @@ public class ReactorScreen extends AbstractEnergyScreen<ReactorBlockEntity, Reac
                     .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(energy.getMaxExtract()))
                             .withStyle(ChatFormatting.DARK_GRAY)));
 
-            gui.renderComponentTooltip(font, list, mouseX, mouseY);
+            gui.setComponentTooltipForNextFrame(font, list, mouseX, mouseY);
         }
 
         if (Textures.REACTOR_GAUGE_TEMP.isMouseOver(this.leftPos + 114, this.topPos + 28, mouseX, mouseY)) {
             List<Component> list = new ArrayList<>();
             list.add(Component.literal(ChatFormatting.GRAY + String.format("%.1f", this.te.temp.getTicks()) + " C"));
-            gui.renderComponentTooltip(font, list, mouseX, mouseY);
+            gui.setComponentTooltipForNextFrame(font, list, mouseX, mouseY);
         }
 
         if (Textures.REACTOR_GAUGE_URN.isMouseOver(this.leftPos + 103, this.topPos + 13, mouseX, mouseY)) {
@@ -111,7 +111,7 @@ public class ReactorScreen extends AbstractEnergyScreen<ReactorBlockEntity, Reac
                     .append(Component
                             .translatable("info.lollipop.mb.pet.tick", ChatFormatting.GREEN + String.format("%.4f", this.te.calcConsumption()))
                             .withStyle(ChatFormatting.DARK_GRAY)));
-            gui.renderComponentTooltip(font, list, mouseX, mouseY);
+            gui.setComponentTooltipForNextFrame(font, list, mouseX, mouseY);
         }
 
         if (Textures.REACTOR_GAUGE_CARBON.isMouseOver(this.leftPos + 51, this.topPos + 6, mouseX, mouseY)) {
@@ -124,7 +124,7 @@ public class ReactorScreen extends AbstractEnergyScreen<ReactorBlockEntity, Reac
             list.add(Component.empty());
             list.add(Component.translatable("enchantment.minecraft.efficiency").withStyle(ChatFormatting.DARK_AQUA));
             list.add(Component.literal(ChatFormatting.DARK_RED + (b ? "+0 C" : "+180 C")));
-            gui.renderComponentTooltip(font, list, mouseX, mouseY);
+            gui.setComponentTooltipForNextFrame(font, list, mouseX, mouseY);
         }
 
         if (Textures.REACTOR_GAUGE_REDSTONE.isMouseOver(this.leftPos + 51, this.topPos + 52, mouseX, mouseY)) {
@@ -138,7 +138,7 @@ public class ReactorScreen extends AbstractEnergyScreen<ReactorBlockEntity, Reac
             list.add(Component.translatable("info.powah.production").withStyle(ChatFormatting.DARK_AQUA));
             list.add(Component.translatable("info.powah.fuel.consumption").withStyle(ChatFormatting.DARK_RED));
             list.add(Component.literal(ChatFormatting.DARK_RED + (b ? "+0 C" : "+120 C")));
-            gui.renderComponentTooltip(font, list, mouseX, mouseY);
+            gui.setComponentTooltipForNextFrame(font, list, mouseX, mouseY);
         }
 
         if (Textures.REACTOR_GAUGE_COOLANT.isMouseOver(this.leftPos + 140, this.topPos + 52, mouseX, mouseY)) {
@@ -148,7 +148,7 @@ public class ReactorScreen extends AbstractEnergyScreen<ReactorBlockEntity, Reac
                     .append(Component.translatable("info.lollipop.mb.stored", String.format("%.1f", this.te.solidCoolant.getTicks()),
                             String.format("%.1f", this.te.solidCoolant.getMax())).withStyle(ChatFormatting.DARK_GRAY)));
             list.add(Component.literal("" + ChatFormatting.AQUA + this.te.solidCoolantTemp + " C"));
-            gui.renderComponentTooltip(font, list, mouseX, mouseY);
+            gui.setComponentTooltipForNextFrame(font, list, mouseX, mouseY);
         }
     }
 }

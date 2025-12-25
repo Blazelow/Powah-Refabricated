@@ -2,6 +2,7 @@ package owmii.powah.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -9,18 +10,20 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.block.reactor.ReactorBlockEntity;
 import owmii.powah.client.render.tile.ReactorRenderer;
+import owmii.powah.client.render.tile.ReactorRendererState;
 import owmii.powah.lib.client.util.Render;
 
-public class ReactorModel extends AbstractModel<ReactorBlockEntity, ReactorRenderer> {
+public class ReactorModel extends Model<ReactorRendererState> {
     private static final String REACTOR = "reactor";
     private final ModelPart reactor;
 
     public ReactorModel(ModelPart root) {
-        super(RenderType::entityTranslucent);
+        super(root, RenderTypes::entityTranslucent);
         this.reactor = root.getChild(REACTOR);
     }
 
@@ -32,7 +35,7 @@ public class ReactorModel extends AbstractModel<ReactorBlockEntity, ReactorRende
         return LayerDefinition.create(meshDefinition, 256, 128);
     }
 
-    @Override
+    // TODO 26.1
     public void render(ReactorBlockEntity te, ReactorRenderer renderer, PoseStack matrix, MultiBufferSource rtb, int light, int ov) {
         VertexConsumer buffer = rtb.getBuffer(renderType(Powah.id("textures/model/tile/reactor.png")));
         this.reactor.render(matrix, buffer, light, ov);

@@ -7,12 +7,13 @@ import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.neoforged.neoforge.fluids.FluidStack;
 import owmii.powah.client.ClientUtils;
-import owmii.powah.lib.block.PowahAbstractBlockEntity;
+import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.client.screen.Texture;
 import owmii.powah.lib.client.screen.widget.IconButton;
@@ -24,7 +25,7 @@ import owmii.powah.network.Network;
 import owmii.powah.network.packet.NextRedstoneModePacket;
 import owmii.powah.util.Util;
 
-public class AbstractTileScreen<T extends PowahAbstractBlockEntity<?, ?> & IInventoryHolder, C extends AbstractTileContainer<T>>
+public class AbstractTileScreen<T extends PowahBaseBlockEntity<?, ?> & IInventoryHolder, C extends AbstractTileContainer<T>>
         extends AbstractContainerScreen<C> {
     protected final T te;
     protected IconButton redStoneButton = IconButton.EMPTY;
@@ -52,7 +53,7 @@ public class AbstractTileScreen<T extends PowahAbstractBlockEntity<?, ?> & IInve
                     list.add(Component.translatable("info.lollipop.fluid").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                             .append(Component.literal("---").withStyle(ChatFormatting.DARK_GRAY)));
                 }
-                gui.renderComponentTooltip(font, list, x, y);
+                gui.setComponentTooltipForNextFrame(font, list, x, y);
                 return;
             }
         }
@@ -61,18 +62,17 @@ public class AbstractTileScreen<T extends PowahAbstractBlockEntity<?, ?> & IInve
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-
-        if (button == 0 || button == 1) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        if (event.button() == 0 || event.button() == 1) {
             for (var tankArea : tankAreas) {
-                if (tankArea.contains(mouseX - leftPos, mouseY - topPos)) {
-                    menu.interactWithTank(button == 1);
+                if (tankArea.contains(event.x() - leftPos, event.y() - topPos)) {
+                    menu.interactWithTank(event.button() == 1);
                     return true;
                 }
             }
         }
 
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event, doubleClick);
     }
 
     protected record TankArea(Supplier<Tank> tank, int x, int y, int width, int height, String purposeTranslationKey,
@@ -93,7 +93,7 @@ public class AbstractTileScreen<T extends PowahAbstractBlockEntity<?, ?> & IInve
                     Texture.REDSTONE.get(this.te.getRedstoneMode()), b -> {
                         Network.toServer(new NextRedstoneModePacket(this.te.getBlockPos()));
                         this.te.setRedstoneMode(this.te.getRedstoneMode().next());
-                    }, this).setTooltipSupplier(() -> List.of(this.te.getRedstoneMode().getDisplayName())));
+                    }).setTooltipSupplier(() -> List.of(this.te.getRedstoneMode().getDisplayName())));
         }
     }
 
@@ -122,11 +122,11 @@ public class AbstractTileScreen<T extends PowahAbstractBlockEntity<?, ?> & IInve
                     float red = (color >> 16 & 0xFF) / 255.0F;
                     float green = (color >> 8 & 0xFF) / 255.0F;
                     float blue = (color & 0xFF) / 255.0F;
-                    RenderSystem.setShaderColor(red, green, blue, 1.0F);
-                    bindTexture(InventoryMenu.BLOCK_ATLAS);
+                    // TODO 26.1 RenderSystem.setShaderColor(red, green, blue, 1.0F);
+                    // TODO 26.1 bindTexture(InventoryMenu.BLOCK_ATLAS);
                     Draw.gaugeV(sprite, this.leftPos + tankArea.x, this.topPos + tankArea.y, tankArea.width, tankArea.height(), tank.getCapacity(),
                             tank.getFluidAmount());
-                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                    // TODO 26.1 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
                 }
             }
         }

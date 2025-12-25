@@ -7,8 +7,6 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.gui.screens.ChatScreen;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
@@ -16,14 +14,13 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.lib.client.screen.Texture;
 
 public class IconButton extends Button {
     protected final Minecraft mc = Minecraft.getInstance();
     @Nullable
     private Supplier<List<Component>> tooltipSupplier;
-    private Screen screen;
     private Texture texture;
     private Texture hovering;
     private ItemStack stack;
@@ -33,40 +30,39 @@ public class IconButton extends Button {
     @Nullable
     private SoundEvent sound;
 
-    public IconButton(int x, int y, Component text, Texture texture, OnPress onPress, Screen screen) {
-        this(x, y, ItemStack.EMPTY, texture, Texture.EMPTY, text, onPress, screen);
+    public IconButton(int x, int y, Component text, Texture texture, OnPress onPress) {
+        this(x, y, ItemStack.EMPTY, texture, Texture.EMPTY, text, onPress);
     }
 
-    public IconButton(int x, int y, Component text, Texture texture, OnPress onPress, Texture hovering, Screen screen) {
-        this(x, y, ItemStack.EMPTY, texture, hovering, text, onPress, screen);
+    public IconButton(int x, int y, Component text, Texture texture, OnPress onPress, Texture hovering) {
+        this(x, y, ItemStack.EMPTY, texture, hovering, text, onPress);
     }
 
-    public IconButton(int x, int y, Texture texture, OnPress onPress, Screen screen) {
-        this(x, y, ItemStack.EMPTY, texture, Texture.EMPTY, Component.empty(), onPress, screen);
+    public IconButton(int x, int y, Texture texture, OnPress onPress) {
+        this(x, y, ItemStack.EMPTY, texture, Texture.EMPTY, Component.empty(), onPress);
     }
 
-    public IconButton(int x, int y, Texture texture, Texture hovering, OnPress onPress, Screen screen) {
-        this(x, y, ItemStack.EMPTY, texture, hovering, Component.empty(), onPress, screen);
+    public IconButton(int x, int y, Texture texture, Texture hovering, OnPress onPress) {
+        this(x, y, ItemStack.EMPTY, texture, hovering, Component.empty(), onPress);
     }
 
-    public IconButton(int x, int y, ItemStack stack, Texture texture, OnPress onPress, Screen screen) {
-        this(x, y, stack, texture, Texture.EMPTY, Component.empty(), onPress, screen);
+    public IconButton(int x, int y, ItemStack stack, Texture texture, OnPress onPress) {
+        this(x, y, stack, texture, Texture.EMPTY, Component.empty(), onPress);
     }
 
-    public IconButton(int x, int y, ItemStack stack, Texture texture, Texture hovering, OnPress onPress, Screen screen) {
-        this(x, y, stack, texture, hovering, Component.empty(), onPress, screen);
+    public IconButton(int x, int y, ItemStack stack, Texture texture, Texture hovering, OnPress onPress) {
+        this(x, y, stack, texture, hovering, Component.empty(), onPress);
     }
 
-    public IconButton(int x, int y, ItemStack stack, Texture texture, Texture hovering, Component text, OnPress onPress, Screen screen) {
+    public IconButton(int x, int y, ItemStack stack, Texture texture, Texture hovering, Component text, OnPress onPress) {
         super(x, y, texture.getWidth(), texture.getHeight(), text, onPress, DEFAULT_NARRATION);
         this.texture = texture;
-        this.screen = screen;
         this.hovering = hovering;
         this.stack = stack;
     }
 
     @Override
-    protected void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float pt) {
+    protected void renderContents(GuiGraphics gui, int mouseX, int mouseY, float pt) {
         if (isHovered) {
             if (tooltipSupplier != null) {
                 setTooltip(createTooltip());
@@ -110,19 +106,6 @@ public class IconButton extends Button {
                                 .append("\n")
                                 .append(component2))
                 .map(Tooltip::create).orElse(null);
-    }
-
-    public void blit(GuiGraphics gui, Texture texture, int x, int y) {
-        gui.blit(texture.getLocation(), x, y, texture.getU(), texture.getV(), texture.getWidth(), texture.getHeight());
-    }
-
-    public Screen getScreen() {
-        return this.screen;
-    }
-
-    public IconButton setScreen(Screen screen) {
-        this.screen = screen;
-        return this;
     }
 
     public Texture getTexture() {
@@ -186,5 +169,5 @@ public class IconButton extends Button {
     }
 
     public static final IconButton EMPTY = new IconButton(0, 0, Texture.EMPTY, b -> {
-    }, new ChatScreen(""));
+    });
 }

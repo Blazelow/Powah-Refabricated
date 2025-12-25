@@ -4,24 +4,32 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -35,7 +43,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 import owmii.powah.lib.registry.IVariant;
 import owmii.powah.lib.registry.IVariantEntry;
@@ -77,6 +85,9 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
         return asItem().getName(stack);
     }
 
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
+    }
+
     @Override
     public V getVariant() {
         return this.variant;
@@ -90,16 +101,6 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
         }
     }
 
-
-    @Override
-    public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
-        BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof IBlockEntity) {
-            ((IBlockEntity) tile).onRemoved(world, state, newState, isMoving);
-        }
-        super.onRemove(state, world, pos, newState, isMoving);
-    }
-
     @Override
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         BlockEntity tile = world.getBlockEntity(pos);
@@ -110,8 +111,8 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
 
     @Override
     public void playerDestroy(Level world, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity te, ItemStack stack) {
-        if (te instanceof PowahAbstractBlockEntity) {
-            PowahAbstractBlockEntity tile = (PowahAbstractBlockEntity) te;
+        if (te instanceof PowahBaseBlockEntity) {
+            PowahBaseBlockEntity tile = (PowahBaseBlockEntity) te;
             ItemStack stack1 = tile.storeToStack(new ItemStack(this));
             popResource(world, pos, stack1);
             player.awardStat(Stats.BLOCK_MINED.get(this));
@@ -122,20 +123,17 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor world, BlockPos currentPos,
-            BlockPos facingPos) {
+    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction directionToNeighbour, BlockPos neighbourPos, BlockState neighbourState, RandomSource random) {
         if (this instanceof SimpleWaterloggedBlock && state.getValue(WATERLOGGED))
-            world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
-        if (!state.canSurvive(world, currentPos)) {
-            BlockEntity tileEntity = world.getBlockEntity(currentPos);
-            if (!world.isClientSide() && tileEntity instanceof PowahAbstractBlockEntity) {
-                PowahAbstractBlockEntity tile = (PowahAbstractBlockEntity) tileEntity;
-                ItemStack stack = tile.storeToStack(new ItemStack(this));
-                popResource((Level) world, currentPos, stack);
-                world.destroyBlock(currentPos, false);
+            ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+        if (!state.canSurvive(level, pos)) {
+            if (!level.isClientSide() && level.getBlockEntity(pos) instanceof PowahBaseBlockEntity<?,?> blockEntity) {
+                ItemStack stack = blockEntity.storeToStack(new ItemStack(this));
+                popResource((Level) level, pos, stack);
+                return Blocks.AIR.defaultBlockState();
             }
         }
-        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
+        return super.updateShape(state, level, ticks, pos, directionToNeighbour, neighbourPos, neighbourState, random);
     }
 
     // Called on Forge, it's an override
@@ -145,7 +143,7 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
 
     public ItemStack getCloneItemStack(BlockGetter world, BlockPos pos) {
         BlockEntity te = world.getBlockEntity(pos);
-        if (te instanceof PowahAbstractBlockEntity tile) {
+        if (te instanceof PowahBaseBlockEntity tile) {
             return tile.storeToStack(new ItemStack(this));
         }
         return new ItemStack(this);
@@ -154,7 +152,7 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult result) {
         BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof PowahAbstractBlockEntity) {
+        if (tile instanceof PowahBaseBlockEntity) {
             MenuProvider provider = new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
@@ -164,7 +162,7 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
                 @Nullable
                 @Override
                 public AbstractContainerMenu createMenu(int i, Inventory playerInventory, Player playerEntity) {
-                    return getContainer(i, playerInventory, (PowahAbstractBlockEntity) tile, result);
+                    return getContainer(i, playerInventory, (PowahBaseBlockEntity) tile, result);
                 }
             };
             AbstractContainerMenu container = provider.createMenu(0, player.getInventory(), player);
@@ -182,7 +180,7 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
     }
 
     @Nullable
-    public <T extends PowahAbstractBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
         return null;
     }
 
@@ -230,8 +228,8 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
     }
 
     @Override
-    public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
-        return getFluidState(state).isEmpty() || super.propagatesSkylightDown(state, reader, pos);
+    protected boolean propagatesSkylightDown(BlockState state) {
+        return getFluidState(state).isEmpty() || super.propagatesSkylightDown(state);
     }
 
     @Nullable

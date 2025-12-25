@@ -10,7 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.lib.client.screen.Texture;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 import owmii.powah.lib.logistics.inventory.slot.ITexturedSlot;
@@ -24,10 +24,8 @@ public class AbstractContainerScreen<C extends AbstractContainer> extends net.mi
     protected int clickDelay;
 
     public AbstractContainerScreen(C container, Inventory inv, Component title, Texture backGround) {
-        super(container, inv, title);
+        super(container, inv, title, backGround.getWidth(), backGround.getHeight());
         this.backGround = backGround;
-        this.imageWidth = backGround.getWidth();
-        this.imageHeight = backGround.getHeight();
     }
 
     public void setDelayedClick(int delay, @Nullable Runnable delayedClick) {
@@ -66,7 +64,7 @@ public class AbstractContainerScreen<C extends AbstractContainer> extends net.mi
     }
 
     protected void drawBackground(GuiGraphics gui, float partialTicks, int mouseX, int mouseY) {
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        // TODO 26.1 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         this.backGround.draw(gui, this.leftPos, this.topPos);
     }
 
@@ -80,23 +78,23 @@ public class AbstractContainerScreen<C extends AbstractContainer> extends net.mi
         gui.drawString(this.font, title, x + this.imageWidth / 2 - width / 2, y - 14, 0x999999);
     }
 
-    public void renderSlot(GuiGraphics gui, Slot slot) {
+    @Override
+    public void renderSlot(GuiGraphics gui, Slot slot, int mouseX, int mouseY) {
         if (slot instanceof ITexturedSlot<?> base) {
             int x = slot.x;
             int y = slot.y;
             base.getBackground2().draw(gui, x, y);
             if (!slot.hasItem()) {
-                RenderSystem.enableBlend();
-                RenderSystem.enableBlend();
+                // TODO 26.1 RenderSystem.enableBlend();
                 base.getOverlay().draw(gui, x, y);
-                RenderSystem.disableBlend();
+                // TODO 26.1 RenderSystem.disableBlend();
             }
         }
-        super.renderSlot(gui, slot);
+        super.renderSlot(gui, slot, mouseX, mouseY);
     }
 
     public void bindTexture(Identifier guiTexture) {
-        RenderSystem.setShaderTexture(0, guiTexture);
+        // TODO 26.1 RenderSystem.setShaderTexture(0, guiTexture);
     }
 
     public boolean isMouseOver(double mouseX, double mouseY, int w, int h) {

@@ -4,58 +4,76 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.api.wrench.IWrench;
-import owmii.powah.block.energizing.EnergizingOrbBlockEntity;
 import owmii.powah.block.energizing.EnergizingRodBlockEntity;
-import owmii.powah.lib.client.renderer.tile.AbstractTileRenderer;
 import owmii.powah.lib.client.util.RenderTypes;
 import owmii.powah.util.math.V3d;
 
-public class EnergizingRodRenderer extends AbstractTileRenderer<EnergizingRodBlockEntity> {
+public class EnergizingRodRenderer implements BlockEntityRenderer<EnergizingRodBlockEntity, EnergizingRodRendererState> {
     public static final Identifier BEAM_TEXTURE = Powah.id("textures/model/tile/beam.png");
     private static final RenderType RENDER_TYPE = RenderTypes.entityBlendedNoDept(BEAM_TEXTURE);
 
     protected EnergizingRodRenderer(BlockEntityRendererProvider.Context context) {
-        super(context);
     }
 
     @Override
-    public void render(EnergizingRodBlockEntity te, float pt, PoseStack matrix, MultiBufferSource rtb, Minecraft mc, ClientLevel world, LocalPlayer player,
-                       int light, int ov) {
+    public EnergizingRodRendererState createRenderState() {
+        return new EnergizingRodRendererState();
+    }
 
-        boolean flag = false;
+    @Override
+    public void extractRenderState(EnergizingRodBlockEntity blockEntity, EnergizingRodRendererState state, float partialTicks, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
 
-        for (InteractionHand hand : InteractionHand.values()) {
-            ItemStack stack = player.getItemInHand(hand);
-            if (stack.getItem() instanceof IWrench wrench) {
-                if (wrench.getWrenchMode(stack).link()) {
-                    flag = true;
-                    break;
+        boolean wrenchInLinkMode = false;
+        var player = Minecraft.getInstance().player;
+        if (player != null) {
+            for (var hand : InteractionHand.values()) {
+                var stack = Minecraft.getInstance().player.getItemInHand(hand);
+                if (stack.getItem() instanceof IWrench wrench) {
+                    if (wrench.getWrenchMode(stack).link()) {
+                        wrenchInLinkMode = true;
+                        break;
+                    }
                 }
             }
         }
 
-        EnergizingOrbBlockEntity orb = te.getOrbTile();
-        if (orb != null && (te.coolDown.ended() || flag)) {
+        state.tier = blockEntity.getVariant();
 
-            matrix.pushPose();
-            matrix.translate(0.5D, 0.5D, 0.5D);
+        var orb = blockEntity.getOrbTile();
+        if (orb != null && (blockEntity.coolDown.ended() || wrenchInLinkMode)) {
+            state.orbCenter = orb.getOrbCenter();
+        } else {
+            state.orbCenter = null;
+        }
+    }
 
-            V3d pos = V3d.from(te.getBlockPos()).center();
-            V3d orbPos = V3d.from(orb.getOrbCenter());
+    @Override
+    public void submit(EnergizingRodRendererState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
+
+        var orbCenter = state.orbCenter;
+        if (orbCenter != null) {
+
+            poseStack.pushPose();
+            poseStack.translate(0.5D, 0.5D, 0.5D);
+
+            V3d pos = V3d.from(state.blockPos).center();
+            V3d orbPos = V3d.from(orbCenter);
             float f2 = 1.0F;
             float f3 = f2 * 0.5F % 1.0F;
             Vec3 vec3d2 = pos.subtract(orbPos);
@@ -65,8 +83,8 @@ public class EnergizingRodRenderer extends AbstractTileRenderer<EnergizingRodBlo
             float f5 = (float) Math.acos(Mth.clamp(vec3d2.y, -1.0, 1.0));
             float f6 = (float) Mth.atan2(vec3d2.z, vec3d2.x);
 
-            matrix.mulPose(Axis.YP.rotationDegrees((((float) Math.PI / 2F) - f6) * (180F / (float) Math.PI)));
-            matrix.mulPose(Axis.XP.rotationDegrees(f5 * (180F / (float) Math.PI)));
+            poseStack.mulPose(Axis.YP.rotationDegrees((((float) Math.PI / 2F) - f6) * (180F / (float) Math.PI)));
+            poseStack.mulPose(Axis.XP.rotationDegrees(f5 * (180F / (float) Math.PI)));
 
             float d1 = f2 * 0.0F;
 
@@ -82,25 +100,25 @@ public class EnergizingRodRenderer extends AbstractTileRenderer<EnergizingRodBlo
 
             float d22 = (f3 - 1.0F);
             float d23 = (float) (d0 * 5.05D + d22);
-            VertexConsumer builder = rtb.getBuffer(RENDER_TYPE);
-            PoseStack.Pose last = matrix.last();
 
-            int color = te.getVariant().getColor();
-            int r = 0xFF & (color >> 16);
-            int g = 0xFF & (color >> 8);
-            int b = 0xFF & color;
+            submitNodeCollector.submitCustomGeometry(poseStack, RENDER_TYPE, (pose, buffer) -> {
+                int color = state.tier.getColor();
+                int r = 0xFF & (color >> 16);
+                int g = 0xFF & (color >> 8);
+                int b = 0xFF & color;
 
-            pos(builder, last, d12, 0.0F, d13, r, g, b, 1, d23);
-            pos(builder, last, d12, (float) -d0, d13, r, g, b, 1, d22);
-            pos(builder, last, d14, (float) -d0, d15, r, g, b, 0.0F, d22);
-            pos(builder, last, d14, 0.0F, d15, r, g, b, 0.0F, d23);
+                pos(buffer, pose, d12, 0.0F, d13, r, g, b, 1, d23);
+                pos(buffer, pose, d12, (float) -d0, d13, r, g, b, 1, d22);
+                pos(buffer, pose, d14, (float) -d0, d15, r, g, b, 0.0F, d22);
+                pos(buffer, pose, d14, 0.0F, d15, r, g, b, 0.0F, d23);
 
-            pos(builder, last, d16, 0.0F, d17, r, g, b, 1, d23);
-            pos(builder, last, d16, (float) -d0, d17, r, g, b, 1, d22);
-            pos(builder, last, d18, (float) -d0, d19, r, g, b, 0.0F, d22);
-            pos(builder, last, d18, 0.0F, d19, r, g, b, 0.0F, d23);
+                pos(buffer, pose, d16, 0.0F, d17, r, g, b, 1, d23);
+                pos(buffer, pose, d16, (float) -d0, d17, r, g, b, 1, d22);
+                pos(buffer, pose, d18, (float) -d0, d19, r, g, b, 0.0F, d22);
+                pos(buffer, pose, d18, 0.0F, d19, r, g, b, 0.0F, d23);
+            });
 
-            matrix.popPose();
+            poseStack.popPose();
         }
     }
 

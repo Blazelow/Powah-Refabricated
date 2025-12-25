@@ -9,7 +9,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import owmii.powah.ChargeableItemsEvent;
 import owmii.powah.lib.logistics.inventory.Inventory;
 
@@ -26,8 +29,13 @@ public final class ChargeUtil {
     }
 
     public static boolean canDischarge(ItemStack stack) {
-        var storage = stack.getCapability(Capabilities.EnergyStorage.ITEM);
-        return storage != null && storage.canExtract() && storage.getEnergyStored() > 0;
+        var storage = stack.getCapability(Capabilities.Energy.ITEM, ItemAccess.forStack(stack));
+        if (storage == null || storage.getAmountAsInt() == 0) {
+            return false;
+        }
+        try (var tx = Transaction.openRoot()) {
+            return storage.extract(storage.getAmountAsInt(), tx) > 0;
+        }
     }
 
     public static long chargeItemsInPlayerInv(Player player, long maxPerSlot, long maxTotal, Predicate<ItemStack> allowStack) {
@@ -36,11 +44,11 @@ public final class ChargeUtil {
         NeoForge.EVENT_BUS.post(event);
         stacks.addAll(event.getItems());
         stacks.removeIf(allowStack.negate());
-        return transferSlotList(IEnergyStorage::receiveEnergy, stacks, maxPerSlot, maxTotal);
+        return transferSlotList(EnergyHandler::insert, stacks, maxPerSlot, maxTotal);
     }
 
     public static long chargeItemsInContainer(Container container, long maxPerSlot, long maxTotal) {
-        var ret = transferSlotList(IEnergyStorage::receiveEnergy,
+        var ret = transferSlotList(EnergyHandler::insert,
                 IntStream.range(0, container.getContainerSize()).mapToObj(container::getItem).toList(), maxPerSlot, maxTotal);
         container.setChanged();
         return ret;
@@ -48,12 +56,12 @@ public final class ChargeUtil {
 
     public static long chargeItemsInInventory(Inventory inv, int slotFrom, int slotTo, long maxPerSlot, long maxTotal) {
         // maybe call setChanged?
-        return transferSlotList(IEnergyStorage::receiveEnergy, IntStream.range(slotFrom, slotTo).mapToObj(inv::getStackInSlot).toList(), maxPerSlot,
+        return transferSlotList(EnergyHandler::insert, IntStream.range(slotFrom, slotTo).mapToObj(inv::getStackInSlot).toList(), maxPerSlot,
                 maxTotal);
     }
 
     public static long dischargeItemsInInventory(Inventory inv, long maxPerSlot, long maxTotal) {
-        return transferSlotList(IEnergyStorage::extractEnergy, IntStream.range(0, inv.getSlots()).mapToObj(inv::getStackInSlot).toList(), maxPerSlot,
+        return transferSlotList(EnergyHandler::extract, IntStream.range(0, inv.getSlots()).mapToObj(inv::getStackInSlot).toList(), maxPerSlot,
                 maxTotal);
     }
 
@@ -62,15 +70,17 @@ public final class ChargeUtil {
         for (ItemStack stack : stacks) {
             if (stack.isEmpty())
                 continue;
-            var cap = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+            var cap = stack.getCapability(Capabilities.Energy.ITEM, ItemAccess.forStack(stack)); // TODO 26.1
             if (cap != null) {
-                charged += op.perform(cap, Ints.saturatedCast(Math.min(maxPerStack, maxTotal - charged)), false);
+                try (var tx = Transaction.openRoot()) {
+                    charged += op.perform(cap, Ints.saturatedCast(Math.min(maxPerStack, maxTotal - charged)), tx);
+                }
             }
         }
         return charged;
     }
 
     interface EnergyTransferOperation {
-        int perform(IEnergyStorage storage, int maxAmount, boolean simulate);
+        int perform(EnergyHandler storage, int maxAmount, TransactionContext tx);
     }
 }

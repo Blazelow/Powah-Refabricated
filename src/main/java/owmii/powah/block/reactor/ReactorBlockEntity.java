@@ -2,19 +2,21 @@ package owmii.powah.block.reactor;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.common.Tags;
-import org.jetbrains.annotations.Nullable;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 import owmii.powah.api.PowahAPI;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.lib.block.AbstractGeneratorBlockEntity;
+import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
 import owmii.powah.lib.logistics.energy.Energy;
@@ -24,7 +26,7 @@ import owmii.powah.util.EnergyUtil;
 import owmii.powah.util.Ticker;
 import owmii.powah.util.Util;
 
-public class ReactorBlockEntity extends AbstractGeneratorBlockEntity<ReactorBlock> implements IInventoryHolder, ITankHolder {
+public class ReactorBlockEntity extends PowahBaseGeneratorBlockEntity<ReactorBlock> implements IInventoryHolder, ITankHolder {
     private final Builder builder = new Builder(this);
 
     public final Ticker fuel = new Ticker(1000);
@@ -58,49 +60,49 @@ public class ReactorBlockEntity extends AbstractGeneratorBlockEntity<ReactorBloc
     }
 
     @Override
-    public void loadServerOnly(CompoundTag nbt) {
-        super.loadServerOnly(nbt);
-        this.baseTemp = nbt.getInt("base_temp");
-        this.carbonTemp = nbt.getInt("carbon_temp");
-        this.redstoneTemp = nbt.getInt("redstone_temp");
+    public void loadServerOnly(ValueInput input) {
+        super.loadServerOnly(input);
+        this.baseTemp = input.getIntOr("base_temp", 0);
+        this.carbonTemp = input.getIntOr("carbon_temp", 0);
+        this.redstoneTemp = input.getIntOr("redstone_temp", 0);
     }
 
     @Override
-    public CompoundTag saveServerOnly(CompoundTag nbt) {
-        nbt.putInt("base_temp", this.baseTemp);
-        nbt.putInt("carbon_temp", this.carbonTemp);
-        nbt.putInt("redstone_temp", this.redstoneTemp);
-        return super.saveServerOnly(nbt);
+    public void saveServerOnly(ValueOutput output) {
+        output.putInt("base_temp", this.baseTemp);
+        output.putInt("carbon_temp", this.carbonTemp);
+        output.putInt("redstone_temp", this.redstoneTemp);
+        super.saveServerOnly(output);
     }
 
     @Override
-    public void readSync(CompoundTag nbt, HolderLookup.Provider registries) {
-        super.readSync(nbt, registries);
-        this.builder.read(nbt);
-        this.fuel.read(nbt, "fuel");
-        this.carbon.read(nbt, "carbon");
-        this.redstone.read(nbt, "redstone");
-        this.solidCoolant.read(nbt, "solid_coolant");
-        this.solidCoolantTemp = nbt.getInt("solid_coolant_temp");
-        this.running = nbt.getBoolean("running");
-        this.genModeOn = nbt.getBoolean("gen_mode");
-        this.generate = nbt.getBoolean("generate");
-        this.temp.read(nbt, "temperature");
+    public void readSync(ValueInput input) {
+        super.readSync(input);
+        this.builder.read(input);
+        this.fuel.read(input, "fuel");
+        this.carbon.read(input, "carbon");
+        this.redstone.read(input, "redstone");
+        this.solidCoolant.read(input, "solid_coolant");
+        this.solidCoolantTemp = input.getIntOr("solid_coolant_temp", 0);
+        this.running = input.getBooleanOr("running", false);
+        this.genModeOn = input.getBooleanOr("gen_mode", false);
+        this.generate = input.getBooleanOr("generate", false);
+        this.temp.read(input, "temperature");
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag nbt, HolderLookup.Provider registries) {
-        this.builder.write(nbt);
-        this.fuel.write(nbt, "fuel");
-        this.carbon.write(nbt, "carbon");
-        this.redstone.write(nbt, "redstone");
-        this.solidCoolant.write(nbt, "solid_coolant");
-        nbt.putInt("solid_coolant_temp", this.solidCoolantTemp);
-        nbt.putBoolean("running", this.running);
-        nbt.putBoolean("gen_mode", this.genModeOn);
-        nbt.putBoolean("generate", this.generate);
-        this.temp.write(nbt, "temperature");
-        return super.writeSync(nbt, registries);
+    public void writeSync(ValueOutput output) {
+        this.builder.write(output);
+        this.fuel.write(output, "fuel");
+        this.carbon.write(output, "carbon");
+        this.redstone.write(output, "redstone");
+        this.solidCoolant.write(output, "solid_coolant");
+        output.putInt("solid_coolant_temp", this.solidCoolantTemp);
+        output.putBoolean("running", this.running);
+        output.putBoolean("gen_mode", this.genModeOn);
+        output.putBoolean("generate", this.generate);
+        this.temp.write(output, "temperature");
+        super.writeSync(output);
     }
 
     @Override
@@ -135,14 +137,17 @@ public class ReactorBlockEntity extends AbstractGeneratorBlockEntity<ReactorBloc
 
         checkGenMode();
 
-        for (Direction direction : Direction.values()) {
-            if (canExtractEnergy(direction)) {
-                long amount = Math.min(getEnergyTransfer(), getEnergy().getStored());
-                BlockPos pos = this.worldPosition.relative(direction,
-                        direction.getAxis().isHorizontal() ? 2 : direction.equals(Direction.UP) ? 4 : 1);
-                long received = EnergyUtil.pushEnergy(world, pos, direction.getOpposite(), amount);
-                extracted += extractEnergy((int) received, false, direction);
+        try (var tx = Transaction.openRoot()) {
+            for (Direction direction : Direction.values()) {
+                if (canExtractEnergy(direction)) {
+                    long amount = Math.min(getEnergyTransfer(), getEnergy().getStored());
+                    BlockPos pos = this.worldPosition.relative(direction,
+                            direction.getAxis().isHorizontal() ? 2 : direction.equals(Direction.UP) ? 4 : 1);
+                    long received = EnergyUtil.pushEnergy(world, pos, direction.getOpposite(), amount, tx);
+                    extracted += extractEnergy((int) received, tx, direction);
+                }
             }
+            tx.commit();
         }
 
         if (this.running != flag2) {
@@ -275,7 +280,7 @@ public class ReactorBlockEntity extends AbstractGeneratorBlockEntity<ReactorBloc
         if (this.carbon.isEmpty()) {
             ItemStack stack = this.inv.getStackInSlot(2);
             if (!stack.isEmpty()) {
-                int carbon = stack.getBurnTime(RecipeType.SMELTING);
+                int carbon = stack.getBurnTime(RecipeType.SMELTING, getLevel().fuelValues());
                 if (carbon > 0) {
                     this.carbon.setAll(carbon);
                     this.carbonTemp = 180;
@@ -344,7 +349,7 @@ public class ReactorBlockEntity extends AbstractGeneratorBlockEntity<ReactorBloc
         if (slot == 1) {
             return ReactorFuel.getFuel(stack.getItem()) != null;
         } else if (slot == 2) {
-            return stack.getBurnTime(RecipeType.SMELTING) > 0 && !stack.hasCraftingRemainingItem();
+            return stack.getBurnTime(RecipeType.SMELTING, getLevel().fuelValues()) > 0 && stack.getCraftingRemainder().isEmpty();
         } else if (slot == 3) {
             return stack.is(Tags.Items.DUSTS_REDSTONE) || stack.is(Tags.Items.STORAGE_BLOCKS_REDSTONE);
         } else if (slot == 4) {
@@ -380,5 +385,11 @@ public class ReactorBlockEntity extends AbstractGeneratorBlockEntity<ReactorBloc
     public void setGenModeOn(boolean genModeOn) {
         this.genModeOn = genModeOn;
         sync();
+    }
+
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos, state);
+        demolish(getLevel());
     }
 }

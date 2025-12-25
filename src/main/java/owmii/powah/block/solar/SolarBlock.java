@@ -5,12 +5,14 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -23,13 +25,13 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.SolarContainer;
 import owmii.powah.lib.block.PowahBaseGeneratorBlock;
-import owmii.powah.lib.block.PowahAbstractBlockEntity;
+import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
@@ -68,7 +70,7 @@ public class SolarBlock extends PowahBaseGeneratorBlock<SolarBlock> implements S
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+    public AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
         if (te instanceof SolarBlockEntity) {
             return new SolarContainer(id, inventory, (SolarBlockEntity) te);
         }
@@ -76,13 +78,12 @@ public class SolarBlock extends PowahBaseGeneratorBlock<SolarBlock> implements S
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor world, BlockPos currentPos,
-            BlockPos facingPos) {
-        return createState(world, currentPos);
+    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction directionToNeighbour, BlockPos neighbourPos, BlockState neighbourState, RandomSource random) {
+        return createState(level, pos);
     }
 
     @Override
-    public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
+    protected boolean propagatesSkylightDown(BlockState state) {
         return false;
     }
 
@@ -92,18 +93,18 @@ public class SolarBlock extends PowahBaseGeneratorBlock<SolarBlock> implements S
         return createState(context.getLevel(), context.getClickedPos());
     }
 
-    private BlockState createState(LevelAccessor world, BlockPos pos) {
+    private BlockState createState(LevelReader level, BlockPos pos) {
         final BlockState state = defaultBlockState();
-        boolean north = canAttach(state, world, pos, Direction.NORTH);
-        boolean south = canAttach(state, world, pos, Direction.SOUTH);
-        boolean west = canAttach(state, world, pos, Direction.WEST);
-        boolean east = canAttach(state, world, pos, Direction.EAST);
+        boolean north = canAttach(state, level, pos, Direction.NORTH);
+        boolean south = canAttach(state, level, pos, Direction.SOUTH);
+        boolean west = canAttach(state, level, pos, Direction.WEST);
+        boolean east = canAttach(state, level, pos, Direction.EAST);
         return state.setValue(NORTH, !north).setValue(SOUTH, !south).setValue(WEST, !west).setValue(EAST, !east)
-                .setValue(BlockStateProperties.WATERLOGGED, world.getFluidState(pos).getType() == Fluids.WATER);
+                .setValue(BlockStateProperties.WATERLOGGED, level.getFluidState(pos).getType() == Fluids.WATER);
     }
 
-    public boolean canAttach(BlockState state, LevelAccessor world, BlockPos pos, Direction direction) {
-        return world.getBlockState(pos.relative(direction)).getBlock() == this;
+    public boolean canAttach(BlockState state, LevelReader level, BlockPos pos, Direction direction) {
+        return level.getBlockState(pos.relative(direction)).getBlock() == this;
     }
 
     @Override

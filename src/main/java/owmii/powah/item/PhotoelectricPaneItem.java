@@ -11,9 +11,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import owmii.powah.Powah;
-import owmii.powah.lib.item.ItemBase;
+import owmii.powah.lib.item.PowahBaseItem;
 
-public class PhotoelectricPaneItem extends ItemBase {
+public class PhotoelectricPaneItem extends PowahBaseItem {
     public PhotoelectricPaneItem(Properties properties) {
         super(properties);
     }

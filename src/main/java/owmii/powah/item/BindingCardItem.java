@@ -1,7 +1,8 @@
 package owmii.powah.item;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -9,22 +10,21 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Endermite;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import owmii.powah.Powah;
 import owmii.powah.components.BoundPlayer;
 import owmii.powah.components.PowahComponents;
-import owmii.powah.lib.item.ItemBase;
+import owmii.powah.lib.item.PowahBaseItem;
 import owmii.powah.util.Player;
 
-public class BindingCardItem extends ItemBase {
+public class BindingCardItem extends PowahBaseItem {
     private final boolean isMultiDim;
 
     public BindingCardItem(Properties properties, boolean isMultiDim) {
@@ -54,20 +54,20 @@ public class BindingCardItem extends ItemBase {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, net.minecraft.world.entity.player.Player playerIn, InteractionHand handIn) {
+    public InteractionResult use(Level worldIn, net.minecraft.world.entity.player.Player playerIn, InteractionHand handIn) {
         ItemStack stack = playerIn.getItemInHand(handIn);
         var boundPlayer = stack.get(PowahComponents.BOUND_PLAYER);
         if (boundPlayer == null) {
             stack.set(PowahComponents.BOUND_PLAYER, new BoundPlayer(
                     playerIn.getUUID(),
                     playerIn.getDisplayName().getString()));
-            return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
+            return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
         } else if (!playerIn.getUUID().equals(boundPlayer.gameProfileId())) {
             playerIn.displayClientMessage(
                     Component.translatable("chat.powah.no.binding", boundPlayer.name()).withStyle(ChatFormatting.DARK_RED), true);
-            return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
+            return InteractionResult.FAIL;
         }
-        return new InteractionResultHolder<>(InteractionResult.PASS, stack);
+        return InteractionResult.PASS;
     }
 
     public Optional<ServerPlayer> getPlayer(ServerLevel level, ItemStack stack) {
@@ -79,12 +79,12 @@ public class BindingCardItem extends ItemBase {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
-        var boundPlayer = stack.get(PowahComponents.BOUND_PLAYER);
+    public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder, TooltipFlag tooltipFlag) {
+        var boundPlayer = itemStack.get(PowahComponents.BOUND_PLAYER);
         if (boundPlayer == null) {
-            tooltip.add(Component.translatable("info.powah.click.to.bind").withStyle(ChatFormatting.DARK_GRAY));
+            builder.accept(Component.translatable("info.powah.click.to.bind").withStyle(ChatFormatting.DARK_GRAY));
         } else {
-            tooltip.add(Component.translatable("info.lollipop.owner", ChatFormatting.YELLOW + boundPlayer.name())
+            builder.accept(Component.translatable("info.lollipop.owner", ChatFormatting.YELLOW + boundPlayer.name())
                     .withStyle(ChatFormatting.GRAY));
         }
     }

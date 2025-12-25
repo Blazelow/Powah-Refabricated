@@ -1,6 +1,7 @@
 package owmii.powah.util.math;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class RangedInt {
     private int value;
@@ -24,14 +25,13 @@ public class RangedInt {
         }
     }
 
-    public RangedInt read(CompoundTag nbt, String key) {
-        this.value = nbt.getInt(key);
+    public RangedInt read(ValueInput input, String key) {
+        this.value = input.getIntOr(key, 0);
         return this;
     }
 
-    public CompoundTag write(CompoundTag nbt, String key) {
-        nbt.putInt(key, this.value);
-        return nbt;
+    public void write(ValueOutput output, String key) {
+        output.putInt(key, this.value);
     }
 
     public int get() {

@@ -10,9 +10,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import owmii.powah.block.solar.SolarBlockEntity;
-import owmii.powah.lib.item.ItemBase;
+import owmii.powah.lib.item.PowahBaseItem;
 
-public class LensOfEnderItem extends ItemBase {
+public class LensOfEnderItem extends PowahBaseItem {
     public LensOfEnderItem(Properties properties) {
         super(properties);
     }

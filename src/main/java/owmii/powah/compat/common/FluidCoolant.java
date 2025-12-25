@@ -18,9 +18,9 @@ public record FluidCoolant(Identifier id, Fluid fluid, Set<BucketItem> buckets, 
 
         var dataMap = BuiltInRegistries.FLUID.getDataMap(FluidCoolantConfig.DATA_MAP_TYPE);
         for (var entry : dataMap.entrySet()) {
-            var id = entry.getKey().location();
+            var id = entry.getKey().identifier();
             var heat = entry.getValue();
-            var fluid = BuiltInRegistries.FLUID.get(id);
+            var fluid = BuiltInRegistries.FLUID.getValue(id);
 
             if (!fluid.isSource(fluid.defaultFluidState())) {
                 continue;

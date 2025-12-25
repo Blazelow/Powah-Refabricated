@@ -7,12 +7,12 @@ import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.lib.logistics.Transfer;
 
-public class AbstractGeneratorBlockEntity<B extends PowahBaseEnergyBlock<GeneratorConfig, B>> extends AbstractEnergyStorageBlockEntity<GeneratorConfig, B> {
-    public AbstractGeneratorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+public class PowahBaseGeneratorBlockEntity<B extends PowahBaseEnergyBlock<GeneratorConfig, B>> extends PowahBaseEnergyStorageBlockEntity<GeneratorConfig, B> {
+    public PowahBaseGeneratorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
-    public AbstractGeneratorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Tier variant) {
+    public PowahBaseGeneratorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Tier variant) {
         super(type, pos, state, variant);
     }
 

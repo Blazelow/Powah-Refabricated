@@ -1,27 +1,71 @@
 package owmii.powah.client.render.tile;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.core.BlockPos;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
+import net.minecraft.client.renderer.special.SpecialModelRenderer;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
-import owmii.powah.block.reactor.ReactorPartBlockEntity;
-import owmii.powah.item.ReactorItem;
+import org.joml.Vector3fc;
+import owmii.powah.Powah;
+import owmii.powah.block.Tier;
+import owmii.powah.client.model.CubeModel;
+import owmii.powah.client.model.PowahLayerDefinitions;
 
-public class ReactorItemRenderer extends BlockEntityWithoutLevelRenderer {
-    public ReactorItemRenderer() {
-        super(null, null);
+import java.util.function.Consumer;
+
+public class ReactorItemRenderer implements NoDataSpecialModelRenderer {
+    public static final Identifier ID = Powah.id("reactor");
+
+    private final Tier tier;
+    private final CubeModel reactorPartModel;
+
+    public ReactorItemRenderer(BakingContext context, Tier tier) {
+        this.tier = tier;
+        reactorPartModel = new CubeModel(RenderTypes::entitySolid, context.entityModelSet().bakeLayer(PowahLayerDefinitions.REACTOR_PART));
     }
 
     @Override
-    public void renderByItem(ItemStack stack, ItemDisplayContext context, PoseStack poseStack, MultiBufferSource buffer, int packedLight,
-            int packedOverlay) {
-        if (stack.getItem() instanceof ReactorItem reactorItem) {
-            var tile = new ReactorPartBlockEntity(BlockPos.ZERO, reactorItem.getBlock().defaultBlockState(), reactorItem.getVariant());
-            var dispatcher = Minecraft.getInstance().getBlockEntityRenderDispatcher();
-            dispatcher.renderItem(tile, poseStack, buffer, packedLight, packedOverlay);
+    public void submit(ItemDisplayContext type,
+                       PoseStack poseStack,
+                       SubmitNodeCollector submitNodeCollector,
+                       int lightCoords,
+                       int overlayCoords,
+                       boolean hasFoil,
+                       int outlineColor) {
+
+        poseStack.pushPose();
+        poseStack.translate(0.5, 0.5, 0.5);
+        poseStack.scale(1.0f, -1.0f, -1.0f);
+        var renderType = RenderTypes.entitySolid(ReactorPartRenderer.getTexture(tier));
+        submitNodeCollector.submitModel(reactorPartModel, new Object(), poseStack, renderType, lightCoords, overlayCoords, outlineColor, null);
+        poseStack.popPose();
+    }
+
+    @Override
+    public void getExtents(Consumer<Vector3fc> output) {
+        var poseStack = new PoseStack();
+        poseStack.translate(0.5, 0.5, 0.5);
+        poseStack.scale(1.0f, -1.0f, -1.0f);
+        reactorPartModel.root().getExtentsForGui(poseStack, output);
+    }
+
+    public record Unbaked(Tier tier) implements SpecialModelRenderer.Unbaked {
+        public static final MapCodec<ReactorItemRenderer.Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
+                Tier.CODEC.fieldOf("tier").forGetter(Unbaked::tier)
+        ).apply(builder, Unbaked::new));
+
+        @Override
+        public MapCodec<ReactorItemRenderer.Unbaked> type() {
+            return MAP_CODEC;
+        }
+
+        @Override
+        public SpecialModelRenderer<?> bake(SpecialModelRenderer.BakingContext context) {
+            return new ReactorItemRenderer(context, tier);
         }
     }
 }

@@ -32,13 +32,13 @@ public class Blcks {
     public static final VarReg<Tier, Block> ENDER_CELL = new VarReg<>(DR, "ender_cell",
             variant -> new EnderCellBlock(Properties.metalNoSolid(2.0f, 20.0f), variant), Tier.getNormalVariants());
     public static final VarReg<Tier, Block> ENERGY_CABLE = new VarReg<>(DR, "energy_cable",
-            variant -> new CableBlock(Properties.metalNoSolid(2.0f, 20.0f).noCollission(), variant), Tier.getNormalVariants());
+            variant -> new CableBlock(Properties.metalNoSolid(2.0f, 20.0f).noCollision(), variant), Tier.getNormalVariants());
     public static final VarReg<Tier, Block> ENDER_GATE = new VarReg<>(DR, "ender_gate",
-            variant -> new EnderGateBlock(Properties.metalNoSolid(2.0f, 20.0f).noCollission(), variant), Tier.getNormalVariants());
+            variant -> new EnderGateBlock(Properties.metalNoSolid(2.0f, 20.0f).noCollision(), variant), Tier.getNormalVariants());
     public static final DeferredBlock<Block> ENERGIZING_ORB = DR.register("energizing_orb",
             () -> new EnergizingOrbBlock(Properties.metalNoSolid(2.0f, 20.0f)));
     public static final VarReg<Tier, Block> ENERGIZING_ROD = new VarReg<>(DR, "energizing_rod",
-            variant -> new EnergizingRodBlock(Properties.metalNoSolid(2.0f, 20.0f).noCollission(), variant), Tier.getNormalVariants());
+            variant -> new EnergizingRodBlock(Properties.metalNoSolid(2.0f, 20.0f).noCollision(), variant), Tier.getNormalVariants());
     public static final VarReg<Tier, Block> FURNATOR = new VarReg<>(DR, "furnator",
             variant -> new FurnatorBlock(Properties.metalNoSolid(2.0f, 20.0f), variant), Tier.getNormalVariants());
     public static final VarReg<Tier, Block> MAGMATOR = new VarReg<>(DR, "magmator",

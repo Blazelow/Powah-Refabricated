@@ -31,7 +31,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.api.wrench.IWrenchable;
 import owmii.powah.api.wrench.WrenchMode;
@@ -40,13 +40,13 @@ import owmii.powah.components.PowahComponents;
 import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.item.WrenchItem;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
-import owmii.powah.lib.client.handler.IHud;
+import owmii.powah.client.render.hud.BlockHudRenderer;
 import owmii.powah.lib.client.util.Draw;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.util.Util;
 import owmii.powah.util.math.V3d;
 
-public class EnergizingRodBlock extends PowahBaseEnergyBlock<EnergyConfig, EnergizingRodBlock> implements SimpleWaterloggedBlock, IWrenchable, IHud {
+public class EnergizingRodBlock extends PowahBaseEnergyBlock<EnergyConfig, EnergizingRodBlock> implements SimpleWaterloggedBlock, IWrenchable {
     public EnergizingRodBlock(Properties properties, Tier variant) {
         super(properties, variant);
         setStateProps(state -> state.setValue(BlockStateProperties.FACING, Direction.DOWN));
@@ -145,29 +145,5 @@ public class EnergizingRodBlock extends PowahBaseEnergyBlock<EnergyConfig, Energ
             }
         }
         return false;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean renderHud(GuiGraphics gui, BlockState state, Level world, BlockPos pos, Player player, BlockHitResult result,
-            @Nullable BlockEntity te) {
-        if (te instanceof EnergizingRodBlockEntity rod) {
-            RenderSystem.getModelViewStack().pushMatrix();
-            RenderSystem.enableBlend();
-            Minecraft mc = Minecraft.getInstance();
-            Font font = mc.font;
-            int x = mc.getWindow().getGuiScaledWidth() / 2;
-            int y = mc.getWindow().getGuiScaledHeight();
-            String s = ChatFormatting.GRAY + I18n.get("info.lollipop.stored") + ": " + I18n.get("info.lollipop.fe.stored",
-                    Util.addCommas(rod.getEnergy().getEnergyStored()), Util.numFormat(rod.getEnergy().getCapacity()));
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderTexture(0, Identifier.fromNamespaceAndPath("lollipop", "textures/gui/ov_energy.png"));
-            Draw.drawTexturedModalRect(gui, x - 37 - 1, y - 80, 0, 0, 74, 9, 0);
-            Draw.gaugeH(x - 37, y - 79, 72, 16, 0, 9, ((EnergizingRodBlockEntity) te).getEnergy());
-            gui.drawString(font, s, Math.round(x - (font.width(s) / 2.0f)), y - 67, 0xffffff);
-            RenderSystem.disableBlend();
-            RenderSystem.getModelViewStack().popMatrix();
-        }
-        return true;
     }
 }

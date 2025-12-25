@@ -1,6 +1,7 @@
 package owmii.powah.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -13,14 +14,11 @@ import owmii.powah.block.energizing.EnergizingOrbBlockEntity;
 import owmii.powah.client.render.tile.EnergizingOrbRenderer;
 import owmii.powah.lib.client.util.RenderTypes;
 
-public class OrbModel extends AbstractModel<EnergizingOrbBlockEntity, EnergizingOrbRenderer> {
+public class OrbModel extends Model<Object> {
     private static final String CUBE = "cube";
 
-    final ModelPart cube;
-
     public OrbModel(ModelPart root) {
-        super(RenderTypes::entityBlendedNoDept);
-        this.cube = root.getChild(CUBE);
+        super(root, RenderTypes::entityBlendedNoDept);
     }
 
     public static LayerDefinition createDefinition() {
@@ -32,9 +30,4 @@ public class OrbModel extends AbstractModel<EnergizingOrbBlockEntity, Energizing
     }
 
     public static final Identifier TEXTURE = Powah.id("textures/model/tile/energy_charge.png");
-
-    @Override
-    public void render(EnergizingOrbBlockEntity te, EnergizingOrbRenderer renderer, PoseStack matrix, MultiBufferSource rtb, int light, int ov) {
-        this.cube.render(matrix, rtb.getBuffer(renderType(TEXTURE)), light, ov);
-    }
 }

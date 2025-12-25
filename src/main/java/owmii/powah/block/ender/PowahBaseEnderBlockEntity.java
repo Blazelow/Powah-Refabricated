@@ -3,30 +3,33 @@ package owmii.powah.block.ender;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
+import org.jetbrains.annotations.UnknownNullability;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.api.energy.endernetwork.IEnderExtender;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.EnderConfig;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
-import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
+import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.IOwnable;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Player;
 import owmii.powah.util.math.RangedInt;
 
-public class AbstractEnderBlockEntity<B extends PowahBaseEnergyBlock<EnderConfig, B>> extends AbstractEnergyStorageBlockEntity<EnderConfig, B>
+public class PowahBaseEnderBlockEntity<B extends PowahBaseEnergyBlock<EnderConfig, B>> extends PowahBaseEnergyStorageBlockEntity<EnderConfig, B>
         implements IOwnable, IInventoryHolder {
     private final RangedInt channel = new RangedInt(12);
 
@@ -34,27 +37,22 @@ public class AbstractEnderBlockEntity<B extends PowahBaseEnergyBlock<EnderConfig
     private GameProfile owner;
     private boolean flag;
 
-    public AbstractEnderBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Tier variant) {
+    public PowahBaseEnderBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Tier variant) {
         super(type, pos, state, variant);
     }
 
     @Override
-    public void readStorable(CompoundTag nbt, HolderLookup.Provider registries) {
-        super.readStorable(nbt, registries);
-        this.channel.read(nbt, "channel");
-        if (nbt.hasUUID("owner_id")) {
-            this.owner = new GameProfile(nbt.getUUID("owner_id"), nbt.getString("owner_name"));
-        }
+    public void readStorable(ValueInput input) {
+        super.readStorable(input);
+        this.channel.read(input, "channel");
+        this.owner = input.read("owner", ExtraCodecs.STORED_GAME_PROFILE.codec()).orElse(null);
     }
 
     @Override
-    public CompoundTag writeStorable(CompoundTag nbt, HolderLookup.Provider registries) {
-        this.channel.write(nbt, "channel");
-        if (this.owner != null) {
-            nbt.putUUID("owner_id", this.owner.getId());
-            nbt.putString("owner_name", this.owner.getName());
-        }
-        return super.writeStorable(nbt, registries);
+    public void writeStorable(ValueOutput output) {
+        this.channel.write(output, "channel");
+        output.storeNullable("owner", ExtraCodecs.STORED_GAME_PROFILE.codec(), owner);
+        super.writeStorable(output);
     }
 
     @Override
@@ -95,15 +93,15 @@ public class AbstractEnderBlockEntity<B extends PowahBaseEnergyBlock<EnderConfig
     }
 
     @Override
-    public long receiveEnergy(long maxReceive, boolean simulate, @Nullable Direction side) {
-        final long l = super.receiveEnergy(maxReceive, simulate, side);
+    public long insertEnergy(long maxReceive, TransactionContext tx, @Nullable Direction side) {
+        final long l = super.insertEnergy(maxReceive, tx, side);
         setEnergy(getEnergy());
         return l;
     }
 
     @Override
-    public long extractEnergy(long maxExtract, boolean simulate, @Nullable Direction side) {
-        final long l = super.extractEnergy(maxExtract, simulate, side);
+    public long extractEnergy(long maxExtract, TransactionContext tx, @Nullable Direction side) {
+        final long l = super.extractEnergy(maxExtract, tx, side);
         setEnergy(getEnergy());
         return l;
     }
@@ -129,7 +127,7 @@ public class AbstractEnderBlockEntity<B extends PowahBaseEnergyBlock<EnderConfig
     public void setEnergy(Energy energy) {
         if (level instanceof ServerLevel serverLevel && this.owner != null) {
             EnderNetwork network = EnderNetwork.get(serverLevel);
-            network.setEnergy(this.owner.getId(), this.channel.get(), energy);
+            network.setEnergy(this.owner.id(), this.channel.get(), energy);
         }
     }
 

@@ -6,15 +6,15 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import owmii.powah.lib.registry.IVariant;
 
-public class PowahAbstractTickingBlockEntity<V extends IVariant, B extends PowahBaseBlock<V, B>> extends PowahAbstractBlockEntity<V, B> {
+public class PowahBaseTickingBlockEntity<V extends IVariant, B extends PowahBaseBlock<V, B>> extends PowahBaseBlockEntity<V, B> {
     private int syncTicks;
     public int ticks;
 
-    public PowahAbstractTickingBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public PowahBaseTickingBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
-    public PowahAbstractTickingBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, V variant) {
+    public PowahBaseTickingBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, V variant) {
         super(type, pos, state, variant);
     }
 

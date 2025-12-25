@@ -29,7 +29,7 @@ public class Tiles {
 
     private static <BE extends BlockEntity> Supplier<BlockEntityType<BE>> register(String path, BlockEntityType.BlockEntitySupplier<BE> supplier,
             Supplier<List<Block>> blocks) {
-        return DR.register(path, () -> BlockEntityType.Builder.of(supplier, blocks.get().toArray(Block[]::new)).build(null));
+        return DR.register(path, () -> new BlockEntityType<>(supplier, blocks.get().toArray(Block[]::new)));
     }
 
     public static final Supplier<BlockEntityType<EnergyCellBlockEntity>> ENERGY_CELL = register("energy_cell", EnergyCellBlockEntity::new,

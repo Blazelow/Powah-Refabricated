@@ -1,27 +1,21 @@
 package owmii.powah.compat.curios;
 
-import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import org.jetbrains.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.item.Itms;
 import top.theillusivec4.curios.api.CuriosApi;
 
-public class CurioTagsProvider extends ItemTagsProvider {
+import java.util.concurrent.CompletableFuture;
 
-    public CurioTagsProvider(PackOutput output,
-            CompletableFuture<HolderLookup.Provider> providerFuture,
-            CompletableFuture<TagLookup<Block>> blockLookup,
-            @Nullable ExistingFileHelper existingFileHelper) {
-        super(output, providerFuture, blockLookup, Powah.MOD_ID, existingFileHelper);
+public class CurioTagsProvider extends net.neoforged.neoforge.common.data.ItemTagsProvider {
+
+    public CurioTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> providerFuture) {
+        super(output, providerFuture, Powah.MOD_ID);
     }
 
     @Override
@@ -41,7 +35,7 @@ public class CurioTagsProvider extends ItemTagsProvider {
          * We have to use the curios namespace.
          *
          * @see <a href="https://github.com/TheIllusiveC4/Curios/wiki/How-to-Use:-Developers#marking-items-with-curio-types">Marking Items with Curio
-         *      Types</a>
+         * Types</a>
          */
         private static TagKey<Item> tag(String name) {
             return ItemTags.create(Identifier.fromNamespaceAndPath(CuriosApi.MODID, name));

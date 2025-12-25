@@ -26,9 +26,9 @@ public class Text {
         Font font = mc.font;
         var matrix4f = Transformation.identity().getMatrix();
         for (FormattedCharSequence processor : font.split(text, w)) {
-            MultiBufferSource.BufferSource impl = gui.bufferSource();
-            font.drawInBatch(processor, x, y, color, false, matrix4f, impl, Font.DisplayMode.NORMAL, 0, 15728880);
-            impl.endBatch();
+            // TODO: 26.1 MultiBufferSource.BufferSource impl = gui.bufferSource();
+            // TODO: 26.1 font.drawInBatch(processor, x, y, color, false, matrix4f, impl, Font.DisplayMode.NORMAL, 0, 15728880);
+            // TODO: 26.1 impl.endBatch();
             y += h;
         }
     }

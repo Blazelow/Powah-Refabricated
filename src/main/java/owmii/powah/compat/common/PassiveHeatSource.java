@@ -7,7 +7,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.api.PassiveHeatSourceConfig;
 
@@ -16,18 +16,18 @@ public record PassiveHeatSource(Identifier id, @Nullable Block block, @Nullable 
         var result = new ArrayList<PassiveHeatSource>();
 
         for (var entry : BuiltInRegistries.BLOCK.getDataMap(PassiveHeatSourceConfig.BLOCK_DATA_MAP).entrySet()) {
-            var id = entry.getKey().location();
+            var id = entry.getKey().identifier();
             int heat = entry.getValue().temperature();
 
-            var block = BuiltInRegistries.BLOCK.get(id);
+            var block = BuiltInRegistries.BLOCK.getValue(id);
             var recipeId = Powah.id("passive_heat_source/block/" + id.getNamespace() + "/" + id.getPath());
             result.add(new PassiveHeatSource(recipeId, block, null, heat));
         }
 
         for (var entry : BuiltInRegistries.FLUID.getDataMap(PassiveHeatSourceConfig.FLUID_DATA_MAP).entrySet()) {
-            var id = entry.getKey().location();
+            var id = entry.getKey().identifier();
             int heat = entry.getValue().temperature();
-            var fluid = BuiltInRegistries.FLUID.get(id);
+            var fluid = BuiltInRegistries.FLUID.getValue(id);
 
             if (!fluid.isSource(fluid.defaultFluidState())) {
                 continue;

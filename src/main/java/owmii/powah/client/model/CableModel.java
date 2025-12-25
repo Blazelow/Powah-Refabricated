@@ -2,6 +2,7 @@ package owmii.powah.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -9,16 +10,18 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import owmii.powah.Powah;
 import owmii.powah.block.cable.CableBlockEntity;
 import owmii.powah.client.render.tile.CableRenderer;
+import owmii.powah.client.render.tile.CableRendererState;
 import owmii.powah.lib.logistics.Transfer;
 import owmii.powah.util.EnergyUtil;
 
-public class CableModel extends AbstractModel<CableBlockEntity, CableRenderer> {
+public class CableModel extends Model<CableRendererState> {
     private static final String NORTH = "north";
     private static final String NORTH_PLATE = "north_plate";
     private static final String SOUTH = "south";
@@ -46,7 +49,7 @@ public class CableModel extends AbstractModel<CableBlockEntity, CableRenderer> {
     private final ModelPart up;
 
     public CableModel(ModelPart root) {
-        super(RenderType::entitySolid);
+        super(root, RenderTypes::entitySolid);
         this.north = root.getChild(NORTH);
         this.northPlate = root.getChild(NORTH_PLATE);
         this.south = root.getChild(SOUTH);
@@ -96,7 +99,7 @@ public class CableModel extends AbstractModel<CableBlockEntity, CableRenderer> {
         return renderType(texture);
     }
 
-    @Override
+    // TODO 26.1
     public void render(CableBlockEntity te, CableRenderer renderer, PoseStack matrix, MultiBufferSource rtb, int light, int ov) {
         if (te.getLevel() == null)
             return;

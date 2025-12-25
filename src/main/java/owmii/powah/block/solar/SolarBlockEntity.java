@@ -2,22 +2,22 @@ package owmii.powah.block.solar;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.item.Itms;
-import owmii.powah.lib.block.AbstractGeneratorBlockEntity;
+import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Misc;
 
-public class SolarBlockEntity extends AbstractGeneratorBlockEntity<SolarBlock> implements IInventoryHolder {
+public class SolarBlockEntity extends PowahBaseGeneratorBlockEntity<SolarBlock> implements IInventoryHolder {
     public static final String CAN_SEE_SKY = "can_see_sky";
     public static final String HAS_LENS_OF_ENDER = "has_lens_of_ender";
     private boolean canSeeSky;
@@ -33,17 +33,17 @@ public class SolarBlockEntity extends AbstractGeneratorBlockEntity<SolarBlock> i
     }
 
     @Override
-    public void readSync(CompoundTag compound, HolderLookup.Provider registries) {
-        super.readSync(compound, registries);
-        this.canSeeSky = compound.getBoolean(CAN_SEE_SKY);
-        this.hasLensOfEnder = compound.getBoolean(HAS_LENS_OF_ENDER);
+    public void readSync(ValueInput input) {
+        super.readSync(input);
+        this.canSeeSky = input.getBooleanOr(CAN_SEE_SKY, false);
+        this.hasLensOfEnder = input.getBooleanOr(HAS_LENS_OF_ENDER, false);
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag compound, HolderLookup.Provider registries) {
-        compound.putBoolean(CAN_SEE_SKY, this.canSeeSky);
-        compound.putBoolean(HAS_LENS_OF_ENDER, this.hasLensOfEnder);
-        return super.writeSync(compound, registries);
+    public void writeSync(ValueOutput output) {
+        output.putBoolean(CAN_SEE_SKY, this.canSeeSky);
+        output.putBoolean(HAS_LENS_OF_ENDER, this.hasLensOfEnder);
+        super.writeSync(output);
     }
 
     @Override

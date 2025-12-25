@@ -26,12 +26,12 @@ public class EnergyCellScreen extends AbstractEnergyScreen<EnergyCellBlockEntity
     @Override
     protected void drawForeground(GuiGraphics gui, int mouseX, int mouseY) {
         super.drawForeground(gui, mouseX, mouseY);
-        RenderSystem.enableBlend();
+        // TODO 26.1 RenderSystem.enableBlend();
         int a = (int) (255.0D * 1.0D * 0.4D) << 24;
         Energy e = this.te.getEnergy();
         String s = Util.addCommas(e.getStored()) + "/" + Util.numFormat(e.getCapacity()) + " FE";
         gui.drawString(font, this.te.isCreative() ? I18n.get("info.powah.unlimited") : s, 38, 13, a, false);
         gui.drawString(font, Util.numFormat(e.getMaxExtract()) + " FE/t", 38, 27, a, false);
-        RenderSystem.disableBlend();
+        // TODO 26.1 RenderSystem.disableBlend();
     }
 }

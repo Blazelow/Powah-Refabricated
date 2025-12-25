@@ -3,31 +3,32 @@ package owmii.powah.block.reactor;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.items.IItemHandler;
-import org.jetbrains.annotations.Nullable;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.lib.block.PowahAbstractBlockEntity;
-import owmii.powah.util.NBT;
+import owmii.powah.lib.block.PowahBaseBlockEntity;
+import owmii.powah.util.ValueIOUtil;
 
-public class ReactorPartBlockEntity extends PowahAbstractBlockEntity<Tier, ReactorBlock> {
+public class ReactorPartBlockEntity extends PowahBaseBlockEntity<Tier, ReactorBlock> {
     private BlockPos corePos = BlockPos.ZERO;
     private boolean extractor;
     private boolean built;
 
     // Cache capabilities of the core-tile to forward capability lookups to it more quickly
     @Nullable
-    private BlockCapabilityCache<IEnergyStorage, Direction> coreEnergyCache;
+    private BlockCapabilityCache<EnergyHandler, Direction> coreEnergyCache;
     @Nullable
     private BlockCapabilityCache<IItemHandler, Direction> coreItemCache;
     @Nullable
@@ -42,19 +43,19 @@ public class ReactorPartBlockEntity extends PowahAbstractBlockEntity<Tier, React
     }
 
     @Override
-    public void readSync(CompoundTag compound, HolderLookup.Provider registries) {
-        super.readSync(compound, registries);
-        this.built = compound.getBoolean("built");
-        this.extractor = compound.getBoolean("extractor");
-        this.corePos = NBT.readPos(compound, "core_pos");
+    public void readSync(ValueInput input) {
+        super.readSync(input);
+        this.built = input.getBooleanOr("built", false);
+        this.extractor = input.getBooleanOr("extractor", false);
+        this.corePos = ValueIOUtil.readPos(input, "core_pos");
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag compound, HolderLookup.Provider registries) {
-        compound.putBoolean("built", this.built);
-        compound.putBoolean("extractor", this.extractor);
-        NBT.writePos(compound, this.corePos, "core_pos");
-        return super.writeSync(compound, registries);
+    public void writeSync(ValueOutput output) {
+        output.putBoolean("built", this.built);
+        output.putBoolean("extractor", this.extractor);
+        ValueIOUtil.writePos(output, this.corePos, "core_pos");
+        super.writeSync(output);
     }
 
     public void demolish(Level world) {
@@ -65,14 +66,14 @@ public class ReactorPartBlockEntity extends PowahAbstractBlockEntity<Tier, React
     }
 
     @Nullable
-    public IEnergyStorage getCoreEnergyStorage() {
+    public EnergyHandler getCoreEnergyStorage() {
         if (this.level instanceof ServerLevel serverLevel) {
             if (coreEnergyCache == null) {
-                coreEnergyCache = BlockCapabilityCache.create(Capabilities.EnergyStorage.BLOCK, serverLevel, getCorePos(), null);
+                coreEnergyCache = BlockCapabilityCache.create(Capabilities.Energy.BLOCK, serverLevel, getCorePos(), null);
             }
             return coreEnergyCache.getCapability();
         } else {
-            return level.getCapability(Capabilities.EnergyStorage.BLOCK, getCorePos(), null);
+            return level.getCapability(Capabilities.Energy.BLOCK, getCorePos(), null);
         }
     }
 
@@ -80,11 +81,11 @@ public class ReactorPartBlockEntity extends PowahAbstractBlockEntity<Tier, React
     public IItemHandler getCoreItemHandler() {
         if (this.level instanceof ServerLevel serverLevel) {
             if (coreItemCache == null) {
-                coreItemCache = BlockCapabilityCache.create(Capabilities.ItemHandler.BLOCK, serverLevel, getCorePos(), null);
+                // TODO 26.1 coreItemCache = BlockCapabilityCache.create(Capabilities.Item.BLOCK, serverLevel, getCorePos(), null);
             }
             return coreItemCache.getCapability();
         } else {
-            return level.getCapability(Capabilities.ItemHandler.BLOCK, getCorePos(), null);
+            return null; // TODO 26.1  return level.getCapability(Capabilities.Item.BLOCK, getCorePos(), null);
         }
     }
 
@@ -92,11 +93,11 @@ public class ReactorPartBlockEntity extends PowahAbstractBlockEntity<Tier, React
     public IFluidHandler getCoreFluidHandler() {
         if (this.level instanceof ServerLevel serverLevel) {
             if (coreFluidCache == null) {
-                coreFluidCache = BlockCapabilityCache.create(Capabilities.FluidHandler.BLOCK, serverLevel, getCorePos(), null);
+                // TODO 26.1  coreFluidCache = BlockCapabilityCache.create(Capabilities.Fluid.BLOCK, serverLevel, getCorePos(), null);
             }
             return coreFluidCache.getCapability();
         } else {
-            return level.getCapability(Capabilities.FluidHandler.BLOCK, getCorePos(), null);
+            return null; // TODO 26.1 return level.getCapability(Capabilities.Fluid.BLOCK, getCorePos(), null);
         }
     }
 
@@ -138,5 +139,11 @@ public class ReactorPartBlockEntity extends PowahAbstractBlockEntity<Tier, React
 
     public boolean isBuilt() {
         return this.built;
+    }
+
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos, state);
+        demolish(getLevel());
     }
 }

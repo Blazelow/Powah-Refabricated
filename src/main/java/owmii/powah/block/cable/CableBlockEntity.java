@@ -5,24 +5,26 @@ import com.google.common.primitives.Ints;
 import java.util.EnumSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.apache.commons.lang3.mutable.MutableBoolean;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.config.v2.types.CableConfig;
-import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
+import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 
-public class CableBlockEntity extends AbstractEnergyStorageBlockEntity<CableConfig, CableBlock> implements IInventoryHolder {
+public class CableBlockEntity extends PowahBaseEnergyStorageBlockEntity<CableConfig, CableBlock> implements IInventoryHolder {
 
     /**
      * Tag-Name used for synchronizing connected sides to the client.
@@ -39,7 +41,7 @@ public class CableBlockEntity extends AbstractEnergyStorageBlockEntity<CableConf
     protected MutableBoolean netInsertionGuard = new MutableBoolean(false);
     protected int startIndex = 0;
     @SuppressWarnings("unchecked")
-    private final BlockCapabilityCache<IEnergyStorage, @Nullable Direction>[] capabilityCaches = new BlockCapabilityCache[6];
+    private final BlockCapabilityCache<EnergyHandler, @Nullable Direction>[] capabilityCaches = new BlockCapabilityCache[6];
 
     public CableBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.CABLE.get(), pos, state, variant);
@@ -73,22 +75,22 @@ public class CableBlockEntity extends AbstractEnergyStorageBlockEntity<CableConf
     }
 
     @Override
-    public void readSync(CompoundTag compound, HolderLookup.Provider registries) {
-        super.readSync(compound, registries);
-        readEnergySides(compound);
+    public void readSync(ValueInput input) {
+        super.readSync(input);
+        readEnergySides(input);
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag compound, HolderLookup.Provider registries) {
-        writeEnergySides(compound);
+    public void writeSync(ValueOutput output) {
+        writeEnergySides(output);
 
-        return super.writeSync(compound, registries);
+        super.writeSync(output);
     }
 
-    private void readEnergySides(CompoundTag compound) {
+    private void readEnergySides(ValueInput input) {
         // Read connected sides
         this.energySides.clear();
-        var sideBits = compound.getByte(NBT_ENERGY_SIDES);
+        var sideBits = input.getByteOr(NBT_ENERGY_SIDES, (byte) 0);
         for (var side : Direction.values()) {
             if ((sideBits & getSideMask(side)) != 0) {
                 this.energySides.add(side);
@@ -96,13 +98,13 @@ public class CableBlockEntity extends AbstractEnergyStorageBlockEntity<CableConf
         }
     }
 
-    private void writeEnergySides(CompoundTag compound) {
+    private void writeEnergySides(ValueOutput output) {
         // Write connected sides
         byte sideBits = 0;
         for (var side : this.energySides) {
             sideBits |= getSideMask(side);
         }
-        compound.putByte(NBT_ENERGY_SIDES, sideBits);
+        output.putByte(NBT_ENERGY_SIDES, sideBits);
     }
 
     private static byte getSideMask(Direction side) {
@@ -135,7 +137,7 @@ public class CableBlockEntity extends AbstractEnergyStorageBlockEntity<CableConf
     }
 
     @Override
-    public long receiveEnergy(long maxReceive, boolean simulate, @Nullable Direction direction) {
+    public long insertEnergy(long maxReceive, TransactionContext tx, @Nullable Direction direction) {
         if (!(this.level instanceof ServerLevel serverLevel) || direction == null || !checkRedstone() || !canReceiveEnergy(direction)) {
             return 0;
         }
@@ -149,16 +151,14 @@ public class CableBlockEntity extends AbstractEnergyStorageBlockEntity<CableConf
         insertionGuard.setTrue();
 
         try {
-            if (!simulate) {
-                startIndex++; // round robin!
-            }
+            // TODO 26.1 startIndex++; // round robin!
 
             for (var cable : cables) {
                 long amount = maxReceive - received;
                 if (amount <= 0)
                     break;
                 if (!cable.energySides.isEmpty() && cable.isActive()) {
-                    received += cable.pushEnergy(serverLevel, amount, simulate, direction, this);
+                    received += cable.pushEnergy(serverLevel, amount, tx, direction, this);
                 }
             }
 
@@ -168,7 +168,7 @@ public class CableBlockEntity extends AbstractEnergyStorageBlockEntity<CableConf
         }
     }
 
-    private long pushEnergy(ServerLevel level, long maxReceive, boolean simulate, @Nullable Direction direction, CableBlockEntity cable) {
+    private long pushEnergy(ServerLevel level, long maxReceive, TransactionContext tx, @Nullable Direction direction, CableBlockEntity cable) {
         long received = 0;
         for (int i = 0; i < 6; ++i) {
             // Shift by tick count to ensure that it distributes evenly on average
@@ -184,17 +184,17 @@ public class CableBlockEntity extends AbstractEnergyStorageBlockEntity<CableConf
             BlockPos pos = this.worldPosition.relative(side);
             if (direction != null && cable.getBlockPos().relative(direction).equals(pos))
                 continue;
-            received += receive(level, pos, side.getOpposite(), amount, simulate);
+            received += receive(level, pos, side.getOpposite(), amount, tx);
         }
         return received;
     }
 
-    private long receive(ServerLevel level, BlockPos pos, Direction side, long amount, boolean simulate) {
+    private long receive(ServerLevel level, BlockPos pos, Direction side, long amount, TransactionContext tx) {
         if (capabilityCaches[side.ordinal()] == null) {
-            capabilityCaches[side.ordinal()] = BlockCapabilityCache.create(Capabilities.EnergyStorage.BLOCK, (ServerLevel) level, pos, side);
+            capabilityCaches[side.ordinal()] = BlockCapabilityCache.create(Capabilities.Energy.BLOCK, level, pos, side);
         }
         var energy = capabilityCaches[side.ordinal()].getCapability();
-        return energy != null ? energy.receiveEnergy(Ints.saturatedCast(amount), simulate) : 0;
+        return energy != null ? energy.insert(Ints.saturatedCast(amount), tx) : 0;
     }
 
     public boolean canConnectTo(CableBlockEntity adjCable) {

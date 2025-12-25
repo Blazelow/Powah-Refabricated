@@ -1,21 +1,21 @@
 package owmii.powah.block.furnator;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.lib.block.AbstractGeneratorBlockEntity;
+import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Ticker;
 
-public class FurnatorBlockEntity extends AbstractGeneratorBlockEntity<FurnatorBlock> implements IInventoryHolder {
+public class FurnatorBlockEntity extends PowahBaseGeneratorBlockEntity<FurnatorBlock> implements IInventoryHolder {
     protected final Ticker carbon = Ticker.empty();
     protected boolean burning;
 
@@ -29,27 +29,27 @@ public class FurnatorBlockEntity extends AbstractGeneratorBlockEntity<FurnatorBl
     }
 
     @Override
-    public void readStorable(CompoundTag nbt, HolderLookup.Provider registries) {
-        super.readStorable(nbt, registries);
-        this.carbon.read(nbt, "carbon");
+    public void readStorable(ValueInput input) {
+        super.readStorable(input);
+        this.carbon.read(input, "carbon");
     }
 
     @Override
-    public CompoundTag writeStorable(CompoundTag nbt, HolderLookup.Provider registries) {
-        this.carbon.write(nbt, "carbon");
-        return super.writeStorable(nbt, registries);
+    public void writeStorable(ValueOutput output) {
+        this.carbon.write(output, "carbon");
+        super.writeStorable(output);
     }
 
     @Override
-    public void readSync(CompoundTag nbt, HolderLookup.Provider registries) {
-        super.readSync(nbt, registries);
-        this.burning = nbt.getBoolean("burning");
+    public void readSync(ValueInput input) {
+        super.readSync(input);
+        this.burning = input.getBooleanOr("burning", false);
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag nbt, HolderLookup.Provider registries) {
-        nbt.putBoolean("burning", this.burning);
-        return super.writeSync(nbt, registries);
+    public void writeSync(ValueOutput output) {
+        output.putBoolean("burning", this.burning);
+        super.writeSync(output);
     }
 
     @Override
@@ -59,12 +59,12 @@ public class FurnatorBlockEntity extends AbstractGeneratorBlockEntity<FurnatorBl
             if (this.carbon.isEmpty()) {
                 ItemStack stack = this.inv.getStackInSlot(1);
                 if (!stack.isEmpty()) {
-                    int burnTime = stack.getBurnTime(RecipeType.SMELTING);
+                    int burnTime = stack.getBurnTime(RecipeType.SMELTING, getLevel().fuelValues());
                     if (burnTime > 0) {
                         long perFuelTick = Powah.config().general.energy_per_fuel_tick;
                         this.carbon.setAll(burnTime * perFuelTick);
-                        if (stack.hasCraftingRemainingItem()) {
-                            this.inv.setStackInSlot(1, stack.getCraftingRemainingItem());
+                        if (!stack.getCraftingRemainder().isEmpty()) {
+                            this.inv.setStackInSlot(1, stack.getCraftingRemainder());
                         } else {
                             stack.shrink(1);
                         }
@@ -104,7 +104,7 @@ public class FurnatorBlockEntity extends AbstractGeneratorBlockEntity<FurnatorBl
 
     @Override
     public boolean canInsert(int index, ItemStack stack) {
-        return index == 1 && stack.getBurnTime(RecipeType.SMELTING) > 0
+        return index == 1 && stack.getBurnTime(RecipeType.SMELTING, getLevel().fuelValues()) > 0
                 || index == 0 && Energy.chargeable(stack);
     }
 

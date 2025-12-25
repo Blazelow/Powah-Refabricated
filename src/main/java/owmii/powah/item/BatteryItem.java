@@ -1,13 +1,17 @@
 package owmii.powah.item;
 
 import java.util.Objects;
+
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.api.energy.endernetwork.IEnderExtender;
 import owmii.powah.block.Tier;
@@ -29,9 +33,9 @@ public class BatteryItem extends EnergyItem<Tier, EnergyConfig, BatteryItem> imp
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level world, Entity entity, int itemSlot, boolean isSelected) {
-        if (entity instanceof Player player && isCharging(stack)) {
-            Energy.ifPresent(stack, storage -> {
+    public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
+        if (owner instanceof Player player && isCharging(itemStack)) {
+            Energy.ifPresent(itemStack, storage -> {
                 long charged = ChargeUtil.chargeItemsInPlayerInv(player, storage.getMaxExtract(), storage.getEnergyStored(),
                         s -> !(s.getItem() instanceof BatteryItem));
                 storage.consume(charged);
@@ -40,11 +44,11 @@ public class BatteryItem extends EnergyItem<Tier, EnergyConfig, BatteryItem> imp
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (player.isShiftKeyDown()) {
             switchCharging(stack);
-            return InteractionResultHolder.success(stack);
+            return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
         }
         return super.use(world, player, hand);
     }

@@ -1,23 +1,23 @@
 package owmii.powah.block.thermo;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import owmii.powah.api.PowahAPI;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.lib.block.AbstractGeneratorBlockEntity;
+import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Util;
 
-public class ThermoBlockEntity extends AbstractGeneratorBlockEntity<ThermoBlock> implements IInventoryHolder, ITankHolder {
+public class ThermoBlockEntity extends PowahBaseGeneratorBlockEntity<ThermoBlock> implements IInventoryHolder, ITankHolder {
     public long generating;
 
     public ThermoBlockEntity(BlockPos pos, BlockState state, Tier variant) {
@@ -33,15 +33,15 @@ public class ThermoBlockEntity extends AbstractGeneratorBlockEntity<ThermoBlock>
     }
 
     @Override
-    public void readSync(CompoundTag nbt, HolderLookup.Provider registries) {
-        super.readSync(nbt, registries);
-        this.generating = nbt.getLong("generating");
+    public void readSync(ValueInput input) {
+        super.readSync(input);
+        this.generating = input.getLongOr("generating", 0);
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag nbt, HolderLookup.Provider registries) {
-        nbt.putLong("generating", this.generating);
-        return super.writeSync(nbt, registries);
+    public void writeSync(ValueOutput output) {
+        output.putLong("generating", this.generating);
+        super.writeSync(output);
     }
 
     @Override

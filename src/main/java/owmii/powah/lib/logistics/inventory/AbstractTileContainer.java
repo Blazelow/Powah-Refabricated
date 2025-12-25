@@ -10,15 +10,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.network.PacketDistributor;
-import org.jetbrains.annotations.Nullable;
-import owmii.powah.lib.block.PowahAbstractBlockEntity;
+import org.jspecify.annotations.Nullable;
+import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.network.packet.InteractWithTankPacket;
 
-public abstract class AbstractTileContainer<T extends PowahAbstractBlockEntity<?, ?> & IInventoryHolder> extends AbstractContainer {
+public abstract class AbstractTileContainer<T extends PowahBaseBlockEntity<?, ?> & IInventoryHolder> extends AbstractContainer {
     public final T te;
 
     public AbstractTileContainer(@Nullable MenuType<?> containerType, int id, Inventory inventory, FriendlyByteBuf buffer) {
@@ -42,12 +43,12 @@ public abstract class AbstractTileContainer<T extends PowahAbstractBlockEntity<?
     }
 
     @SuppressWarnings("unchecked")
-    protected static <T extends PowahAbstractBlockEntity<?, ?>> T getInventory(Player player, BlockPos pos) {
+    protected static <T extends PowahBaseBlockEntity<?, ?>> T getInventory(Player player, BlockPos pos) {
         BlockEntity tile = player.level().getBlockEntity(pos);
-        if (tile instanceof PowahAbstractBlockEntity<?, ?>)
+        if (tile instanceof PowahBaseBlockEntity<?, ?>)
             return (T) tile;
         // What the hell is this?
-        return (T) new PowahAbstractBlockEntity<>(BlockEntityType.SIGN, pos, Blocks.AIR.defaultBlockState());
+        return (T) new PowahBaseBlockEntity<>(BlockEntityType.SIGN, pos, Blocks.AIR.defaultBlockState());
     }
 
     @Override
@@ -83,7 +84,7 @@ public abstract class AbstractTileContainer<T extends PowahAbstractBlockEntity<?
 
     public void interactWithTank(boolean drain) {
         if (player.level().isClientSide()) {
-            PacketDistributor.sendToServer(new InteractWithTankPacket(containerId, drain));
+            ClientPacketDistributor.sendToServer(new InteractWithTankPacket(containerId, drain));
         }
 
         var carried = getCarried();

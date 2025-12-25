@@ -57,8 +57,9 @@ public class JeiEnergizingCategory extends AbstractCategory<RecipeHolder<Energiz
         var minecraft = Minecraft.getInstance();
         var level = minecraft.level;
         assert level != null;
-        var recipeManager = level.getRecipeManager();
+        // TODO 26.1 var recipeManager = level.getRecipeManager();
 
-        return recipeManager.getAllRecipesFor(Recipes.ENERGIZING.get());
+        // TODO 26.1 return recipeManager.getAllRecipesFor(Recipes.ENERGIZING.get());
+        return List.of();
     }
 }

@@ -56,7 +56,7 @@ public class ThermoScreen extends AbstractEnergyScreen<ThermoBlockEntity, Thermo
             list.add(Component.translatable("info.lollipop.max.extract").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                     .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(energy.getMaxExtract()))
                             .withStyle(ChatFormatting.DARK_GRAY)));
-            gui.renderComponentTooltip(font, list, mouseX, mouseY);
+            gui.setComponentTooltipForNextFrame(font, list, mouseX, mouseY);
         }
     }
 }

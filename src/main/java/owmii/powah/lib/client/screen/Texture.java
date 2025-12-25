@@ -74,7 +74,7 @@ public class Texture {
     }
 
     public void bindTexture(Identifier guiTexture) {
-        RenderSystem.setShaderTexture(0, guiTexture);
+        // TODO 26.1 RenderSystem.setShaderTexture(0, guiTexture);
     }
 
     public Texture addW(int width) {

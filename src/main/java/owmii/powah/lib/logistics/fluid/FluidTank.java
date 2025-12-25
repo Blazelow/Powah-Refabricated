@@ -1,8 +1,10 @@
 package owmii.powah.lib.logistics.fluid;
 
 import java.util.function.Predicate;
-import net.minecraft.core.HolderLookup;
+
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.jetbrains.annotations.NotNull;
@@ -52,18 +54,15 @@ public class FluidTank implements IFluidHandler {
         return fluid.getAmount();
     }
 
-    public FluidTank readFromNBT(CompoundTag nbt, HolderLookup.Provider registries) {
-        FluidStack fluid = FluidStack.parseOptional(registries, nbt.getCompound("tank"));
-        setFluid(fluid);
+    public FluidTank load(ValueInput input) {
+        setFluid(input.read("tank", FluidStack.OPTIONAL_CODEC).orElse(FluidStack.EMPTY));
         return this;
     }
 
-    public CompoundTag writeToNBT(CompoundTag nbt, HolderLookup.Provider registries) {
+    public void save(ValueOutput output) {
         if (!fluid.isEmpty()) {
-            nbt.put("tank", fluid.save(registries, new CompoundTag()));
+            output.store("tank", FluidStack.OPTIONAL_CODEC, fluid);
         }
-
-        return nbt;
     }
 
     @Override

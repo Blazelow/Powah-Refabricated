@@ -1,8 +1,5 @@
 package owmii.powah.client.model;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import java.util.function.Function;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -12,14 +9,13 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.resources.Identifier;
 
-public class CubeModel extends Model {
+import java.util.function.Function;
+
+public class CubeModel extends Model<Object> {
     private static final String CUBE = "cube";
 
-    private final ModelPart cube;
-
     public CubeModel(Function<Identifier, RenderType> renderLayer, ModelPart root) {
-        super(renderLayer);
-        this.cube = root.getChild(CUBE);
+        super(root, renderLayer);
     }
 
     public static LayerDefinition createDefinition(int pixels) {
@@ -30,10 +26,5 @@ public class CubeModel extends Model {
         root.addOrReplaceChild(CUBE, CubeListBuilder.create().mirror().addBox(offset, offset, offset, pixels, pixels, pixels), PartPose.ZERO);
 
         return LayerDefinition.create(meshDefinition, pixels * 4, pixels * 2);
-    }
-
-    @Override
-    public void renderToBuffer(PoseStack matrix, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
-        this.cube.render(matrix, buffer, packedLight, packedOverlay);
     }
 }

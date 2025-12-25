@@ -52,7 +52,7 @@ public class LootTableGenerator extends BlockLootSubProvider {
         builders.put(Blcks.URANINITE_ORE_DENSE.get(), uraniniteOre(4));
 
         for (var entry : builders.entrySet()) {
-            biConsumer.accept(entry.getKey().getLootTable(), entry.getValue().apply(entry.getKey()));
+            biConsumer.accept(entry.getKey().getLootTable().get(), entry.getValue().apply(entry.getKey()));
         }
     }
 }

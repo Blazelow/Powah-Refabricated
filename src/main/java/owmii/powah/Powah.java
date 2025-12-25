@@ -37,12 +37,12 @@ import owmii.powah.entity.Entities;
 import owmii.powah.inventory.Containers;
 import owmii.powah.item.CreativeTabs;
 import owmii.powah.item.Itms;
-import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
+import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.block.IBlock;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
 import owmii.powah.lib.item.IEnergyContainingItem;
-import owmii.powah.lib.item.ItemBlock;
+import owmii.powah.lib.item.PowahBlockItem;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.network.Network;
 import owmii.powah.recipe.ReactorFuel;
@@ -115,12 +115,12 @@ public class Powah {
             }
             return null;
         });
-        event.registerBlockEntity(Capabilities.Item.BLOCK, Tiles.REACTOR_PART.get(), (reactorPart, unused) -> {
-            return reactorPart.getCoreItemHandler();
-        });
-        event.registerBlockEntity(Capabilities.Fluid.BLOCK, Tiles.REACTOR_PART.get(), (reactorPart, unused) -> {
-            return reactorPart.getCoreFluidHandler();
-        });
+        // TODO 26.1 event.registerBlockEntity(Capabilities.Item.BLOCK, Tiles.REACTOR_PART.get(), (reactorPart, unused) -> {
+        // TODO 26.1     return reactorPart.getCoreItemHandler();
+        // TODO 26.1 });
+        // TODO 26.1 event.registerBlockEntity(Capabilities.Fluid.BLOCK, Tiles.REACTOR_PART.get(), (reactorPart, unused) -> {
+        // TODO 26.1     return reactorPart.getCoreFluidHandler();
+        // TODO 26.1 });
 
         for (var entry : Tiles.DR.getEntries()) {
             var validBlock = entry.get().getValidBlocks().stream().iterator().next();
@@ -134,13 +134,13 @@ public class Powah {
 
         for (var entry : Itms.DR.getEntries()) {
             if (entry.get() instanceof IEnergyContainingItem eci) {
-                event.registerItem(Capabilities.Energy.ITEM, (stack, unused) -> {
+                event.registerItem(Capabilities.Energy.ITEM, (stack, itemAccess) -> {
                     var info = eci.getEnergyInfo();
                     if (info == null) {
                         return null;
                     }
 
-                    var energyItem = new Energy.Item(stack, info);
+                    var energyItem = new Energy.Item(itemAccess, stack, info);
                     return energyItem.createItemCapability();
                 }, entry.get());
             }
@@ -148,26 +148,26 @@ public class Powah {
     }
 
     private static void registerBlockEntityCapability(RegisterCapabilitiesEvent event, BlockEntityType<?> beType, Class<?> beClass) {
-        if (AbstractEnergyStorageBlockEntity.class.isAssignableFrom(beClass)) {
+        if (PowahBaseEnergyStorageBlockEntity.class.isAssignableFrom(beClass)) {
             event.registerBlockEntity(Capabilities.Energy.BLOCK, beType, (o, side) -> {
-                var energyStorage = (AbstractEnergyStorageBlockEntity<?, ?>) o;
+                var energyStorage = (PowahBaseEnergyStorageBlockEntity<?, ?>) o;
                 return energyStorage.getExternalStorage(side);
             });
         }
-        if (IInventoryHolder.class.isAssignableFrom(beClass)) {
-            event.registerBlockEntity(Capabilities.Item.BLOCK, beType, (o, direction) -> {
-                var inv = ((IInventoryHolder) o).getInventory();
-                if (!inv.isBlank()) {
-                    return inv;
-                }
-                return null;
-            });
-        }
-        if (ITankHolder.class.isAssignableFrom(beClass)) {
-            event.registerBlockEntity(Capabilities.Fluid.BLOCK, beType, (o, direction) -> {
-                return ((ITankHolder) o).getTank();
-            });
-        }
+        // TODO 26.1 if (IInventoryHolder.class.isAssignableFrom(beClass)) {
+        // TODO 26.1     event.registerBlockEntity(Capabilities.Item.BLOCK, beType, (o, direction) -> {
+        // TODO 26.1         var inv = ((IInventoryHolder) o).getInventory();
+        // TODO 26.1         if (!inv.isBlank()) {
+        // TODO 26.1             return inv;
+        // TODO 26.1         }
+        // TODO 26.1         return null;
+        // TODO 26.1     });
+        // TODO 26.1 }
+        // TODO 26.1 if (ITankHolder.class.isAssignableFrom(beClass)) {
+        // TODO 26.1     event.registerBlockEntity(Capabilities.Fluid.BLOCK, beType, (o, direction) -> {
+        // TODO 26.1         return ((ITankHolder) o).getTank();
+        // TODO 26.1     });
+        // TODO 26.1 }
     }
 
     private void setupBlockItems(IEventBus modEventBus) {
@@ -181,7 +181,7 @@ public class Powah {
                         if (block instanceof IBlock<?, ?> iBlock) {
                             blockItem = iBlock.getBlockItem(new Item.Properties(), CreativeTabs.MAIN_KEY);
                         } else {
-                            blockItem = new ItemBlock<>(block, new Item.Properties(), CreativeTabs.MAIN_KEY);
+                            blockItem = new PowahBlockItem<>(block, new Item.Properties(), CreativeTabs.MAIN_KEY);
                         }
                         var name = BuiltInRegistries.BLOCK.getKey(block);
                         Registry.register(BuiltInRegistries.ITEM, name, blockItem);

@@ -11,15 +11,15 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
-import owmii.powah.lib.item.ItemBlock;
+import org.jspecify.annotations.Nullable;
+import owmii.powah.lib.item.PowahBlockItem;
 import owmii.powah.lib.registry.IVariant;
 import owmii.powah.lib.registry.IVariantEntry;
 
 public interface IBlock<V extends IVariant, B extends Block & IBlock<V, B>> extends IVariantEntry<V, B>, EntityBlock {
     @SuppressWarnings("unchecked")
-    default ItemBlock getBlockItem(Item.Properties properties, @Nullable ResourceKey<CreativeModeTab> group) {
-        return new ItemBlock((Block) this, properties, group);
+    default PowahBlockItem<B> getBlockItem(Item.Properties properties, @Nullable ResourceKey<CreativeModeTab> group) {
+        return new PowahBlockItem<>((B) this, properties, group);
     }
 
     @Nullable
@@ -31,8 +31,8 @@ public interface IBlock<V extends IVariant, B extends Block & IBlock<V, B>> exte
     @Nullable
     @Override
     default <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        if (newBlockEntity(BlockPos.ZERO, state) instanceof PowahAbstractTickingBlockEntity<?, ?>) {
-            return (l, p, s, be) -> ((PowahAbstractTickingBlockEntity<?, ?>) be).tick();
+        if (newBlockEntity(BlockPos.ZERO, state) instanceof PowahBaseTickingBlockEntity<?, ?>) {
+            return (l, p, s, be) -> ((PowahBaseTickingBlockEntity<?, ?>) be).tick();
         }
         return null;
     }

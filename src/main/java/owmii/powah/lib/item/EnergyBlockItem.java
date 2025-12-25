@@ -3,13 +3,13 @@ package owmii.powah.lib.item;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.block.Tier;
 import owmii.powah.config.IEnergyConfig;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.logistics.Transfer;
 
-public class EnergyBlockItem<C extends IEnergyConfig<Tier>, B extends PowahBaseEnergyBlock<C, B>> extends ItemBlock<B>
+public class EnergyBlockItem<C extends IEnergyConfig<Tier>, B extends PowahBaseEnergyBlock<C, B>> extends PowahBlockItem<B>
         implements IEnergyItemProvider, IEnergyContainingItem {
     public EnergyBlockItem(B block, Properties builder, @Nullable ResourceKey<CreativeModeTab> group) {
         super(block, builder, group);

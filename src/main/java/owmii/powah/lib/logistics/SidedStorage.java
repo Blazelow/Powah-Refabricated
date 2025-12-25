@@ -5,7 +5,7 @@ import java.util.EnumMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.minecraft.core.Direction;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Used for storing a value for null and all the directions.

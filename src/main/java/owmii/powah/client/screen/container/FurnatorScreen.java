@@ -41,9 +41,9 @@ public class FurnatorScreen extends AbstractEnergyScreen<FurnatorBlockEntity, Fu
         super.drawBackground(guiGraphics, partialTicks, mouseX, mouseY);
         Textures.FURNATOR_GAUGE.drawScalableH(guiGraphics, this.te.getEnergy().subSized(), this.leftPos + 5, this.topPos + 5);
         Textures.FURNATOR_CARBON_GAUGE.drawScalableH(guiGraphics, this.te.getCarbon().subSized(), this.leftPos + 110, this.topPos + 18);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.heat.subSized());
+        // TODO 26.1 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.heat.subSized());
         Textures.FURNATOR_BUFFER.draw(guiGraphics, this.leftPos + 94, this.topPos + 43);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        // TODO 26.1 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     @Override
@@ -62,12 +62,12 @@ public class FurnatorScreen extends AbstractEnergyScreen<FurnatorBlockEntity, Fu
             list.add(Component.translatable("info.lollipop.max.extract").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                     .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(energy.getMaxExtract()))
                             .withStyle(ChatFormatting.DARK_GRAY)));
-            gui.renderComponentTooltip(font, list, mouseX, mouseY);
+            gui.setComponentTooltipForNextFrame(font, list, mouseX, mouseY);
         }
         if (Textures.FURNATOR_CARBON_GAUGE.isMouseOver(this.leftPos + 110, this.topPos + 18, mouseX, mouseY)) {
             List<Component> list = new ArrayList<>();
             list.add(Component.translatable("info.powah.carbon").withStyle(ChatFormatting.DARK_GRAY));
-            gui.renderComponentTooltip(font, list, mouseX, mouseY);
+            gui.setComponentTooltipForNextFrame(font, list, mouseX, mouseY);
         }
     }
 }

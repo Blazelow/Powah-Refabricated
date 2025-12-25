@@ -27,7 +27,7 @@ class PowahDataMapProvider extends DataMapProvider {
     }
 
     @Override
-    protected void gather() {
+    protected void gather(HolderLookup.Provider provider) {
         builder(ReactorFuel.DATA_MAP_TYPE)
                 .add(Itms.URANINITE, new ReactorFuel(100, 700), false)
                 .build();

@@ -32,7 +32,7 @@ public class CableScreen extends AbstractEnergyScreen<CableBlockEntity, CableCon
                 new IconButton(this.leftPos + 5, this.topPos + 5, Textures.CABLE_CONFIG.get(this.te.getSideConfig().getType(this.side)), button -> {
                     Network.toServer(new NextEnergyConfigPacket(this.side.get3DDataValue(), this.te.getBlockPos()));
                     this.te.getSideConfig().nextType(this.side);
-                }, this).setTooltipSupplier(() -> List.of(
+                }).setTooltipSupplier(() -> List.of(
                         Component.translatable("info.lollipop.side." + this.side.getSerializedName())
                                 .withStyle(ChatFormatting.GRAY),
                         this.te.getSideConfig().getType(this.side).getDisplayName2())));

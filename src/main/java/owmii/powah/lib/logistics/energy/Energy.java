@@ -3,15 +3,30 @@ package owmii.powah.lib.logistics.energy;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
-import net.minecraft.nbt.CompoundTag;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import owmii.powah.components.PowahComponents;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.item.IEnergyContainingItem;
 import owmii.powah.util.Util;
 
 public class Energy {
+    public static final Codec<Energy> STORAGE_CODEC = RecordCodecBuilder.create(builder -> builder.group(
+            Codec.LONG.fieldOf("capacity").forGetter(e -> e.capacity),
+            Codec.LONG.fieldOf("stored").forGetter(e -> e.stored)
+    ).apply(builder, (capacity, stored) -> {
+        var energy = Energy.create(capacity);
+        energy.stored = stored;
+        return energy;
+    }));
+
     public static final Energy EMPTY = Energy.create(0);
     public static final long MAX = 9_000_000_000_000_000_000L;
     public static final long MIN = 0L;
@@ -65,44 +80,35 @@ public class Energy {
         return flag;
     }
 
-    public Energy read(CompoundTag nbt, boolean capacity, boolean transfer) {
-        return read(nbt, "main_energy", capacity, transfer);
+    public Energy read(ValueInput input, boolean capacity, boolean transfer) {
+        return read(input, "main_energy", capacity, transfer);
     }
 
-    public Energy read(CompoundTag nbt, String key, boolean capacity, boolean transfer) {
+    public Energy read(ValueInput input, String key, boolean capacity, boolean transfer) {
         if (capacity) {
-            this.capacity = nbt.getLong("energy_capacity_" + key);
+            this.capacity = input.getLongOr("energy_capacity_" + key, 0L);
         }
-        this.stored = nbt.getLong("energy_stored_" + key);
+        this.stored = input.getLongOr("energy_stored_" + key, 0L);
         if (transfer) {
-            this.maxExtract = nbt.getLong("max_extract_" + key);
-            this.maxReceive = nbt.getLong("max_receive_" + key);
+            this.maxExtract = input.getLongOr("max_extract_" + key, 0L);
+            this.maxReceive = input.getLongOr("max_receive_" + key, 0L);
         }
         return this;
     }
 
-    public CompoundTag write(boolean capacity, boolean transfer) {
-        return write("main_energy", capacity, transfer);
+    public void write(ValueOutput output, boolean capacity, boolean transfer) {
+        write(output, "main_energy", capacity, transfer);
     }
 
-    public CompoundTag write(String key, boolean capacity, boolean transfer) {
-        return write(new CompoundTag(), key, capacity, transfer);
-    }
-
-    public CompoundTag write(CompoundTag nbt, boolean capacity, boolean transfer) {
-        return write(nbt, "main_energy", capacity, transfer);
-    }
-
-    public CompoundTag write(CompoundTag nbt, String key, boolean capacity, boolean transfer) {
+    public void write(ValueOutput output, String key, boolean capacity, boolean transfer) {
         if (capacity) {
-            nbt.putLong("energy_capacity_" + key, this.capacity);
+            output.putLong("energy_capacity_" + key, this.capacity);
         }
-        nbt.putLong("energy_stored_" + key, this.stored);
+        output.putLong("energy_stored_" + key, this.stored);
         if (transfer) {
-            nbt.putLong("max_extract_" + key, this.maxExtract);
-            nbt.putLong("max_receive_" + key, this.maxReceive);
+            output.putLong("max_extract_" + key, this.maxExtract);
+            output.putLong("max_receive_" + key, this.maxReceive);
         }
-        return nbt;
     }
 
     public long receiveEnergy(long maxReceive, boolean simulate) {
@@ -249,19 +255,16 @@ public class Energy {
     }
 
     public static class Item extends Energy {
+        private final ItemAccess itemAccess;
         private final ItemStack stack;
 
-        public Item(ItemStack stack, Item energy) {
-            super(energy);
-            this.stack = stack;
+        public Item(ItemAccess itemAccess, ItemStack stack, IEnergyContainingItem.Info info) {
+            this(itemAccess, stack, info.capacity(), info.maxExtract(), info.maxInsert());
         }
 
-        public Item(ItemStack stack, IEnergyContainingItem.Info info) {
-            this(stack, info.capacity(), info.maxExtract(), info.maxInsert());
-        }
-
-        public Item(ItemStack stack, long capacity, long maxExtract, long maxReceive) {
+        public Item(ItemAccess itemAccess, ItemStack stack, long capacity, long maxExtract, long maxReceive) {
             super(capacity, maxExtract, maxReceive);
+            this.itemAccess = itemAccess;
             this.stack = stack;
             long stored = Objects.requireNonNullElse(stack.get(PowahComponents.ENERGY_STORED), 0L);
             this.setStored(stored);
@@ -269,6 +272,7 @@ public class Energy {
 
         private void write() {
             this.stack.set(PowahComponents.ENERGY_STORED, this.getStored());
+            // TODO 26.1 itemAccess.exchange(ItemResource.of(stack), 1, tx);
         }
 
         @Override
@@ -301,7 +305,7 @@ public class Energy {
             write();
         }
 
-        public IEnergyStorage createItemCapability() {
+        public EnergyHandler createItemCapability() {
             return new ItemEnergyStorageAdapter(this);
         }
     }
@@ -324,7 +328,8 @@ public class Energy {
 
     public static Optional<Energy.Item> get(ItemStack stack) {
         if (stack.getItem() instanceof IEnergyContainingItem eci) {
-            return Optional.ofNullable(eci.getEnergyInfo()).map(info -> new Item(stack, info));
+            // TODO 26.1 Item Access
+            return Optional.ofNullable(eci.getEnergyInfo()).map(info -> new Item(ItemAccess.forStack(stack), stack, info));
         }
         return Optional.empty();
     }

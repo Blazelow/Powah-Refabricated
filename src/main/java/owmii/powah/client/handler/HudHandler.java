@@ -11,11 +11,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import owmii.powah.lib.client.handler.IHud;
-import owmii.powah.lib.client.handler.IHudItem;
+import owmii.powah.client.PowahClient;
 
 public class HudHandler {
-    public static void register() {
+    public static void register(PowahClient powahClient) {
         NeoForge.EVENT_BUS.addListener((RenderGuiEvent.Post event) -> {
             var gui = event.getGuiGraphics();
             Minecraft mc = Minecraft.getInstance();
@@ -27,13 +26,15 @@ public class HudHandler {
                     if (hit instanceof BlockHitResult result) {
                         BlockPos pos = result.getBlockPos();
                         BlockState state = world.getBlockState(pos);
-                        if (state.getBlock() instanceof IHud) {
-                            ((IHud) state.getBlock()).renderHud(gui, state, world, pos, player, result, world.getBlockEntity(pos));
+                        var blockHudRenderer = powahClient.getBlockHudRenderer(state);
+                        if (blockHudRenderer != null) {
+                            blockHudRenderer.renderHud(gui, state, world, pos, player, result, world.getBlockEntity(pos));
                         }
                         for (InteractionHand hand : InteractionHand.values()) {
                             ItemStack stack = player.getItemInHand(hand);
-                            if (stack.getItem() instanceof IHudItem) {
-                                if (((IHudItem) stack.getItem()).renderHud(world, pos, player, hand, result.getDirection(), result.getLocation())) {
+                            if (!stack.isEmpty()) {
+                                var itemHudRenderer = powahClient.getItemHudRenderer(stack);
+                                if (itemHudRenderer.renderHud(world, pos, player, hand, result.getDirection(), result.getLocation())) {
                                     break;
                                 }
                             }

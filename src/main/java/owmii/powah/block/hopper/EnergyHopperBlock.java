@@ -9,13 +9,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.ChargingConfig;
 import owmii.powah.inventory.EnergyHopperContainer;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
-import owmii.powah.lib.block.PowahAbstractBlockEntity;
+import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
@@ -49,7 +49,7 @@ public class EnergyHopperBlock extends PowahBaseEnergyBlock<ChargingConfig, Ener
 
     @Nullable
     @Override
-    public <T extends PowahAbstractBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
         if (te instanceof EnergyHopperBlockEntity) {
             return new EnergyHopperContainer(id, inventory, (EnergyHopperBlockEntity) te);
         }

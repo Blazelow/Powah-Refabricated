@@ -1,6 +1,8 @@
 package owmii.powah.block.reactor;
 
 import java.util.List;
+import java.util.function.Consumer;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -21,14 +23,14 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.fluids.FluidUtil;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.ReactorContainer;
 import owmii.powah.item.ReactorItem;
 import owmii.powah.lib.block.PowahBaseGeneratorBlock;
-import owmii.powah.lib.block.PowahAbstractBlockEntity;
+import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.energy.Energy;
@@ -103,24 +105,11 @@ public class ReactorBlock extends PowahBaseGeneratorBlock<ReactorBlock> {
 
     @Nullable
     @Override
-    public <T extends PowahAbstractBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
         if (te instanceof ReactorBlockEntity) {
             return new ReactorContainer(id, inventory, (ReactorBlockEntity) te);
         }
         return null;
-    }
-
-    @Override
-    public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
-        BlockEntity tileentity = world.getBlockEntity(pos);
-        if (tileentity instanceof ReactorBlockEntity) {
-            ReactorBlockEntity tile = (ReactorBlockEntity) tileentity;
-            tile.demolish(world);
-        } else if (tileentity instanceof ReactorPartBlockEntity) {
-            ReactorPartBlockEntity tile = (ReactorPartBlockEntity) tileentity;
-            tile.demolish(world);
-        }
-        super.onRemove(state, world, pos, newState, isMoving);
     }
 
     @Override
@@ -130,8 +119,8 @@ public class ReactorBlock extends PowahBaseGeneratorBlock<ReactorBlock> {
     }
 
     @Override
-    public void additionalEnergyInfo(ItemStack stack, Energy.Item energy, List<Component> tooltip) {
-        tooltip.add(Component.translatable("info.powah.generation.factor").withStyle(ChatFormatting.GRAY).append(Text.COLON)
+    public void additionalEnergyInfo(ItemStack stack, Energy.Item energy, Consumer<Component> tooltip) {
+        tooltip.accept(Component.translatable("info.powah.generation.factor").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                 .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(getConfig().getGeneration(this.variant)))
                         .withStyle(ChatFormatting.DARK_GRAY)));
     }

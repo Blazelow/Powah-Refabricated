@@ -14,11 +14,11 @@ public record SolidCoolant(Identifier id, Item item, int amount, int temperature
         List<SolidCoolant> result = new ArrayList<>();
 
         for (var entry : BuiltInRegistries.ITEM.getDataMap(SolidCoolantConfig.DATA_MAP_TYPE).entrySet()) {
-            var id = entry.getKey().location();
+            var id = entry.getKey().identifier();
             int amount = entry.getValue().amount();
             int coldness = entry.getValue().temperature();
 
-            var item = BuiltInRegistries.ITEM.get(id);
+            var item = BuiltInRegistries.ITEM.getValue(id);
             var recipeId = Powah.id("coolants/solid/" + id.getNamespace() + "/" + id.getPath());
             result.add(new SolidCoolant(recipeId, item, amount, coldness));
         }

@@ -6,7 +6,7 @@ import java.util.List;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.Validate;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class Stacks extends NonNullList<ItemStack> {
     protected Stacks(List<ItemStack> delegateIn, @Nullable ItemStack listType) {

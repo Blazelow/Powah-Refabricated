@@ -1,6 +1,8 @@
 package owmii.powah.lib.block;
 
 import java.util.List;
+import java.util.function.Consumer;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -21,8 +23,8 @@ public abstract class PowahBaseGeneratorBlock<B extends PowahBaseGeneratorBlock<
     }
 
     @Override
-    public void additionalEnergyInfo(ItemStack stack, Energy.Item energy, List<Component> tooltip) {
-        tooltip.add(Component.translatable("info.lollipop.generates").withStyle(ChatFormatting.GRAY).append(Text.COLON)
+    public void additionalEnergyInfo(ItemStack stack, Energy.Item energy, Consumer<Component> tooltip) {
+        tooltip.accept(Component.translatable("info.lollipop.generates").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                 .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(getConfig().getGeneration(this.variant)))
                         .withStyle(ChatFormatting.DARK_GRAY)));
     }

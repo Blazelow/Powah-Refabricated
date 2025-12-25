@@ -9,7 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import org.apache.commons.lang3.tuple.Pair;
-import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
+import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.client.screen.Texture;
 import owmii.powah.lib.client.screen.widget.IconButton;
@@ -18,7 +18,7 @@ import owmii.powah.lib.logistics.inventory.AbstractEnergyContainer;
 import owmii.powah.network.Network;
 import owmii.powah.network.packet.NextEnergyConfigPacket;
 
-public class AbstractEnergyScreen<T extends AbstractEnergyStorageBlockEntity<?, ?> & IInventoryHolder, C extends AbstractEnergyContainer<T>>
+public class AbstractEnergyScreen<T extends PowahBaseEnergyStorageBlockEntity<?, ?> & IInventoryHolder, C extends AbstractEnergyContainer<T>>
         extends AbstractTileScreen<T, C> {
     protected IconButton[] configButtons = new IconButton[6];
     protected IconButton configButtonAll = IconButton.EMPTY;
@@ -49,7 +49,7 @@ public class AbstractEnergyScreen<T extends AbstractEnergyStorageBlockEntity<?, 
                     this.topPos + yOffset + y + 10, Texture.CONFIG.get(this.te.getSideConfig().getType(side)), button -> {
                         Network.toServer(new NextEnergyConfigPacket(id, this.te.getBlockPos()));
                         this.te.getSideConfig().nextType(side);
-                    }, this).setTooltipSupplier(() -> List.of(
+                    }).setTooltipSupplier(() -> List.of(
                             Component.translatable("info.lollipop.facing").append(Text.COLON).withStyle(ChatFormatting.GRAY)
                                     .append(Component.translatable("info.lollipop.side." + side.getSerializedName())
                                             .withStyle(ChatFormatting.DARK_GRAY)),
@@ -60,7 +60,7 @@ public class AbstractEnergyScreen<T extends AbstractEnergyStorageBlockEntity<?, 
                 new IconButton(this.leftPos + this.imageWidth + x + 14, this.topPos + y + 4, Texture.CONFIG_BTN, button -> {
                     Network.toServer(new NextEnergyConfigPacket(6, this.te.getBlockPos()));
                     this.te.getSideConfig().nextTypeAll();
-                }, this).setTooltipSupplier(() -> List.of(
+                }).setTooltipSupplier(() -> List.of(
                         Component.translatable("info.lollipop.facing").append(Text.COLON).withStyle(ChatFormatting.GRAY)
                                 .append(Component.translatable("info.lollipop.all").withStyle(ChatFormatting.DARK_GRAY)),
                         this.te.getSideConfig().getType(Direction.UP).getDisplayName())));

@@ -11,7 +11,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import owmii.powah.Powah;
 import owmii.powah.block.Blcks;
 import owmii.powah.block.Tier;
-import owmii.powah.lib.item.ItemBlock;
+import owmii.powah.lib.item.PowahBlockItem;
 
 public class CreativeTabs {
     public static ResourceKey<CreativeModeTab> MAIN_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, Powah.id("tab"));
@@ -19,7 +19,7 @@ public class CreativeTabs {
     public static final DeferredRegister<CreativeModeTab> DR = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Powah.MOD_ID);
 
     static {
-        DR.register(MAIN_KEY.location().getPath(), () -> CreativeModeTab.builder()
+        DR.register(MAIN_KEY.identifier().getPath(), () -> CreativeModeTab.builder()
                 .title(Component.translatable("itemGroup.powah.tab"))
                 .icon(() -> new ItemStack(Blcks.ENERGY_CELL.get(Tier.BLAZING)))
                 .displayItems((params, output) -> {
@@ -57,7 +57,7 @@ public class CreativeTabs {
                     output.accept(Itms.URANINITE.get());
 
                     for (var entry : Blcks.DR.getEntries()) {
-                        if (entry.get().asItem() instanceof ItemBlock<?> powahItem) {
+                        if (entry.get().asItem() instanceof PowahBlockItem<?> powahItem) {
                             if (powahItem.getCreativeTab() == MAIN_KEY) {
                                 output.accept(powahItem);
                             }

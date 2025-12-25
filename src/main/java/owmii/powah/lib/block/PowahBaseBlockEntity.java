@@ -5,6 +5,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
@@ -12,7 +13,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import org.jspecify.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import owmii.powah.components.PowahComponents;
 import owmii.powah.lib.logistics.IRedstoneInteract;
 import owmii.powah.lib.logistics.Redstone;
@@ -21,7 +28,9 @@ import owmii.powah.lib.logistics.inventory.Inventory;
 import owmii.powah.lib.registry.IVariant;
 
 @SuppressWarnings("unchecked")
-public class PowahAbstractBlockEntity<V extends IVariant, B extends PowahBaseBlock<V, B>> extends BlockEntity implements IBlockEntity, IRedstoneInteract {
+public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V, B>> extends BlockEntity implements IBlockEntity, IRedstoneInteract {
+    private static final Logger LOG = LoggerFactory.getLogger(PowahBaseBlockEntity.class);
+
     /**
      * Used when this is instance of {@link IInventoryHolder}
      **/
@@ -38,12 +47,12 @@ public class PowahAbstractBlockEntity<V extends IVariant, B extends PowahBaseBlo
      **/
     private Redstone redstone = Redstone.IGNORE;
 
-    public PowahAbstractBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public PowahBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         this(type, pos, state, IVariant.getEmpty());
         this.tank.setValidator(stack -> true);
     }
 
-    public PowahAbstractBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, V variant) {
+    public PowahBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, V variant) {
         super(type, pos, state);
         this.variant = variant;
         if (this instanceof IInventoryHolder) {
@@ -60,21 +69,21 @@ public class PowahAbstractBlockEntity<V extends IVariant, B extends PowahBaseBlo
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
 
-        readSync(tag, registries);
+        readSync(input);
 
-        if (!tag.contains("#c")) { // Server only...
-            loadServerOnly(tag);
+        if (!input.getBooleanOr("#c", false)) { // Server only...
+            loadServerOnly(input);
         }
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        writeSync(tag, registries);
-        saveServerOnly(tag);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        writeSync(output);
+        saveServerOnly(output);
     }
 
     @Override
@@ -90,73 +99,72 @@ public class PowahAbstractBlockEntity<V extends IVariant, B extends PowahBaseBlo
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    protected void loadServerOnly(CompoundTag compound) {
+    protected void loadServerOnly(ValueInput input) {
     }
 
-    protected CompoundTag saveServerOnly(CompoundTag compound) {
-        return compound;
+    protected void saveServerOnly(ValueOutput output) {
     }
 
-    protected void readSync(CompoundTag nbt, HolderLookup.Provider registries) {
-        if (!this.variant.isEmpty() && nbt.contains("variant", 3)) {
-            this.variant = (V) this.variant.read(nbt, "variant");
-        }
-        if (this instanceof IInventoryHolder && !keepInventory()) {
-            this.inv.deserializeNBT(nbt, registries);
-        }
-        if (this instanceof ITankHolder tankHolder) {
-            if (!tankHolder.keepFluid()) {
-                this.tank.readFromNBT(nbt, registries);
-            }
-        }
-        this.redstone = Redstone.values()[nbt.getInt("redstone_mode")];
-        readStorable(nbt, registries);
-    }
-
-    protected CompoundTag writeSync(CompoundTag nbt, HolderLookup.Provider registries) {
+    protected void readSync(ValueInput input) {
         if (!this.variant.isEmpty()) {
-            this.variant.write(nbt, (Enum<?>) this.variant, "variant");
+            input.getInt("variant").ifPresent(variantIdx -> this.variant = (V) this.variant.getVariants()[variantIdx]);
         }
         if (this instanceof IInventoryHolder && !keepInventory()) {
-            nbt.merge(this.inv.serializeNBT(registries));
+            this.inv.load(input);
         }
         if (this instanceof ITankHolder tankHolder) {
             if (!tankHolder.keepFluid()) {
-                this.tank.writeToNBT(nbt, registries);
+                this.tank.load(input);
             }
         }
-        nbt.putInt("redstone_mode", this.redstone.ordinal());
-        return writeStorable(nbt, registries);
+        this.redstone = Redstone.values()[input.getIntOr("redstone_mode", 0)];
+        readStorable(input);
     }
 
-    public void readStorable(CompoundTag nbt, HolderLookup.Provider registries) {
+    protected void writeSync(ValueOutput output) {
+        if (!this.variant.isEmpty()) {
+            output.putInt("variant", variant.ordinal());
+        }
+        if (this instanceof IInventoryHolder && !keepInventory()) {
+            this.inv.save(output);
+        }
+        if (this instanceof ITankHolder tankHolder) {
+            if (!tankHolder.keepFluid()) {
+                this.tank.save(output);
+            }
+        }
+        output.putInt("redstone_mode", this.redstone.ordinal());
+        writeStorable(output);
+    }
+
+    public void readStorable(ValueInput input) {
         if (this instanceof IInventoryHolder && keepInventory()) {
-            this.inv.deserializeNBT(nbt, registries);
+            this.inv.load(input);
         }
         if (this instanceof ITankHolder tankHolder) {
             if (tankHolder.keepFluid()) {
-                this.tank.readFromNBT(nbt, registries);
+                this.tank.load(input);
             }
         }
     }
 
-    public CompoundTag writeStorable(CompoundTag nbt, HolderLookup.Provider registries) {
+    public void writeStorable(ValueOutput output) {
         if (this instanceof IInventoryHolder && keepInventory()) {
-            nbt.merge(this.inv.serializeNBT(registries));
+            this.inv.save(output);
         }
         if (this instanceof ITankHolder tankHolder) {
             if (tankHolder.keepFluid()) {
-                this.tank.writeToNBT(nbt, registries);
+                this.tank.save(output);
             }
         }
-        return nbt;
     }
 
     @Override
-    public void onPlaced(Level world, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+    public void onPlaced(Level level, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         var storedState = stack.get(PowahComponents.STORED_BLOCK_ENTITY_STATE);
         if (storedState != null) {
-            readStorable(storedState.copyTag(), level.registryAccess());
+            var input = TagValueInput.create(new ProblemReporter.ScopedCollector(LOG), level.registryAccess(), storedState.copyTag());
+            readStorable(input);
         }
     }
 
@@ -170,7 +178,9 @@ public class PowahAbstractBlockEntity<V extends IVariant, B extends PowahBaseBlo
     }
 
     public ItemStack storeToStack(ItemStack stack) {
-        CompoundTag nbt = writeStorable(new CompoundTag(), level.registryAccess());
+        var nbt = new CompoundTag();
+        var output = TagValueOutput.createWithContext(new ProblemReporter.ScopedCollector(LOG), getLevel().registryAccess());
+        writeStorable(output);
         if (!nbt.isEmpty() && keepStorable()) {
             stack.set(PowahComponents.STORED_BLOCK_ENTITY_STATE, CustomData.of(nbt));
         }

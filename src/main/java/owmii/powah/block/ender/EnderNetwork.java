@@ -1,18 +1,22 @@
 package owmii.powah.block.ender;
 
 import com.google.common.collect.ImmutableList;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.world.level.saveddata.SavedDataType;
 import owmii.powah.lib.block.IOwnable;
 import owmii.powah.lib.logistics.energy.Energy;
 
@@ -21,10 +25,9 @@ public class EnderNetwork extends SavedData {
 
     public static final int MAX_CHANNELS = 12;
 
-    private static final Factory<EnderNetwork> DATA_FACTORY = new Factory<>(
-            EnderNetwork::new,
-            EnderNetwork::new,
-            null);
+    private static final Codec<EnderNetwork> CODEC = Packed.CODEC.xmap(EnderNetwork::new, EnderNetwork::getData);
+
+    private static final SavedDataType<EnderNetwork> TYPE = new SavedDataType<>(NAME, EnderNetwork::new, CODEC);
 
     private final Map<UUID, ImmutableList<Energy>> map = new HashMap<>();
 
@@ -38,62 +41,33 @@ public class EnderNetwork extends SavedData {
     public static EnderNetwork get(MinecraftServer server) {
         var overworld = server.getLevel(ServerLevel.OVERWORLD);
         Objects.requireNonNull(overworld, "Server should have an overworld.");
-        return overworld.getDataStorage().computeIfAbsent(DATA_FACTORY, NAME);
+        return overworld.getDataStorage().computeIfAbsent(TYPE);
     }
 
     private EnderNetwork() {
     }
 
-    private EnderNetwork(CompoundTag nbt, HolderLookup.Provider registries) {
-        ListTag listNBT = nbt.getList("network", 10);
-        for (int i = 0; i < listNBT.size(); i++) {
-            CompoundTag nbt1 = listNBT.getCompound(i);
-            UUID uuid = nbt1.getUUID("owner_id");
-            ListTag listNBT1 = nbt1.getList("channels", 10);
-            for (int j = 0; j < listNBT1.size(); j++) {
-                CompoundTag nbt2 = listNBT1.getCompound(j);
-                getEnergy(uuid, j).read(nbt2, true, false);
+    private EnderNetwork(Packed packed) {
+        for (var network : packed.networks()) {
+            setEnergy(network.owner, network.channel, network.energy);
+        }
+    }
+
+    private Packed getData() {
+        var packedNetworks = new ArrayList<PackedNetwork>();
+        for (var entry : this.map.entrySet()) {
+            var owner = entry.getKey();
+            for (int channel = 0; channel < entry.getValue().size(); channel++) {
+                var energy = entry.getValue().get(channel);
+                packedNetworks.add(new PackedNetwork(owner, channel, energy));
             }
         }
-    }
-
-    @Override
-    public CompoundTag save(CompoundTag nbt, HolderLookup.Provider registries) {
-        ListTag listNBT = new ListTag();
-        this.map.forEach((uuid, list) -> {
-            CompoundTag nbt1 = new CompoundTag();
-            nbt1.putUUID("owner_id", uuid);
-            ListTag listNBT1 = new ListTag();
-            list.forEach(storage -> {
-                CompoundTag nbt2 = new CompoundTag();
-                storage.write(nbt2, true, false);
-                listNBT1.add(nbt2);
-            });
-            nbt1.put("channels", listNBT1);
-            listNBT.add(nbt1);
-        });
-        nbt.put("network", listNBT);
-        return nbt;
-    }
-
-    public CompoundTag serialize(UUID uuid) {
-        CompoundTag nbt = new CompoundTag();
-        nbt.put("channels", getChannels(uuid).stream()
-                .map(energy -> energy.write(true, false))
-                .collect(Collectors.toCollection(ListTag::new)));
-        return nbt;
-    }
-
-    public void deserialize(UUID uuid, CompoundTag nbt) {
-        ListTag listNBT = nbt.getList("channels", 10);
-        for (int i = 0; i < listNBT.size(); i++) {
-            getEnergy(uuid, i).read(listNBT.getCompound(i), true, false);
-        }
+        return new Packed(packedNetworks);
     }
 
     public Energy getEnergy(IOwnable ownable, int channel) {
         if (ownable.getOwner() != null) {
-            return getEnergy(ownable.getOwner().getId(), channel);
+            return getEnergy(ownable.getOwner().id(), channel);
         }
         return Energy.create(0);
     }
@@ -112,7 +86,7 @@ public class EnderNetwork extends SavedData {
 
     public ImmutableList<Energy> getChannels(IOwnable ownable) {
         if (ownable.getOwner() != null) {
-            return getChannels(ownable.getOwner().getId());
+            return getChannels(ownable.getOwner().id());
         }
         return empty();
     }
@@ -123,5 +97,19 @@ public class EnderNetwork extends SavedData {
 
     public static ImmutableList<Energy> empty() {
         return IntStream.range(0, MAX_CHANNELS).mapToObj(i -> Energy.create(0)).collect(ImmutableList.toImmutableList());
+    }
+
+    record PackedNetwork(UUID owner, int channel, Energy energy) {
+        public static Codec<PackedNetwork> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+                UUIDUtil.STRING_CODEC.fieldOf("owner").forGetter(PackedNetwork::owner),
+                Codec.INT.fieldOf("channel").forGetter(PackedNetwork::channel),
+                Energy.STORAGE_CODEC.fieldOf("energy").forGetter(PackedNetwork::energy)
+        ).apply(builder, PackedNetwork::new));
+    }
+
+    record Packed(List<PackedNetwork> networks) {
+        public static Codec<Packed> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+                PackedNetwork.CODEC.listOf().fieldOf("networks").forGetter(Packed::networks)
+        ).apply(builder, Packed::new));
     }
 }

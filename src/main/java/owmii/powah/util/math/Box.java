@@ -3,6 +3,8 @@ package owmii.powah.util.math;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -43,23 +45,22 @@ public class Box {
         this.max = max;
     }
 
-    public void read(CompoundTag nbt, String key) {
-        this.down = nbt.getDouble("down_" + key);
-        this.up = nbt.getDouble("up_" + key);
-        this.north = nbt.getDouble("north_" + key);
-        this.south = nbt.getDouble("south_" + key);
-        this.west = nbt.getDouble("west_" + key);
-        this.east = nbt.getDouble("east_" + key);
+    public void read(ValueInput input, String key) {
+        this.down = input.getDoubleOr("down_" + key, 0);
+        this.up = input.getDoubleOr("up_" + key, 0);
+        this.north = input.getDoubleOr("north_" + key, 0);
+        this.south = input.getDoubleOr("south_" + key, 0);
+        this.west = input.getDoubleOr("west_" + key, 0);
+        this.east = input.getDoubleOr("east_" + key, 0);
     }
 
-    public CompoundTag write(CompoundTag nbt, String key) {
-        nbt.putDouble("down_" + key, this.down);
-        nbt.putDouble("up_" + key, this.up);
-        nbt.putDouble("north_" + key, this.north);
-        nbt.putDouble("south_" + key, this.south);
-        nbt.putDouble("west_" + key, this.west);
-        nbt.putDouble("east_" + key, this.east);
-        return nbt;
+    public void write(ValueOutput output, String key) {
+        output.putDouble("down_" + key, this.down);
+        output.putDouble("up_" + key, this.up);
+        output.putDouble("north_" + key, this.north);
+        output.putDouble("south_" + key, this.south);
+        output.putDouble("west_" + key, this.west);
+        output.putDouble("east_" + key, this.east);
     }
 
     public AABB geAxis() {

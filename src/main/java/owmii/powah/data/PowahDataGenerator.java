@@ -19,20 +19,17 @@ import owmii.powah.world.gen.Features;
 public class PowahDataGenerator {
     public static void gatherData(GatherDataEvent event) {
         var generator = event.getGenerator();
-        var existingFileHelper = event.getExistingFileHelper();
         var pack = generator.getVanillaPack(true);
 
         var registries = event.getLookupProvider();
 
         var blockTagsProvider = pack
-                .addProvider(packOutput -> new TagsProvider.Blocks(packOutput, registries, existingFileHelper));
+                .addProvider(packOutput -> new TagsProvider.Blocks(packOutput, registries));
         pack.addProvider(
-                packOutput -> new TagsProvider.Items(packOutput, registries, blockTagsProvider.contentsGetter(),
-                        existingFileHelper));
+                packOutput -> new TagsProvider.Items(packOutput, registries, blockTagsProvider.contentsGetter()));
 
-        pack.addProvider(
-                packOutput -> new CurioTagsProvider(packOutput, registries, blockTagsProvider.contentsGetter(), event.getExistingFileHelper()));
-        pack.addProvider(packOutput -> new RecipeProvider(packOutput, registries));
+        pack.addProvider(packOutput -> new CurioTagsProvider(packOutput, registries));
+        pack.addProvider(packOutput -> new RecipeProvider.Runner(packOutput, registries));
         pack.addProvider(packOutput -> createLoot(packOutput, registries));
         pack.addProvider(packOutput -> new PowahDataMapProvider(packOutput, registries));
 

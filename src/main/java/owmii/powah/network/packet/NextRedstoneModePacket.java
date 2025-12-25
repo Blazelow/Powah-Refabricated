@@ -6,7 +6,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import owmii.powah.Powah;
-import owmii.powah.lib.block.PowahAbstractBlockEntity;
+import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.network.ServerboundPacket;
 
 public record NextRedstoneModePacket(BlockPos pos) implements ServerboundPacket {
@@ -23,8 +23,8 @@ public record NextRedstoneModePacket(BlockPos pos) implements ServerboundPacket 
 
     @Override
     public void handleOnServer(ServerPlayer player) {
-        BlockEntity tileEntity = player.serverLevel().getBlockEntity(pos);
-        if (tileEntity instanceof PowahAbstractBlockEntity<?, ?> ate) {
+        BlockEntity tileEntity = player.level().getBlockEntity(pos);
+        if (tileEntity instanceof PowahBaseBlockEntity<?, ?> ate) {
             ate.nextRedstoneMode();
             ate.sync();
         }

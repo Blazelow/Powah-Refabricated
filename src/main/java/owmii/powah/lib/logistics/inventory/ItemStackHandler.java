@@ -5,14 +5,16 @@
 
 package owmii.powah.lib.logistics.inventory;
 
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
 public class ItemStackHandler implements IItemHandler {
     protected NonNullList<ItemStack> stacks;
@@ -136,30 +138,33 @@ public class ItemStackHandler implements IItemHandler {
         return true;
     }
 
-    public CompoundTag serializeNBT(HolderLookup.Provider registries) {
-        ListTag nbtTagList = new ListTag();
+    public void save(ValueOutput output) {
+        var list = output.childrenList("Items");
         for (int i = 0; i < stacks.size(); i++) {
-            if (!stacks.get(i).isEmpty()) {
-                CompoundTag itemTag = new CompoundTag();
-                itemTag.putInt("Slot", i);
-                nbtTagList.add(stacks.get(i).save(registries, itemTag));
+            var stack = stacks.get(i);
+            if (!stack.isEmpty()) {
+                var entry = list.addChild();
+                entry.store(ItemStack.MAP_CODEC, stack);
+                entry.putInt("Slot", i);
             }
         }
-        CompoundTag nbt = new CompoundTag();
-        nbt.put("Items", nbtTagList);
-        nbt.putInt("Size", stacks.size());
-        return nbt;
+        output.putInt("Size", stacks.size());
     }
 
-    public void deserializeNBT(CompoundTag nbt, HolderLookup.Provider registries) {
-        setSize(nbt.contains("Size", Tag.TAG_INT) ? nbt.getInt("Size") : stacks.size());
-        ListTag tagList = nbt.getList("Items", Tag.TAG_COMPOUND);
-        for (int i = 0; i < tagList.size(); i++) {
-            CompoundTag itemTags = tagList.getCompound(i);
-            int slot = itemTags.getInt("Slot");
+    public void load(ValueInput input) {
+        load(input, null);
+    }
 
+    public void load(ValueInput input, @Nullable Integer fixedSize) {
+        if (fixedSize != null) {
+            setSize(fixedSize);
+        } else {
+            setSize(input.getIntOr("Size", stacks.size()));
+        }
+        for (var entry : input.childrenListOrEmpty("Items")) {
+            int slot = entry.getIntOr("Slot", 0);
             if (slot >= 0 && slot < stacks.size()) {
-                stacks.set(slot, ItemStack.parseOptional(registries, itemTags));
+                stacks.set(slot, entry.read(ItemStack.MAP_CODEC).orElse(ItemStack.EMPTY));
             }
         }
         onLoad();

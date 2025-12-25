@@ -54,9 +54,9 @@ public class MagmatorScreen extends AbstractEnergyScreen<MagmatorBlockEntity, Ma
     protected void drawBackground(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         super.drawBackground(guiGraphics, partialTicks, mouseX, mouseY);
         Textures.FURNATOR_GAUGE.drawScalableH(guiGraphics, this.te.getEnergy().subSized(), this.leftPos + 5, this.topPos + 5);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.heat.subSized());
+        // TODO 26.1 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.heat.subSized());
         Textures.MAGMATOR_BUFFER.draw(guiGraphics, this.leftPos + 83, this.topPos + 29);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        // TODO 26.1 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class MagmatorScreen extends AbstractEnergyScreen<MagmatorBlockEntity, Ma
             list.add(Component.translatable("info.lollipop.max.extract").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                     .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(energy.getMaxExtract()))
                             .withStyle(ChatFormatting.DARK_GRAY)));
-            gui.renderComponentTooltip(font, list, mouseX, mouseY);
+            gui.setComponentTooltipForNextFrame(font, list, mouseX, mouseY);
         }
     }
 }

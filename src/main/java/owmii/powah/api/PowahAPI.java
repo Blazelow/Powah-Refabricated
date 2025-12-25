@@ -76,7 +76,7 @@ public class PowahAPI {
         }
         var fluidState = blockState.getFluidState();
         if (!fluidState.isEmpty()) {
-            heatFromFluid = getHeatSource(fluidState.holder().value()) * fluidState.getAmount() / FluidState.AMOUNT_FULL;
+            heatFromFluid = getHeatSource(fluidState.typeHolder().value()) * fluidState.getAmount() / FluidState.AMOUNT_FULL;
         }
         return Math.max(heatFromBlock, heatFromFluid);
     }

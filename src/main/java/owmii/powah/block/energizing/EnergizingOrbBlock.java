@@ -27,20 +27,20 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.api.wrench.IWrenchable;
 import owmii.powah.api.wrench.WrenchMode;
 import owmii.powah.components.PowahComponents;
 import owmii.powah.item.WrenchItem;
 import owmii.powah.lib.block.PowahBaseBlock;
-import owmii.powah.lib.client.handler.IHud;
+import owmii.powah.client.render.hud.BlockHudRenderer;
 import owmii.powah.lib.logistics.inventory.Inventory;
 import owmii.powah.lib.registry.IVariant;
 import owmii.powah.util.Util;
 import owmii.powah.util.math.V3d;
 
-public class EnergizingOrbBlock extends PowahBaseBlock<IVariant.Single, EnergizingOrbBlock> implements SimpleWaterloggedBlock, IWrenchable, IHud {
+public class EnergizingOrbBlock extends PowahBaseBlock<IVariant.Single, EnergizingOrbBlock> implements SimpleWaterloggedBlock, IWrenchable {
     public EnergizingOrbBlock(Properties properties) {
         super(properties);
         setStateProps(state -> state.setValue(BlockStateProperties.FACING, Direction.DOWN));
@@ -156,27 +156,4 @@ public class EnergizingOrbBlock extends PowahBaseBlock<IVariant.Single, Energizi
         return false;
     }
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean renderHud(GuiGraphics gui, BlockState state, Level world, BlockPos pos, Player player, BlockHitResult result,
-            @Nullable BlockEntity te) {
-        if (te instanceof EnergizingOrbBlockEntity orb) {
-            if (orb.getBuffer().getCapacity() > 0) {
-                RenderSystem.getModelViewStack().pushMatrix();
-                RenderSystem.enableBlend();
-                Minecraft mc = Minecraft.getInstance();
-                Font font = mc.font;
-                int x = mc.getWindow().getGuiScaledWidth() / 2;
-                int y = mc.getWindow().getGuiScaledHeight();
-                String s = "" + ChatFormatting.GREEN + orb.getBuffer().getPercent() + "%";
-                String s1 = ChatFormatting.GRAY + I18n.get("info.lollipop.fe.stored", Util.addCommas(orb.getBuffer().getEnergyStored()),
-                        Util.numFormat(orb.getBuffer().getCapacity()));
-                gui.drawString(font, s, Math.round(x - (font.width(s) / 2.0f)), y - 90, 0xffffff);
-                gui.drawString(font, s1, Math.round(x - (font.width(s1) / 2.0f)), y - 75, 0xffffff);
-                RenderSystem.disableBlend();
-                RenderSystem.getModelViewStack().popMatrix();
-            }
-        }
-        return true;
-    }
 }

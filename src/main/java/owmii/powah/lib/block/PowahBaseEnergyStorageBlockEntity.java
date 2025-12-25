@@ -3,16 +3,19 @@ package owmii.powah.lib.block;
 import com.google.common.primitives.Ints;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
-import org.jetbrains.annotations.Nullable;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
+import org.jetbrains.annotations.UnknownNullability;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.block.Tier;
 import owmii.powah.config.IEnergyConfig;
 import owmii.powah.lib.logistics.IRedstoneInteract;
@@ -23,54 +26,54 @@ import owmii.powah.lib.registry.IVariant;
 import owmii.powah.util.ChargeUtil;
 import owmii.powah.util.Util;
 
-public abstract class AbstractEnergyStorageBlockEntity<C extends IEnergyConfig<Tier>, B extends PowahBaseEnergyBlock<C, B>> extends PowahAbstractTickingBlockEntity<Tier, B>
+public abstract class PowahBaseEnergyStorageBlockEntity<C extends IEnergyConfig<Tier>, B extends PowahBaseEnergyBlock<C, B>> extends PowahBaseTickingBlockEntity<Tier, B>
         implements IRedstoneInteract {
     protected final SideConfig sideConfig = new SideConfig(this);
     protected final Energy energy = Energy.create(0);
-    private final @Nullable IEnergyStorage[] externalAdapters = new IEnergyStorage[Direction.values().length + 1];
+    private final @Nullable EnergyHandler[] externalAdapters = new EnergyHandler[Direction.values().length + 1];
     @SuppressWarnings("unchecked")
-    private final BlockCapabilityCache<IEnergyStorage, @Nullable Direction>[] capabilityCaches = new BlockCapabilityCache[6];
+    private final BlockCapabilityCache<EnergyHandler, @Nullable Direction>[] capabilityCaches = new BlockCapabilityCache[6];
 
-    public AbstractEnergyStorageBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public PowahBaseEnergyStorageBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         this(type, pos, state, IVariant.getEmpty());
     }
 
-    public AbstractEnergyStorageBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Tier variant) {
+    public PowahBaseEnergyStorageBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Tier variant) {
         super(type, pos, state, variant);
     }
 
     @Override
-    public void readSync(CompoundTag nbt, HolderLookup.Provider registries) {
-        this.sideConfig.read(nbt);
+    public void readSync(ValueInput input) {
+        this.sideConfig.read(input);
         if (!keepEnergy()) {
-            this.energy.read(nbt, true, false);
+            this.energy.read(input, true, false);
         }
-        super.readSync(nbt, registries);
+        super.readSync(input);
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag nbt, HolderLookup.Provider registries) {
-        this.sideConfig.write(nbt);
+    public void writeSync(ValueOutput output) {
+        this.sideConfig.write(output);
         if (!keepEnergy()) {
-            this.energy.write(nbt, true, false);
+            this.energy.write(output, true, false);
         }
-        return super.writeSync(nbt, registries);
+        super.writeSync(output);
     }
 
     @Override
-    public void readStorable(CompoundTag nbt, HolderLookup.Provider registries) {
+    public void readStorable(ValueInput input) {
         if (keepEnergy()) {
-            this.energy.read(nbt, false, false);
+            this.energy.read(input, false, false);
         }
-        super.readStorable(nbt, registries);
+        super.readStorable(input);
     }
 
     @Override
-    public CompoundTag writeStorable(CompoundTag nbt, HolderLookup.Provider registries) {
+    public void writeStorable(ValueOutput output) {
         if (keepEnergy()) {
-            this.energy.write(nbt, false, false);
+            this.energy.write(output, false, false);
         }
-        return super.writeStorable(nbt, registries);
+        super.writeStorable(output);
     }
 
     public boolean keepEnergy() {
@@ -92,13 +95,17 @@ public abstract class AbstractEnergyStorageBlockEntity<C extends IEnergyConfig<T
             for (Direction side : Direction.values()) {
                 if (canExtractEnergy(side)) {
                     if (capabilityCaches[side.ordinal()] == null) {
-                        capabilityCaches[side.ordinal()] = BlockCapabilityCache.create(Capabilities.EnergyStorage.BLOCK, (ServerLevel) world,
+                        capabilityCaches[side.ordinal()] = BlockCapabilityCache.create(Capabilities.Energy.BLOCK, (ServerLevel) world,
                                 worldPosition.relative(side), side.getOpposite());
                     }
                     long amount = Math.min(getEnergyTransfer(), getEnergy().getStored());
                     var cap = capabilityCaches[side.ordinal()].getCapability();
-                    long toExtract = cap == null ? 0 : cap.receiveEnergy(Ints.saturatedCast(amount), false);
-                    extracted += extractEnergy(Util.safeInt(toExtract), false, side);
+                    long toExtract;
+                    try (var tx = Transaction.openRoot()) {
+                        toExtract = cap == null ? 0 : cap.insert(Ints.saturatedCast(amount), tx);
+                        extracted += extractEnergy(Util.safeInt(toExtract), tx, side);
+                        tx.commit();
+                    }
                 }
             }
         }
@@ -116,27 +123,27 @@ public abstract class AbstractEnergyStorageBlockEntity<C extends IEnergyConfig<T
         return charged;
     }
 
-    public long extractEnergy(long maxExtract, boolean simulate, @Nullable Direction side) {
+    public long extractEnergy(long maxExtract, TransactionContext tx, @Nullable Direction side) {
         if (!canExtractEnergy(side))
             return 0;
         final Energy energy = getEnergy();
         long extracted = Math.min(energy.getStored(), Math.min(energy.getMaxExtract(), maxExtract));
-        if (!simulate && extracted > 0) {
-            energy.consume(extracted);
-            sync(10);
-        }
+        // TODO 26.1: if (!simulate && extracted > 0) {
+        // TODO 26.1:     energy.consume(extracted);
+        // TODO 26.1:     sync(10);
+        // TODO 26.1: }
         return extracted;
     }
 
-    public long receiveEnergy(long maxReceive, boolean simulate, @Nullable Direction side) {
+    public long insertEnergy(long maxReceive, TransactionContext tx, @Nullable Direction side) {
         if (!canReceiveEnergy(side))
             return 0;
         final Energy energy = getEnergy();
         long received = Math.min(energy.getEmpty(), Math.min(energy.getMaxReceive(), maxReceive));
-        if (!simulate && received > 0) {
-            energy.produce(received);
-            sync(10);
-        }
+        // TODO 26.1 if (!simulate && received > 0) {
+        // TODO 26.1     energy.produce(received);
+        // TODO 26.1     sync(10);
+        // TODO 26.1 }
         return received;
     }
 
@@ -185,7 +192,7 @@ public abstract class AbstractEnergyStorageBlockEntity<C extends IEnergyConfig<T
     }
 
     @Nullable
-    public IEnergyStorage getExternalStorage(@Nullable Direction side) {
+    public EnergyHandler getExternalStorage(@Nullable Direction side) {
         if (!isEnergyPresent(side)) {
             return null;
         }
@@ -198,7 +205,7 @@ public abstract class AbstractEnergyStorageBlockEntity<C extends IEnergyConfig<T
         return externalAdapters[index];
     }
 
-    private final class ExternalAdapter implements IEnergyStorage {
+    private final class ExternalAdapter implements EnergyHandler {
         private final @Nullable Direction side;
 
         public ExternalAdapter(@Nullable Direction side) {
@@ -206,33 +213,23 @@ public abstract class AbstractEnergyStorageBlockEntity<C extends IEnergyConfig<T
         }
 
         @Override
-        public int extractEnergy(int maxExtract, boolean simulate) {
-            return Util.safeInt(AbstractEnergyStorageBlockEntity.this.extractEnergy(maxExtract, simulate, side));
+        public long getAmountAsLong() {
+            return getEnergy().getStored();
         }
 
         @Override
-        public int getEnergyStored() {
-            return Util.safeInt(getEnergy().getStored());
+        public long getCapacityAsLong() {
+            return getEnergy().getMaxEnergyStored();
         }
 
         @Override
-        public int getMaxEnergyStored() {
-            return Ints.saturatedCast(getEnergy().getMaxEnergyStored());
+        public int insert(int amount, TransactionContext tx) {
+            return Util.safeInt(PowahBaseEnergyStorageBlockEntity.this.insertEnergy(amount, tx, side));
         }
 
         @Override
-        public int receiveEnergy(int maxReceive, boolean simulate) {
-            return Util.safeInt(AbstractEnergyStorageBlockEntity.this.receiveEnergy(maxReceive, simulate, side));
-        }
-
-        @Override
-        public boolean canReceive() {
-            return AbstractEnergyStorageBlockEntity.this.canReceiveEnergy(side);
-        }
-
-        @Override
-        public boolean canExtract() {
-            return AbstractEnergyStorageBlockEntity.this.canExtractEnergy(side);
+        public int extract(int amount, TransactionContext tx) {
+            return Util.safeInt(PowahBaseEnergyStorageBlockEntity.this.extractEnergy(amount, tx, side));
         }
     }
 

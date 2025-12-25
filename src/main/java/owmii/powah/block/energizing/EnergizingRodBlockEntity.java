@@ -2,21 +2,21 @@ package owmii.powah.block.energizing;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.config.v2.types.EnergyConfig;
-import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
-import owmii.powah.util.NBT;
+import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
+import owmii.powah.util.ValueIOUtil;
 import owmii.powah.util.Ticker;
 
-public class EnergizingRodBlockEntity extends AbstractEnergyStorageBlockEntity<EnergyConfig, EnergizingRodBlock> {
+public class EnergizingRodBlockEntity extends PowahBaseEnergyStorageBlockEntity<EnergyConfig, EnergizingRodBlock> {
     private BlockPos orbPos = BlockPos.ZERO;
     public final Ticker coolDown = new Ticker(20);
 
@@ -29,15 +29,15 @@ public class EnergizingRodBlockEntity extends AbstractEnergyStorageBlockEntity<E
     }
 
     @Override
-    public void readSync(CompoundTag nbt, HolderLookup.Provider registries) {
-        super.readSync(nbt, registries);
-        this.orbPos = NBT.readPos(nbt, "OrbPos");
+    public void readSync(ValueInput input) {
+        super.readSync(input);
+        this.orbPos = ValueIOUtil.readPos(input, "OrbPos");
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag nbt, HolderLookup.Provider registries) {
-        NBT.writePos(nbt, this.orbPos, "OrbPos");
-        return super.writeSync(nbt, registries);
+    public void writeSync(ValueOutput output) {
+        ValueIOUtil.writePos(output, this.orbPos, "OrbPos");
+        super.writeSync(output);
     }
 
     @Override

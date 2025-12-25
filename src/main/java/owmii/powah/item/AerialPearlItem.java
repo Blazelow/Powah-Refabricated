@@ -5,16 +5,16 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Husk;
-import net.minecraft.world.entity.monster.Zombie;
-import net.minecraft.world.entity.monster.ZombieVillager;
+import net.minecraft.world.entity.monster.zombie.Husk;
+import net.minecraft.world.entity.monster.zombie.Zombie;
+import net.minecraft.world.entity.monster.zombie.ZombieVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import owmii.powah.Powah;
-import owmii.powah.lib.item.ItemBase;
+import owmii.powah.lib.item.PowahBaseItem;
 
-public class AerialPearlItem extends ItemBase {
+public class AerialPearlItem extends PowahBaseItem {
     public AerialPearlItem(Properties properties) {
         super(properties);
     }

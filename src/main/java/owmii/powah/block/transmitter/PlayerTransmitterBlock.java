@@ -3,6 +3,7 @@ package owmii.powah.block.transmitter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -11,8 +12,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -23,13 +24,13 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.ChargingConfig;
 import owmii.powah.inventory.PlayerTransmitterContainer;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
-import owmii.powah.lib.block.PowahAbstractBlockEntity;
+import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 
@@ -68,7 +69,7 @@ public class PlayerTransmitterBlock extends PowahBaseEnergyBlock<ChargingConfig,
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+    public AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
         if (te instanceof PlayerTransmitterBlockEntity) {
             return new PlayerTransmitterContainer(id, inventory, (PlayerTransmitterBlockEntity) te);
         }
@@ -87,16 +88,14 @@ public class PlayerTransmitterBlock extends PowahBaseEnergyBlock<ChargingConfig,
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor world, BlockPos currentPos,
-            BlockPos facingPos) {
-        BlockState bottomState = world.getBlockState(currentPos.below());
-        BlockState topState = world.getBlockState(currentPos.above());
+    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction directionToNeighbour, BlockPos neighbourPos, BlockState neighbourState, RandomSource random) {
+        BlockState bottomState = level.getBlockState(pos.below());
+        BlockState topState = level.getBlockState(pos.above());
         if (!state.getValue(TOP) && !(topState.getBlock() instanceof PlayerTransmitterBlock)
                 || state.getValue(TOP) && !(bottomState.getBlock() instanceof PlayerTransmitterBlock)) {
-            world.setBlock(currentPos, Blocks.AIR.defaultBlockState(), 3);
             return Blocks.AIR.defaultBlockState();
         } else {
-            return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
+            return super.updateShape(state, level, ticks, pos, directionToNeighbour, neighbourPos, neighbourState, random);
         }
     }
 

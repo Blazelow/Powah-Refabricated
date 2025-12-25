@@ -21,19 +21,20 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.api.energy.IEnergyConnector;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.CableConfig;
 import owmii.powah.inventory.CableContainer;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
-import owmii.powah.lib.block.PowahAbstractBlockEntity;
+import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 import owmii.powah.util.EnergyUtil;
 
@@ -91,7 +92,7 @@ public class CableBlock extends PowahBaseEnergyBlock<CableConfig, CableBlock> im
     }
 
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @Nullable Orientation orientation, boolean movedByPiston) {
         var newState = createCableState(level, pos);
 
         if (newState != state) {
@@ -113,7 +114,7 @@ public class CableBlock extends PowahBaseEnergyBlock<CableConfig, CableBlock> im
             }
         }
 
-        super.neighborChanged(state, level, pos, block, fromPos, isMoving);
+        super.neighborChanged(state, level, pos, block, orientation, movedByPiston);
     }
 
     @Nullable
@@ -147,7 +148,7 @@ public class CableBlock extends PowahBaseEnergyBlock<CableConfig, CableBlock> im
 
     @Nullable
     @Override
-    public <T extends PowahAbstractBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahAbstractBlockEntity te, BlockHitResult result) {
+    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
         if (te instanceof CableBlockEntity) {
             return new CableContainer(id, inventory, (CableBlockEntity) te);
         }

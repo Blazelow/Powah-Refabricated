@@ -14,7 +14,10 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeBookCategories;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -31,7 +34,7 @@ public class EnergizingRecipe implements Recipe<RecipeInput> {
     public static final MapCodec<EnergizingRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
             ItemStack.CODEC.fieldOf("result").forGetter(e -> e.output),
             Codec.LONG.fieldOf("energy").forGetter(e -> e.energy),
-            Ingredient.LIST_CODEC_NONEMPTY
+            Ingredient.CODEC.listOf(1, 16)
                     .fieldOf("ingredients")
                     .forGetter(e -> e.ingredients))
             .apply(builder, EnergizingRecipe::new));
@@ -79,27 +82,27 @@ public class EnergizingRecipe implements Recipe<RecipeInput> {
         return this.output.copy();
     }
 
-    @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return true;
-    }
-
     public ItemStack getResultItem() {
         return output;
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
-        return this.output;
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.NOT_PLACEABLE;
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeBookCategory recipeBookCategory() {
+        return RecipeBookCategories.CRAFTING_MISC;
+    }
+
+    @Override
+    public RecipeSerializer<EnergizingRecipe> getSerializer() {
         return Recipes.ENERGIZING_SERIALIZER.get();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<EnergizingRecipe> getType() {
         return Recipes.ENERGIZING.get();
     }
 
@@ -111,7 +114,6 @@ public class EnergizingRecipe implements Recipe<RecipeInput> {
         return Math.max(1, (long) (energy * Powah.config().general.energizing_energy_ratio));
     }
 
-    @Override
     public NonNullList<Ingredient> getIngredients() {
         return this.ingredients;
     }

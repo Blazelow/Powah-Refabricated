@@ -7,14 +7,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import owmii.powah.util.NBT;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import owmii.powah.util.ValueIOUtil;
 
 public class Builder {
     private final ReactorBlockEntity reactor;
@@ -27,17 +28,17 @@ public class Builder {
         this.reactor = reactor;
     }
 
-    public void read(CompoundTag nbt) {
-        this.built = nbt.getBoolean("built");
+    public void read(ValueInput input) {
+        this.built = input.getBooleanOr("built", false);
         if (!this.built) {
-            this.queue = NBT.readPosList(nbt, "queue_pos", new ArrayList<>());
+            this.queue = ValueIOUtil.readPosList(input, "queue_pos", new ArrayList<>());
         }
     }
 
-    public void write(CompoundTag nbt) {
-        nbt.putBoolean("built", this.built);
+    public void write(ValueOutput output) {
+        output.putBoolean("built", this.built);
         if (!this.built) {
-            NBT.writePosList(nbt, this.queue, "queue_pos");
+            ValueIOUtil.writePosList(output, this.queue, "queue_pos");
         }
     }
 

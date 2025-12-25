@@ -5,8 +5,7 @@ import java.util.Optional;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
@@ -14,18 +13,20 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tiles;
-import owmii.powah.lib.block.PowahAbstractTickingBlockEntity;
+import owmii.powah.lib.block.PowahBaseTickingBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.lib.logistics.inventory.Inventory;
 import owmii.powah.lib.registry.IVariant;
 import owmii.powah.recipe.Recipes;
 
-public class EnergizingOrbBlockEntity extends PowahAbstractTickingBlockEntity<IVariant.Single, EnergizingOrbBlock> implements IInventoryHolder {
+public class EnergizingOrbBlockEntity extends PowahBaseTickingBlockEntity<IVariant.Single, EnergizingOrbBlock> implements IInventoryHolder {
     private final Energy buffer = Energy.create(0);
     private boolean containRecipe;
 
@@ -38,18 +39,18 @@ public class EnergizingOrbBlockEntity extends PowahAbstractTickingBlockEntity<IV
     }
 
     @Override
-    public void readSync(CompoundTag nbt, HolderLookup.Provider registries) {
-        super.readSync(nbt, registries);
-        this.buffer.read(nbt, "buffer", true, false);
+    public void readSync(ValueInput input) {
+        super.readSync(input);
+        this.buffer.read(input, "buffer", true, false);
         this.buffer.setTransfer(this.buffer.getCapacity());
-        this.containRecipe = nbt.getBoolean("contain_recipe");
+        this.containRecipe = input.getBooleanOr("contain_recipe", false);
     }
 
     @Override
-    public CompoundTag writeSync(CompoundTag nbt, HolderLookup.Provider registries) {
-        this.buffer.write(nbt, "buffer", true, false);
-        nbt.putBoolean("contain_recipe", this.containRecipe);
-        return super.writeSync(nbt, registries);
+    public void writeSync(ValueOutput output) {
+        this.buffer.write(output, "buffer", true, false);
+        output.putBoolean("contain_recipe", this.containRecipe);
+        super.writeSync(output);
     }
 
     public Direction getOrbUp() {
@@ -102,8 +103,8 @@ public class EnergizingOrbBlockEntity extends PowahAbstractTickingBlockEntity<IV
     }
 
     private void checkRecipe() {
-        if (this.level != null && !isRemote()) {
-            Optional<RecipeHolder<EnergizingRecipe>> recipe = this.level.getRecipeManager().getRecipeFor(Recipes.ENERGIZING.get(),
+        if (this.level instanceof ServerLevel serverLevel) {
+            var recipe = serverLevel.recipeAccess().getRecipeFor(Recipes.ENERGIZING.get(),
                     new OrbInput(getInventory()), this.level);
             if (recipe.isPresent()) {
                 this.recipe = recipe.get();
@@ -125,7 +126,7 @@ public class EnergizingOrbBlockEntity extends PowahAbstractTickingBlockEntity<IV
             if (this.recipe != null) {
                 this.buffer.produce(filled);
                 if (this.buffer.isFull()) {
-                    ItemStack stack = this.recipe.value().getResultItem(level.registryAccess());
+                    ItemStack stack = this.recipe.value().getResultItem();
                     this.inv.clear();
                     this.inv.setStackInSlot(0, stack.copy());
                     this.buffer.setCapacity(0);

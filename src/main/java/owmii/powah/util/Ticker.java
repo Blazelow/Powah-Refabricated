@@ -1,6 +1,8 @@
 package owmii.powah.util;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class Ticker {
     private double maxTicks;
@@ -52,14 +54,14 @@ public class Ticker {
         return System.currentTimeMillis() % (delay * 5) == 0;
     }
 
-    public void read(CompoundTag compound, String key) {
-        this.ticks = compound.getDouble(key + "_ticks");
-        this.maxTicks = compound.getDouble(key + "_max_ticks");
+    public void read(ValueInput input, String key) {
+        this.ticks = input.getDoubleOr(key + "_ticks", 0);
+        this.maxTicks = input.getDoubleOr(key + "_max_ticks", 0);
     }
 
-    public void write(CompoundTag compound, String key) {
-        compound.putDouble(key + "_ticks", this.ticks);
-        compound.putDouble(key + "_max_ticks", this.maxTicks);
+    public void write(ValueOutput output, String key) {
+        output.putDouble(key + "_ticks", this.ticks);
+        output.putDouble(key + "_max_ticks", this.maxTicks);
     }
 
     public double getMax() {

@@ -22,7 +22,7 @@ public record SwitchGenModePacket(BlockPos pos) implements ServerboundPacket {
 
     @Override
     public void handleOnServer(ServerPlayer player) {
-        var be = player.serverLevel().getBlockEntity(pos);
+        var be = player.level().getBlockEntity(pos);
         if (be instanceof ReactorBlockEntity reactor) {
             reactor.setGenModeOn(!reactor.isGenModeOn());
         }

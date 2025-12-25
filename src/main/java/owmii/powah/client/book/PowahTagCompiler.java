@@ -11,7 +11,7 @@ import owmii.powah.config.IEnergyConfig;
 import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.item.EnergyItem;
-import owmii.powah.lib.item.ItemBlock;
+import owmii.powah.lib.item.PowahBlockItem;
 import owmii.powah.lib.registry.IVariant;
 import owmii.powah.util.Util;
 
@@ -49,7 +49,7 @@ public class PowahTagCompiler implements TagCompiler {
         }
         case "powah:EnergyGeneration" -> {
             long generation = 0L;
-            if (item instanceof ItemBlock<?> blockItem && blockItem.getBlock() instanceof PowahBaseGeneratorBlock<?> generatorBlock) {
+            if (item instanceof PowahBlockItem<?> blockItem && blockItem.getBlock() instanceof PowahBaseGeneratorBlock<?> generatorBlock) {
                 generation = generatorBlock.getConfig().getGeneration(generatorBlock.getVariant());
             }
             parent.appendComponent(Component.translatable("info.lollipop.fe.pet.tick", Util.addCommas(generation)));

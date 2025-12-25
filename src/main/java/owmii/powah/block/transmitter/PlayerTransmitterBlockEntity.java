@@ -12,11 +12,11 @@ import owmii.powah.block.Tiles;
 import owmii.powah.components.PowahComponents;
 import owmii.powah.config.v2.types.ChargingConfig;
 import owmii.powah.item.BindingCardItem;
-import owmii.powah.lib.block.AbstractEnergyStorageBlockEntity;
+import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.util.ChargeUtil;
 
-public class PlayerTransmitterBlockEntity extends AbstractEnergyStorageBlockEntity<ChargingConfig, PlayerTransmitterBlock> implements IInventoryHolder {
+public class PlayerTransmitterBlockEntity extends PowahBaseEnergyStorageBlockEntity<ChargingConfig, PlayerTransmitterBlock> implements IInventoryHolder {
 
     public PlayerTransmitterBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.PLAYER_TRANSMITTER.get(), pos, state, variant);

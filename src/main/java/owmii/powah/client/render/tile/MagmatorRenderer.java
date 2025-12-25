@@ -1,47 +1,55 @@
 package owmii.powah.client.render.tile;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.neoforged.neoforge.fluids.FluidStack;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.block.magmator.MagmatorBlockEntity;
 import owmii.powah.client.ClientUtils;
-import owmii.powah.lib.client.renderer.tile.AbstractTileRenderer;
 import owmii.powah.lib.client.util.Render;
+import owmii.powah.lib.logistics.fluid.Tank;
 
-public class MagmatorRenderer extends AbstractTileRenderer<MagmatorBlockEntity> {
+public class MagmatorRenderer implements BlockEntityRenderer<MagmatorBlockEntity, MagmatorRendererState> {
     protected MagmatorRenderer(BlockEntityRendererProvider.Context context) {
-        super(context);
     }
 
     @Override
-    public void render(MagmatorBlockEntity te, float pt, PoseStack matrix, MultiBufferSource rtb, Minecraft mc, ClientLevel world, LocalPlayer player,
-                       int light, int ov) {
-        var tank = te.getTank();
-        if (!tank.isEmpty()) {
-            FluidStack fluidStack = tank.getFluid();
-            var sprite = ClientUtils.getStillTexture(fluidStack);
-            if (sprite != null) {
-                int color = ClientUtils.getFluidColor(fluidStack);
-                float red = (color >> 16 & 0xFF) / 255.0F;
-                float green = (color >> 8 & 0xFF) / 255.0F;
-                float blue = (color & 0xFF) / 255.0F;
-                RenderSystem.setShaderColor(red, green, blue, 1);
-                VertexConsumer buffer = rtb.getBuffer(RenderType.text(sprite.atlasLocation()));
-                matrix.pushPose();
-                float fill = (tank.getFluidAmount() * (0.45F)) / tank.getCapacity();
-                matrix.translate(0.1875f, 0.51D + fill, 0.1875f);
-                matrix.scale(0.625f, 1.0F, 0.625f);
-                Render.quad(matrix.last().pose(), buffer, sprite, 1.0F, 1.0F, red, green, blue);
-                matrix.popPose();
-                RenderSystem.setShaderColor(1, 1, 1, 1);
-            }
+    public MagmatorRendererState createRenderState() {
+        return new MagmatorRendererState();
+    }
+
+    @Override
+    public void extractRenderState(MagmatorBlockEntity blockEntity, MagmatorRendererState state, float partialTicks, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
+        Tank tank = blockEntity.getTank();
+        state.tank = tank.getFluid();
+        state.fill = (tank.getFluidAmount() * (0.45F)) / tank.getCapacity();
+    }
+
+    @Override
+    public void submit(MagmatorRendererState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
+        var fluidStack = state.tank;
+        if (fluidStack.isEmpty()) {
+            return;
         }
+
+        var sprite = ClientUtils.getStillTexture(fluidStack);
+        int color = ClientUtils.getFluidColor(fluidStack);
+
+        poseStack.pushPose();
+        poseStack.translate(0.1875f, 0.51D + state.fill, 0.1875f);
+        poseStack.scale(0.625f, 1.0F, 0.625f);
+        submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.text(sprite.atlasLocation()), (pose, buffer) -> {
+            float red = (color >> 16 & 0xFF) / 255.0F;
+            float green = (color >> 8 & 0xFF) / 255.0F;
+            float blue = (color & 0xFF) / 255.0F;
+            Render.quad(pose.pose(), buffer, sprite, 1.0F, 1.0F, red, green, blue);
+        });
+        poseStack.popPose();
     }
 }

@@ -1,19 +1,20 @@
 package owmii.powah.lib.logistics.inventory;
 
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
-import owmii.powah.lib.block.PowahAbstractBlockEntity;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import org.jspecify.annotations.Nullable;
 import owmii.powah.lib.block.IInventoryHolder;
+import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.item.Stacks;
 import owmii.powah.util.Util;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Inventory extends ItemStackHandler {
     @Nullable
@@ -37,11 +38,11 @@ public class Inventory extends ItemStackHandler {
         this.tile = tile;
     }
 
-    public static <I extends PowahAbstractBlockEntity & owmii.powah.lib.block.IInventoryHolder> Inventory create(int size, @Nullable I tile) {
+    public static <I extends PowahBaseBlockEntity & owmii.powah.lib.block.IInventoryHolder> Inventory create(int size, @Nullable I tile) {
         return new Inventory(size, tile);
     }
 
-    public static <I extends PowahAbstractBlockEntity & owmii.powah.lib.block.IInventoryHolder> Inventory createBlank(@Nullable I tile) {
+    public static <I extends PowahBaseBlockEntity & owmii.powah.lib.block.IInventoryHolder> Inventory createBlank(@Nullable I tile) {
         return new Inventory(0, tile);
     }
 
@@ -57,16 +58,17 @@ public class Inventory extends ItemStackHandler {
         this.tile = tile;
     }
 
-    public void deserializeNBT(CompoundTag nbt, HolderLookup.Provider registries) {
+    public void load(ValueInput input) {
         if (isBlank())
             return;
-        nbt.putInt("Size", getSlots());
-        super.deserializeNBT(nbt, registries);
+        super.load(input, getSlots());
     }
 
     @Override
-    public CompoundTag serializeNBT(HolderLookup.Provider registries) {
-        return isBlank() ? new CompoundTag() : super.serializeNBT(registries);
+    public void save(ValueOutput output) {
+        if (!isBlank()) {
+            super.save(output);
+        }
     }
 
     public Inventory set(int size) {

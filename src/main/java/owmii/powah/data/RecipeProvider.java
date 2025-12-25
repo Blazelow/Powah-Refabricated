@@ -1,9 +1,11 @@
 package owmii.powah.data;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
@@ -15,6 +17,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.conditions.NotCondition;
 import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
+import net.neoforged.neoforge.common.data.internal.NeoForgeRecipeProvider;
 import owmii.powah.Powah;
 import owmii.powah.block.Blcks;
 import owmii.powah.block.Tier;
@@ -1929,5 +1932,21 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
         SimpleCookingRecipeBuilder.blasting(Ingredient.of(Itms.URANINITE_RAW), RecipeCategory.MISC, Itms.URANINITE.toStack(), 0.7f, 100)
                 .unlockedBy(getHasName(Itms.URANINITE_RAW), has(Itms.URANINITE_RAW))
                 .save(output, makeId("smelting/uraninite_from_raw_blasting"));
+    }
+
+    public static final class Runner extends net.minecraft.data.recipes.RecipeProvider.Runner {
+        public Runner(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+            super(output, lookupProvider);
+        }
+
+        @Override
+        protected net.minecraft.data.recipes.RecipeProvider createRecipeProvider(HolderLookup.Provider lookupProvider, RecipeOutput output) {
+            return new RecipeProvider(lookupProvider, output);
+        }
+
+        @Override
+        public String getName() {
+            return "Powah recipes";
+        }
     }
 }

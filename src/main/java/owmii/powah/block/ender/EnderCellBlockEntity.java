@@ -7,7 +7,7 @@ import owmii.powah.block.Tiles;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.IOwnable;
 
-public class EnderCellBlockEntity extends AbstractEnderBlockEntity<EnderCellBlock> implements IOwnable, IInventoryHolder {
+public class EnderCellBlockEntity extends PowahBaseEnderBlockEntity<EnderCellBlock> implements IOwnable, IInventoryHolder {
     public EnderCellBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.ENDER_CELL.get(), pos, state, variant);
         this.inv.add(3);

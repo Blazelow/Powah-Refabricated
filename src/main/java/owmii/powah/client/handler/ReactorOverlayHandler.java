@@ -3,8 +3,9 @@ package owmii.powah.client.handler;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import java.util.List;
-import net.minecraft.client.Camera;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
@@ -15,6 +16,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.UnknownNullability;
 import org.joml.Quaternionf;
 import owmii.powah.Powah;
 import owmii.powah.item.ReactorItem;
@@ -24,7 +26,7 @@ import owmii.powah.lib.client.util.RenderTypes;
 public class ReactorOverlayHandler {
     static final Identifier OV_TEXTURE = Powah.id("textures/misc/reactor_ov.png");
 
-    public static void onRenderLast(PoseStack poseStack, Camera camera) {
+    public static void onRenderLast(PoseStack poseStack, CameraRenderState camera) {
         Minecraft mc = Minecraft.getInstance();
         net.minecraft.world.entity.player.Player player = mc.player;
         if (player == null || mc.level == null)
@@ -71,8 +73,8 @@ public class ReactorOverlayHandler {
             }
             poseStack.pushPose();
 
-            Vec3 projectedView = camera.getPosition();
-            Quaternionf rotation = new Quaternionf(camera.rotation());
+            Vec3 projectedView = camera.pos;
+            Quaternionf rotation = new Quaternionf(camera.orientation);
             rotation.invert();
             poseStack.mulPose(rotation);
             poseStack.translate(-projectedView.x, -projectedView.y, -projectedView.z);

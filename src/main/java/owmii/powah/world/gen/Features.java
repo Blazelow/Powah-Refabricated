@@ -114,7 +114,7 @@ public class Features {
             GenerationStep.Decoration step) {
 
         // Just name the modifier the same as the feature
-        var modifierKey = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, featureKey.location());
+        var modifierKey = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, featureKey.identifier());
 
         var features = bootstrap.lookup(Registries.PLACED_FEATURE);
         var modifier = new BiomeModifiers.AddFeaturesBiomeModifier(
