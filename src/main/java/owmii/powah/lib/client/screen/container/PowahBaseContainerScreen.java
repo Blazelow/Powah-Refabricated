@@ -46,7 +46,7 @@ public class PowahBaseContainerScreen<C extends AbstractContainer> extends net.m
     protected void drawTitle(GuiGraphics gui, int x, int y) {
         String title = this.title.getString();
         int width = this.font.width(title);
-        gui.drawString(this.font, title, x + this.imageWidth / 2 - width / 2, y - 14, 0x999999);
+        gui.drawString(this.font, title, x + this.imageWidth / 2 - width / 2, y - 14, 0xff999999);
     }
 
     @Override

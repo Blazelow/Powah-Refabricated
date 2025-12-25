@@ -1,14 +1,15 @@
 package owmii.powah.lib.client.util;
 
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.resources.Identifier;
 import owmii.powah.lib.logistics.energy.Energy;
 
 public class Draw {
-    public static void gaugeV(GuiGraphics gui, TextureAtlasSprite sprite, int x, int y, int w, int h, int cap, int cur, int color) {
+
+    public static void gaugeV(GuiGraphics gui, RenderPipeline pipeline, TextureAtlasSprite sprite, int x, int y, int w, int h, int cap, int cur, int color) {
         if (cap > 0 && cur > 0) {
             int i = (int) (((float) cur / cap) * h);
             final int j = i / 16;
@@ -25,43 +26,36 @@ public class Draw {
                     float vMax = sprite.getV1();
                     uMax = uMax - n / 16.0F * (uMax - uMin);
                     vMin = vMin - m / 16.0F * (vMin - vMax);
-                    gui.blit(
+                    gui.innerBlit(
+                            pipeline,
                             sprite.atlasLocation(),
-                            x, yy + m,
-                            x + w, yy + 16,
+                            x, x + w,
+                            yy + m, yy + 16,
                             uMin, uMax,
-                            vMin, vMax);
+                            vMin, vMax,
+                            color);
                 }
             }
         }
     }
 
-    public static void gaugeH(int x, int y, int w, int h, int uvX, int uvY, Energy energy) {
-        gaugeH(x, y, w, h, uvX, uvY, energy.getCapacity(), energy.getStored());
+    public static void gaugeH(GuiGraphics gui, Identifier texture, int x, int y, int w, int h, int uvX, int uvY, Energy energy) {
+        gaugeH(gui, texture, x, y, w, h, uvX, uvY, energy.getCapacity(), energy.getStored());
     }
 
-    public static void gaugeH(int x, int y, int w, int h, int uvX, int uvY, long cap, long cur) {
+    public static void gaugeH(GuiGraphics gui, Identifier texture, int x, int y, int w, int h, int uvX, int uvY, long cap, long cur) {
         if (cap > 0 && cur > 0) {
             w = (int) (((float) cur / cap) * w);
-            var buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-            buffer.addVertex(x, y + h, 0).setUv(uvX, uvY + h);
-            buffer.addVertex(x + w, y + h, 0).setUv(uvX + w, uvY + h);
-            buffer.addVertex(x + w, y, 0).setUv(uvX + w, uvY);
-            buffer.addVertex(x, y, 0).setUv(uvX, uvY);
-            // TODO 26.1 BufferUploader.drawWithShader(buffer.buildOrThrow());
+            gui.blit(
+                    RenderPipelines.GUI_TEXTURED,
+                    texture,
+                    x, y,
+                    uvX, uvY,
+                    w, h,
+                    w, h,
+                    256, 256,
+                    -1
+            );
         }
-    }
-
-    public static void drawTexturedModalRect(GuiGraphics gui, int x, int y, int u, int v, int width, int height, float zLevel) {
-        final float uScale = 1f / 0x100;
-        final float vScale = 1f / 0x100;
-
-        // TODO 26.1 var wr = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        // TODO 26.1 var matrix = gui.pose().last().pose();
-        // TODO 26.1 wr.addVertex(matrix, x, y + height, zLevel).setUv(u * uScale, ((v + height) * vScale));
-        // TODO 26.1 wr.addVertex(matrix, x + width, y + height, zLevel).setUv((u + width) * uScale, ((v + height) * vScale));
-        // TODO 26.1 wr.addVertex(matrix, x + width, y, zLevel).setUv((u + width) * uScale, (v * vScale));
-        // TODO 26.1 wr.addVertex(matrix, x, y, zLevel).setUv(u * uScale, (v * vScale));
-        // TODO 26.1 BufferUploader.drawWithShader(wr.buildOrThrow());
     }
 }

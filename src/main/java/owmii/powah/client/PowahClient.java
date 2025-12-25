@@ -52,6 +52,7 @@ public final class PowahClient {
     }
 
     private void registerRenderPipelines(RegisterRenderPipelinesEvent event) {
+        event.registerPipeline(RenderTypes.GUI_TEXTURED_NOBLEND);
         event.registerPipeline(RenderTypes.REACTOR_OVERLAY);
         event.registerPipeline(RenderTypes.BLENDED_NO_DEPTH);
     }

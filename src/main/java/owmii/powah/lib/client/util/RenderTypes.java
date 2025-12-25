@@ -11,6 +11,11 @@ import net.minecraft.resources.Identifier;
 import owmii.powah.Powah;
 
 public class RenderTypes {
+    public static final RenderPipeline GUI_TEXTURED_NOBLEND = RenderPipelines.GUI_TEXTURED.toBuilder()
+            .withoutBlend()
+            .withLocation(Powah.id("gui_textured_noblend"))
+            .build();
+
     public static RenderPipeline REACTOR_OVERLAY = RenderPipeline.builder(RenderPipelines.MATRICES_FOG_SNIPPET, RenderPipelines.GLOBALS_SNIPPET)
             .withVertexShader("core/position_tex_color")
             .withFragmentShader("core/position_tex_color")

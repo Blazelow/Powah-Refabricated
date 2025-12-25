@@ -17,6 +17,7 @@ import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.client.screen.Texture;
 import owmii.powah.lib.client.screen.widget.IconButton;
 import owmii.powah.lib.client.util.Draw;
+import owmii.powah.lib.client.util.RenderTypes;
 import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.logistics.fluid.Tank;
 import owmii.powah.lib.logistics.inventory.AbstractTileContainer;
@@ -108,7 +109,7 @@ public class PowahBaseBlockEntityScreen<T extends PowahBaseBlockEntity<?, ?> & I
     protected void drawBackground(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         super.drawBackground(guiGraphics, partialTicks, mouseX, mouseY);
         if (hasRedstone()) {
-            Texture.REDSTONE_BTN_BG.draw(guiGraphics, this.redStoneButton.getX() - 2, this.redStoneButton.getY() - 4); // TODO
+            Texture.REDSTONE_BTN_BG.draw(guiGraphics, this.redStoneButton.getX() - 2, this.redStoneButton.getY() - 4);
         }
 
         for (TankArea tankArea : tankAreas) {
@@ -117,7 +118,9 @@ public class PowahBaseBlockEntityScreen<T extends PowahBaseBlockEntity<?, ?> & I
                 var fluidStack = tank.getFluid();
                 var sprite = ClientUtils.getStillTexture(fluidStack);
                 int color = ClientUtils.getFluidColor(fluidStack);
-                Draw.gaugeV(guiGraphics, sprite, this.leftPos + tankArea.x, this.topPos + tankArea.y, tankArea.width, tankArea.height(),
+                Draw.gaugeV(guiGraphics,
+                        RenderTypes.GUI_TEXTURED_NOBLEND,
+                        sprite, this.leftPos + tankArea.x, this.topPos + tankArea.y, tankArea.width, tankArea.height(),
                         tank.getCapacity(),
                         tank.getFluidAmount(), ARGB.opaque(color));
             }

@@ -23,7 +23,6 @@ public class EnergizingOrbHudRenderer implements BlockHudRenderer {
         if (te instanceof EnergizingOrbBlockEntity orb) {
             if (orb.getBuffer().getCapacity() > 0) {
                 RenderSystem.getModelViewStack().pushMatrix();
-                // TODO 26.1 RenderSystem.enableBlend();
                 Minecraft mc = Minecraft.getInstance();
                 Font font = mc.font;
                 int x = mc.getWindow().getGuiScaledWidth() / 2;
@@ -31,9 +30,8 @@ public class EnergizingOrbHudRenderer implements BlockHudRenderer {
                 String s = "" + ChatFormatting.GREEN + orb.getBuffer().getPercent() + "%";
                 String s1 = ChatFormatting.GRAY + I18n.get("info.lollipop.fe.stored", Util.addCommas(orb.getBuffer().getEnergyStored()),
                         Util.numFormat(orb.getBuffer().getCapacity()));
-                gui.drawString(font, s, Math.round(x - (font.width(s) / 2.0f)), y - 90, 0xffffff);
-                gui.drawString(font, s1, Math.round(x - (font.width(s1) / 2.0f)), y - 75, 0xffffff);
-                // TODO 26.1 RenderSystem.disableBlend();
+                gui.drawString(font, s, Math.round(x - (font.width(s) / 2.0f)), y - 90, 0xffffffff);
+                gui.drawString(font, s1, Math.round(x - (font.width(s1) / 2.0f)), y - 75, 0xffffffff);
                 RenderSystem.getModelViewStack().popMatrix();
             }
         }

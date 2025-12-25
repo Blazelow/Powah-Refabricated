@@ -5,8 +5,10 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -23,19 +25,24 @@ public class EnergizingRodHudRenderer implements BlockHudRenderer {
             @Nullable BlockEntity te) {
         if (te instanceof EnergizingRodBlockEntity rod) {
             RenderSystem.getModelViewStack().pushMatrix();
-            // TODO 26.1 RenderSystem.enableBlend();
             Minecraft mc = Minecraft.getInstance();
             Font font = mc.font;
             int x = mc.getWindow().getGuiScaledWidth() / 2;
             int y = mc.getWindow().getGuiScaledHeight();
             String s = ChatFormatting.GRAY + I18n.get("info.lollipop.stored") + ": " + I18n.get("info.lollipop.fe.stored",
                     Util.addCommas(rod.getEnergy().getEnergyStored()), Util.numFormat(rod.getEnergy().getCapacity()));
-            // TODO 26.1 RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            // TODO 26.1 RenderSystem.setShaderTexture(0, Identifier.fromNamespaceAndPath("lollipop", "textures/gui/ov_energy.png"));
-            Draw.drawTexturedModalRect(gui, x - 37 - 1, y - 80, 0, 0, 74, 9, 0);
-            Draw.gaugeH(x - 37, y - 79, 72, 16, 0, 9, ((EnergizingRodBlockEntity) te).getEnergy());
-            gui.drawString(font, s, Math.round(x - (font.width(s) / 2.0f)), y - 67, 0xffffff);
-            // TODO 26.1 RenderSystem.disableBlend();
+
+            Identifier energyOverlay = Identifier.fromNamespaceAndPath("lollipop", "textures/gui/ov_energy.png");
+            gui.blit(
+                    RenderPipelines.GUI_TEXTURED,
+                    energyOverlay,
+                    x - 37 - 1, y - 80,
+                    0, 0,
+                    74, 9,
+                    256, 256
+            );
+            Draw.gaugeH(gui, energyOverlay, x - 37, y - 79, 72, 16, 0, 9, rod.getEnergy());
+            gui.drawString(font, s, Math.round(x - (font.width(s) / 2.0f)), y - 67, 0xffffffff);
             RenderSystem.getModelViewStack().popMatrix();
         }
         return true;
