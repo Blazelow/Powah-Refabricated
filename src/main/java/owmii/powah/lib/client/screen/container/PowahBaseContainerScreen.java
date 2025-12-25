@@ -2,48 +2,21 @@ package owmii.powah.lib.client.screen.container;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
-import org.jspecify.annotations.Nullable;
 import owmii.powah.lib.client.screen.Texture;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 import owmii.powah.lib.logistics.inventory.slot.ITexturedSlot;
 
-public class AbstractContainerScreen<C extends AbstractContainer> extends net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<C> {
-    protected final Minecraft mc = Minecraft.getInstance();
+public class PowahBaseContainerScreen<C extends AbstractContainer> extends net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<C> {
     protected final Texture backGround;
 
-    @Nullable
-    protected Runnable delayedClick;
-    protected int clickDelay;
-
-    public AbstractContainerScreen(C container, Inventory inv, Component title, Texture backGround) {
+    public PowahBaseContainerScreen(C container, Inventory inv, Component title, Texture backGround) {
         super(container, inv, title, backGround.getWidth(), backGround.getHeight());
         this.backGround = backGround;
-    }
-
-    public void setDelayedClick(int delay, @Nullable Runnable delayedClick) {
-        this.clickDelay = delay;
-        this.delayedClick = delayedClick;
-    }
-
-    @Override
-    public void containerTick() {
-        super.containerTick();
-        if (this.delayedClick != null) {
-            if (this.clickDelay >= 0) {
-                this.clickDelay--;
-                if (this.clickDelay == 0) {
-                    this.delayedClick.run();
-                    this.delayedClick = null;
-                }
-            }
-        }
     }
 
     @Override
@@ -63,7 +36,6 @@ public class AbstractContainerScreen<C extends AbstractContainer> extends net.mi
     }
 
     protected void drawBackground(GuiGraphics gui, float partialTicks, int mouseX, int mouseY) {
-        // TODO 26.1 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         this.backGround.draw(gui, this.leftPos, this.topPos);
     }
 
@@ -84,16 +56,10 @@ public class AbstractContainerScreen<C extends AbstractContainer> extends net.mi
             int y = slot.y;
             base.getBackground2().draw(gui, x, y);
             if (!slot.hasItem()) {
-                // TODO 26.1 RenderSystem.enableBlend();
                 base.getOverlay().draw(gui, x, y);
-                // TODO 26.1 RenderSystem.disableBlend();
             }
         }
         super.renderSlot(gui, slot, mouseX, mouseY);
-    }
-
-    public void bindTexture(Identifier guiTexture) {
-        // TODO 26.1 RenderSystem.setShaderTexture(0, guiTexture);
     }
 
     public boolean isMouseOver(double mouseX, double mouseY, int w, int h) {

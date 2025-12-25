@@ -9,13 +9,13 @@ import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.furnator.FurnatorBlockEntity;
 import owmii.powah.client.screen.Textures;
 import owmii.powah.inventory.FurnatorContainer;
-import owmii.powah.lib.client.screen.container.AbstractEnergyScreen;
+import owmii.powah.lib.client.screen.container.PowahBaseEnergyScreen;
 import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Ticker;
 import owmii.powah.util.Util;
 
-public class FurnatorScreen extends AbstractEnergyScreen<FurnatorBlockEntity, FurnatorContainer> {
+public class FurnatorScreen extends PowahBaseEnergyScreen<FurnatorBlockEntity, FurnatorContainer> {
     private final Ticker heat = new Ticker(20);
 
     public FurnatorScreen(FurnatorContainer container, Inventory inv, Component title) {

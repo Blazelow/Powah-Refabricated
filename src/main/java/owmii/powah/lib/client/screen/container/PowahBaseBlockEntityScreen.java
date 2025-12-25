@@ -8,6 +8,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.fluids.FluidStack;
 import owmii.powah.client.ClientUtils;
@@ -23,13 +24,13 @@ import owmii.powah.network.Network;
 import owmii.powah.network.packet.NextRedstoneModePacket;
 import owmii.powah.util.Util;
 
-public class AbstractTileScreen<T extends PowahBaseBlockEntity<?, ?> & IInventoryHolder, C extends AbstractTileContainer<T>>
-        extends AbstractContainerScreen<C> {
+public class PowahBaseBlockEntityScreen<T extends PowahBaseBlockEntity<?, ?> & IInventoryHolder, C extends AbstractTileContainer<T>>
+        extends PowahBaseContainerScreen<C> {
     protected final T te;
     protected IconButton redStoneButton = IconButton.EMPTY;
     protected final List<TankArea> tankAreas = new ArrayList<>();
 
-    public AbstractTileScreen(C container, Inventory inv, Component title, Texture backGround) {
+    public PowahBaseBlockEntityScreen(C container, Inventory inv, Component title, Texture backGround) {
         super(container, inv, title, backGround);
         this.te = container.te;
     }
@@ -115,17 +116,10 @@ public class AbstractTileScreen<T extends PowahBaseBlockEntity<?, ?> & IInventor
             if (!tank.isEmpty()) {
                 var fluidStack = tank.getFluid();
                 var sprite = ClientUtils.getStillTexture(fluidStack);
-                if (sprite != null) {
-                    int color = ClientUtils.getFluidColor(fluidStack);
-                    float red = (color >> 16 & 0xFF) / 255.0F;
-                    float green = (color >> 8 & 0xFF) / 255.0F;
-                    float blue = (color & 0xFF) / 255.0F;
-                    // TODO 26.1 RenderSystem.setShaderColor(red, green, blue, 1.0F);
-                    // TODO 26.1 bindTexture(InventoryMenu.BLOCK_ATLAS);
-                    Draw.gaugeV(sprite, this.leftPos + tankArea.x, this.topPos + tankArea.y, tankArea.width, tankArea.height(), tank.getCapacity(),
-                            tank.getFluidAmount());
-                    // TODO 26.1 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-                }
+                int color = ClientUtils.getFluidColor(fluidStack);
+                Draw.gaugeV(guiGraphics, sprite, this.leftPos + tankArea.x, this.topPos + tankArea.y, tankArea.width, tankArea.height(),
+                        tank.getCapacity(),
+                        tank.getFluidAmount(), ARGB.opaque(color));
             }
         }
     }

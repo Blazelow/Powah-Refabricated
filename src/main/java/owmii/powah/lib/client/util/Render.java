@@ -2,11 +2,12 @@ package owmii.powah.lib.client.util;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.LightCoordsUtil;
 import org.joml.Matrix4f;
 import owmii.powah.util.math.V3d;
 
 public class Render {
-    public static final int MAX_LIGHT = 15728880;
+    public static final int MAX_LIGHT = LightCoordsUtil.FULL_BRIGHT;
 
     public static void quad(Matrix4f matrix4f, VertexConsumer buffer, TextureAtlasSprite sprite, float width, float height) {
         quad(matrix4f, buffer, sprite, width, height, MAX_LIGHT, 1.0F, 1.0F, 1.0F, 1.0F);

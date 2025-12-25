@@ -10,7 +10,7 @@ import owmii.powah.api.PowahAPI;
 import owmii.powah.block.reactor.ReactorBlockEntity;
 import owmii.powah.client.screen.Textures;
 import owmii.powah.inventory.ReactorContainer;
-import owmii.powah.lib.client.screen.container.AbstractEnergyScreen;
+import owmii.powah.lib.client.screen.container.PowahBaseEnergyScreen;
 import owmii.powah.lib.client.screen.widget.IconButton;
 import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.logistics.energy.Energy;
@@ -18,7 +18,7 @@ import owmii.powah.network.Network;
 import owmii.powah.network.packet.SwitchGenModePacket;
 import owmii.powah.util.Util;
 
-public class ReactorScreen extends AbstractEnergyScreen<ReactorBlockEntity, ReactorContainer> {
+public class ReactorScreen extends PowahBaseEnergyScreen<ReactorBlockEntity, ReactorContainer> {
     private IconButton modeButton = IconButton.EMPTY;
 
     public ReactorScreen(ReactorContainer container, Inventory inv, Component title) {

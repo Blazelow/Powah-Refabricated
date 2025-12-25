@@ -6,11 +6,11 @@ import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.hopper.EnergyHopperBlockEntity;
 import owmii.powah.client.screen.Textures;
 import owmii.powah.inventory.EnergyHopperContainer;
-import owmii.powah.lib.client.screen.container.AbstractEnergyScreen;
+import owmii.powah.lib.client.screen.container.PowahBaseEnergyScreen;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Util;
 
-public class EnergyHopperScreen extends AbstractEnergyScreen<EnergyHopperBlockEntity, EnergyHopperContainer> {
+public class EnergyHopperScreen extends PowahBaseEnergyScreen<EnergyHopperBlockEntity, EnergyHopperContainer> {
     public EnergyHopperScreen(EnergyHopperContainer container, Inventory inv, Component title) {
         super(container, inv, title, Textures.WIDE_ENERGY);
     }

@@ -6,11 +6,11 @@ import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.transmitter.PlayerTransmitterBlockEntity;
 import owmii.powah.client.screen.Textures;
 import owmii.powah.inventory.PlayerTransmitterContainer;
-import owmii.powah.lib.client.screen.container.AbstractEnergyScreen;
+import owmii.powah.lib.client.screen.container.PowahBaseEnergyScreen;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Util;
 
-public class PlayerTransmitterScreen extends AbstractEnergyScreen<PlayerTransmitterBlockEntity, PlayerTransmitterContainer> {
+public class PlayerTransmitterScreen extends PowahBaseEnergyScreen<PlayerTransmitterBlockEntity, PlayerTransmitterContainer> {
     public PlayerTransmitterScreen(PlayerTransmitterContainer container, Inventory inv, Component title) {
         super(container, inv, title, Textures.PLAYER_TRANSMITTER);
     }

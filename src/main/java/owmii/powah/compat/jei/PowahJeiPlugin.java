@@ -19,7 +19,7 @@ import owmii.powah.compat.common.MagmatorFuel;
 import owmii.powah.compat.common.PassiveHeatSource;
 import owmii.powah.compat.common.SolidCoolant;
 import owmii.powah.item.Itms;
-import owmii.powah.lib.client.screen.container.AbstractContainerScreen;
+import owmii.powah.lib.client.screen.container.PowahBaseContainerScreen;
 
 @JeiPlugin
 public class PowahJeiPlugin implements IModPlugin {
@@ -71,9 +71,9 @@ public class PowahJeiPlugin implements IModPlugin {
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-        registration.addGenericGuiContainerHandler(AbstractContainerScreen.class, new IGuiContainerHandler<AbstractContainerScreen<?>>() {
+        registration.addGenericGuiContainerHandler(PowahBaseContainerScreen.class, new IGuiContainerHandler<PowahBaseContainerScreen<?>>() {
             @Override
-            public List<Rect2i> getGuiExtraAreas(AbstractContainerScreen<?> containerScreen) {
+            public List<Rect2i> getGuiExtraAreas(PowahBaseContainerScreen<?> containerScreen) {
                 return containerScreen.getExtraAreas();
             }
         });

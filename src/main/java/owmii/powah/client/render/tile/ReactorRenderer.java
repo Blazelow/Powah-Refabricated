@@ -1,7 +1,6 @@
 package owmii.powah.client.render.tile;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -9,9 +8,12 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
+import owmii.powah.Powah;
+import owmii.powah.block.Tier;
 import owmii.powah.block.reactor.ReactorBlockEntity;
 import owmii.powah.client.model.CubeModel;
 import owmii.powah.client.model.PowahLayerDefinitions;
@@ -44,12 +46,31 @@ public class ReactorRenderer implements BlockEntityRenderer<ReactorBlockEntity, 
         poseStack.translate(0.5, 0.5, 0.5);
         poseStack.scale(1.0f, -1.0f, -1.0f);
         if (!state.built) {
-            var renderType = RenderTypes.entitySolid(ReactorPartRenderer.getTexture(state.tier));
+            var renderType = reactorPartModel.renderType(ReactorPartRenderer.getTexture(state.tier));
             submitNodeCollector.submitModel(reactorPartModel, state, poseStack, renderType, state.lightCoords, OverlayTexture.NO_OVERLAY, 0, null);
         } else {
             poseStack.translate(0.0D, -1.0D, 0.0D);
-            submitNodeCollector.submitModel(reactorModel, state, poseStack, Sheets.solidBlockSheet(), state.lightCoords, OverlayTexture.NO_OVERLAY, 0,
-                    null);
+
+            var renderType = reactorModel.renderType(Powah.id("textures/model/tile/reactor.png"));
+            submitNodeCollector.submitModel(reactorModel, state, poseStack, renderType, state.lightCoords, OverlayTexture.NO_OVERLAY, 0, null);
+
+            if (state.running) {
+                var renderTypeOn = reactorModel.renderType(Powah.id("textures/model/tile/reactor.png"));
+                submitNodeCollector.submitModel(reactorModel, state, poseStack, renderTypeOn, state.lightCoords, OverlayTexture.NO_OVERLAY, 0, null);
+            }
+
+            if (state.hasFuel) {
+                var pulsingLightCoords = LightCoordsUtil.addSmoothBlockEmission(state.lightCoords, state.lightPulse);
+                var renderTypeFilled = reactorModel.renderType(Powah.id("textures/model/tile/reactor_filled.png"));
+                submitNodeCollector.submitModel(reactorModel, state, poseStack, renderTypeFilled, pulsingLightCoords, OverlayTexture.NO_OVERLAY, 0,
+                        null);
+            }
+
+            if (state.tier != Tier.STARTER) {
+                var renderTypeTier = reactorModel.renderType(Powah.id("textures/model/tile/reactor_" + state.tier.getName() + ".png"));
+                submitNodeCollector.submitModel(reactorModel, state, poseStack, renderTypeTier, state.lightCoords, OverlayTexture.NO_OVERLAY, 0,
+                        null);
+            }
         }
         poseStack.popPose();
     }

@@ -3,6 +3,7 @@ package owmii.powah.lib.client.screen;
 import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import owmii.powah.lib.logistics.Redstone;
 import owmii.powah.lib.logistics.Transfer;
@@ -67,13 +68,14 @@ public class Texture {
     }
 
     public void draw(GuiGraphics gui, int x, int y) {
-        if (!isEmpty()) {
-            gui.blit(getLocation(), x, y, getU(), getV(), getWidth(), getHeight(), this.tw, this.th);
-        }
+        draw(gui, x, y, -1);
     }
 
-    public void bindTexture(Identifier guiTexture) {
-        // TODO 26.1 RenderSystem.setShaderTexture(0, guiTexture);
+    public void draw(GuiGraphics gui, int x, int y, int color) {
+        if (!isEmpty()) {
+            gui.blit(RenderPipelines.GUI_TEXTURED, getLocation(), x, y, getU(), getV(), getWidth(), getHeight(), getWidth(), getHeight(), this.tw,
+                    this.th, color);
+        }
     }
 
     public Texture addW(int width) {

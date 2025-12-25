@@ -10,12 +10,12 @@ import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.cable.CableBlockEntity;
 import owmii.powah.client.screen.Textures;
 import owmii.powah.inventory.CableContainer;
-import owmii.powah.lib.client.screen.container.AbstractEnergyScreen;
+import owmii.powah.lib.client.screen.container.PowahBaseEnergyScreen;
 import owmii.powah.lib.client.screen.widget.IconButton;
 import owmii.powah.network.Network;
 import owmii.powah.network.packet.NextEnergyConfigPacket;
 
-public class CableScreen extends AbstractEnergyScreen<CableBlockEntity, CableContainer> {
+public class CableScreen extends PowahBaseEnergyScreen<CableBlockEntity, CableContainer> {
     private IconButton configButton = IconButton.EMPTY;
     private Direction side;
 

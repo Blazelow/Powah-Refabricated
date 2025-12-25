@@ -10,14 +10,14 @@ import owmii.powah.block.ender.PowahBaseEnderBlockEntity;
 import owmii.powah.client.screen.Textures;
 import owmii.powah.inventory.EnderCellContainer;
 import owmii.powah.lib.client.screen.Texture;
-import owmii.powah.lib.client.screen.container.AbstractEnergyScreen;
+import owmii.powah.lib.client.screen.container.PowahBaseEnergyScreen;
 import owmii.powah.lib.client.screen.widget.IconButton;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.network.Network;
 import owmii.powah.network.packet.SetChannelPacket;
 import owmii.powah.util.Util;
 
-public class EnderCellScreen extends AbstractEnergyScreen<PowahBaseEnderBlockEntity<?>, EnderCellContainer> {
+public class EnderCellScreen extends PowahBaseEnergyScreen<PowahBaseEnderBlockEntity<?>, EnderCellContainer> {
     private final IconButton[] iconButtons;
 
     public EnderCellScreen(EnderCellContainer container, Inventory inv, Component title) {

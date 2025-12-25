@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.state.CameraRenderState;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -25,7 +24,7 @@ import owmii.powah.util.math.V3d;
 
 public class EnergizingRodRenderer implements BlockEntityRenderer<EnergizingRodBlockEntity, EnergizingRodRendererState> {
     public static final Identifier BEAM_TEXTURE = Powah.id("textures/model/tile/beam.png");
-    private static final RenderType RENDER_TYPE = RenderTypes.entityBlendedNoDept(BEAM_TEXTURE);
+    private static final RenderType RENDER_TYPE = RenderTypes.entityBlendedNoDepthWrite(BEAM_TEXTURE);
 
     protected EnergizingRodRenderer(BlockEntityRendererProvider.Context context) {
     }
@@ -124,8 +123,7 @@ public class EnergizingRodRenderer implements BlockEntityRenderer<EnergizingRodB
     }
 
     private void pos(VertexConsumer builder, PoseStack.Pose pose, float x, float y, float z, int r, int g, int b, float u, float v) {
-        builder.addVertex(pose, x, y, z).setColor(r, g, b, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880 / 2)
-                .setNormal(pose, 0.0F, 1.0F, 0.0F);
+        builder.addVertex(pose, x, y, z).setColor(r, g, b, 255).setUv(u, v);
     }
 
     @Override

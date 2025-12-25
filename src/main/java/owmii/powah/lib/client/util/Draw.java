@@ -8,36 +8,32 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import owmii.powah.lib.logistics.energy.Energy;
 
 public class Draw {
-    public static void gaugeV(TextureAtlasSprite sprite, int x, int y, int w, int h, int cap, int cur) {
-        // TODO 26.1
-//        if (cap > 0 && cur > 0) {
-//            var buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-//            int i = (int) (((float) cur / cap) * h);
-//            final int j = i / 16;
-//            final int k = i - j * 16;
-//            for (int l = 0; l <= j; l++) {
-//                int height = l == j ? k : 16;
-//                int yy = (y - (l + 1) * 16) + h;
-//                if (height > 0) {
-//                    int m = 16 - height;
-//                    int n = 16 - w;
-//                    float uMin = sprite.getU0();
-//                    float uMax = sprite.getU1();
-//                    float vMin = sprite.getV0();
-//                    float vMax = sprite.getV1();
-//                    uMax = uMax - n / 16.0F * (uMax - uMin);
-//                    vMin = vMin - m / 16.0F * (vMin - vMax);
-//                    buffer.addVertex(x, yy + 16, 0).setUv(uMin, vMax);
-//                    buffer.addVertex(x + w, yy + 16, 0).setUv(uMax, vMax);
-//                    buffer.addVertex(x + w, yy + m, 0).setUv(uMax, vMin);
-//                    buffer.addVertex(x, yy + m, 0).setUv(uMin, vMin);
-//                }
-//            }
-//            var mesh = buffer.build();
-//            if (mesh != null) {
-//                BufferUploader.drawWithShader(mesh);
-//            }
-//        }
+    public static void gaugeV(GuiGraphics gui, TextureAtlasSprite sprite, int x, int y, int w, int h, int cap, int cur, int color) {
+        if (cap > 0 && cur > 0) {
+            int i = (int) (((float) cur / cap) * h);
+            final int j = i / 16;
+            final int k = i - j * 16;
+            for (int l = 0; l <= j; l++) {
+                int height = l == j ? k : 16;
+                int yy = (y - (l + 1) * 16) + h;
+                if (height > 0) {
+                    int m = 16 - height;
+                    int n = 16 - w;
+                    float uMin = sprite.getU0();
+                    float uMax = sprite.getU1();
+                    float vMin = sprite.getV0();
+                    float vMax = sprite.getV1();
+                    uMax = uMax - n / 16.0F * (uMax - uMin);
+                    vMin = vMin - m / 16.0F * (vMin - vMax);
+                    gui.blit(
+                            sprite.atlasLocation(),
+                            x, yy + m,
+                            x + w, yy + 16,
+                            uMin, uMax,
+                            vMin, vMax);
+                }
+            }
+        }
     }
 
     public static void gaugeH(int x, int y, int w, int h, int uvX, int uvY, Energy energy) {

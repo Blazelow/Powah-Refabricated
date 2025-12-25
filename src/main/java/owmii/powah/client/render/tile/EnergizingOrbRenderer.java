@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -100,8 +99,8 @@ public class EnergizingOrbRenderer implements BlockEntityRenderer<EnergizingOrbB
         poseStack.mulPose(state.rotation);
         poseStack.translate(0.0D, 0.1D, 0.0D);
         poseStack.scale(1.8F, 1.8F, 1.8F);
-        var renderType = RenderTypes.entitySolid(OrbModel.TEXTURE);
-        submitNodeCollector.submitModel(model, state, poseStack, renderType, state.lightCoords, OverlayTexture.NO_OVERLAY, 0, null, 0, null);
+        var renderType = model.renderType(OrbModel.TEXTURE);
+        submitNodeCollector.submitModel(model, state, poseStack, renderType, state.lightCoords, OverlayTexture.NO_OVERLAY, 0, null);
         poseStack.popPose();
     }
 }

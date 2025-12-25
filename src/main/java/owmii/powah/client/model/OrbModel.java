@@ -11,10 +11,11 @@ import owmii.powah.Powah;
 import owmii.powah.lib.client.util.RenderTypes;
 
 public class OrbModel extends Model<Object> {
+    public static final Identifier TEXTURE = Powah.id("textures/model/tile/energy_charge.png");
     private static final String CUBE = "cube";
 
     public OrbModel(ModelPart root) {
-        super(root, RenderTypes::entityBlendedNoDept);
+        super(root, RenderTypes::entityBlendedNoDepthWrite);
     }
 
     public static LayerDefinition createDefinition() {
@@ -25,5 +26,4 @@ public class OrbModel extends Model<Object> {
         return LayerDefinition.create(meshDefinition, 20, 10);
     }
 
-    public static final Identifier TEXTURE = Powah.id("textures/model/tile/energy_charge.png");
 }

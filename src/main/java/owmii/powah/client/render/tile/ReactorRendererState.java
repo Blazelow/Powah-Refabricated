@@ -8,10 +8,16 @@ import owmii.powah.block.reactor.ReactorPartBlockEntity;
 public class ReactorRendererState extends BlockEntityRenderState {
     public boolean built;
     public Tier tier = Tier.STARTER;
+    public boolean running;
+    public float lightPulse;
+    public boolean hasFuel;
 
     public void update(ReactorBlockEntity blockEntity) {
         built = blockEntity.isBuilt();
         tier = blockEntity.getVariant();
+        running = blockEntity.isRunning();
+        lightPulse = blockEntity.bright.subSized();
+        hasFuel = !blockEntity.fuel.isEmpty();
     }
 
     public void update(ReactorPartBlockEntity blockEntity) {

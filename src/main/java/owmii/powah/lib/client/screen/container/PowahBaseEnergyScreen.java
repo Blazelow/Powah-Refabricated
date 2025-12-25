@@ -18,12 +18,12 @@ import owmii.powah.lib.logistics.inventory.AbstractEnergyContainer;
 import owmii.powah.network.Network;
 import owmii.powah.network.packet.NextEnergyConfigPacket;
 
-public class AbstractEnergyScreen<T extends PowahBaseEnergyStorageBlockEntity<?, ?> & IInventoryHolder, C extends AbstractEnergyContainer<T>>
-        extends AbstractTileScreen<T, C> {
+public class PowahBaseEnergyScreen<T extends PowahBaseEnergyStorageBlockEntity<?, ?> & IInventoryHolder, C extends AbstractEnergyContainer<T>>
+        extends PowahBaseBlockEntityScreen<T, C> {
     protected IconButton[] configButtons = new IconButton[6];
     protected IconButton configButtonAll = IconButton.EMPTY;
 
-    public AbstractEnergyScreen(C container, Inventory inv, Component title, Texture backGround) {
+    public PowahBaseEnergyScreen(C container, Inventory inv, Component title, Texture backGround) {
         super(container, inv, title, backGround);
     }
 
