@@ -27,15 +27,15 @@ import owmii.powah.api.wrench.IWrenchable;
 import owmii.powah.api.wrench.WrenchMode;
 import owmii.powah.block.Tier;
 import owmii.powah.components.PowahComponents;
-import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.item.WrenchItem;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.util.math.V3d;
 
-public class EnergizingRodBlock extends PowahBaseEnergyBlock<EnergyConfig, EnergizingRodBlock> implements SimpleWaterloggedBlock, IWrenchable {
-    public EnergizingRodBlock(Properties properties, Tier variant) {
-        super(properties, variant);
+public class EnergizingRodBlock extends PowahBaseEnergyBlock<EnergizingRodBlock> implements SimpleWaterloggedBlock, IWrenchable {
+    public EnergizingRodBlock(Properties properties, Tier tier) {
+        var config = Powah.config().devices.energizing_rods;
+        super(properties, tier, () -> config.getCapacity(tier), () -> config.getTransfer(tier));
         setStateProps(state -> state.setValue(BlockStateProperties.FACING, Direction.DOWN));
         this.shapes.put(Direction.UP, join(box(7.0D, 7.0D, 7.0D, 9.0D, 9.0D, 9.0D),
                 join(box(7.0D, 13.0D, 7.0D, 9.0D, 16.0D, 9.0D), box(7.25D, 9.0D, 7.25D, 8.75D, 13.0D, 8.75D), BooleanOp.OR), BooleanOp.OR));
@@ -56,15 +56,10 @@ public class EnergizingRodBlock extends PowahBaseEnergyBlock<EnergyConfig, Energ
         return super.getBlockItem(properties.stacksTo(1), group);
     }
 
-    @Override
-    public EnergyConfig getConfig() {
-        return Powah.config().devices.energizing_rods;
-    }
-
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new EnergizingRodBlockEntity(pos, state, this.variant);
+        return new EnergizingRodBlockEntity(pos, state);
     }
 
     @Override

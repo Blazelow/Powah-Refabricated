@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import owmii.powah.Powah;
-import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
@@ -19,12 +18,8 @@ public class FurnatorBlockEntity extends PowahBaseGeneratorBlockEntity<FurnatorB
     protected final Ticker carbon = Ticker.empty();
     protected boolean burning;
 
-    public FurnatorBlockEntity(BlockPos pos, BlockState state, Tier variant) {
-        super(Tiles.FURNATOR.get(), pos, state, variant);
-    }
-
     public FurnatorBlockEntity(BlockPos pos, BlockState state) {
-        this(pos, state, Tier.STARTER);
+        super(Tiles.FURNATOR.get(), pos, state);
     }
 
     @Override
@@ -78,7 +73,7 @@ public class FurnatorBlockEntity extends PowahBaseGeneratorBlockEntity<FurnatorB
             }
             if (!this.carbon.isEmpty()) {
                 if (!this.energy.isFull()) {
-                    long toProduce = Math.min(this.energy.getEmpty(), Math.min(getGeneration(), (long) this.carbon.getTicks()));
+                    long toProduce = Math.min(this.energy.getEmpty(), Math.min(getEnergyGeneration(), (long) this.carbon.getTicks()));
                     this.energy.produce(toProduce);
                     this.carbon.back(toProduce);
                     if (this.carbon.isEmpty()) {

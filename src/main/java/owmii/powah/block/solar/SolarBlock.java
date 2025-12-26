@@ -28,7 +28,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
-import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.SolarMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseGeneratorBlock;
@@ -42,8 +41,8 @@ public class SolarBlock extends PowahBaseGeneratorBlock<SolarBlock> implements S
     public static final BooleanProperty SOUTH = PipeBlock.SOUTH;
     public static final BooleanProperty WEST = PipeBlock.WEST;
 
-    public SolarBlock(Properties properties, Tier variant) {
-        super(properties, variant);
+    public SolarBlock(Properties properties, Tier tier) {
+        super(properties, Powah.config().generators.solar_panels, tier);
         setStateProps(state -> state.setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false));
     }
 
@@ -52,15 +51,10 @@ public class SolarBlock extends PowahBaseGeneratorBlock<SolarBlock> implements S
         return super.getBlockItem(properties.stacksTo(1), group);
     }
 
-    @Override
-    public GeneratorConfig getConfig() {
-        return Powah.config().generators.solar_panels;
-    }
-
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new SolarBlockEntity(pos, state, this.variant);
+        return new SolarBlockEntity(pos, state);
     }
 
     @Override

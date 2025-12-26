@@ -21,10 +21,9 @@ import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.PowahBaseTickingBlockEntity;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.lib.logistics.inventory.Inventory;
-import owmii.powah.lib.registry.IVariant;
 import owmii.powah.recipe.Recipes;
 
-public class EnergizingOrbBlockEntity extends PowahBaseTickingBlockEntity<IVariant.Single, EnergizingOrbBlock> implements IInventoryHolder {
+public class EnergizingOrbBlockEntity extends PowahBaseTickingBlockEntity<EnergizingOrbBlock> implements IInventoryHolder {
     private final Energy buffer = Energy.create(0);
     private boolean containRecipe;
 

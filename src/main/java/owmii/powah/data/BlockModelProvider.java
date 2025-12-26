@@ -39,7 +39,7 @@ import owmii.powah.block.cable.CableBlock;
 import owmii.powah.block.solar.SolarBlock;
 import owmii.powah.block.transmitter.PlayerTransmitterBlock;
 import owmii.powah.client.render.tile.ReactorItemRenderer;
-import owmii.powah.lib.block.PowahBaseBlock;
+import owmii.powah.lib.block.PowahBaseEnergyBlock;
 
 public class BlockModelProvider extends ModelSubProvider {
 
@@ -95,28 +95,28 @@ public class BlockModelProvider extends ModelSubProvider {
                 .with(ROTATION_FACING_DOWN));
     }
 
-    private void energyCell(PowahBaseBlock<?, ?> block) {
+    private void energyCell(PowahBaseEnergyBlock<?> block) {
         var model = ModelTemplates.create("powah:energy_cell", ALL).create(block, TextureMapping.cube(block), modelOutput);
 
         blockModels.blockStateOutput.accept(createSimpleBlock(block, plainVariant(model)));
     }
 
-    private void enderCell(PowahBaseBlock<?, ?> block) {
+    private void enderCell(PowahBaseEnergyBlock<?> block) {
         var model = ModelTemplates.create("powah:ender_cell", ALL).create(block, TextureMapping.cube(block), modelOutput);
 
         blockModels.blockStateOutput.accept(createSimpleBlock(block, plainVariant(model)));
     }
 
-    private void enderGate(PowahBaseBlock<?, ?> block) {
-        var tier = ((Tier) block.getVariant()).getSerializedName();
+    private void enderGate(PowahBaseEnergyBlock<?> block) {
+        var tier = block.getTier().getSerializedName();
 
         var textureMapping = TextureMapping.singleSlot(SLOT_OVERLAY, overlayTexture(tier));
         var model = ModelTemplates.create("powah:ender_gate", SLOT_OVERLAY).create(block, textureMapping, modelOutput);
         blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(block, plainVariant(model)).with(ROTATION_FACING));
     }
 
-    private void energizingRod(PowahBaseBlock<?, ?> block) {
-        var tier = ((Tier) block.getVariant()).getSerializedName();
+    private void energizingRod(PowahBaseEnergyBlock<?> block) {
+        var tier = block.getTier().getSerializedName();
 
         var slotGem = TextureSlot.create("gem");
         var textureMapping = TextureMapping.singleSlot(slotGem, Powah.id("block/energizing_rod_" + tier + "_gem"));
@@ -125,24 +125,24 @@ public class BlockModelProvider extends ModelSubProvider {
         blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(block, plainVariant(model)).with(ROTATION_FACING_DOWN));
     }
 
-    private void energyDischarger(PowahBaseBlock<?, ?> block) {
-        var tier = ((Tier) block.getVariant()).getSerializedName();
+    private void energyDischarger(PowahBaseEnergyBlock<?> block) {
+        var tier = block.getTier().getSerializedName();
 
         var textureMapping = TextureMapping.singleSlot(SLOT_OVERLAY, overlayTexture(tier));
         var model = ModelTemplates.create("powah:energy_discharger", SLOT_OVERLAY).create(block, textureMapping, modelOutput);
         blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(block, plainVariant(model)).with(ROTATION_HORIZONTAL_FACING));
     }
 
-    private void energyHopper(PowahBaseBlock<?, ?> block) {
-        var tier = ((Tier) block.getVariant()).getSerializedName();
+    private void energyHopper(PowahBaseEnergyBlock<?> block) {
+        var tier = block.getTier().getSerializedName();
 
         var textureMapping = TextureMapping.singleSlot(SLOT_OVERLAY, overlayTexture(tier));
         var model = ModelTemplates.create("powah:energy_hopper", SLOT_OVERLAY).create(block, textureMapping, modelOutput);
         blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(block, plainVariant(model)).with(ROTATION_FACING));
     }
 
-    private void furnator(PowahBaseBlock<?, ?> block) {
-        var tier = ((Tier) block.getVariant()).getSerializedName();
+    private void furnator(PowahBaseEnergyBlock<?> block) {
+        var tier = block.getTier().getSerializedName();
 
         var textureMapping = TextureMapping.singleSlot(SLOT_OVERLAY, overlayTexture(tier));
 
@@ -151,8 +151,8 @@ public class BlockModelProvider extends ModelSubProvider {
         blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(block, plainVariant(model)).with(ROTATION_HORIZONTAL_FACING));
     }
 
-    private void magmator(PowahBaseBlock<?, ?> block) {
-        var tier = ((Tier) block.getVariant()).getSerializedName();
+    private void magmator(PowahBaseEnergyBlock<?> block) {
+        var tier = block.getTier().getSerializedName();
 
         var slotFace = TextureSlot.create("face");
         var texturesUnlit = TextureMapping.singleSlot(SLOT_OVERLAY, overlayTexture(tier));
@@ -167,7 +167,7 @@ public class BlockModelProvider extends ModelSubProvider {
                         .with(ROTATION_HORIZONTAL_FACING));
     }
 
-    private void thermoGenerator(PowahBaseBlock<?, ?> block) {
+    private void thermoGenerator(PowahBaseEnergyBlock<?> block) {
         var slotCore = TextureSlot.create("core");
         var slotHeater = TextureSlot.create("heater");
         var slotTop = TextureSlot.create("top");
@@ -218,7 +218,7 @@ public class BlockModelProvider extends ModelSubProvider {
     }
 
     private void solarPanel(Block block) {
-        var tier = ((SolarBlock) block).getVariant();
+        var tier = ((SolarBlock) block).getTier();
         // There's only two types of panels: starter, and the rest
         var panelTexture = (tier == Tier.STARTER) ? Powah.id("block/solar_panel_starter_top") : Powah.id("block/solar_panel_top");
         var frameTexture = TextureMapping.getBlockTexture(block, "_frame");
@@ -246,8 +246,8 @@ public class BlockModelProvider extends ModelSubProvider {
                         .with(new ConditionBuilder().term(SolarBlock.WEST, true), plainVariant(frameModel).with(Y_ROT_270)));
     }
 
-    private void reactor(PowahBaseBlock<?, ?> block) {
-        var tier = (Tier) block.getVariant();
+    private void reactor(PowahBaseEnergyBlock<?> block) {
+        var tier = block.getTier();
 
         // Essentially an empty block, but particle is required now, and we inherit the item transform from cube this way
         var textures = TextureMapping.particle(Powah.id("block/furnator_face"));

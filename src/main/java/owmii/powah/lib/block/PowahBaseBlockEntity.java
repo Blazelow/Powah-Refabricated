@@ -25,10 +25,9 @@ import owmii.powah.lib.logistics.IRedstoneInteract;
 import owmii.powah.lib.logistics.Redstone;
 import owmii.powah.lib.logistics.fluid.Tank;
 import owmii.powah.lib.logistics.inventory.Inventory;
-import owmii.powah.lib.registry.IVariant;
 
 @SuppressWarnings("unchecked")
-public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V, B>> extends BlockEntity implements IBlockEntity, IRedstoneInteract {
+public class PowahBaseBlockEntity<B extends PowahBaseBlock<B>> extends BlockEntity implements IBlockEntity, IRedstoneInteract {
     private static final Logger LOG = LoggerFactory.getLogger(PowahBaseBlockEntity.class);
 
     /**
@@ -40,7 +39,6 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
      **/
     protected final Tank tank;
 
-    protected V variant;
     protected boolean isContainerOpen;
     /**
      * Used when this is instance of {@link IRedstoneInteract}
@@ -48,12 +46,7 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
     private Redstone redstone = Redstone.IGNORE;
 
     public PowahBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        this(type, pos, state, IVariant.getEmpty());
-    }
-
-    public PowahBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, V variant) {
         super(type, pos, state);
-        this.variant = variant;
         this.inv = new Inventory(getInternalInventorySize());
         if (this instanceof IInventoryHolder) {
             this.inv.setTile((IInventoryHolder) this);
@@ -71,10 +64,6 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
 
     public B getBlock() {
         return (B) getBlockState().getBlock();
-    }
-
-    public V getVariant() {
-        return this.variant;
     }
 
     @Override
@@ -115,9 +104,6 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
     }
 
     protected void readSync(ValueInput input) {
-        if (!this.variant.isEmpty()) {
-            input.getInt("variant").ifPresent(variantIdx -> this.variant = (V) this.variant.getVariants()[variantIdx]);
-        }
         if (this instanceof IInventoryHolder && !keepInventory()) {
             this.inv.deserialize(input);
         }
@@ -131,9 +117,6 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
     }
 
     protected void writeSync(ValueOutput output) {
-        if (!this.variant.isEmpty()) {
-            output.putInt("variant", variant.ordinal());
-        }
         if (this instanceof IInventoryHolder && !keepInventory()) {
             this.inv.serialize(output);
         }

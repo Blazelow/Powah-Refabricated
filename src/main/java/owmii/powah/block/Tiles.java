@@ -39,7 +39,7 @@ public class Tiles {
     public static final Supplier<BlockEntityType<EnderGateBlockEntity>> ENDER_GATE = register("ender_gate", EnderGateBlockEntity::new,
             Blcks.ENDER_GATE::getAll);
     public static final Supplier<BlockEntityType<CableBlockEntity>> CABLE = register("energy_cable",
-            (pos, state) -> new CableBlockEntity(pos, state, Tier.STARTER), Blcks.ENERGY_CABLE::getAll);
+            CableBlockEntity::new, Blcks.ENERGY_CABLE::getAll);
     public static final Supplier<BlockEntityType<EnergizingOrbBlockEntity>> ENERGIZING_ORB = register("energizing_orb", EnergizingOrbBlockEntity::new,
             () -> List.of(Blcks.ENERGIZING_ORB.get()));
     public static final Supplier<BlockEntityType<EnergizingRodBlockEntity>> ENERGIZING_ROD = register("energizing_rod", EnergizingRodBlockEntity::new,

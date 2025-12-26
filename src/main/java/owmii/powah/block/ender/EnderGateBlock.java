@@ -11,13 +11,12 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
-import owmii.powah.config.v2.types.EnderConfig;
 import owmii.powah.inventory.EnderCellMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
-import owmii.powah.lib.block.PowahBaseEnergyBlock;
+import owmii.powah.lib.block.PowahBaseEnderBlock;
 import owmii.powah.lib.logistics.inventory.BaseMenu;
 
-public class EnderGateBlock extends PowahBaseEnergyBlock<EnderConfig, EnderGateBlock> {
+public class EnderGateBlock extends PowahBaseEnderBlock<EnderGateBlock> {
     private static final Map<Direction, VoxelShape> SHAPES = Map.of(
             Direction.UP, box(6.0D, 15.5D, 6.0D, 10.0D, 16.0D, 10.0D),
             Direction.DOWN, box(6.0D, 0.0D, 6.0D, 10.0D, 0.5D, 10.0D),
@@ -26,20 +25,15 @@ public class EnderGateBlock extends PowahBaseEnergyBlock<EnderConfig, EnderGateB
             Direction.EAST, box(15.5D, 6.0D, 6.0D, 16.0D, 10.0D, 10.0D),
             Direction.WEST, box(0.0D, 6.0D, 6.0D, 0.5D, 10.0D, 10.0D));
 
-    public EnderGateBlock(Properties properties, Tier variant) {
-        super(properties, variant);
+    public EnderGateBlock(Properties properties, Tier tier) {
+        super(properties, tier, Powah.config().devices.ender_gates);
         shapes.putAll(SHAPES);
-    }
-
-    @Override
-    public EnderConfig getConfig() {
-        return Powah.config().devices.ender_gates;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new EnderGateBlockEntity(pos, state, this.variant);
+        return new EnderGateBlockEntity(pos, state);
     }
 
     @Nullable

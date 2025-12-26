@@ -7,21 +7,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jspecify.annotations.Nullable;
+import owmii.powah.block.Blcks;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.logistics.Transfer;
 import owmii.powah.util.ChargeUtil;
 
-public class EnergyCellBlockEntity extends PowahBaseEnergyStorageBlockEntity<EnergyConfig, EnergyCellBlock> implements IInventoryHolder {
-    public EnergyCellBlockEntity(BlockPos pos, BlockState state, Tier tier) {
-        super(Tiles.ENERGY_CELL.get(), pos, state, tier);
-    }
-
+public class EnergyCellBlockEntity extends PowahBaseEnergyStorageBlockEntity<EnergyCellBlock> implements IInventoryHolder {
     public EnergyCellBlockEntity(BlockPos pos, BlockState state) {
-        this(pos, state, Tier.STARTER);
+        super(Tiles.ENERGY_CELL.get(), pos, state);
     }
 
     @Override
@@ -71,7 +67,7 @@ public class EnergyCellBlockEntity extends PowahBaseEnergyStorageBlockEntity<Ene
     }
 
     public boolean isCreative() {
-        return this.getVariant().equals(Tier.CREATIVE);
+        return getBlockState().is(Blcks.ENERGY_CELL.get(Tier.CREATIVE));
     }
 
     @Override

@@ -25,7 +25,6 @@ import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
-import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.ReactorMenu;
 import owmii.powah.item.ReactorItem;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
@@ -39,8 +38,8 @@ import owmii.powah.util.Util;
 public class ReactorBlock extends PowahBaseGeneratorBlock<ReactorBlock> {
     public static final BooleanProperty CORE = BooleanProperty.create("core");
 
-    public ReactorBlock(Properties properties, Tier variant) {
-        super(properties.isValidSpawn((state, blockGetter, blockPos, entityType) -> false), variant);
+    public ReactorBlock(Properties properties, Tier tier) {
+        super(properties.isValidSpawn((_, _, _, _) -> false), Powah.config().generators.reactors, tier);
         setStateProps(state -> state.setValue(CORE, false));
     }
 
@@ -49,18 +48,13 @@ public class ReactorBlock extends PowahBaseGeneratorBlock<ReactorBlock> {
         return new ReactorItem(this, properties, group);
     }
 
-    @Override
-    public GeneratorConfig getConfig() {
-        return Powah.config().generators.reactors;
-    }
-
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         if (state.getValue(CORE)) {
-            return new ReactorBlockEntity(pos, state, this.variant);
+            return new ReactorBlockEntity(pos, state);
         }
-        return new ReactorPartBlockEntity(pos, state, this.variant);
+        return new ReactorPartBlockEntity(pos, state);
     }
 
     @Nullable
@@ -120,7 +114,7 @@ public class ReactorBlock extends PowahBaseGeneratorBlock<ReactorBlock> {
     @Override
     public void additionalEnergyInfo(ItemStack stack, EnergyHandler energy, Consumer<Component> tooltip) {
         tooltip.accept(Component.translatable("info.powah.generation.factor").withStyle(ChatFormatting.GRAY).append(Text.COLON)
-                .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(getConfig().getGeneration(this.variant)))
+                .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(getEnergyGeneration()))
                         .withStyle(ChatFormatting.DARK_GRAY)));
     }
 }

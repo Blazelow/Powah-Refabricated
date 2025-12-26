@@ -1,5 +1,6 @@
 package owmii.powah.block.hopper;
 
+import java.util.function.LongSupplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
@@ -12,16 +13,19 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
-import owmii.powah.config.v2.types.ChargingConfig;
 import owmii.powah.inventory.EnergyHopperMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.BaseMenu;
 
-public class EnergyHopperBlock extends PowahBaseEnergyBlock<ChargingConfig, EnergyHopperBlock> {
-    public EnergyHopperBlock(Properties properties, Tier variant) {
-        super(properties, variant);
+public class EnergyHopperBlock extends PowahBaseEnergyBlock<EnergyHopperBlock> {
+    private final LongSupplier chargingRateSupplier;
+
+    public EnergyHopperBlock(Properties properties, Tier tier) {
+        var config = Powah.config().devices.hoppers;
+        super(properties, tier, () -> config.getCapacity(tier), () -> config.getTransfer(tier));
+        chargingRateSupplier = () -> config.getChargingRate(tier);
         setDefaultState();
         this.shapes.put(Direction.UP, box(0, 0, 0, 16, 12, 16));
         this.shapes.put(Direction.DOWN, box(0, 4, 0, 16, 16, 16));
@@ -36,15 +40,10 @@ public class EnergyHopperBlock extends PowahBaseEnergyBlock<ChargingConfig, Ener
         return super.getBlockItem(properties.stacksTo(1), group);
     }
 
-    @Override
-    public ChargingConfig getConfig() {
-        return Powah.config().devices.hoppers;
-    }
-
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new EnergyHopperBlockEntity(pos, state, this.variant);
+        return new EnergyHopperBlockEntity(pos, state);
     }
 
     @Nullable
@@ -60,5 +59,9 @@ public class EnergyHopperBlock extends PowahBaseEnergyBlock<ChargingConfig, Ener
     @Override
     protected Facing getFacing() {
         return Facing.ALL;
+    }
+
+    public final long getChargingRate() {
+        return chargingRateSupplier.getAsLong();
     }
 }

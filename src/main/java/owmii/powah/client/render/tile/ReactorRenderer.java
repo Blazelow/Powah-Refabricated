@@ -67,7 +67,7 @@ public class ReactorRenderer implements BlockEntityRenderer<ReactorBlockEntity, 
             }
 
             if (state.tier != Tier.STARTER) {
-                var renderTypeTier = reactorModel.renderType(Powah.id("textures/model/tile/reactor_" + state.tier.getName() + ".png"));
+                var renderTypeTier = reactorModel.renderType(Powah.id("textures/model/tile/reactor_" + state.tier.getSerializedName() + ".png"));
                 submitNodeCollector.submitModel(reactorModel, state, poseStack, renderTypeTier, state.lightCoords, OverlayTexture.NO_OVERLAY, 0,
                         null);
             }

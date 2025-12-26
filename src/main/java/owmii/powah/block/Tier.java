@@ -3,9 +3,8 @@ package owmii.powah.block;
 import com.mojang.serialization.Codec;
 import java.util.Locale;
 import net.minecraft.util.StringRepresentable;
-import owmii.powah.lib.registry.IVariant;
 
-public enum Tier implements IVariant<Tier>, StringRepresentable {
+public enum Tier implements StringRepresentable {
     STARTER(0xA7A7A7),
     BASIC(0xA3AB9F),
     HARDENED(0xBBA993),
@@ -23,11 +22,6 @@ public enum Tier implements IVariant<Tier>, StringRepresentable {
 
     Tier(int color) {
         this.color = color;
-    }
-
-    @Override
-    public Tier[] getVariants() {
-        return values();
     }
 
     public static Tier[] getNormalVariants() {

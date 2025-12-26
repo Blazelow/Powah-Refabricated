@@ -75,7 +75,7 @@ public class WrenchItem extends PowahBaseItem implements IWrench {
             }
             if (getWrenchMode(stack).rotate()
                     // Only rotate Powah machines
-                    && (state.getBlock() instanceof PowahBaseEnergyBlock<?, ?> || state.getBlock() instanceof EnergizingOrbBlock)) {
+                    && (state.getBlock() instanceof PowahBaseEnergyBlock<?> || state.getBlock() instanceof EnergizingOrbBlock)) {
                 final BlockState rotatedState = rotateState(world, state, pos);
                 if (!state.equals(rotatedState)) {
                     world.setBlockAndUpdate(pos, rotatedState);

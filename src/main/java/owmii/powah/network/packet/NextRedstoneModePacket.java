@@ -24,7 +24,7 @@ public record NextRedstoneModePacket(BlockPos pos) implements ServerboundPacket 
     @Override
     public void handleOnServer(ServerPlayer player) {
         BlockEntity tileEntity = player.level().getBlockEntity(pos);
-        if (tileEntity instanceof PowahBaseBlockEntity<?, ?> ate) {
+        if (tileEntity instanceof PowahBaseBlockEntity<?> ate) {
             ate.nextRedstoneMode();
             ate.sync();
         }

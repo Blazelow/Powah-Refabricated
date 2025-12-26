@@ -29,7 +29,7 @@ public class PowahBlockItem<B extends Block> extends BlockItem {
 
     @Override
     public Component getName(ItemStack stack) {
-        if (this.block instanceof PowahBaseBlock<?, ?> baseBlock) {
+        if (this.block instanceof PowahBaseBlock<?> baseBlock) {
             return baseBlock.getName();
         }
         return super.getName(stack);
@@ -40,7 +40,7 @@ public class PowahBlockItem<B extends Block> extends BlockItem {
             TooltipFlag tooltipFlag) {
         super.appendHoverText(itemStack, context, display, builder, tooltipFlag);
 
-        if (this.block instanceof PowahBaseBlock<?, ?> baseBlock) {
+        if (this.block instanceof PowahBaseBlock<?> baseBlock) {
             baseBlock.appendHoverText(itemStack, context, display, builder, tooltipFlag);
         }
     }

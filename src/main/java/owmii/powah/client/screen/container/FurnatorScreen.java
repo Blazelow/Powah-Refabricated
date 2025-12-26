@@ -56,7 +56,7 @@ public class FurnatorScreen extends PowahBaseEnergyScreen<FurnatorBlockEntity, F
                             .translatable("info.lollipop.fe.stored", Util.addCommas(energy.getStored()), Util.numFormat(energy.getCapacity()))
                             .withStyle(ChatFormatting.DARK_GRAY)));
             list.add(Component.translatable("info.lollipop.generates").withStyle(ChatFormatting.GRAY).append(Text.COLON)
-                    .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(this.te.getGeneration()))
+                    .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(this.te.getEnergyGeneration()))
                             .withStyle(ChatFormatting.DARK_GRAY)));
             list.add(Component.translatable("info.lollipop.max.extract").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                     .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(energy.getMaxExtract()))

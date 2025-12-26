@@ -8,28 +8,32 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
+import owmii.powah.block.Tier;
 import owmii.powah.components.PowahComponents;
-import owmii.powah.config.IEnergyConfig;
 import owmii.powah.lib.client.util.Text;
-import owmii.powah.lib.registry.IVariant;
 import owmii.powah.util.Util;
 
-public abstract class EnergyItem<V extends Enum<V> & IVariant<V>, C extends IEnergyConfig<V>, I extends EnergyItem<V, C, I>> extends VarItem<V, I>
+public abstract class EnergyItem extends PowahBaseItem
         implements IEnergyItemProvider, IEnergyContainingItem {
-    public EnergyItem(Properties properties, V variant) {
-        super(properties, variant);
+
+    private final Tier tier;
+
+    public owmii.powah.block.Tier getTier() {
+        return this.tier;
     }
 
-    public EnergyItem(Properties properties) {
+    public EnergyItem(Properties properties, Tier tier) {
         super(properties);
+        this.tier = tier;
     }
 
-    public abstract IEnergyConfig<V> getConfig();
+    public abstract long getEnergyCapacity();
+
+    public abstract long getEnergyTransfer();
 
     @Override
     public Info getEnergyInfo() {
-        var config = getConfig();
-        return new Info(config.getCapacity(getVariant()), config.getTransfer(getVariant()), config.getTransfer(getVariant()));
+        return new Info(getEnergyCapacity(), getEnergyTransfer(), getEnergyTransfer());
     }
 
     @Override
@@ -42,12 +46,12 @@ public abstract class EnergyItem<V extends Enum<V> & IVariant<V>, C extends IEne
             TooltipFlag tooltipFlag) {
         var energy = ItemAccess.forStack(itemStack).getCapability(Capabilities.Energy.ITEM);
         if (energy != null) {
-            var capacity = getConfig().getCapacity(getVariant());
+            var capacity = getEnergyCapacity();
             builder.accept(Component.translatable("info.lollipop.stored").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                     .append(Component
                             .translatable("info.lollipop.fe.stored", Util.addCommas(energy.getAmountAsLong()), Util.numFormat(capacity))
                             .withStyle(ChatFormatting.DARK_GRAY)));
-            var maxExtract = getConfig().getTransfer(getVariant());
+            var maxExtract = getEnergyTransfer();
             builder.accept(Component.translatable("info.lollipop.max.io").withStyle(ChatFormatting.GRAY).append(Text.COLON).append(Component
                     .translatable("info.lollipop.fe.pet.tick", Util.numFormat(maxExtract)).withStyle(ChatFormatting.DARK_GRAY)));
         }

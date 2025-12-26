@@ -19,7 +19,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
-import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.FurnatorMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseGeneratorBlock;
@@ -27,14 +26,9 @@ import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.BaseMenu;
 
 public class FurnatorBlock extends PowahBaseGeneratorBlock<FurnatorBlock> implements SimpleWaterloggedBlock {
-    public FurnatorBlock(Properties properties, Tier variant) {
-        super(properties, variant);
+    public FurnatorBlock(Properties properties, Tier tier) {
+        super(properties, Powah.config().generators.furnators, tier);
         setDefaultState();
-    }
-
-    @Override
-    public GeneratorConfig getConfig() {
-        return Powah.config().generators.furnators;
     }
 
     @Override
@@ -45,13 +39,8 @@ public class FurnatorBlock extends PowahBaseGeneratorBlock<FurnatorBlock> implem
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new FurnatorBlockEntity(pos, state, this.variant);
+        return new FurnatorBlockEntity(pos, state);
     }
-
-//    @Override
-//    protected boolean semiFullShape() {
-//        return true;
-//    }
 
     @Nullable
     @Override

@@ -12,21 +12,15 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
-import owmii.powah.config.v2.types.EnderConfig;
 import owmii.powah.inventory.EnderCellMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
-import owmii.powah.lib.block.PowahBaseEnergyBlock;
+import owmii.powah.lib.block.PowahBaseEnderBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.BaseMenu;
 
-public class EnderCellBlock extends PowahBaseEnergyBlock<EnderConfig, EnderCellBlock> {
-    public EnderCellBlock(Properties properties, Tier variant) {
-        super(properties, variant);
-    }
-
-    @Override
-    public EnderConfig getConfig() {
-        return Powah.config().devices.ender_cells;
+public class EnderCellBlock extends PowahBaseEnderBlock<EnderCellBlock> {
+    public EnderCellBlock(Properties properties, Tier tier) {
+        super(properties, tier, Powah.config().devices.ender_cells);
     }
 
     @Override
@@ -37,7 +31,7 @@ public class EnderCellBlock extends PowahBaseEnergyBlock<EnderConfig, EnderCellB
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new EnderCellBlockEntity(pos, state, this.variant);
+        return new EnderCellBlockEntity(pos, state);
     }
 
     @Nullable

@@ -18,13 +18,11 @@ import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jspecify.annotations.Nullable;
-import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.config.v2.types.CableConfig;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 
-public class CableBlockEntity extends PowahBaseEnergyStorageBlockEntity<CableConfig, CableBlock> implements IInventoryHolder {
+public class CableBlockEntity extends PowahBaseEnergyStorageBlockEntity<CableBlock> implements IInventoryHolder {
 
     /**
      * Tag-Name used for synchronizing connected sides to the client.
@@ -54,8 +52,8 @@ public class CableBlockEntity extends PowahBaseEnergyStorageBlockEntity<CableCon
     @SuppressWarnings("unchecked")
     private final BlockCapabilityCache<EnergyHandler, @Nullable Direction>[] capabilityCaches = new BlockCapabilityCache[6];
 
-    public CableBlockEntity(BlockPos pos, BlockState state, Tier variant) {
-        super(Tiles.CABLE.get(), pos, state, variant);
+    public CableBlockEntity(BlockPos pos, BlockState state) {
+        super(Tiles.CABLE.get(), pos, state);
     }
 
     @Override
@@ -120,11 +118,6 @@ public class CableBlockEntity extends PowahBaseEnergyStorageBlockEntity<CableCon
 
     private static byte getSideMask(Direction side) {
         return (byte) (1 << side.ordinal());
-    }
-
-    @Override
-    protected long getEnergyCapacity() {
-        return 0;
     }
 
     @Override
@@ -211,6 +204,6 @@ public class CableBlockEntity extends PowahBaseEnergyStorageBlockEntity<CableCon
     }
 
     public boolean canConnectTo(CableBlockEntity adjCable) {
-        return variant == adjCable.variant;
+        return getBlockState().is(adjCable.getBlockState().getBlock());
     }
 }

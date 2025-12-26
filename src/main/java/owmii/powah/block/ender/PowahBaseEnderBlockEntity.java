@@ -18,26 +18,24 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.api.energy.endernetwork.IEnderExtender;
-import owmii.powah.block.Tier;
-import owmii.powah.config.v2.types.EnderConfig;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.IOwnable;
-import owmii.powah.lib.block.PowahBaseEnergyBlock;
+import owmii.powah.lib.block.PowahBaseEnderBlock;
 import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.ChargeUtil;
 import owmii.powah.util.Player;
 import owmii.powah.util.math.RangedInt;
 
-public class PowahBaseEnderBlockEntity<B extends PowahBaseEnergyBlock<EnderConfig, B>> extends PowahBaseEnergyStorageBlockEntity<EnderConfig, B>
+public class PowahBaseEnderBlockEntity<B extends PowahBaseEnderBlock<B>> extends PowahBaseEnergyStorageBlockEntity<B>
         implements IOwnable, IInventoryHolder {
     private final RangedInt channel = new RangedInt(12);
 
     @Nullable
     private GameProfile owner;
 
-    public PowahBaseEnderBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Tier variant) {
-        super(type, pos, state, variant);
+    public PowahBaseEnderBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
     }
 
     @Override
@@ -158,8 +156,8 @@ public class PowahBaseEnderBlockEntity<B extends PowahBaseEnergyBlock<EnderConfi
         return this.channel;
     }
 
-    public int getMaxChannels() {
-        return getConfig().channels.get(getVariant());
+    public final int getMaxChannels() {
+        return getBlock().getMaxChannels();
     }
 
     @Override

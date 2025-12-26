@@ -11,7 +11,6 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
 import owmii.powah.api.PowahAPI;
-import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
@@ -26,14 +25,10 @@ public class MagmatorBlockEntity extends PowahBaseGeneratorBlockEntity<MagmatorB
     protected boolean burning;
     protected int burningTicks;
 
-    public MagmatorBlockEntity(BlockPos pos, BlockState state, Tier variant) {
-        super(Tiles.MAGMATOR.get(), pos, state, variant);
+    public MagmatorBlockEntity(BlockPos pos, BlockState state) {
+        super(Tiles.MAGMATOR.get(), pos, state);
         this.tank.setValidator(stack -> PowahAPI.getMagmaticFluidEnergyProduced(stack.getFluid()) != 0);
         this.tank.setChange(() -> sync(10));
-    }
-
-    public MagmatorBlockEntity(BlockPos pos, BlockState state) {
-        this(pos, state, Tier.STARTER);
     }
 
     @Override
@@ -77,7 +72,7 @@ public class MagmatorBlockEntity extends PowahBaseGeneratorBlockEntity<MagmatorB
                     }
                 }
 
-                long min = Math.min(getGeneration(), this.buffer.getStored());
+                long min = Math.min(getEnergyGeneration(), this.buffer.getStored());
                 if (min > 0 && this.energy.getEmpty() >= min) {
                     this.energy.produce(min);
                     this.buffer.consume(min);

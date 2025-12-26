@@ -6,9 +6,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
-import owmii.powah.lib.registry.IVariant;
 
-public class PowahBaseTickingBlockEntity<V extends IVariant, B extends PowahBaseBlock<V, B>> extends PowahBaseBlockEntity<V, B> {
+public class PowahBaseTickingBlockEntity<B extends PowahBaseBlock<B>> extends PowahBaseBlockEntity<B> {
     public int ticks;
     private int syncTicks;
     private final SnapshotJournal<Integer> syncTicksJournal = new SnapshotJournal<>() {
@@ -25,10 +24,6 @@ public class PowahBaseTickingBlockEntity<V extends IVariant, B extends PowahBase
 
     public PowahBaseTickingBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
-    }
-
-    public PowahBaseTickingBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, V variant) {
-        super(type, pos, state, variant);
     }
 
     public void tick() {

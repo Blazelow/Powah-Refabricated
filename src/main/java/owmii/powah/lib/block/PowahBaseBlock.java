@@ -9,6 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
@@ -18,6 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -33,6 +35,8 @@ import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FluidState;
@@ -43,21 +47,14 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
+import owmii.powah.lib.item.PowahBlockItem;
 import owmii.powah.lib.logistics.inventory.BaseMenu;
-import owmii.powah.lib.registry.IVariant;
-import owmii.powah.lib.registry.IVariantEntry;
 
-public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBlock<V, B>> extends Block implements IVariantEntry<V, B>, IBlock<V, B> {
+public abstract class PowahBaseBlock<B extends PowahBaseBlock<B>> extends Block implements net.minecraft.world.level.block.EntityBlock {
     protected final Map<Direction, VoxelShape> shapes = new HashMap<>();
-    protected final V variant;
 
     public PowahBaseBlock(Properties properties) {
-        this(properties, IVariant.getEmpty());
-    }
-
-    public PowahBaseBlock(Properties properties, V variant) {
         super(properties);
-        this.variant = variant;
         this.shapes.put(Direction.UP, Shapes.block());
         this.shapes.put(Direction.DOWN, Shapes.block());
         this.shapes.put(Direction.NORTH, Shapes.block());
@@ -87,11 +84,6 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
 
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> builder,
             TooltipFlag tooltipFlag) {
-    }
-
-    @Override
-    public V getVariant() {
-        return this.variant;
     }
 
     @Override
@@ -129,7 +121,7 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
         if (this instanceof SimpleWaterloggedBlock && state.getValue(WATERLOGGED))
             ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         if (!state.canSurvive(level, pos)) {
-            if (!level.isClientSide() && level.getBlockEntity(pos) instanceof PowahBaseBlockEntity<?, ?> blockEntity) {
+            if (!level.isClientSide() && level.getBlockEntity(pos) instanceof PowahBaseBlockEntity<?> blockEntity) {
                 ItemStack stack = blockEntity.storeToStack(new ItemStack(this));
                 popResource((Level) level, pos, stack);
                 return Blocks.AIR.defaultBlockState();
@@ -314,6 +306,26 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
             builder.add(WATERLOGGED);
         if (hasLitProp())
             builder.add(LIT);
+    }
+
+    @SuppressWarnings("unchecked")
+    public PowahBlockItem<B> getBlockItem(Item.Properties properties, @Nullable ResourceKey<CreativeModeTab> group) {
+        return new PowahBlockItem<>((B) this, properties, group);
+    }
+
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        if (newBlockEntity(BlockPos.ZERO, state) instanceof PowahBaseTickingBlockEntity<?>) {
+            return (l, p, s, be) -> ((PowahBaseTickingBlockEntity<?>) be).tick();
+        }
+        return null;
     }
 
     protected enum Facing {

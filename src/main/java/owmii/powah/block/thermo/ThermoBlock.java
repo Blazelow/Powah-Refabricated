@@ -17,7 +17,6 @@ import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
-import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.ThermoMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseGeneratorBlock;
@@ -26,13 +25,8 @@ import owmii.powah.lib.logistics.fluid.Tank;
 import owmii.powah.lib.logistics.inventory.BaseMenu;
 
 public class ThermoBlock extends PowahBaseGeneratorBlock<ThermoBlock> {
-    public ThermoBlock(Properties properties, Tier variant) {
-        super(properties, variant);
-    }
-
-    @Override
-    public GeneratorConfig getConfig() {
-        return Powah.config().generators.thermo_generators;
+    public ThermoBlock(Properties properties, Tier tier) {
+        super(properties, Powah.config().generators.thermo_generators, tier);
     }
 
     @Override
@@ -43,7 +37,7 @@ public class ThermoBlock extends PowahBaseGeneratorBlock<ThermoBlock> {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new ThermoBlockEntity(pos, state, this.variant);
+        return new ThermoBlockEntity(pos, state);
     }
 
     @Override

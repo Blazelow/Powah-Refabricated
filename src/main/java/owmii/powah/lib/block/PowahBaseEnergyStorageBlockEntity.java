@@ -16,17 +16,15 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.block.Tier;
-import owmii.powah.config.IEnergyConfig;
 import owmii.powah.lib.logistics.IRedstoneInteract;
 import owmii.powah.lib.logistics.Transfer;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.lib.logistics.energy.SideConfig;
-import owmii.powah.lib.registry.IVariant;
 import owmii.powah.util.ChargeUtil;
 import owmii.powah.util.Util;
 
-public abstract class PowahBaseEnergyStorageBlockEntity<C extends IEnergyConfig<Tier>, B extends PowahBaseEnergyBlock<C, B>>
-        extends PowahBaseTickingBlockEntity<Tier, B>
+public abstract class PowahBaseEnergyStorageBlockEntity<B extends PowahBaseEnergyBlock<B>>
+        extends PowahBaseTickingBlockEntity<B>
         implements IRedstoneInteract {
     protected final SideConfig sideConfig = new SideConfig(this);
     protected final Energy energy = Energy.create(0);
@@ -35,11 +33,7 @@ public abstract class PowahBaseEnergyStorageBlockEntity<C extends IEnergyConfig<
     private final BlockCapabilityCache<EnergyHandler, @Nullable Direction>[] capabilityCaches = new BlockCapabilityCache[6];
 
     public PowahBaseEnergyStorageBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        this(type, pos, state, IVariant.getEmpty());
-    }
-
-    public PowahBaseEnergyStorageBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Tier variant) {
-        super(type, pos, state, variant);
+        super(type, pos, state);
     }
 
     @Override
@@ -174,16 +168,12 @@ public abstract class PowahBaseEnergyStorageBlockEntity<C extends IEnergyConfig<
         }
     }
 
-    protected long getEnergyCapacity() {
-        return getConfig().getCapacity(getVariant());
+    protected final long getEnergyCapacity() {
+        return getBlock().getEnergyCapacity();
     }
 
-    protected long getEnergyTransfer() {
-        return getConfig().getTransfer(getVariant());
-    }
-
-    protected C getConfig() {
-        return getBlock().getConfig();
+    protected final long getEnergyTransfer() {
+        return getBlock().getEnergyTransfer();
     }
 
     public Energy getEnergy() {
@@ -210,6 +200,10 @@ public abstract class PowahBaseEnergyStorageBlockEntity<C extends IEnergyConfig<
         }
 
         return externalAdapters[index];
+    }
+
+    public Tier getTier() {
+        return getBlock().getTier();
     }
 
     private final class ExternalAdapter implements EnergyHandler {

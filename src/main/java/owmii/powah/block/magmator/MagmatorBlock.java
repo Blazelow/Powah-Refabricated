@@ -17,7 +17,6 @@ import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
-import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.inventory.MagmatorMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseGeneratorBlock;
@@ -26,8 +25,8 @@ import owmii.powah.lib.logistics.fluid.Tank;
 import owmii.powah.lib.logistics.inventory.BaseMenu;
 
 public class MagmatorBlock extends PowahBaseGeneratorBlock<MagmatorBlock> {
-    public MagmatorBlock(Properties properties, Tier variant) {
-        super(properties, variant);
+    public MagmatorBlock(Properties properties, Tier tier) {
+        super(properties, Powah.config().generators.magmators, tier);
         setDefaultState();
     }
 
@@ -36,15 +35,10 @@ public class MagmatorBlock extends PowahBaseGeneratorBlock<MagmatorBlock> {
         return super.getBlockItem(properties.stacksTo(1), group);
     }
 
-    @Override
-    public GeneratorConfig getConfig() {
-        return Powah.config().generators.magmators;
-    }
-
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new MagmatorBlockEntity(pos, state, this.variant);
+        return new MagmatorBlockEntity(pos, state);
     }
 
     @Nullable

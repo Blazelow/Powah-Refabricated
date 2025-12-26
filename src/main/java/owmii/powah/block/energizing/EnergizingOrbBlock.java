@@ -28,10 +28,9 @@ import owmii.powah.components.PowahComponents;
 import owmii.powah.item.WrenchItem;
 import owmii.powah.lib.block.PowahBaseBlock;
 import owmii.powah.lib.logistics.inventory.Inventory;
-import owmii.powah.lib.registry.IVariant;
 import owmii.powah.util.math.V3d;
 
-public class EnergizingOrbBlock extends PowahBaseBlock<IVariant.Single, EnergizingOrbBlock> implements SimpleWaterloggedBlock, IWrenchable {
+public class EnergizingOrbBlock extends PowahBaseBlock<EnergizingOrbBlock> implements SimpleWaterloggedBlock, IWrenchable {
     public EnergizingOrbBlock(Properties properties) {
         super(properties);
         setStateProps(state -> state.setValue(BlockStateProperties.FACING, Direction.DOWN));

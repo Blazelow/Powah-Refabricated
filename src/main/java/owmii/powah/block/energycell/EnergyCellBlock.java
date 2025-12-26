@@ -12,7 +12,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
-import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.inventory.EnergyCellMenu;
 import owmii.powah.item.EnergyCellItem;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
@@ -20,9 +19,10 @@ import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.inventory.BaseMenu;
 
-public class EnergyCellBlock extends PowahBaseEnergyBlock<EnergyConfig, EnergyCellBlock> implements SimpleWaterloggedBlock {
+public class EnergyCellBlock extends PowahBaseEnergyBlock<EnergyCellBlock> implements SimpleWaterloggedBlock {
     public EnergyCellBlock(Properties properties, Tier tier) {
-        super(properties, tier);
+        var config = Powah.config().devices.energy_cells;
+        super(properties, tier, () -> config.getCapacity(tier), () -> config.getTransfer(tier));
     }
 
     @Override
@@ -30,15 +30,10 @@ public class EnergyCellBlock extends PowahBaseEnergyBlock<EnergyConfig, EnergyCe
         return new EnergyCellItem(this, properties.stacksTo(1), group);
     }
 
-    @Override
-    public EnergyConfig getConfig() {
-        return Powah.config().devices.energy_cells;
-    }
-
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new EnergyCellBlockEntity(pos, state, this.variant);
+        return new EnergyCellBlockEntity(pos, state);
     }
 
     @Nullable

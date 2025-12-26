@@ -9,7 +9,6 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
 import owmii.powah.api.PowahAPI;
-import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
@@ -20,14 +19,10 @@ import owmii.powah.util.Util;
 public class ThermoBlockEntity extends PowahBaseGeneratorBlockEntity<ThermoBlock> implements IInventoryHolder, ITankHolder {
     public long generating;
 
-    public ThermoBlockEntity(BlockPos pos, BlockState state, Tier variant) {
-        super(Tiles.THERMO_GEN.get(), pos, state, variant);
+    public ThermoBlockEntity(BlockPos pos, BlockState state) {
+        super(Tiles.THERMO_GEN.get(), pos, state);
         this.tank.setValidator(stack -> PowahAPI.getCoolant(stack.getFluid()).isPresent());
         this.tank.setChange(() -> ThermoBlockEntity.this.sync(10));
-    }
-
-    public ThermoBlockEntity(BlockPos pos, BlockState state) {
-        this(pos, state, Tier.STARTER);
     }
 
     @Override
@@ -72,7 +67,7 @@ public class ThermoBlockEntity extends PowahBaseGeneratorBlockEntity<ThermoBlock
                     // and so on...
                     // So we do -temperature/2 with a max to handle the 0 °C case
                     double coolantRatio = Math.max(1D, -fluidCooling.getAsInt() / 2D);
-                    this.generating = (int) (heatRatio * coolantRatio * getGeneration());
+                    this.generating = (int) (heatRatio * coolantRatio * getEnergyGeneration());
                     this.energy.produce(this.generating);
                     if (world.getGameTime() % 40 == 0L) {
                         ResourceHandlerUtil.extractFirst(this.tank, _ -> true, 1, null);

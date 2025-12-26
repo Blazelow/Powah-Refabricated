@@ -40,7 +40,7 @@ public class CableRenderer implements BlockEntityRenderer<CableBlockEntity, Cabl
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
 
         Arrays.fill(state.transfer, Transfer.NONE);
-        state.tier = blockEntity.getVariant();
+        state.tier = blockEntity.getBlock().getTier();
 
         if (blockEntity.getLevel() == null) {
             return;
@@ -58,7 +58,7 @@ public class CableRenderer implements BlockEntityRenderer<CableBlockEntity, Cabl
     }
 
     private RenderType renderType(Tier tier, Transfer transfer) {
-        var variant = tier.getName();
+        var variant = tier.getSerializedName();
         var texture = switch (transfer) {
         case ALL -> Powah.id("textures/model/tile/energy_cable_%s_all.png".formatted(variant));
         case RECEIVE -> Powah.id("textures/model/tile/energy_cable_%s_out.png".formatted(variant));

@@ -14,7 +14,7 @@ public class ReactorRendererState extends BlockEntityRenderState {
 
     public void update(ReactorBlockEntity blockEntity) {
         built = blockEntity.isBuilt();
-        tier = blockEntity.getVariant();
+        tier = blockEntity.getTier();
         running = blockEntity.isRunning();
         lightPulse = blockEntity.bright.subSized();
         hasFuel = !blockEntity.fuel.isEmpty();
@@ -22,6 +22,6 @@ public class ReactorRendererState extends BlockEntityRenderState {
 
     public void update(ReactorPartBlockEntity blockEntity) {
         built = blockEntity.isBuilt();
-        tier = blockEntity.getVariant();
+        tier = blockEntity.getBlock().getTier();
     }
 }

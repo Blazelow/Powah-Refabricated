@@ -16,11 +16,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.block.reactor.ReactorBlock;
-import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.util.Player;
 
-public class ReactorItem extends EnergyBlockItem<GeneratorConfig, ReactorBlock> {
+public class ReactorItem extends EnergyBlockItem<ReactorBlock> {
     /**
      * Prevent dupe with mods that check for instanceof BlockItem and place it without going through our {@link #place} override.
      */

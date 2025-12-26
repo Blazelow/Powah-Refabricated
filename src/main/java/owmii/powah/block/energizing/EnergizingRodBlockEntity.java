@@ -9,23 +9,17 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jspecify.annotations.Nullable;
-import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.util.Ticker;
 import owmii.powah.util.ValueIOUtil;
 
-public class EnergizingRodBlockEntity extends PowahBaseEnergyStorageBlockEntity<EnergyConfig, EnergizingRodBlock> {
+public class EnergizingRodBlockEntity extends PowahBaseEnergyStorageBlockEntity<EnergizingRodBlock> {
     private BlockPos orbPos = BlockPos.ZERO;
     public final Ticker coolDown = new Ticker(20);
 
-    public EnergizingRodBlockEntity(BlockPos pos, BlockState state, Tier variant) {
-        super(Tiles.ENERGIZING_ROD.get(), pos, state, variant);
-    }
-
     public EnergizingRodBlockEntity(BlockPos pos, BlockState state) {
-        this(pos, state, Tier.STARTER);
+        super(Tiles.ENERGIZING_ROD.get(), pos, state);
     }
 
     @Override
@@ -54,7 +48,7 @@ public class EnergizingRodBlockEntity extends PowahBaseEnergyStorageBlockEntity<
             }
 
             if (this.coolDown.ended()) {
-                long fill = Math.min(this.energy.getEnergyStored(), getBlock().getConfig().getTransfer(getVariant()));
+                long fill = Math.min(this.energy.getEnergyStored(), getEnergyTransfer());
                 this.energy.consume(orb.fillEnergy(fill));
                 flag = true;
             }

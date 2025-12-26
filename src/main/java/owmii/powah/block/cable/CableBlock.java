@@ -31,14 +31,13 @@ import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.api.energy.IEnergyConnector;
 import owmii.powah.block.Tier;
-import owmii.powah.config.v2.types.CableConfig;
 import owmii.powah.inventory.CableMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.logistics.inventory.BaseMenu;
 import owmii.powah.util.EnergyUtil;
 
-public class CableBlock extends PowahBaseEnergyBlock<CableConfig, CableBlock> implements SimpleWaterloggedBlock, IEnergyConnector {
+public class CableBlock extends PowahBaseEnergyBlock<CableBlock> implements SimpleWaterloggedBlock, IEnergyConnector {
     public static final BooleanProperty NORTH = PipeBlock.NORTH;
     public static final BooleanProperty EAST = PipeBlock.EAST;
     public static final BooleanProperty SOUTH = PipeBlock.SOUTH;
@@ -49,21 +48,17 @@ public class CableBlock extends PowahBaseEnergyBlock<CableConfig, CableBlock> im
     private static final VoxelShape[] MULTIPART = new VoxelShape[] { box(6.5, 6.5, 0, 9.5, 9.5, 7), box(9.5, 6.5, 6.5, 16, 9.5, 9.5),
             box(6.5, 6.5, 9.5, 9.5, 9.5, 16), box(0, 6.5, 6.5, 6.5, 9.5, 9.5), box(6.5, 9.5, 6.5, 9.5, 16, 9.5), box(6.5, 0, 6.5, 9.5, 7, 9.5) };
 
-    public CableBlock(Properties properties, Tier variant) {
-        super(properties, variant);
+    public CableBlock(Properties properties, Tier tier) {
+        var config = Powah.config().devices.cables;
+        super(properties, tier, () -> 0, () -> config.getTransfer(tier));
         setStateProps(state -> state.setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false).setValue(UP, false)
                 .setValue(DOWN, false));
-    }
-
-    @Override
-    public CableConfig getConfig() {
-        return Powah.config().devices.cables;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new CableBlockEntity(pos, state, this.variant);
+        return new CableBlockEntity(pos, state);
     }
 
     @Override

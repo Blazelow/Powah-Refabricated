@@ -8,24 +8,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
-import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.components.PowahComponents;
-import owmii.powah.config.v2.types.ChargingConfig;
 import owmii.powah.item.BindingCardItem;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.util.ChargeUtil;
 
-public class PlayerTransmitterBlockEntity extends PowahBaseEnergyStorageBlockEntity<ChargingConfig, PlayerTransmitterBlock>
+public class PlayerTransmitterBlockEntity extends PowahBaseEnergyStorageBlockEntity<PlayerTransmitterBlock>
         implements IInventoryHolder {
 
-    public PlayerTransmitterBlockEntity(BlockPos pos, BlockState state, Tier variant) {
-        super(Tiles.PLAYER_TRANSMITTER.get(), pos, state, variant);
-    }
-
     public PlayerTransmitterBlockEntity(BlockPos pos, BlockState state) {
-        this(pos, state, Tier.STARTER);
+        super(Tiles.PLAYER_TRANSMITTER.get(), pos, state);
     }
 
     @Override
@@ -43,7 +37,7 @@ public class PlayerTransmitterBlockEntity extends PowahBaseEnergyStorageBlockEnt
                 if (op.isPresent()) {
                     ServerPlayer player = op.get();
                     if (card.isMultiDim(stack) || player.level() == world) {
-                        long charging = getConfig().getChargingSpeed(this.variant);
+                        long charging = getBlock().getChargingSpeed();
                         try (var tx = Transaction.openRoot()) {
                             extracted = ChargeUtil.chargeItemsInPlayerInv(player, charging, getEnergy().getStored(), tx);
                             energy.extractEnergy(extracted, tx);

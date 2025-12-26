@@ -5,21 +5,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
-import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.logistics.Transfer;
 import owmii.powah.util.ChargeUtil;
 
-public class EnergyDischargerBlockEntity extends PowahBaseEnergyStorageBlockEntity<EnergyConfig, EnergyDischargerBlock> implements IInventoryHolder {
-    public EnergyDischargerBlockEntity(BlockPos pos, BlockState state, Tier variant) {
-        super(Tiles.ENERGY_DISCHARGER.get(), pos, state, variant);
-    }
-
+public class EnergyDischargerBlockEntity extends PowahBaseEnergyStorageBlockEntity<EnergyDischargerBlock> implements IInventoryHolder {
     public EnergyDischargerBlockEntity(BlockPos pos, BlockState state) {
-        this(pos, state, Tier.STARTER);
+        super(Tiles.ENERGY_DISCHARGER.get(), pos, state);
     }
 
     @Override

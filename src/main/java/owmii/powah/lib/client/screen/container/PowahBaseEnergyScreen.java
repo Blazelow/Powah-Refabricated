@@ -18,7 +18,7 @@ import owmii.powah.lib.logistics.inventory.BaseEnergyMenu;
 import owmii.powah.network.Network;
 import owmii.powah.network.packet.NextEnergyConfigPacket;
 
-public class PowahBaseEnergyScreen<T extends PowahBaseEnergyStorageBlockEntity<?, ?> & IInventoryHolder, C extends BaseEnergyMenu<T>>
+public class PowahBaseEnergyScreen<T extends PowahBaseEnergyStorageBlockEntity<?> & IInventoryHolder, C extends BaseEnergyMenu<T>>
         extends PowahBaseBlockEntityScreen<T, C> {
     protected IconButton[] configButtons = new IconButton[6];
     protected IconButton configButtonAll = IconButton.EMPTY;

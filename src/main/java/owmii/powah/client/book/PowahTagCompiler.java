@@ -7,12 +7,10 @@ import guideme.document.flow.LytFlowParent;
 import guideme.libs.mdast.mdx.model.MdxJsxTextElement;
 import java.util.Set;
 import net.minecraft.network.chat.Component;
-import owmii.powah.config.IEnergyConfig;
 import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.item.EnergyItem;
 import owmii.powah.lib.item.PowahBlockItem;
-import owmii.powah.lib.registry.IVariant;
 import owmii.powah.util.Util;
 
 public class PowahTagCompiler implements TagCompiler {
@@ -31,35 +29,30 @@ public class PowahTagCompiler implements TagCompiler {
         switch (el.name()) {
         case "powah:EnergyCapacity" -> {
             long capacity = 0L;
-            if (item instanceof EnergyItem<?, ?, ?> energyItem) {
+            if (item instanceof EnergyItem energyItem) {
                 capacity = energyItem.getEnergyInfo().capacity();
-            } else if (item instanceof EnergyBlockItem<?, ?> energyBlockItem) {
-                capacity = energyBlockItem.getBlock().getConfig().getCapacity(energyBlockItem.getVariant());
+            } else if (item instanceof EnergyBlockItem<?> energyBlockItem) {
+                capacity = energyBlockItem.getBlock().getEnergyCapacity();
             }
             parent.appendComponent(Component.translatable("info.lollipop.fe", Util.addCommas(capacity)));
         }
         case "powah:EnergyMaxIO" -> {
             long maxIo = 0L;
-            if (item instanceof EnergyBlockItem<?, ?> energyBlockItem) {
-                maxIo = energyBlockItem.getBlock().getConfig().getTransfer(energyBlockItem.getVariant());
-            } else if (item instanceof EnergyItem<?, ?, ?> energyItem) {
-                maxIo = getEnergyItemTransfer(energyItem);
+            if (item instanceof EnergyBlockItem<?> energyBlockItem) {
+                maxIo = energyBlockItem.getBlock().getEnergyTransfer();
+            } else if (item instanceof EnergyItem energyItem) {
+                maxIo = Math.max(energyItem.getEnergyInfo().maxExtract(), energyItem.getEnergyInfo().maxExtract());
             }
             parent.appendComponent(Component.translatable("info.lollipop.fe.pet.tick", Util.addCommas(maxIo)));
         }
         case "powah:EnergyGeneration" -> {
             long generation = 0L;
             if (item instanceof PowahBlockItem<?> blockItem && blockItem.getBlock() instanceof PowahBaseGeneratorBlock<?> generatorBlock) {
-                generation = generatorBlock.getConfig().getGeneration(generatorBlock.getVariant());
+                generation = generatorBlock.getEnergyGeneration();
             }
             parent.appendComponent(Component.translatable("info.lollipop.fe.pet.tick", Util.addCommas(generation)));
         }
         default -> throw new IllegalStateException("Unexpected value: " + el.name());
         }
-    }
-
-    private static <V extends Enum<V> & IVariant<V>, C extends IEnergyConfig<V>, I extends EnergyItem<V, C, I>> long getEnergyItemTransfer(
-            EnergyItem<V, C, I> energyItem) {
-        return energyItem.getConfig().getTransfer(energyItem.getVariant());
     }
 }

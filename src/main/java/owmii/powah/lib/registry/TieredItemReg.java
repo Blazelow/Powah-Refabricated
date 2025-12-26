@@ -21,7 +21,7 @@ public class TieredItemReg {
         this.name = name;
         this.tiers = EnumSet.noneOf(Tier.class);
         for (Tier tier : variants) {
-            var entryName = name + "_" + tier.getName();
+            var entryName = name + "_" + tier.getSerializedName();
             this.all.put(tier, dr.registerItem(entryName, props -> factory.get(tier, props)));
             this.tiers.add(tier);
         }

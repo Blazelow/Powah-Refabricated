@@ -13,7 +13,6 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.api.PowahAPI;
-import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
@@ -46,8 +45,8 @@ public class ReactorBlockEntity extends PowahBaseGeneratorBlockEntity<ReactorBlo
     private boolean genModeOn;
     private boolean generate = true;
 
-    public ReactorBlockEntity(BlockPos pos, BlockState state, Tier variant) {
-        super(Tiles.REACTOR.get(), pos, state, variant);
+    public ReactorBlockEntity(BlockPos pos, BlockState state) {
+        super(Tiles.REACTOR.get(), pos, state);
         this.tank.setValidator(stack -> PowahAPI.getCoolant(stack.getFluid()).isPresent());
         this.tank.setChange(() -> ReactorBlockEntity.this.sync(10));
     }
@@ -60,10 +59,6 @@ public class ReactorBlockEntity extends PowahBaseGeneratorBlockEntity<ReactorBlo
     @Override
     protected int getInternalTankCapacity() {
         return Util.bucketAmount();
-    }
-
-    public ReactorBlockEntity(BlockPos pos, BlockState state) {
-        this(pos, state, Tier.STARTER);
     }
 
     @Override
@@ -187,13 +182,12 @@ public class ReactorBlockEntity extends PowahBaseGeneratorBlockEntity<ReactorBlo
     public double calcProduction() {
         double d = this.carbon.isEmpty() ? 1.2D : 1D;
         double d1 = this.redstone.isEmpty() ? 1.4D : 1D;
-        return (1.0D - calc()) * (this.fuel.getTicks() / 1000) * getGeneration() / d / d1;
+        return (1.0D - calc()) * (this.fuel.getTicks() / 1000) * getEnergyGeneration() / d / d1;
     }
 
     public double calcConsumption() {
         if (this.running) {
-            double d1 = 1.0D + (this.variant.ordinal() * 0.25D);
-            return (1.0D + this.variant.ordinal() * 0.25D) * calc();
+            return (1.0D + getBlock().getTier().ordinal() * 0.25D) * calc();
         } else
             return 0.0D;
     }

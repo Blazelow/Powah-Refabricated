@@ -25,7 +25,7 @@ import owmii.powah.network.Network;
 import owmii.powah.network.packet.NextRedstoneModePacket;
 import owmii.powah.util.Util;
 
-public class PowahBaseBlockEntityScreen<T extends PowahBaseBlockEntity<?, ?> & IInventoryHolder, C extends BaseBlockEntityMenu<T>>
+public class PowahBaseBlockEntityScreen<T extends PowahBaseBlockEntity<?> & IInventoryHolder, C extends BaseBlockEntityMenu<T>>
         extends PowahBaseContainerScreen<C> {
     protected final T te;
     protected IconButton redStoneButton = IconButton.EMPTY;

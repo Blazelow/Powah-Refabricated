@@ -28,7 +28,7 @@ import owmii.powah.block.thermo.ThermoBlock;
 import owmii.powah.block.transmitter.PlayerTransmitterBlock;
 import owmii.powah.item.CreativeTabs;
 import owmii.powah.item.Itms;
-import owmii.powah.lib.block.IBlock;
+import owmii.powah.lib.block.PowahBaseBlock;
 import owmii.powah.lib.item.PowahBlockItem;
 import owmii.powah.lib.registry.TieredBlockReg;
 
@@ -92,7 +92,7 @@ public class Blcks {
             Itms.DR.registerItem(entry.getId().getPath(), props -> {
                 BlockItem blockItem;
                 Block block = entry.get();
-                if (block instanceof IBlock<?, ?> iBlock) {
+                if (block instanceof PowahBaseBlock<?> iBlock) {
                     blockItem = iBlock.getBlockItem(props, CreativeTabs.MAIN_KEY);
                 } else {
                     blockItem = new PowahBlockItem<>(block, props, CreativeTabs.MAIN_KEY);

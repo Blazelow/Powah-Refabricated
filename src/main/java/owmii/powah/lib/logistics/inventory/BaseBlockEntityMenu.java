@@ -28,7 +28,7 @@ import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.network.packet.InteractWithTankPacket;
 
-public abstract class BaseBlockEntityMenu<T extends PowahBaseBlockEntity<?, ?> & IInventoryHolder> extends BaseMenu {
+public abstract class BaseBlockEntityMenu<T extends PowahBaseBlockEntity<?> & IInventoryHolder> extends BaseMenu {
     public final T blockEntity;
 
     public BaseBlockEntityMenu(@Nullable MenuType<?> containerType, int id, Inventory inventory, FriendlyByteBuf buffer) {
@@ -52,9 +52,9 @@ public abstract class BaseBlockEntityMenu<T extends PowahBaseBlockEntity<?, ?> &
     }
 
     @SuppressWarnings("unchecked")
-    protected static <T extends PowahBaseBlockEntity<?, ?>> T getInventory(Player player, BlockPos pos) {
+    protected static <T extends PowahBaseBlockEntity<?>> T getInventory(Player player, BlockPos pos) {
         BlockEntity tile = player.level().getBlockEntity(pos);
-        if (tile instanceof PowahBaseBlockEntity<?, ?>)
+        if (tile instanceof PowahBaseBlockEntity<?>)
             return (T) tile;
         // What the hell is this?
         return (T) new PowahBaseBlockEntity<>(BlockEntityType.SIGN, pos, Blocks.AIR.defaultBlockState());

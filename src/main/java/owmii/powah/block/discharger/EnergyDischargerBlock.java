@@ -11,7 +11,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
-import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.inventory.DischargerMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
@@ -19,14 +18,10 @@ import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.Transfer;
 import owmii.powah.lib.logistics.inventory.BaseMenu;
 
-public class EnergyDischargerBlock extends PowahBaseEnergyBlock<EnergyConfig, EnergyDischargerBlock> {
-    public EnergyDischargerBlock(Properties properties, Tier variant) {
-        super(properties, variant);
-    }
-
-    @Override
-    public EnergyConfig getConfig() {
-        return Powah.config().devices.dischargers;
+public class EnergyDischargerBlock extends PowahBaseEnergyBlock<EnergyDischargerBlock> {
+    public EnergyDischargerBlock(Properties properties, Tier tier) {
+        var config = Powah.config().devices.dischargers;
+        super(properties, tier, () -> config.getTransfer(tier), () -> config.getCapacity(tier));
     }
 
     @Override
@@ -37,7 +32,7 @@ public class EnergyDischargerBlock extends PowahBaseEnergyBlock<EnergyConfig, En
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new EnergyDischargerBlockEntity(pos, state, this.variant);
+        return new EnergyDischargerBlockEntity(pos, state);
     }
 
     @Nullable

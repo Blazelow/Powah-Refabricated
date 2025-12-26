@@ -9,20 +9,14 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
-import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
-import owmii.powah.config.v2.types.ChargingConfig;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.util.ChargeUtil;
 
-public class EnergyHopperBlockEntity extends PowahBaseEnergyStorageBlockEntity<ChargingConfig, EnergyHopperBlock> implements IInventoryHolder {
-    public EnergyHopperBlockEntity(BlockPos pos, BlockState state, Tier variant) {
-        super(Tiles.ENERGY_HOPPER.get(), pos, state, variant);
-    }
-
+public class EnergyHopperBlockEntity extends PowahBaseEnergyStorageBlockEntity<EnergyHopperBlock> implements IInventoryHolder {
     public EnergyHopperBlockEntity(BlockPos pos, BlockState state) {
-        this(pos, state, Tier.STARTER);
+        super(Tiles.ENERGY_HOPPER.get(), pos, state);
     }
 
     @Override
@@ -33,7 +27,7 @@ public class EnergyHopperBlockEntity extends PowahBaseEnergyStorageBlockEntity<C
             BlockEntity tile = world.getBlockEntity(this.worldPosition.relative(side));
             if (tile instanceof Container container) {
                 try (var tx = Transaction.openRoot()) {
-                    extracted = ChargeUtil.chargeItemsInContainer(container, getConfig().charging_rates.get(this.variant), energy.getStored(), tx);
+                    extracted = ChargeUtil.chargeItemsInContainer(container, getBlock().getChargingRate(), energy.getStored(), tx);
                     energy.extractEnergy(extracted, tx);
                     tx.commit();
                 }

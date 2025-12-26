@@ -1,6 +1,7 @@
 package owmii.powah.lib.block;
 
 import java.util.function.Consumer;
+import java.util.function.LongSupplier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -11,19 +12,32 @@ import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.logistics.Transfer;
 import owmii.powah.util.Util;
 
-public abstract class PowahBaseGeneratorBlock<B extends PowahBaseGeneratorBlock<B>> extends PowahBaseEnergyBlock<GeneratorConfig, B> {
-    public PowahBaseGeneratorBlock(Properties properties) {
-        super(properties);
+public abstract class PowahBaseGeneratorBlock<B extends PowahBaseGeneratorBlock<B>> extends PowahBaseEnergyBlock<B> {
+    private final LongSupplier generationSupplier;
+
+    public PowahBaseGeneratorBlock(Properties properties, Tier tier, LongSupplier capacitySupplier, LongSupplier transferSupplier,
+            LongSupplier generationSupplier) {
+        super(properties, tier, capacitySupplier, transferSupplier);
+        this.generationSupplier = generationSupplier;
     }
 
-    public PowahBaseGeneratorBlock(Properties properties, Tier variant) {
-        super(properties, variant);
+    public PowahBaseGeneratorBlock(Properties properties, GeneratorConfig config, Tier tier) {
+        this(
+                properties,
+                tier,
+                () -> config.getCapacity(tier),
+                () -> config.getTransfer(tier),
+                () -> config.getGeneration(tier));
+    }
+
+    public final long getEnergyGeneration() {
+        return generationSupplier.getAsLong();
     }
 
     @Override
     public void additionalEnergyInfo(ItemStack stack, EnergyHandler energy, Consumer<Component> tooltip) {
         tooltip.accept(Component.translatable("info.lollipop.generates").withStyle(ChatFormatting.GRAY).append(Text.COLON)
-                .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(getConfig().getGeneration(this.variant)))
+                .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(getEnergyGeneration()))
                         .withStyle(ChatFormatting.DARK_GRAY)));
     }
 

@@ -6,32 +6,32 @@ import java.util.function.Supplier;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import owmii.powah.block.Tier;
-import owmii.powah.lib.block.PowahBaseBlock;
+import owmii.powah.lib.block.PowahBaseEnergyBlock;
 
 public class TieredBlockReg {
-    private final LinkedHashMap<Tier, Supplier<PowahBaseBlock<?, ?>>> all = new LinkedHashMap<>();
+    private final LinkedHashMap<Tier, Supplier<PowahBaseEnergyBlock<?>>> all = new LinkedHashMap<>();
 
     public TieredBlockReg(DeferredRegister.Blocks dr, String name, Factory factory, Tier[] variants) {
         for (Tier variant : variants) {
-            var entryName = name + "_" + variant.getName();
+            var entryName = name + "_" + variant.getSerializedName();
             this.all.put(variant, dr.registerBlock(entryName, props -> factory.get(variant, props)));
         }
     }
 
-    public PowahBaseBlock<?, ?>[] getArr() {
-        return getAll().toArray(PowahBaseBlock<?, ?>[]::new);
+    public PowahBaseEnergyBlock<?>[] getArr() {
+        return getAll().toArray(PowahBaseEnergyBlock<?>[]::new);
     }
 
-    public List<? extends PowahBaseBlock<?, ?>> getAll() {
+    public List<? extends PowahBaseEnergyBlock<?>> getAll() {
         return all.values().stream().map(Supplier::get).toList();
     }
 
-    public PowahBaseBlock<?, ?> get(Tier variant) {
+    public PowahBaseEnergyBlock<?> get(Tier variant) {
         return this.all.get(variant).get();
     }
 
     @FunctionalInterface
     public interface Factory {
-        PowahBaseBlock<?, ?> get(Tier variant, BlockBehaviour.Properties properties);
+        PowahBaseEnergyBlock<?> get(Tier variant, BlockBehaviour.Properties properties);
     }
 }

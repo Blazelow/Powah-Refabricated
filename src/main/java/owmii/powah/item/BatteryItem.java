@@ -19,19 +19,22 @@ import owmii.powah.Powah;
 import owmii.powah.api.energy.endernetwork.IEnderExtender;
 import owmii.powah.block.Tier;
 import owmii.powah.components.PowahComponents;
-import owmii.powah.config.IEnergyConfig;
-import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.lib.item.EnergyItem;
 import owmii.powah.util.ChargeUtil;
 
-public class BatteryItem extends EnergyItem<Tier, EnergyConfig, BatteryItem> implements IEnderExtender {
-    public BatteryItem(Item.Properties properties, Tier variant) {
-        super(properties, variant);
+public class BatteryItem extends EnergyItem implements IEnderExtender {
+    public BatteryItem(Item.Properties properties, Tier tier) {
+        super(properties, tier);
     }
 
     @Override
-    public IEnergyConfig<Tier> getConfig() {
-        return Powah.config().devices.batteries;
+    public long getEnergyCapacity() {
+        return Powah.config().devices.batteries.getCapacity(getTier());
+    }
+
+    @Override
+    public long getEnergyTransfer() {
+        return Powah.config().devices.batteries.getCapacity(getTier());
     }
 
     @Override
@@ -54,7 +57,7 @@ public class BatteryItem extends EnergyItem<Tier, EnergyConfig, BatteryItem> imp
 
             var storage = ourAccess.getCapability(Capabilities.Energy.ITEM);
             if (storage != null) {
-                int maxExtract = Ints.saturatedCast(getConfig().getTransfer(getVariant()));
+                int maxExtract = Ints.saturatedCast(getEnergyTransfer());
                 try (var tx = Transaction.openRoot()) {
                     int charged = Ints.saturatedCast(ChargeUtil.chargeItemsInPlayerInv(player, maxExtract, storage.getAmountAsInt(),
                             s -> !(s.getItem() instanceof BatteryItem), tx));
@@ -78,13 +81,13 @@ public class BatteryItem extends EnergyItem<Tier, EnergyConfig, BatteryItem> imp
     @Override
     public boolean isBarVisible(ItemStack stack) {
         var energy = ChargeUtil.getStored(stack);
-        return energy < getConfig().getCapacity(getVariant());
+        return energy < getEnergyCapacity();
     }
 
     @Override
     public int getBarWidth(ItemStack stack) {
         var energy = ChargeUtil.getStored(stack);
-        return (int) Math.min(1 + 12 * energy / getConfig().getCapacity(getVariant()), 13);
+        return (int) Math.min(1 + 12 * energy / getEnergyCapacity(), 13);
     }
 
     @Override
@@ -110,7 +113,7 @@ public class BatteryItem extends EnergyItem<Tier, EnergyConfig, BatteryItem> imp
 
     @Override
     public long getExtendedCapacity(ItemStack stack) {
-        return getConfig().getCapacity(getVariant());
+        return getEnergyCapacity();
     }
 
     @Override

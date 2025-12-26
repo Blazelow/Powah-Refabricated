@@ -16,12 +16,11 @@ import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jspecify.annotations.Nullable;
-import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.util.ValueIOUtil;
 
-public class ReactorPartBlockEntity extends PowahBaseBlockEntity<Tier, ReactorBlock> {
+public class ReactorPartBlockEntity extends PowahBaseBlockEntity<ReactorBlock> {
     private BlockPos corePos = BlockPos.ZERO;
     private boolean extractor;
     private boolean built;
@@ -34,12 +33,8 @@ public class ReactorPartBlockEntity extends PowahBaseBlockEntity<Tier, ReactorBl
     @Nullable
     private BlockCapabilityCache<ResourceHandler<FluidResource>, Direction> coreFluidCache;
 
-    public ReactorPartBlockEntity(BlockPos pos, BlockState state, Tier variant) {
-        super(Tiles.REACTOR_PART.get(), pos, state, variant);
-    }
-
     public ReactorPartBlockEntity(BlockPos pos, BlockState state) {
-        this(pos, state, Tier.STARTER);
+        super(Tiles.REACTOR_PART.get(), pos, state);
     }
 
     @Override

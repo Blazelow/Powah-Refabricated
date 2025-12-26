@@ -140,7 +140,7 @@ public class Powah {
     private static void registerBlockEntityCapability(RegisterCapabilitiesEvent event, BlockEntityType<?> beType, Class<?> beClass) {
         if (PowahBaseEnergyStorageBlockEntity.class.isAssignableFrom(beClass)) {
             event.registerBlockEntity(Capabilities.Energy.BLOCK, beType, (o, side) -> {
-                var energyStorage = (PowahBaseEnergyStorageBlockEntity<?, ?>) o;
+                var energyStorage = (PowahBaseEnergyStorageBlockEntity<?>) o;
                 return energyStorage.getExternalStorage(side);
             });
         }

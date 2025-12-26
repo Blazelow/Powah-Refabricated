@@ -36,7 +36,7 @@ public class ThermoScreen extends PowahBaseEnergyScreen<ThermoBlockEntity, Therm
         super.drawBackground(gui, partialTicks, mouseX, mouseY);
         Textures.THERMO_GAUGE.drawScalableH(gui, this.te.getEnergy().subSized(), this.leftPos + 5, this.topPos + 5);
 
-        long percent = this.te.getGeneration() > 0 ? (100 * this.te.generating) / this.te.getGeneration() : 0;
+        long percent = this.te.getEnergyGeneration() > 0 ? (100 * this.te.generating) / this.te.getEnergyGeneration() : 0;
         gui.drawString(font, percent + "%" + " (" + this.te.generating + " FE/t)", this.leftPos + 34, this.topPos + 10, 0xFF555555, false);
     }
 
@@ -51,7 +51,7 @@ public class ThermoScreen extends PowahBaseEnergyScreen<ThermoBlockEntity, Therm
                             .translatable("info.lollipop.fe.stored", Util.addCommas(energy.getStored()), Util.numFormat(energy.getCapacity()))
                             .withStyle(ChatFormatting.DARK_GRAY)));
             list.add(Component.translatable("info.lollipop.generates").withStyle(ChatFormatting.GRAY).append(Text.COLON)
-                    .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(this.te.getGeneration()))
+                    .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(this.te.getEnergyGeneration()))
                             .withStyle(ChatFormatting.DARK_GRAY)));
             list.add(Component.translatable("info.lollipop.max.extract").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                     .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(energy.getMaxExtract()))

@@ -9,7 +9,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jspecify.annotations.Nullable;
-import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.item.Itms;
 import owmii.powah.lib.block.IInventoryHolder;
@@ -23,12 +22,8 @@ public class SolarBlockEntity extends PowahBaseGeneratorBlockEntity<SolarBlock> 
     private boolean canSeeSky;
     private boolean hasLensOfEnder;
 
-    public SolarBlockEntity(BlockPos pos, BlockState state, Tier variant) {
-        super(Tiles.SOLAR_PANEL.get(), pos, state, variant);
-    }
-
     public SolarBlockEntity(BlockPos pos, BlockState state) {
-        this(pos, state, Tier.STARTER);
+        super(Tiles.SOLAR_PANEL.get(), pos, state);
     }
 
     @Override
@@ -65,7 +60,7 @@ public class SolarBlockEntity extends PowahBaseGeneratorBlockEntity<SolarBlock> 
             }
             if (!this.energy.isFull()) {
                 if ((this.canSeeSky || this.hasLensOfEnder) && (world.dimensionType().hasSkyLight() && world.getSkyDarken() < 4)) {
-                    this.energy.produce(getGeneration());
+                    this.energy.produce(getEnergyGeneration());
                     flag = true;
                 }
             }

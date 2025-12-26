@@ -25,7 +25,7 @@ public class ReactorPartRenderer implements BlockEntityRenderer<ReactorPartBlock
     }
 
     public static Identifier getTexture(Tier tier) {
-        return Powah.id("textures/model/tile/reactor_block_" + tier.getName() + ".png");
+        return Powah.id("textures/model/tile/reactor_block_" + tier.getSerializedName() + ".png");
     }
 
     @Override

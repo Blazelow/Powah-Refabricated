@@ -53,7 +53,7 @@ public class EnergizingRodRenderer implements BlockEntityRenderer<EnergizingRodB
             }
         }
 
-        state.tier = blockEntity.getVariant();
+        state.tier = blockEntity.getTier();
 
         var orb = blockEntity.getOrbTile();
         if (orb != null && (blockEntity.coolDown.ended() || wrenchInLinkMode)) {
