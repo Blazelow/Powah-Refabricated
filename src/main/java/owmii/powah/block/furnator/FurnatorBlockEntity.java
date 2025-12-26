@@ -12,7 +12,7 @@ import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
-import owmii.powah.lib.logistics.energy.Energy;
+import owmii.powah.lib.logistics.energy.EnergyItemUtil;
 import owmii.powah.util.Ticker;
 
 public class FurnatorBlockEntity extends PowahBaseGeneratorBlockEntity<FurnatorBlock> implements IInventoryHolder {
@@ -21,11 +21,15 @@ public class FurnatorBlockEntity extends PowahBaseGeneratorBlockEntity<FurnatorB
 
     public FurnatorBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.FURNATOR.get(), pos, state, variant);
-        this.inv.set(2);
     }
 
     public FurnatorBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
+    }
+
+    @Override
+    protected int getInternalInventorySize() {
+        return 2;
     }
 
     @Override
@@ -105,7 +109,7 @@ public class FurnatorBlockEntity extends PowahBaseGeneratorBlockEntity<FurnatorB
     @Override
     public boolean canInsert(int index, ItemStack stack) {
         return index == 1 && stack.getBurnTime(RecipeType.SMELTING, getLevel().fuelValues()) > 0
-                || index == 0 && Energy.chargeable(stack);
+                || index == 0 && EnergyItemUtil.isChargeableItem(stack);
     }
 
     @Override

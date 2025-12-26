@@ -27,18 +27,4 @@ public class Stacks extends NonNullList<ItemStack> {
         Arrays.fill(objects, fill);
         return new Stacks(Arrays.asList(objects), fill);
     }
-
-    public static Stacks from(ItemStack... elements) {
-        return new Stacks(Arrays.asList(elements), ItemStack.EMPTY);
-    }
-
-    public static Stacks from(NonNullList<ItemStack> stacks) {
-        return new Stacks(stacks, ItemStack.EMPTY);
-    }
-
-    public Stacks copy() {
-        Stacks stacks = Stacks.create();
-        forEach(stack -> stacks.add(stack.copy()));
-        return stacks;
-    }
 }

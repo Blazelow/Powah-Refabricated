@@ -33,7 +33,11 @@ public class EnergizingOrbBlockEntity extends PowahBaseTickingBlockEntity<IVaria
 
     public EnergizingOrbBlockEntity(BlockPos pos, BlockState state) {
         super(Tiles.ENERGIZING_ORB.get(), pos, state);
-        this.inv.set(7);
+    }
+
+    @Override
+    protected int getInternalInventorySize() {
+        return 7;
     }
 
     @Override
@@ -96,7 +100,7 @@ public class EnergizingOrbBlockEntity extends PowahBaseTickingBlockEntity<IVaria
 
         @Override
         public int size() {
-            return inventory.getSlots();
+            return inventory.size();
         }
     }
 

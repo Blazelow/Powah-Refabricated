@@ -10,7 +10,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jspecify.annotations.Nullable;
-import owmii.powah.lib.logistics.inventory.slot.SlotItemHandler;
+import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 
 public abstract class AbstractContainer extends AbstractContainerMenu {
     public final Player player;
@@ -34,7 +34,7 @@ public abstract class AbstractContainer extends AbstractContainerMenu {
     public void initializeContents(int stateId, List<ItemStack> items, ItemStack carried) {
         for (int i = 0; i < items.size(); ++i) {
             var slot = this.getSlot(i);
-            if (slot instanceof SlotItemHandler slotIh) {
+            if (slot instanceof SlotBase slotIh) {
                 slotIh.initialize(items.get(i));
             } else {
                 slot.set(items.get(i));

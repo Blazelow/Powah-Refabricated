@@ -63,7 +63,7 @@ public abstract class AbstractTileContainer<T extends PowahBaseBlockEntity<?, ?>
         if (slot != null && slot.hasItem()) {
             ItemStack stack1 = slot.getItem();
             stack = stack1.copy();
-            int size = this.te.getInventory().getSlots();
+            int size = this.te.getInventory().size();
             if (index < size) {
                 if (!moveItemStackTo(stack1, size, this.slots.size(), true)) {
                     return ItemStack.EMPTY;

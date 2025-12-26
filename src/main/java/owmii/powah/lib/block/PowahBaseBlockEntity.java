@@ -34,7 +34,7 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
     /**
      * Used when this is instance of {@link IInventoryHolder}
      **/
-    protected final Inventory inv = Inventory.createBlank();
+    protected final Inventory inv;
     /**
      * Used when this is instance of {@link ITankHolder}
      **/
@@ -55,9 +55,14 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
     public PowahBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, V variant) {
         super(type, pos, state);
         this.variant = variant;
+        this.inv = new Inventory(getInternalInventorySize());
         if (this instanceof IInventoryHolder) {
             this.inv.setTile((IInventoryHolder) this);
         }
+    }
+
+    protected int getInternalInventorySize() {
+        return 0;
     }
 
     public B getBlock() {
@@ -110,7 +115,7 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
             input.getInt("variant").ifPresent(variantIdx -> this.variant = (V) this.variant.getVariants()[variantIdx]);
         }
         if (this instanceof IInventoryHolder && !keepInventory()) {
-            this.inv.load(input);
+            this.inv.deserialize(input);
         }
         if (this instanceof ITankHolder tankHolder) {
             if (!tankHolder.keepFluid()) {
@@ -126,7 +131,7 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
             output.putInt("variant", variant.ordinal());
         }
         if (this instanceof IInventoryHolder && !keepInventory()) {
-            this.inv.save(output);
+            this.inv.serialize(output);
         }
         if (this instanceof ITankHolder tankHolder) {
             if (!tankHolder.keepFluid()) {
@@ -139,7 +144,7 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
 
     public void readStorable(ValueInput input) {
         if (this instanceof IInventoryHolder && keepInventory()) {
-            this.inv.load(input);
+            this.inv.deserialize(input);
         }
         if (this instanceof ITankHolder tankHolder) {
             if (tankHolder.keepFluid()) {
@@ -150,7 +155,7 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
 
     public void writeStorable(ValueOutput output) {
         if (this instanceof IInventoryHolder && keepInventory()) {
-            this.inv.save(output);
+            this.inv.serialize(output);
         }
         if (this instanceof ITankHolder tankHolder) {
             if (tankHolder.keepFluid()) {

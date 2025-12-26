@@ -14,6 +14,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jspecify.annotations.Nullable;
@@ -39,6 +40,17 @@ public class CableBlockEntity extends PowahBaseEnergyStorageBlockEntity<CableCon
      */
     protected MutableBoolean netInsertionGuard = new MutableBoolean(false);
     protected int startIndex = 0;
+    private final SnapshotJournal<Integer> startIndexJournal = new SnapshotJournal<>() {
+        @Override
+        protected Integer createSnapshot() {
+            return startIndex;
+        }
+
+        @Override
+        protected void revertToSnapshot(Integer snapshot) {
+            startIndex = snapshot;
+        }
+    };
     @SuppressWarnings("unchecked")
     private final BlockCapabilityCache<EnergyHandler, @Nullable Direction>[] capabilityCaches = new BlockCapabilityCache[6];
 
@@ -141,6 +153,8 @@ public class CableBlockEntity extends PowahBaseEnergyStorageBlockEntity<CableCon
             return 0;
         }
 
+        startIndexJournal.updateSnapshots(tx);
+
         long received = 0;
         var cables = getCables();
 
@@ -150,7 +164,7 @@ public class CableBlockEntity extends PowahBaseEnergyStorageBlockEntity<CableCon
         insertionGuard.setTrue();
 
         try {
-            // TODO 26.1 startIndex++; // round robin!
+            startIndex++;
 
             for (var cable : cables) {
                 long amount = maxReceive - received;

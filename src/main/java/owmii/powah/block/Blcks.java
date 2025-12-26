@@ -6,6 +6,7 @@ import static owmii.powah.lib.block.Properties.metalNoSolid;
 import static owmii.powah.lib.block.Properties.rock;
 
 import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -25,6 +26,10 @@ import owmii.powah.block.reactor.ReactorBlock;
 import owmii.powah.block.solar.SolarBlock;
 import owmii.powah.block.thermo.ThermoBlock;
 import owmii.powah.block.transmitter.PlayerTransmitterBlock;
+import owmii.powah.item.CreativeTabs;
+import owmii.powah.item.Itms;
+import owmii.powah.lib.block.IBlock;
+import owmii.powah.lib.item.PowahBlockItem;
 import owmii.powah.lib.registry.TieredBlockReg;
 
 public class Blcks {
@@ -81,4 +86,20 @@ public class Blcks {
     public static final DeferredBlock<Block> URANINITE_ORE_DENSE = DR.registerBlock("uraninite_ore_dense",
             props -> new DropExperienceBlock(ConstantInt.of(0), rock(props, 4.0f, 8.0f)));
     public static final DeferredBlock<Block> DRY_ICE = DR.registerBlock("dry_ice", props -> new Block(rock(props, 2.0f, 8.0f)));
+
+    static {
+        for (var entry : DR.getEntries()) {
+            Itms.DR.registerItem(entry.getId().getPath(), props -> {
+                BlockItem blockItem;
+                Block block = entry.get();
+                if (block instanceof IBlock<?, ?> iBlock) {
+                    blockItem = iBlock.getBlockItem(props, CreativeTabs.MAIN_KEY);
+                } else {
+                    blockItem = new PowahBlockItem<>(block, props, CreativeTabs.MAIN_KEY);
+                }
+                return blockItem;
+            });
+        }
+    }
+
 }

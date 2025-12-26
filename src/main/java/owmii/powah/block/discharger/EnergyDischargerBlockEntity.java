@@ -15,11 +15,15 @@ import owmii.powah.util.ChargeUtil;
 public class EnergyDischargerBlockEntity extends PowahBaseEnergyStorageBlockEntity<EnergyConfig, EnergyDischargerBlock> implements IInventoryHolder {
     public EnergyDischargerBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.ENERGY_DISCHARGER.get(), pos, state, variant);
-        this.inv.add(7);
     }
 
     public EnergyDischargerBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
+    }
+
+    @Override
+    protected int getInternalInventorySize() {
+        return 7;
     }
 
     @Override

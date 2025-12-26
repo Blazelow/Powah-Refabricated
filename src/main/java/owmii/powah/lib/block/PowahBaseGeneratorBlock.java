@@ -4,11 +4,11 @@ import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
 import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.logistics.Transfer;
-import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Util;
 
 public abstract class PowahBaseGeneratorBlock<B extends PowahBaseGeneratorBlock<B>> extends PowahBaseEnergyBlock<GeneratorConfig, B> {
@@ -21,7 +21,7 @@ public abstract class PowahBaseGeneratorBlock<B extends PowahBaseGeneratorBlock<
     }
 
     @Override
-    public void additionalEnergyInfo(ItemStack stack, Energy.Item energy, Consumer<Component> tooltip) {
+    public void additionalEnergyInfo(ItemStack stack, EnergyHandler energy, Consumer<Component> tooltip) {
         tooltip.accept(Component.translatable("info.lollipop.generates").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                 .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(getConfig().getGeneration(this.variant)))
                         .withStyle(ChatFormatting.DARK_GRAY)));

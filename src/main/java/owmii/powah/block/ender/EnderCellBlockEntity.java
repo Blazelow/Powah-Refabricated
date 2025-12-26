@@ -10,11 +10,15 @@ import owmii.powah.lib.block.IOwnable;
 public class EnderCellBlockEntity extends PowahBaseEnderBlockEntity<EnderCellBlock> implements IOwnable, IInventoryHolder {
     public EnderCellBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.ENDER_CELL.get(), pos, state, variant);
-        this.inv.add(3);
     }
 
     public EnderCellBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
+    }
+
+    @Override
+    protected int getInternalInventorySize() {
+        return 3;
     }
 
     @Override

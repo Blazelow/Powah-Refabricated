@@ -2,9 +2,10 @@ package owmii.powah;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.Event;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
 
 /**
  * Fired when gathering items to charge in a player.
@@ -12,7 +13,7 @@ import net.neoforged.bus.api.Event;
  */
 public class ChargeableItemsEvent extends Event {
     private final Player player;
-    private final List<ItemStack> items = new ArrayList<>();
+    private final List<Stream<ItemAccess>> sources = new ArrayList<>();
 
     public ChargeableItemsEvent(Player player) {
         this.player = player;
@@ -22,7 +23,7 @@ public class ChargeableItemsEvent extends Event {
         return player;
     }
 
-    public List<ItemStack> getItems() {
-        return items;
+    public List<Stream<ItemAccess>> getSources() {
+        return sources;
     }
 }

@@ -2,16 +2,10 @@ package owmii.powah;
 
 import me.shedaniel.autoconfig.ConfigHolder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
@@ -21,7 +15,6 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
-import net.neoforged.neoforge.registries.RegisterEvent;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 import owmii.powah.api.FluidCoolantConfig;
 import owmii.powah.api.MagmatorFuelValue;
@@ -38,11 +31,9 @@ import owmii.powah.entity.Entities;
 import owmii.powah.inventory.Containers;
 import owmii.powah.item.CreativeTabs;
 import owmii.powah.item.Itms;
-import owmii.powah.lib.block.IBlock;
 import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.item.IEnergyContainingItem;
-import owmii.powah.lib.item.PowahBlockItem;
-import owmii.powah.lib.logistics.energy.Energy;
+import owmii.powah.lib.logistics.energy.EnergyItemHandler;
 import owmii.powah.network.Network;
 import owmii.powah.recipe.ReactorFuel;
 import owmii.powah.recipe.Recipes;
@@ -65,7 +56,6 @@ public class Powah {
 
         Blcks.DR.register(modEventBus);
         Tiles.DR.register(modEventBus);
-        setupBlockItems(modEventBus);
         Itms.DR.register(modEventBus);
         Containers.DR.register(modEventBus);
         Entities.DR.register(modEventBus);
@@ -132,15 +122,10 @@ public class Powah {
         }
 
         for (var entry : Itms.DR.getEntries()) {
-            if (entry.get() instanceof IEnergyContainingItem eci) {
-                event.registerItem(Capabilities.Energy.ITEM, (stack, itemAccess) -> {
-                    var info = eci.getEnergyInfo();
-                    if (info == null) {
-                        return null;
-                    }
-
-                    var energyItem = new Energy.Item(itemAccess, stack, info);
-                    return energyItem.createItemCapability();
+            if (entry.get() instanceof IEnergyContainingItem energyContainingItem) {
+                event.registerItem(Capabilities.Energy.ITEM, (_, itemAccess) -> {
+                    var energyInfo = energyContainingItem.getEnergyInfo();
+                    return new EnergyItemHandler(itemAccess, energyInfo);
                 }, entry.get());
             }
         }
@@ -167,29 +152,6 @@ public class Powah {
         // TODO 26.1 return ((ITankHolder) o).getTank();
         // TODO 26.1 });
         // TODO 26.1 }
-    }
-
-    private void setupBlockItems(IEventBus modEventBus) {
-        modEventBus.addListener((RegisterEvent event) -> {
-            if (event.getRegistryKey() == Registries.ITEM) {
-                for (var entry : BuiltInRegistries.BLOCK.entrySet()) {
-                    var id = entry.getKey();
-                    if (id.identifier().getNamespace().equals(MOD_ID)) {
-                        var block = entry.getValue();
-                        BlockItem blockItem;
-                        var itemId = ResourceKey.create(Registries.ITEM, id.identifier());
-                        var props = new Item.Properties().setId(itemId);
-                        if (block instanceof IBlock<?, ?> iBlock) {
-                            blockItem = iBlock.getBlockItem(props, CreativeTabs.MAIN_KEY);
-                        } else {
-                            blockItem = new PowahBlockItem<>(block, props, CreativeTabs.MAIN_KEY);
-                        }
-                        var name = BuiltInRegistries.BLOCK.getKey(block);
-                        Registry.register(BuiltInRegistries.ITEM, name, blockItem);
-                    }
-                }
-            }
-        });
     }
 
 }

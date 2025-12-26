@@ -1,5 +1,6 @@
 package owmii.powah.item;
 
+import com.google.common.primitives.Ints;
 import java.util.Objects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -10,6 +11,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.api.energy.endernetwork.IEnderExtender;
@@ -18,7 +22,7 @@ import owmii.powah.components.PowahComponents;
 import owmii.powah.config.IEnergyConfig;
 import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.lib.item.EnergyItem;
-import owmii.powah.lib.logistics.energy.Energy;
+import owmii.powah.lib.logistics.energy.EnergyItemUtil;
 import owmii.powah.util.ChargeUtil;
 
 public class BatteryItem extends EnergyItem<Tier, EnergyConfig, BatteryItem> implements IEnderExtender {
@@ -34,11 +38,31 @@ public class BatteryItem extends EnergyItem<Tier, EnergyConfig, BatteryItem> imp
     @Override
     public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
         if (owner instanceof Player player && isCharging(itemStack)) {
-            Energy.ifPresent(itemStack, storage -> {
-                long charged = ChargeUtil.chargeItemsInPlayerInv(player, storage.getMaxExtract(), storage.getEnergyStored(),
-                        s -> !(s.getItem() instanceof BatteryItem));
-                storage.consume(charged);
-            });
+            // Annoyingly we need to figure out where in the inventory we are, and same item/same components
+            // is not enough, since we're about to modify.
+            ItemAccess ourAccess = null;
+            var playerInv = player.getInventory();
+            for (int i = 0; i < playerInv.getContainerSize(); i++) {
+                if (playerInv.getItem(i) == itemStack) {
+                    ourAccess = ItemAccess.forPlayerSlot(player, i);
+                    break;
+                }
+            }
+
+            if (ourAccess == null) {
+                return;
+            }
+
+            var storage = ourAccess.getCapability(Capabilities.Energy.ITEM);
+            if (storage != null) {
+                int maxExtract = Ints.saturatedCast(getConfig().getTransfer(getVariant()));
+                try (var tx = Transaction.openRoot()) {
+                    int charged = Ints.saturatedCast(ChargeUtil.chargeItemsInPlayerInv(player, maxExtract, storage.getAmountAsInt(),
+                            s -> !(s.getItem() instanceof BatteryItem), tx));
+                    storage.extract(charged, tx);
+                    tx.commit();
+                }
+            }
         }
     }
 
@@ -54,14 +78,14 @@ public class BatteryItem extends EnergyItem<Tier, EnergyConfig, BatteryItem> imp
 
     @Override
     public boolean isBarVisible(ItemStack stack) {
-        var energy = Energy.getEnergy(stack).orElse(Energy.Item.create(0));
-        return energy.getEnergyStored() < energy.getMaxEnergyStored();
+        var energy = EnergyItemUtil.getStored(stack);
+        return energy < getConfig().getCapacity(getVariant());
     }
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        var energy = Energy.getEnergy(stack).orElse(Energy.Item.create(0));
-        return (int) Math.min(1 + 12 * energy.getEnergyStored() / energy.getMaxEnergyStored(), 13);
+        var energy = EnergyItemUtil.getStored(stack);
+        return (int) Math.min(1 + 12 * energy / getConfig().getCapacity(getVariant()), 13);
     }
 
     @Override
@@ -92,6 +116,6 @@ public class BatteryItem extends EnergyItem<Tier, EnergyConfig, BatteryItem> imp
 
     @Override
     public long getExtendedEnergy(ItemStack stack) {
-        return Energy.getStored(stack);
+        return EnergyItemUtil.getStored(stack);
     }
 }

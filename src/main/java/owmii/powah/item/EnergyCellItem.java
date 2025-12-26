@@ -11,7 +11,7 @@ import owmii.powah.block.Tier;
 import owmii.powah.block.energycell.EnergyCellBlock;
 import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.lib.item.EnergyBlockItem;
-import owmii.powah.lib.logistics.energy.Energy;
+import owmii.powah.lib.logistics.energy.EnergyItemUtil;
 
 public class EnergyCellItem extends EnergyBlockItem<EnergyConfig, EnergyCellBlock> implements IEnderExtender {
     public EnergyCellItem(EnergyCellBlock block, Properties properties, @Nullable ResourceKey<CreativeModeTab> group) {
@@ -43,6 +43,6 @@ public class EnergyCellItem extends EnergyBlockItem<EnergyConfig, EnergyCellBloc
         if (getVariant().equals(Tier.CREATIVE)) {
             return 0;
         }
-        return Energy.getStored(stack);
+        return EnergyItemUtil.getStored(stack);
     }
 }

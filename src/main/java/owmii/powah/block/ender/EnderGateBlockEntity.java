@@ -12,11 +12,15 @@ import owmii.powah.block.Tiles;
 public class EnderGateBlockEntity extends PowahBaseEnderBlockEntity<EnderGateBlock> {
     public EnderGateBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.ENDER_GATE.get(), pos, state, variant);
-        this.inv.add(3);
     }
 
     public EnderGateBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
+    }
+
+    @Override
+    protected int getInternalInventorySize() {
+        return 3;
     }
 
     @Override

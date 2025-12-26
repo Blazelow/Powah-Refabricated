@@ -6,9 +6,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import owmii.powah.components.PowahComponents;
 import owmii.powah.config.IEnergyConfig;
 import owmii.powah.lib.client.util.Text;
-import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.lib.registry.IVariant;
 import owmii.powah.util.Util;
 
@@ -38,15 +40,24 @@ public abstract class EnergyItem<V extends Enum<V> & IVariant<V>, C extends IEne
     @Override
     public void appendHoverText(ItemStack itemStack, TooltipContext context, TooltipDisplay display, Consumer<Component> builder,
             TooltipFlag tooltipFlag) {
-        Energy.ifPresent(itemStack, energy -> {
-            if (energy.getCapacity() > 0) {
-                builder.accept(Component.translatable("info.lollipop.stored").withStyle(ChatFormatting.GRAY).append(Text.COLON)
-                        .append(Component
-                                .translatable("info.lollipop.fe.stored", Util.addCommas(energy.getStored()), Util.numFormat(energy.getCapacity()))
-                                .withStyle(ChatFormatting.DARK_GRAY)));
-                builder.accept(Component.translatable("info.lollipop.max.io").withStyle(ChatFormatting.GRAY).append(Text.COLON).append(Component
-                        .translatable("info.lollipop.fe.pet.tick", Util.numFormat(energy.getMaxExtract())).withStyle(ChatFormatting.DARK_GRAY)));
-            }
-        });
+        var energy = ItemAccess.forStack(itemStack).getCapability(Capabilities.Energy.ITEM);
+        if (energy != null) {
+            var capacity = getConfig().getCapacity(getVariant());
+            builder.accept(Component.translatable("info.lollipop.stored").withStyle(ChatFormatting.GRAY).append(Text.COLON)
+                    .append(Component
+                            .translatable("info.lollipop.fe.stored", Util.addCommas(energy.getAmountAsLong()), Util.numFormat(capacity))
+                            .withStyle(ChatFormatting.DARK_GRAY)));
+            var maxExtract = getConfig().getTransfer(getVariant());
+            builder.accept(Component.translatable("info.lollipop.max.io").withStyle(ChatFormatting.GRAY).append(Text.COLON).append(Component
+                    .translatable("info.lollipop.fe.pet.tick", Util.numFormat(maxExtract)).withStyle(ChatFormatting.DARK_GRAY)));
+        }
+    }
+
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        if (!slotChanged && ItemStack.matchesIgnoringComponents(oldStack, newStack, dct -> dct == PowahComponents.ENERGY_STORED)) {
+            return false;
+        }
+        return super.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
     }
 }

@@ -17,6 +17,7 @@ import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
 import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
 import owmii.powah.lib.logistics.energy.Energy;
+import owmii.powah.lib.logistics.energy.EnergyItemUtil;
 import owmii.powah.lib.logistics.fluid.Tank;
 import owmii.powah.util.Util;
 
@@ -30,11 +31,15 @@ public class MagmatorBlockEntity extends PowahBaseGeneratorBlockEntity<MagmatorB
         this.tank.setCapacity(Util.bucketAmount() * 4)
                 .setValidator(stack -> PowahAPI.getMagmaticFluidEnergyProduced(stack.getFluid()) != 0)
                 .setChange(() -> MagmatorBlockEntity.this.sync(10));
-        this.inv.add(1);
     }
 
     public MagmatorBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
+    }
+
+    @Override
+    protected int getInternalInventorySize() {
+        return 1;
     }
 
     @Override
@@ -107,7 +112,7 @@ public class MagmatorBlockEntity extends PowahBaseGeneratorBlockEntity<MagmatorB
 
     @Override
     public boolean canInsert(int slot, ItemStack stack) {
-        return Energy.chargeable(stack);
+        return EnergyItemUtil.isChargeableItem(stack);
     }
 
     @Override

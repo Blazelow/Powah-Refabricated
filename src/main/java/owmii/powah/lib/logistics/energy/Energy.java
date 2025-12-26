@@ -2,20 +2,13 @@ package owmii.powah.lib.logistics.energy;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Consumer;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.neoforged.neoforge.transfer.access.ItemAccess;
-import net.neoforged.neoforge.transfer.energy.EnergyHandler;
-import owmii.powah.components.PowahComponents;
-import owmii.powah.lib.item.EnergyBlockItem;
-import owmii.powah.lib.item.IEnergyContainingItem;
+import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import owmii.powah.util.Util;
 
-public class Energy {
+public class Energy extends SnapshotJournal<Long> {
     public static final Codec<Energy> STORAGE_CODEC = RecordCodecBuilder.create(builder -> builder.group(
             Codec.LONG.fieldOf("capacity").forGetter(e -> e.capacity),
             Codec.LONG.fieldOf("stored").forGetter(e -> e.stored)).apply(builder, (capacity, stored) -> {
@@ -108,21 +101,21 @@ public class Energy {
         }
     }
 
-    public long receiveEnergy(long maxReceive, boolean simulate) {
+    public long insertEnergy(long maxReceive, TransactionContext tx) {
         if (!canReceive())
             return 0;
         long received = Math.min(this.capacity - this.stored, Math.min(this.maxReceive, maxReceive));
-        if (!simulate)
-            produce(received);
+        updateSnapshots(tx);
+        produce(received);
         return Util.safeInt(received);
     }
 
-    public long extractEnergy(long maxExtract, boolean simulate) {
+    public long extractEnergy(long maxExtract, TransactionContext tx) {
         if (!canExtract())
             return 0;
         long extracted = Math.min(this.stored, Math.min(this.maxExtract, maxExtract));
-        if (!simulate)
-            consume(extracted);
+        updateSnapshots(tx);
+        consume(extracted);
         return Util.safeInt(extracted);
     }
 
@@ -251,101 +244,13 @@ public class Energy {
         return (long) (subSized() * 100);
     }
 
-    public static class Item extends Energy {
-        private final ItemAccess itemAccess;
-        private final ItemStack stack;
-
-        public Item(ItemAccess itemAccess, ItemStack stack, IEnergyContainingItem.Info info) {
-            this(itemAccess, stack, info.capacity(), info.maxExtract(), info.maxInsert());
-        }
-
-        public Item(ItemAccess itemAccess, ItemStack stack, long capacity, long maxExtract, long maxReceive) {
-            super(capacity, maxExtract, maxReceive);
-            this.itemAccess = itemAccess;
-            this.stack = stack;
-            long stored = Objects.requireNonNullElse(stack.get(PowahComponents.ENERGY_STORED), 0L);
-            this.setStored(stored);
-        }
-
-        private void write() {
-            this.stack.set(PowahComponents.ENERGY_STORED, this.getStored());
-            // TODO 26.1 itemAccess.exchange(ItemResource.of(stack), 1, tx);
-        }
-
-        @Override
-        public long receiveEnergy(long maxReceive, boolean simulate) {
-            long energy = super.receiveEnergy(maxReceive, simulate);
-            if (!simulate) {
-                write();
-            }
-            return energy;
-        }
-
-        @Override
-        public long extractEnergy(long maxExtract, boolean simulate) {
-            long energy = super.extractEnergy(maxExtract, simulate);
-            if (!simulate) {
-                write();
-            }
-            return energy;
-        }
-
-        @Override
-        public long consume(long amount) {
-            long ret = super.consume(amount);
-            write();
-            return ret;
-        }
-
-        public void setStoredAndWrite(long stored) {
-            setStored(stored);
-            write();
-        }
-
-        public EnergyHandler createItemCapability() {
-            return new ItemEnergyStorageAdapter(this);
-        }
+    @Override
+    protected Long createSnapshot() {
+        return stored;
     }
 
-    public static long extract(ItemStack stack, long energy, boolean simulate) {
-        return getEnergy(stack).orElse(EMPTY).extractEnergy(Util.safeInt(energy), simulate);
-    }
-
-    public static long receive(ItemStack stack, long energy, boolean simulate) {
-        return getEnergy(stack).orElse(EMPTY).receiveEnergy(Util.safeInt(energy), simulate);
-    }
-
-    public static long getStored(ItemStack stack) {
-        return getEnergy(stack).orElse(EMPTY).getEnergyStored();
-    }
-
-    public static void ifPresent(ItemStack stack, Consumer<Energy.Item> energyItem) {
-        get(stack).ifPresent(energyItem);
-    }
-
-    public static Optional<Energy.Item> get(ItemStack stack) {
-        if (stack.getItem() instanceof IEnergyContainingItem eci) {
-            // TODO 26.1 Item Access
-            return Optional.ofNullable(eci.getEnergyInfo()).map(info -> new Item(ItemAccess.forStack(stack), stack, info));
-        }
-        return Optional.empty();
-    }
-
-    public static Optional<Energy> getEnergy(ItemStack stack) {
-        return get(stack).map(x -> x);
-    }
-
-    public static boolean chargeable(ItemStack stack) {
-        if (stack.getItem() instanceof EnergyBlockItem) {
-            EnergyBlockItem item = (EnergyBlockItem) stack.getItem();
-            if (!item.isChargeable(stack)) {
-                return false;
-            }
-        }
-        return isPresent(stack);
-    }
-
-    public static boolean isPresent(ItemStack stack) {
-        return get(stack).isPresent();
+    @Override
+    protected void revertToSnapshot(Long snapshot) {
+        this.stored = snapshot;
     }
 }

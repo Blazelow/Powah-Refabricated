@@ -4,11 +4,24 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import owmii.powah.lib.registry.IVariant;
 
 public class PowahBaseTickingBlockEntity<V extends IVariant, B extends PowahBaseBlock<V, B>> extends PowahBaseBlockEntity<V, B> {
-    private int syncTicks;
     public int ticks;
+    private int syncTicks;
+    private final SnapshotJournal<Integer> syncTicksJournal = new SnapshotJournal<>() {
+        @Override
+        protected Integer createSnapshot() {
+            return syncTicks;
+        }
+
+        @Override
+        protected void revertToSnapshot(Integer snapshot) {
+            syncTicks = snapshot;
+        }
+    };
 
     public PowahBaseTickingBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -59,8 +72,15 @@ public class PowahBaseTickingBlockEntity<V extends IVariant, B extends PowahBase
     public void sync(int delay) {
         if (!isRemote()) {
             if (this.syncTicks <= 0 || delay < this.syncTicks) {
-                // TODO what the fuck is this?
-                // this.syncTicks = Server.isSinglePlayer() ? 2 : delay;
+                this.syncTicks = delay;
+            }
+        }
+    }
+
+    public void sync(int delay, TransactionContext tx) {
+        if (!isRemote()) {
+            if (this.syncTicks <= 0 || delay < this.syncTicks) {
+                syncTicksJournal.updateSnapshots(tx);
                 this.syncTicks = delay;
             }
         }

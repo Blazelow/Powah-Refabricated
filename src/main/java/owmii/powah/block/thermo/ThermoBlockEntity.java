@@ -14,7 +14,7 @@ import owmii.powah.block.Tiles;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
 import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
-import owmii.powah.lib.logistics.energy.Energy;
+import owmii.powah.lib.logistics.energy.EnergyItemUtil;
 import owmii.powah.util.Util;
 
 public class ThermoBlockEntity extends PowahBaseGeneratorBlockEntity<ThermoBlock> implements IInventoryHolder, ITankHolder {
@@ -25,11 +25,15 @@ public class ThermoBlockEntity extends PowahBaseGeneratorBlockEntity<ThermoBlock
         this.tank.setCapacity(Util.bucketAmount() * 4)
                 .setValidator(stack -> PowahAPI.getCoolant(stack.getFluid()).isPresent())
                 .setChange(() -> ThermoBlockEntity.this.sync(10));
-        this.inv.add(1);
     }
 
     public ThermoBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, Tier.STARTER);
+    }
+
+    @Override
+    protected int getInternalInventorySize() {
+        return 1;
     }
 
     @Override
@@ -97,7 +101,7 @@ public class ThermoBlockEntity extends PowahBaseGeneratorBlockEntity<ThermoBlock
 
     @Override
     public boolean canInsert(int slot, ItemStack stack) {
-        return Energy.chargeable(stack);
+        return EnergyItemUtil.isChargeableItem(stack);
     }
 
     @Override

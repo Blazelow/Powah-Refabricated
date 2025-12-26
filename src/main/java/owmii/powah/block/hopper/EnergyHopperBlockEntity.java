@@ -8,6 +8,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.config.v2.types.ChargingConfig;
@@ -31,8 +32,11 @@ public class EnergyHopperBlockEntity extends PowahBaseEnergyStorageBlockEntity<C
             Direction side = getBlockState().getValue(BlockStateProperties.FACING);
             BlockEntity tile = world.getBlockEntity(this.worldPosition.relative(side));
             if (tile instanceof Container container) {
-                extracted = ChargeUtil.chargeItemsInContainer(container, getConfig().charging_rates.get(this.variant), energy.getStored());
-                energy.consume(extracted);
+                try (var tx = Transaction.openRoot()) {
+                    extracted = ChargeUtil.chargeItemsInContainer(container, getConfig().charging_rates.get(this.variant), energy.getStored(), tx);
+                    energy.extractEnergy(extracted, tx);
+                    tx.commit();
+                }
             }
         }
         return extracted > 0 ? 5 : super.postTick(world);

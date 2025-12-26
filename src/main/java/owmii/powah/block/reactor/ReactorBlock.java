@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
@@ -31,7 +32,6 @@ import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.item.EnergyBlockItem;
-import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.lib.logistics.fluid.Tank;
 import owmii.powah.lib.logistics.inventory.AbstractContainer;
 import owmii.powah.util.Util;
@@ -118,7 +118,7 @@ public class ReactorBlock extends PowahBaseGeneratorBlock<ReactorBlock> {
     }
 
     @Override
-    public void additionalEnergyInfo(ItemStack stack, Energy.Item energy, Consumer<Component> tooltip) {
+    public void additionalEnergyInfo(ItemStack stack, EnergyHandler energy, Consumer<Component> tooltip) {
         tooltip.accept(Component.translatable("info.powah.generation.factor").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                 .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(getConfig().getGeneration(this.variant)))
                         .withStyle(ChatFormatting.DARK_GRAY)));

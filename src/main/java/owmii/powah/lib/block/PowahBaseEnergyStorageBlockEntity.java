@@ -93,17 +93,25 @@ public abstract class PowahBaseEnergyStorageBlockEntity<C extends IEnergyConfig<
         long extracted = 0;
         if (!isRemote()) {
             for (Direction side : Direction.values()) {
+                long amount = Math.min(getEnergyTransfer(), getEnergy().getStored());
+                if (amount == 0) {
+                    return extracted;
+                }
+
                 if (canExtractEnergy(side)) {
                     if (capabilityCaches[side.ordinal()] == null) {
                         capabilityCaches[side.ordinal()] = BlockCapabilityCache.create(Capabilities.Energy.BLOCK, (ServerLevel) world,
                                 worldPosition.relative(side), side.getOpposite());
                     }
-                    long amount = Math.min(getEnergyTransfer(), getEnergy().getStored());
                     var cap = capabilityCaches[side.ordinal()].getCapability();
-                    long toExtract;
+                    if (cap == null) {
+                        continue;
+                    }
                     try (var tx = Transaction.openRoot()) {
-                        toExtract = cap == null ? 0 : cap.insert(Ints.saturatedCast(amount), tx);
-                        extracted += extractEnergy(Util.safeInt(toExtract), tx, side);
+                        var toExtract = cap.insert(Ints.saturatedCast(amount), tx);
+                        if (toExtract > 0) {
+                            extracted += extractEnergy(Util.safeInt(toExtract), tx, side);
+                        }
                         tx.commit();
                     }
                 }
@@ -118,33 +126,32 @@ public abstract class PowahBaseEnergyStorageBlockEntity<C extends IEnergyConfig<
 
     protected long chargeItems(int i, int j) {
         final Energy energy = getEnergy();
-        long charged = ChargeUtil.chargeItemsInInventory(inv, i, j, getEnergyTransfer(), energy.getStored());
-        energy.consume(charged);
-        return charged;
+        try (var tx = Transaction.openRoot()) {
+            long charged = ChargeUtil.chargeItemsInInventory(inv, i, j, getEnergyTransfer(), energy.getStored(), tx);
+            energy.extractEnergy(charged, tx);
+            tx.commit();
+            return charged;
+        }
     }
 
     public long extractEnergy(long maxExtract, TransactionContext tx, @Nullable Direction side) {
         if (!canExtractEnergy(side))
             return 0;
-        final Energy energy = getEnergy();
-        long extracted = Math.min(energy.getStored(), Math.min(energy.getMaxExtract(), maxExtract));
-        // TODO 26.1: if (!simulate && extracted > 0) {
-        // TODO 26.1: energy.consume(extracted);
-        // TODO 26.1: sync(10);
-        // TODO 26.1: }
+        var extracted = getEnergy().extractEnergy(maxExtract, tx);
+        if (extracted > 0) {
+            sync(10, tx);
+        }
         return extracted;
     }
 
     public long insertEnergy(long maxReceive, TransactionContext tx, @Nullable Direction side) {
         if (!canReceiveEnergy(side))
             return 0;
-        final Energy energy = getEnergy();
-        long received = Math.min(energy.getEmpty(), Math.min(energy.getMaxReceive(), maxReceive));
-        // TODO 26.1 if (!simulate && received > 0) {
-        // TODO 26.1 energy.produce(received);
-        // TODO 26.1 sync(10);
-        // TODO 26.1 }
-        return received;
+        var result = energy.insertEnergy(maxReceive, tx);
+        if (result > 0) {
+            sync(10, tx);
+        }
+        return result;
     }
 
     public boolean canExtractEnergy(@Nullable Direction side) {

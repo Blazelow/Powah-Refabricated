@@ -21,7 +21,7 @@ public class CuriosCompat {
             for (int i = 0; i < stackHandler.getSlots(); i++) {
                 ItemStack stack = stackHandler.getStacks().getStackInSlot(i);
                 if (!stack.isEmpty()) {
-                    event.getItems().add(stack);
+                    // TODO 26.1: event.getSources().add(stack);
                 }
             }
         });

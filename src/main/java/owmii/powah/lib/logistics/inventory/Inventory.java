@@ -3,17 +3,16 @@ package owmii.powah.lib.logistics.inventory;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
-import owmii.powah.lib.item.Stacks;
-import owmii.powah.util.Util;
 
 public class Inventory extends ItemStackHandler {
     @Nullable
@@ -21,15 +20,6 @@ public class Inventory extends ItemStackHandler {
 
     public Inventory(int size) {
         this(size, null);
-    }
-
-    public Inventory(Stacks stacks) {
-        this(stacks, null);
-    }
-
-    public Inventory(Stacks stacks, @Nullable IInventoryHolder tile) {
-        super(stacks);
-        this.tile = tile;
     }
 
     Inventory(int size, @Nullable IInventoryHolder tile) {
@@ -57,75 +47,55 @@ public class Inventory extends ItemStackHandler {
         this.tile = tile;
     }
 
-    public void load(ValueInput input) {
-        if (isBlank())
-            return;
-        super.load(input, getSlots());
+    public void deserialize(ValueInput input) {
+        super.deserialize(input);
+        if (stacks.size() != size()) {
+            throw new IllegalStateException("Inventory size has changed!");
+        }
     }
 
     @Override
-    public void save(ValueOutput output) {
-        if (!isBlank()) {
-            super.save(output);
-        }
-    }
-
-    public Inventory set(int size) {
-        this.stacks = Stacks.withSize(size, ItemStack.EMPTY);
-        onContentsChanged(0);
-        return this;
-    }
-
-    public Inventory add(int size) {
-        this.stacks = Stacks.withSize(size + this.stacks.size(), ItemStack.EMPTY);
-        return this;
-    }
-
-    public Stacks canPut(Stacks outputs, int... slots) {
-        return canPut(outputs, fromSlotArray(slots));
-    }
-
-    public Stacks canPut(Stacks outputs, Stacks slots) {
-        Inventory inv = new Inventory(Stacks.from(slots).copy());
-        for (ItemStack stack : outputs) {
-            if (!ItemStackHandlerHelper.insertItem(inv, stack.copy(), false).isEmpty()) {
-                return Stacks.create();
-            }
-        }
-        return inv.getStacks();
-    }
-
-    public Stacks fromSlotArray(int... slots) {
-        Stacks stacks = Stacks.create();
-        for (int i : slots) {
-            stacks.add(getStackInSlot(i));
-        }
-        return stacks;
+    public long getCapacityAsLong(int index, ItemResource resource) {
+        return super.getCapacityAsLong(index, resource);
     }
 
     @Override
-    public int getSlotLimit(int slot) {
+    protected int getSlotLimit(int slot) {
         if (this.tile != null) {
             return this.tile.getSlotLimit(slot);
         }
         return super.getSlotLimit(slot);
     }
 
-    @Override
-    public boolean isItemValid(int slot, ItemStack stack) {
-        if (this.tile != null) {
-            return this.tile.canInsert(slot, stack);
-        }
-        return super.isItemValid(slot, stack);
+    public final boolean isItemValid(int slot, ItemStack stack) {
+        return isValid(slot, ItemResource.of(stack));
     }
 
     @Override
-    public ItemStack extractItem(int slot, int amount, boolean simulate) {
-        return canExtract(slot, getStackInSlot(slot)) ? super.extractItem(slot, amount, simulate) : ItemStack.EMPTY;
+    public boolean isValid(int slot, ItemResource resource) {
+        if (this.tile != null) {
+            return this.tile.canInsert(slot, resource.toStack());
+        }
+        return super.isValid(slot, resource);
+    }
+
+    @Override
+    public int extract(int index, ItemResource resource, int amount, TransactionContext transaction) {
+        if (!canExtract(index, resource.toStack())) {
+            return 0;
+        }
+        return super.extract(index, resource, amount, transaction);
     }
 
     public ItemStack extractItemFromSlot(int slot, int amount, boolean simulate) {
-        return super.extractItem(slot, amount, simulate);
+        try (var tx = Transaction.openRoot()) {
+            var what = getResource(slot);
+            var extracted = extract(slot, what, amount, tx);
+            if (!simulate) {
+                tx.commit();
+            }
+            return what.toStack(extracted);
+        }
     }
 
     public boolean canExtract(int slot, ItemStack stack) {
@@ -142,31 +112,10 @@ public class Inventory extends ItemStackHandler {
     }
 
     @Override
-    public void onContentsChanged(int slot) {
+    public void onContentsChanged(int index, ItemStack previousContents) {
         if (this.tile != null && sendUpdates) {
-            this.tile.onSlotChanged(slot);
+            this.tile.onSlotChanged(index);
         }
-    }
-
-    public ItemStack getFirst() {
-        return getStackInSlot(0);
-    }
-
-    public ItemStack getLast() {
-        return getStackInSlot(getLastSlot());
-    }
-
-    public int getLastSlot() {
-        return getSlots() - 1;
-    }
-
-    public Stacks getLast(int count) {
-        Stacks stacks = Stacks.create();
-        int size = this.stacks.size();
-        for (int i = size - count; i < count; i++) {
-            stacks.add(this.stacks.get(i));
-        }
-        return stacks;
     }
 
     public boolean isEmpty() {
@@ -202,26 +151,18 @@ public class Inventory extends ItemStackHandler {
 
     public ItemStack setSlotEmpty(int slot) {
         ItemStack stack = this.stacks.set(slot, ItemStack.EMPTY);
-        onContentsChanged(slot);
+        onContentsChanged(slot, stack);
         return stack;
     }
 
-    @Override
-    public void setStackInSlot(int slot, ItemStack stack) {
-        ItemStack stack1 = this.stacks.set(slot, stack);
-        onContentsChanged(slot);
-    }
-
     public void clear() {
-        set(getSlots());
-    }
-
-    public boolean isBlank() {
-        return this.stacks.isEmpty();
-    }
-
-    public Stacks getStacks() {
-        return Stacks.from(this.stacks);
+        boolean changed = false;
+        for (int i = 0; i < size(); i++) {
+            changed |= !this.stacks.set(i, ItemStack.EMPTY).isEmpty();
+        }
+        if (changed) {
+            onContentsChanged(0, ItemStack.EMPTY);
+        }
     }
 
     public List<ItemStack> getNonEmptyStacks() {
@@ -231,37 +172,20 @@ public class Inventory extends ItemStackHandler {
     }
 
     public ItemStack addNext(ItemStack stack) {
-        for (int i = 0; i < getSlots(); ++i) {
-            if (isItemValid(i, stack)) {
-                insertItem(i, stack.copy(), false);
-                return stack.copy();
-            }
+        try (var tx = Transaction.openRoot()) {
+            var inserted = insert(ItemResource.of(stack), stack.getCount(), tx);
+            return stack.copyWithCount(inserted);
         }
-        return ItemStack.EMPTY;
     }
 
     public ItemStack removeNext() {
-        for (int i = getSlots() - 1; i >= 0; --i) {
+        for (int i = size() - 1; i >= 0; --i) {
             ItemStack stack = setSlotEmpty(i);
             if (!stack.isEmpty()) {
                 return stack;
             }
         }
         return ItemStack.EMPTY;
-    }
-
-    public ItemStack insertItem(ItemStack stack, boolean simulate, int... ex) {
-        if (stack.isEmpty())
-            return stack;
-        for (int i = 0; i < getSlots(); i++) {
-            if (Util.anyMatch(ex, i))
-                continue;
-            stack = insertItem(i, stack, simulate);
-            if (stack.isEmpty()) {
-                return ItemStack.EMPTY;
-            }
-        }
-        return stack;
     }
 
     public void drop(Level world, BlockPos pos) {
@@ -277,19 +201,5 @@ public class Inventory extends ItemStackHandler {
             Containers.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
             setStackInSlot(index, ItemStack.EMPTY);
         }
-    }
-
-    public static int calcRedstone(ItemStackHandler inv) {
-        int i = 0;
-        float f = 0.0F;
-        for (int j = 0; j < inv.getSlots(); ++j) {
-            ItemStack itemstack = inv.getStackInSlot(j);
-            if (!itemstack.isEmpty()) {
-                f += (float) itemstack.getCount() / (float) Math.min(inv.getSlotLimit(j), itemstack.getMaxStackSize());
-                ++i;
-            }
-        }
-        f = f / (float) inv.getSlots();
-        return Mth.floor(f * 14.0F) + (i > 0 ? 1 : 0);
     }
 }

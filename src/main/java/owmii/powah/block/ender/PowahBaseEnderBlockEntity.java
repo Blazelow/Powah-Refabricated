@@ -25,6 +25,7 @@ import owmii.powah.lib.block.IOwnable;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.logistics.energy.Energy;
+import owmii.powah.lib.logistics.energy.EnergyItemUtil;
 import owmii.powah.util.Player;
 import owmii.powah.util.math.RangedInt;
 
@@ -34,7 +35,6 @@ public class PowahBaseEnderBlockEntity<B extends PowahBaseEnergyBlock<EnderConfi
 
     @Nullable
     private GameProfile owner;
-    private boolean flag;
 
     public PowahBaseEnderBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Tier variant) {
         super(type, pos, state, variant);
@@ -176,7 +176,8 @@ public class PowahBaseEnderBlockEntity<B extends PowahBaseEnergyBlock<EnderConfi
             } else
                 return false;
         }
-        return Energy.chargeable(stack);
+
+        return EnergyItemUtil.isChargeableItem(stack);
     }
 
     @Override

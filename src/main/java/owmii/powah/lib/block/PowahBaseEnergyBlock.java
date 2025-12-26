@@ -16,6 +16,9 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.api.energy.IEnergyConnector;
 import owmii.powah.block.Tier;
@@ -25,7 +28,6 @@ import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.item.IEnergyItemProvider;
 import owmii.powah.lib.logistics.Transfer;
-import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.lib.registry.IVariant;
 import owmii.powah.util.EnergyUtil;
 import owmii.powah.util.Util;
@@ -88,42 +90,44 @@ public abstract class PowahBaseEnergyBlock<C extends IEnergyConfig<Tier>, B exte
     @Override
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> builder,
             TooltipFlag tooltipFlag) {
-        Energy.ifPresent(itemStack, energy -> {
+        var energy = ItemAccess.forStack(itemStack).getCapability(Capabilities.Energy.ITEM);
+        if (energy != null) {
             addEnergyInfo(itemStack, energy, builder);
             addEnergyTransferInfo(itemStack, energy, builder);
             additionalEnergyInfo(itemStack, energy, builder);
-        });
-    }
-
-    public void addEnergyInfo(ItemStack stack, Energy.Item storage, Consumer<Component> tooltip) {
-        if (storage.getCapacity() > 0)
-            tooltip.accept(Component.translatable("info.lollipop.stored").withStyle(ChatFormatting.GRAY).append(Text.COLON)
-                    .append(Component
-                            .translatable("info.lollipop.fe.stored", Util.addCommas(storage.getStored()), Util.numFormat(storage.getCapacity()))
-                            .withStyle(ChatFormatting.DARK_GRAY)));
-    }
-
-    public void addEnergyTransferInfo(ItemStack stack, Energy.Item storage, Consumer<Component> tooltip) {
-        long ext = storage.getMaxExtract();
-        long re = storage.getMaxReceive();
-        if (ext + re > 0) {
-            if (ext == re) {
-                tooltip.accept(Component.translatable("info.lollipop.max.io").withStyle(ChatFormatting.GRAY).append(Text.COLON)
-                        .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(ext))
-                                .withStyle(ChatFormatting.DARK_GRAY)));
-            } else {
-                if (ext > 0)
-                    tooltip.accept(Component.translatable("info.lollipop.max.extract").withStyle(ChatFormatting.GRAY).append(Text.COLON)
-                            .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(ext))
-                                    .withStyle(ChatFormatting.DARK_GRAY)));
-                if (re > 0)
-                    tooltip.accept(Component.translatable("info.lollipop.max.receive").withStyle(ChatFormatting.GRAY).append(Text.COLON)
-                            .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(re))
-                                    .withStyle(ChatFormatting.DARK_GRAY)));
-            }
         }
     }
 
-    public void additionalEnergyInfo(ItemStack stack, Energy.Item energy, Consumer<Component> tooltip) {
+    public void addEnergyInfo(ItemStack stack, EnergyHandler storage, Consumer<Component> tooltip) {
+        if (storage.getCapacityAsLong() > 0)
+            tooltip.accept(Component.translatable("info.lollipop.stored").withStyle(ChatFormatting.GRAY).append(Text.COLON)
+                    .append(Component
+                            .translatable("info.lollipop.fe.stored", Util.addCommas(storage.getAmountAsLong()),
+                                    Util.numFormat(storage.getCapacityAsLong()))
+                            .withStyle(ChatFormatting.DARK_GRAY)));
+    }
+
+    public void addEnergyTransferInfo(ItemStack stack, EnergyHandler storage, Consumer<Component> tooltip) {
+        // TODO long ext = storage.getMaxExtract();
+        // TODO long re = storage.getMaxReceive();
+        // TODO if (ext + re > 0) {
+        // TODO if (ext == re) {
+        // TODO tooltip.accept(Component.translatable("info.lollipop.max.io").withStyle(ChatFormatting.GRAY).append(Text.COLON)
+        // TODO .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(ext))
+        // TODO .withStyle(ChatFormatting.DARK_GRAY)));
+        // TODO } else {
+        // TODO if (ext > 0)
+        // TODO tooltip.accept(Component.translatable("info.lollipop.max.extract").withStyle(ChatFormatting.GRAY).append(Text.COLON)
+        // TODO .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(ext))
+        // TODO .withStyle(ChatFormatting.DARK_GRAY)));
+        // TODO if (re > 0)
+        // TODO tooltip.accept(Component.translatable("info.lollipop.max.receive").withStyle(ChatFormatting.GRAY).append(Text.COLON)
+        // TODO .append(Component.translatable("info.lollipop.fe.pet.tick", Util.numFormat(re))
+        // TODO .withStyle(ChatFormatting.DARK_GRAY)));
+        // TODO }
+        // TODO }
+    }
+
+    public void additionalEnergyInfo(ItemStack stack, EnergyHandler energy, Consumer<Component> tooltip) {
     }
 }
