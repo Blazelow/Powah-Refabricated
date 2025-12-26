@@ -5,21 +5,22 @@ import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.api.PowahAPI;
 import owmii.powah.block.magmator.MagmatorBlockEntity;
 import owmii.powah.client.screen.Textures;
-import owmii.powah.inventory.MagmatorContainer;
+import owmii.powah.inventory.MagmatorMenu;
 import owmii.powah.lib.client.screen.container.PowahBaseEnergyScreen;
 import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Ticker;
 import owmii.powah.util.Util;
 
-public class MagmatorScreen extends PowahBaseEnergyScreen<MagmatorBlockEntity, MagmatorContainer> {
+public class MagmatorScreen extends PowahBaseEnergyScreen<MagmatorBlockEntity, MagmatorMenu> {
     private final Ticker heat = new Ticker(20);
 
-    public MagmatorScreen(MagmatorContainer container, Inventory inv, Component title) {
+    public MagmatorScreen(MagmatorMenu container, Inventory inv, Component title) {
         super(container, inv, title, Textures.MAGMATOR);
         if (this.te.isBurning()) {
             this.heat.setTicks(20);
@@ -53,9 +54,8 @@ public class MagmatorScreen extends PowahBaseEnergyScreen<MagmatorBlockEntity, M
     protected void drawBackground(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         super.drawBackground(guiGraphics, partialTicks, mouseX, mouseY);
         Textures.FURNATOR_GAUGE.drawScalableH(guiGraphics, this.te.getEnergy().subSized(), this.leftPos + 5, this.topPos + 5);
-        // TODO 26.1 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.heat.subSized());
-        Textures.MAGMATOR_BUFFER.draw(guiGraphics, this.leftPos + 83, this.topPos + 29);
-        // TODO 26.1 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        var alpha = this.heat.subSized();
+        Textures.MAGMATOR_BUFFER.draw(guiGraphics, this.leftPos + 83, this.topPos + 29, ARGB.white(alpha));
     }
 
     @Override

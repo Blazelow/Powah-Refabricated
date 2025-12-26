@@ -12,10 +12,10 @@ import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.EnderConfig;
-import owmii.powah.inventory.EnderCellContainer;
+import owmii.powah.inventory.EnderCellMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
-import owmii.powah.lib.logistics.inventory.AbstractContainer;
+import owmii.powah.lib.logistics.inventory.BaseMenu;
 
 public class EnderGateBlock extends PowahBaseEnergyBlock<EnderConfig, EnderGateBlock> {
     private static final Map<Direction, VoxelShape> SHAPES = Map.of(
@@ -44,9 +44,9 @@ public class EnderGateBlock extends PowahBaseEnergyBlock<EnderConfig, EnderGateB
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
+    public BaseMenu getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
         if (te instanceof EnderGateBlockEntity) {
-            return new EnderCellContainer(id, inventory, (EnderGateBlockEntity) te);
+            return new EnderCellMenu(id, inventory, (EnderGateBlockEntity) te);
         }
         return null;
     }

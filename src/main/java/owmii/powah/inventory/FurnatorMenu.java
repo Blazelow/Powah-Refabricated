@@ -3,20 +3,20 @@ package owmii.powah.inventory;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.furnator.FurnatorBlockEntity;
-import owmii.powah.lib.logistics.inventory.AbstractEnergyContainer;
+import owmii.powah.lib.logistics.inventory.BaseEnergyMenu;
 import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 
-public class FurnatorContainer extends AbstractEnergyContainer<FurnatorBlockEntity> {
-    public FurnatorContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
+public class FurnatorMenu extends BaseEnergyMenu<FurnatorBlockEntity> {
+    public FurnatorMenu(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.FURNATOR.get(), id, inventory, buffer);
     }
 
-    public FurnatorContainer(int id, Inventory inventory, FurnatorBlockEntity te) {
+    public FurnatorMenu(int id, Inventory inventory, FurnatorBlockEntity te) {
         super(Containers.FURNATOR.get(), id, inventory, te);
     }
 
-    public static FurnatorContainer create(int id, Inventory inventory, FriendlyByteBuf buffer) {
-        return new FurnatorContainer(id, inventory, buffer);
+    public static FurnatorMenu create(int id, Inventory inventory, FriendlyByteBuf buffer) {
+        return new FurnatorMenu(id, inventory, buffer);
     }
 
     @Override

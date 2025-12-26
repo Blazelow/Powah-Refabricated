@@ -29,11 +29,11 @@ import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
-import owmii.powah.inventory.SolarContainer;
+import owmii.powah.inventory.SolarMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
-import owmii.powah.lib.logistics.inventory.AbstractContainer;
+import owmii.powah.lib.logistics.inventory.BaseMenu;
 
 public class SolarBlock extends PowahBaseGeneratorBlock<SolarBlock> implements SimpleWaterloggedBlock {
     protected static final VoxelShape SHAPE = box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);
@@ -70,9 +70,9 @@ public class SolarBlock extends PowahBaseGeneratorBlock<SolarBlock> implements S
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
+    public BaseMenu getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
         if (te instanceof SolarBlockEntity) {
-            return new SolarContainer(id, inventory, (SolarBlockEntity) te);
+            return new SolarMenu(id, inventory, (SolarBlockEntity) te);
         }
         return null;
     }

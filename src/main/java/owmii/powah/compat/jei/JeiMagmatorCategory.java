@@ -18,7 +18,6 @@ public class JeiMagmatorCategory extends AbstractCategory<MagmatorFuel> {
     public static final IRecipeType<MagmatorFuel> TYPE = IRecipeType.create(Powah.MOD_ID, "magmatic", MagmatorFuel.class);
 
     public JeiMagmatorCategory(IGuiHelper guiHelper) {
-        // TODO 26.1: guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build()
         super(guiHelper, Blcks.MAGMATOR.get(Tier.BASIC), Component.translatable("gui.powah.jei.category.magmatic"), 160, 24);
     }
 
@@ -29,12 +28,12 @@ public class JeiMagmatorCategory extends AbstractCategory<MagmatorFuel> {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, MagmatorFuel recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 4, 5).add(recipe.fluid());
+        builder.addSlot(RecipeIngredientRole.INPUT, 4, 5).setStandardSlotBackground().add(recipe.fluid());
     }
 
     @Override
     public void draw(MagmatorFuel recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         var minecraft = Minecraft.getInstance();
-        guiGraphics.drawString(minecraft.font, recipe.heat() + " FE/100 mb", 27, 9, 0x444444, false);
+        guiGraphics.drawString(minecraft.font, recipe.heat() + " FE/100 mb", 27, 9, 0xFF444444, false);
     }
 }

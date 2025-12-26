@@ -2,11 +2,16 @@ package owmii.powah.client;
 
 import guideme.Guide;
 import guideme.compiler.TagCompiler;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
+import net.neoforged.neoforge.client.event.RecipesReceivedEvent;
 import net.neoforged.neoforge.client.event.RegisterRenderPipelinesEvent;
 import net.neoforged.neoforge.client.event.RegisterSpecialModelRendererEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
@@ -14,6 +19,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.energizing.EnergizingOrbBlock;
+import owmii.powah.block.energizing.EnergizingRecipe;
 import owmii.powah.block.energizing.EnergizingRodBlock;
 import owmii.powah.client.book.PowahTagCompiler;
 import owmii.powah.client.handler.HudHandler;
@@ -29,9 +35,12 @@ import owmii.powah.client.render.tile.ReactorItemRenderer;
 import owmii.powah.client.screen.Screens;
 import owmii.powah.item.PowahBookItem;
 import owmii.powah.lib.client.util.RenderTypes;
+import owmii.powah.recipe.Recipes;
 
 @Mod(value = Powah.MOD_ID, dist = Dist.CLIENT)
 public final class PowahClient {
+    public static final List<RecipeHolder<EnergizingRecipe>> ENERGIZING_RECIPES = new ArrayList<>();
+
     public PowahClient(IEventBus modEventBus) {
         modEventBus.addListener(PowahLayerDefinitions::register);
         HudHandler.register(this);
@@ -44,6 +53,11 @@ public final class PowahClient {
         NeoForge.EVENT_BUS.addListener((RenderLevelStageEvent.AfterLevel event) -> {
             ReactorOverlayHandler.onRenderLast(event.getPoseStack(), event.getLevelRenderState().cameraRenderState);
         });
+        NeoForge.EVENT_BUS.addListener((RecipesReceivedEvent event) -> {
+            ENERGIZING_RECIPES.clear();
+            ENERGIZING_RECIPES.addAll(event.getRecipeMap().byType(Recipes.ENERGIZING.get()));
+        });
+        NeoForge.EVENT_BUS.addListener((ClientPlayerNetworkEvent.LoggingOut _) -> ENERGIZING_RECIPES.clear());
 
         Guide.builder(PowahBookItem.GUIDE_ID)
                 .defaultLanguage("en_us")

@@ -13,11 +13,11 @@ import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.ChargingConfig;
-import owmii.powah.inventory.EnergyHopperContainer;
+import owmii.powah.inventory.EnergyHopperMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
-import owmii.powah.lib.logistics.inventory.AbstractContainer;
+import owmii.powah.lib.logistics.inventory.BaseMenu;
 
 public class EnergyHopperBlock extends PowahBaseEnergyBlock<ChargingConfig, EnergyHopperBlock> {
     public EnergyHopperBlock(Properties properties, Tier variant) {
@@ -49,10 +49,10 @@ public class EnergyHopperBlock extends PowahBaseEnergyBlock<ChargingConfig, Ener
 
     @Nullable
     @Override
-    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te,
+    public <T extends PowahBaseBlockEntity> BaseMenu getContainer(int id, Inventory inventory, PowahBaseBlockEntity te,
             BlockHitResult result) {
         if (te instanceof EnergyHopperBlockEntity) {
-            return new EnergyHopperContainer(id, inventory, (EnergyHopperBlockEntity) te);
+            return new EnergyHopperMenu(id, inventory, (EnergyHopperBlockEntity) te);
         }
         return null;
     }

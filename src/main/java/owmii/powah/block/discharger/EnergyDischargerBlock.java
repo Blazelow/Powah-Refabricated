@@ -12,12 +12,12 @@ import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.EnergyConfig;
-import owmii.powah.inventory.DischargerContainer;
+import owmii.powah.inventory.DischargerMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.Transfer;
-import owmii.powah.lib.logistics.inventory.AbstractContainer;
+import owmii.powah.lib.logistics.inventory.BaseMenu;
 
 public class EnergyDischargerBlock extends PowahBaseEnergyBlock<EnergyConfig, EnergyDischargerBlock> {
     public EnergyDischargerBlock(Properties properties, Tier variant) {
@@ -42,10 +42,10 @@ public class EnergyDischargerBlock extends PowahBaseEnergyBlock<EnergyConfig, En
 
     @Nullable
     @Override
-    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te,
+    public <T extends PowahBaseBlockEntity> BaseMenu getContainer(int id, Inventory inventory, PowahBaseBlockEntity te,
             BlockHitResult result) {
         if (te instanceof EnergyDischargerBlockEntity) {
-            return new DischargerContainer(id, inventory, (EnergyDischargerBlockEntity) te);
+            return new DischargerMenu(id, inventory, (EnergyDischargerBlockEntity) te);
         }
         return null;
     }

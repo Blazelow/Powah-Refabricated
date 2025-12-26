@@ -3,19 +3,19 @@ package owmii.powah.inventory;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.hopper.EnergyHopperBlockEntity;
-import owmii.powah.lib.logistics.inventory.AbstractEnergyContainer;
+import owmii.powah.lib.logistics.inventory.BaseEnergyMenu;
 
-public class EnergyHopperContainer extends AbstractEnergyContainer<EnergyHopperBlockEntity> {
-    public EnergyHopperContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
+public class EnergyHopperMenu extends BaseEnergyMenu<EnergyHopperBlockEntity> {
+    public EnergyHopperMenu(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.ENERGY_HOPPER.get(), id, inventory, buffer);
     }
 
-    public EnergyHopperContainer(int id, Inventory inventory, EnergyHopperBlockEntity te) {
+    public EnergyHopperMenu(int id, Inventory inventory, EnergyHopperBlockEntity te) {
         super(Containers.ENERGY_HOPPER.get(), id, inventory, te);
     }
 
-    public static EnergyHopperContainer create(int id, Inventory inventory, FriendlyByteBuf buffer) {
-        return new EnergyHopperContainer(id, inventory, buffer);
+    public static EnergyHopperMenu create(int id, Inventory inventory, FriendlyByteBuf buffer) {
+        return new EnergyHopperMenu(id, inventory, buffer);
     }
 
     @Override

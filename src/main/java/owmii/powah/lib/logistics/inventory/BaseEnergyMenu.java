@@ -7,12 +7,12 @@ import org.jspecify.annotations.Nullable;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 
-public class AbstractEnergyContainer<T extends PowahBaseBlockEntity<?, ?> & IInventoryHolder> extends AbstractTileContainer<T> {
-    public AbstractEnergyContainer(@Nullable MenuType<?> containerType, int id, Inventory inventory, FriendlyByteBuf buffer) {
+public class BaseEnergyMenu<T extends PowahBaseBlockEntity<?, ?> & IInventoryHolder> extends BaseBlockEntityMenu<T> {
+    public BaseEnergyMenu(@Nullable MenuType<?> containerType, int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(containerType, id, inventory, buffer);
     }
 
-    public AbstractEnergyContainer(@Nullable MenuType<?> type, int id, Inventory inventory, T te) {
+    public BaseEnergyMenu(@Nullable MenuType<?> type, int id, Inventory inventory, T te) {
         super(type, id, inventory, te);
     }
 }

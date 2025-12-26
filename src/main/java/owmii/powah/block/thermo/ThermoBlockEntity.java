@@ -7,14 +7,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
 import owmii.powah.api.PowahAPI;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
 import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
-import owmii.powah.lib.logistics.energy.EnergyItemUtil;
+import owmii.powah.util.ChargeUtil;
 import owmii.powah.util.Util;
 
 public class ThermoBlockEntity extends PowahBaseGeneratorBlockEntity<ThermoBlock> implements IInventoryHolder, ITankHolder {
@@ -22,9 +22,8 @@ public class ThermoBlockEntity extends PowahBaseGeneratorBlockEntity<ThermoBlock
 
     public ThermoBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.THERMO_GEN.get(), pos, state, variant);
-        this.tank.setCapacity(Util.bucketAmount() * 4)
-                .setValidator(stack -> PowahAPI.getCoolant(stack.getFluid()).isPresent())
-                .setChange(() -> ThermoBlockEntity.this.sync(10));
+        this.tank.setValidator(stack -> PowahAPI.getCoolant(stack.getFluid()).isPresent());
+        this.tank.setChange(() -> ThermoBlockEntity.this.sync(10));
     }
 
     public ThermoBlockEntity(BlockPos pos, BlockState state) {
@@ -34,6 +33,11 @@ public class ThermoBlockEntity extends PowahBaseGeneratorBlockEntity<ThermoBlock
     @Override
     protected int getInternalInventorySize() {
         return 1;
+    }
+
+    @Override
+    protected int getInternalTankCapacity() {
+        return Util.bucketAmount() * 4;
     }
 
     @Override
@@ -71,7 +75,7 @@ public class ThermoBlockEntity extends PowahBaseGeneratorBlockEntity<ThermoBlock
                     this.generating = (int) (heatRatio * coolantRatio * getGeneration());
                     this.energy.produce(this.generating);
                     if (world.getGameTime() % 40 == 0L) {
-                        this.tank.drain(1, IFluidHandler.FluidAction.EXECUTE);
+                        ResourceHandlerUtil.extractFirst(this.tank, _ -> true, 1, null);
                     }
                 } else {
                     this.generating = 0;
@@ -101,7 +105,7 @@ public class ThermoBlockEntity extends PowahBaseGeneratorBlockEntity<ThermoBlock
 
     @Override
     public boolean canInsert(int slot, ItemStack stack) {
-        return EnergyItemUtil.isChargeableItem(stack);
+        return ChargeUtil.isChargeableItem(stack);
     }
 
     @Override

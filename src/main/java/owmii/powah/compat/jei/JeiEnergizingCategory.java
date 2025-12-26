@@ -1,9 +1,9 @@
 package owmii.powah.compat.jei;
 
 import com.google.common.base.Suppliers;
-import java.util.List;
 import java.util.function.Supplier;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
@@ -23,9 +23,11 @@ public class JeiEnergizingCategory extends AbstractCategory<RecipeHolder<Energiz
     public static final Supplier<IRecipeType<RecipeHolder<EnergizingRecipe>>> TYPE = Suppliers
             .memoize(() -> IRecipeType.create(Recipes.ENERGIZING.get()));
 
+    private final IDrawable arrow;
+
     public JeiEnergizingCategory(IGuiHelper guiHelper) {
-        // TODO 26.1 background: guiHelper.drawableBuilder(Assets.ENERGIZING, 0, 0, 160, 38).addPadding(1, 0, 0, 0).build()
         super(guiHelper, Blcks.ENERGIZING_ORB.get(), Component.translatable("gui.powah.jei.category.energizing"), 160, 38);
+        arrow = guiHelper.getRecipeArrow();
     }
 
     @Override
@@ -38,11 +40,14 @@ public class JeiEnergizingCategory extends AbstractCategory<RecipeHolder<Energiz
         var recipe = recipeHolder.value();
         var ingredients = recipe.getIngredients();
         int size = ingredients.size();
-        for (int i = 0; i < size; i++) {
-            builder.addSlot(RecipeIngredientRole.INPUT, (i * 20) + 4, 5).add(ingredients.get(i));
+        for (int i = 0; i < Math.max(size, 5); i++) {
+            var slot = builder.addSlot(RecipeIngredientRole.INPUT, (i * 20) + 4, 5).setStandardSlotBackground();
+            if (i < ingredients.size()) {
+                slot.add(ingredients.get(i));
+            }
         }
 
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 137, 5).add(recipe.getResultItem());
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 137, 5).setOutputSlotBackground().add(recipe.getResultItem());
     }
 
     @Override
@@ -50,16 +55,8 @@ public class JeiEnergizingCategory extends AbstractCategory<RecipeHolder<Energiz
             double mouseY) {
         var recipe = recipeHolder.value();
         var minecraft = Minecraft.getInstance();
-        guiGraphics.drawString(minecraft.font, I18n.get("info.lollipop.fe", Util.addCommas(recipe.getEnergy())), 2, 29, 0x444444, false);
-    }
+        guiGraphics.drawString(minecraft.font, I18n.get("info.lollipop.fe", Util.addCommas(recipe.getEnergy())), 2, 29, 0xFF444444, false);
 
-    public static List<RecipeHolder<EnergizingRecipe>> getAllRecipes() {
-        var minecraft = Minecraft.getInstance();
-        var level = minecraft.level;
-        assert level != null;
-        // TODO 26.1 var recipeManager = level.getRecipeManager();
-
-        // TODO 26.1 return recipeManager.getAllRecipesFor(Recipes.ENERGIZING.get());
-        return List.of();
+        arrow.draw(guiGraphics, 105, 5);
     }
 }

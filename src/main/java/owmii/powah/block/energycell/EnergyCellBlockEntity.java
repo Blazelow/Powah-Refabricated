@@ -13,7 +13,7 @@ import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.logistics.Transfer;
-import owmii.powah.lib.logistics.energy.EnergyItemUtil;
+import owmii.powah.util.ChargeUtil;
 
 public class EnergyCellBlockEntity extends PowahBaseEnergyStorageBlockEntity<EnergyConfig, EnergyCellBlock> implements IInventoryHolder {
     public EnergyCellBlockEntity(BlockPos pos, BlockState state, Tier tier) {
@@ -81,7 +81,7 @@ public class EnergyCellBlockEntity extends PowahBaseEnergyStorageBlockEntity<Ene
 
     @Override
     public boolean canInsert(int slot, ItemStack stack) {
-        return EnergyItemUtil.isChargeableItem(stack);
+        return ChargeUtil.isChargeableItem(stack);
     }
 
     @Override

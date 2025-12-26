@@ -14,11 +14,11 @@ import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.client.screen.Texture;
 import owmii.powah.lib.client.screen.widget.IconButton;
 import owmii.powah.lib.client.util.Text;
-import owmii.powah.lib.logistics.inventory.AbstractEnergyContainer;
+import owmii.powah.lib.logistics.inventory.BaseEnergyMenu;
 import owmii.powah.network.Network;
 import owmii.powah.network.packet.NextEnergyConfigPacket;
 
-public class PowahBaseEnergyScreen<T extends PowahBaseEnergyStorageBlockEntity<?, ?> & IInventoryHolder, C extends AbstractEnergyContainer<T>>
+public class PowahBaseEnergyScreen<T extends PowahBaseEnergyStorageBlockEntity<?, ?> & IInventoryHolder, C extends BaseEnergyMenu<T>>
         extends PowahBaseBlockEntityScreen<T, C> {
     protected IconButton[] configButtons = new IconButton[6];
     protected IconButton configButtonAll = IconButton.EMPTY;

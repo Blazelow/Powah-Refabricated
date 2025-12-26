@@ -1,6 +1,5 @@
 package owmii.powah.compat.curios;
 
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.NeoForge;
 import owmii.powah.ChargeableItemsEvent;
 import top.theillusivec4.curios.api.CuriosCapability;
@@ -17,13 +16,11 @@ public class CuriosCompat {
             return;
         }
 
-        curiosInventory.getCurios().forEach((s, stackHandler) -> {
-            for (int i = 0; i < stackHandler.getSlots(); i++) {
-                ItemStack stack = stackHandler.getStacks().getStackInSlot(i);
-                if (!stack.isEmpty()) {
-                    // TODO 26.1: event.getSources().add(stack);
-                }
+        curiosInventory.getCurios().forEach((_, stackHandler) -> {
+            for (int i = 0; i < stackHandler.getStacks().getSlots(); i++) {
+                // TODO 26.1: Handle after curios update
             }
         });
     }
+
 }

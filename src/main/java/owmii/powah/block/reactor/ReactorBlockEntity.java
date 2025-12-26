@@ -18,9 +18,9 @@ import owmii.powah.block.Tiles;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
 import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
-import owmii.powah.lib.logistics.energy.EnergyItemUtil;
 import owmii.powah.lib.logistics.fluid.Tank;
 import owmii.powah.recipe.ReactorFuel;
+import owmii.powah.util.ChargeUtil;
 import owmii.powah.util.EnergyUtil;
 import owmii.powah.util.Ticker;
 import owmii.powah.util.Util;
@@ -48,14 +48,18 @@ public class ReactorBlockEntity extends PowahBaseGeneratorBlockEntity<ReactorBlo
 
     public ReactorBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.REACTOR.get(), pos, state, variant);
-        this.tank.setCapacity(Util.bucketAmount())
-                .setValidator(stack -> PowahAPI.getCoolant(stack.getFluid()).isPresent())
-                .setChange(() -> ReactorBlockEntity.this.sync(10));
+        this.tank.setValidator(stack -> PowahAPI.getCoolant(stack.getFluid()).isPresent());
+        this.tank.setChange(() -> ReactorBlockEntity.this.sync(10));
     }
 
     @Override
     protected int getInternalInventorySize() {
         return 5;
+    }
+
+    @Override
+    protected int getInternalTankCapacity() {
+        return Util.bucketAmount();
     }
 
     public ReactorBlockEntity(BlockPos pos, BlockState state) {
@@ -359,7 +363,7 @@ public class ReactorBlockEntity extends PowahBaseGeneratorBlockEntity<ReactorBlo
             var coolant = PowahAPI.getSolidCoolant(stack.getItem());
             return coolant.amount() > 0 && coolant.temperature() < 2;
         } else
-            return EnergyItemUtil.isChargeableItem(stack);
+            return ChargeUtil.isChargeableItem(stack);
     }
 
     @Override

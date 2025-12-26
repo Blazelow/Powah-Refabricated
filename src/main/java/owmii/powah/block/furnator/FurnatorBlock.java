@@ -20,11 +20,11 @@ import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
-import owmii.powah.inventory.FurnatorContainer;
+import owmii.powah.inventory.FurnatorMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
-import owmii.powah.lib.logistics.inventory.AbstractContainer;
+import owmii.powah.lib.logistics.inventory.BaseMenu;
 
 public class FurnatorBlock extends PowahBaseGeneratorBlock<FurnatorBlock> implements SimpleWaterloggedBlock {
     public FurnatorBlock(Properties properties, Tier variant) {
@@ -55,9 +55,9 @@ public class FurnatorBlock extends PowahBaseGeneratorBlock<FurnatorBlock> implem
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory playerInventory, PowahBaseBlockEntity te, BlockHitResult result) {
+    public BaseMenu getContainer(int id, Inventory playerInventory, PowahBaseBlockEntity te, BlockHitResult result) {
         if (te instanceof FurnatorBlockEntity) {
-            return new FurnatorContainer(id, playerInventory, (FurnatorBlockEntity) te);
+            return new FurnatorMenu(id, playerInventory, (FurnatorBlockEntity) te);
         }
         return null;
     }

@@ -19,7 +19,6 @@ public class JeiSolidCoolantCategory extends AbstractCategory<SolidCoolant> {
     public static final IRecipeType<SolidCoolant> TYPE = IRecipeType.create(Powah.MOD_ID, "solid_coolant", SolidCoolant.class);
 
     public JeiSolidCoolantCategory(IGuiHelper guiHelper) {
-        // TODO 26.1 Background: guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build()
         super(guiHelper, Blcks.DRY_ICE.get(), Component.translatable("gui.powah.jei.category.solid.coolant"), 160, 24);
     }
 
@@ -30,16 +29,16 @@ public class JeiSolidCoolantCategory extends AbstractCategory<SolidCoolant> {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, SolidCoolant recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 4, 5).add(recipe.item());
+        builder.addSlot(RecipeIngredientRole.INPUT, 4, 5).setStandardSlotBackground().add(recipe.item());
     }
 
     @Override
     public void draw(SolidCoolant recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         var minecraft = Minecraft.getInstance();
         guiGraphics.drawString(minecraft.font, I18n.get("info.lollipop.amount") + ": " + I18n.get("info.lollipop.mb", recipe.amount()), 30, 3,
-                0x444444,
+                0xFF444444,
                 false);
         guiGraphics.drawString(minecraft.font, I18n.get("info.lollipop.temperature") + ": "
-                + I18n.get("info.lollipop.temperature.c", "" + ChatFormatting.DARK_AQUA + recipe.temperature()), 30, 15, 0x444444, false);
+                + I18n.get("info.lollipop.temperature.c", "" + ChatFormatting.DARK_AQUA + recipe.temperature()), 30, 15, 0xFF444444, false);
     }
 }

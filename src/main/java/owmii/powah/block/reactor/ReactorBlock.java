@@ -20,20 +20,20 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
-import owmii.powah.inventory.ReactorContainer;
+import owmii.powah.inventory.ReactorMenu;
 import owmii.powah.item.ReactorItem;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.fluid.Tank;
-import owmii.powah.lib.logistics.inventory.AbstractContainer;
+import owmii.powah.lib.logistics.inventory.BaseMenu;
 import owmii.powah.util.Util;
 
 public class ReactorBlock extends PowahBaseGeneratorBlock<ReactorBlock> {
@@ -81,7 +81,7 @@ public class ReactorBlock extends PowahBaseGeneratorBlock<ReactorBlock> {
         } else if (tileentity instanceof ReactorBlockEntity reactor) {
             if (reactor.isBuilt()) {
                 Tank tank = reactor.getTank();
-                if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, tank)) {
+                if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, pPos, tank)) {
                     reactor.sync();
                     return InteractionResult.SUCCESS;
                 }
@@ -103,10 +103,10 @@ public class ReactorBlock extends PowahBaseGeneratorBlock<ReactorBlock> {
 
     @Nullable
     @Override
-    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te,
+    public <T extends PowahBaseBlockEntity> BaseMenu getContainer(int id, Inventory inventory, PowahBaseBlockEntity te,
             BlockHitResult result) {
         if (te instanceof ReactorBlockEntity) {
-            return new ReactorContainer(id, inventory, (ReactorBlockEntity) te);
+            return new ReactorMenu(id, inventory, (ReactorBlockEntity) te);
         }
         return null;
     }

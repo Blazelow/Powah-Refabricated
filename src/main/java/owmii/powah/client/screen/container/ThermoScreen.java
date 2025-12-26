@@ -9,14 +9,14 @@ import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.api.PowahAPI;
 import owmii.powah.block.thermo.ThermoBlockEntity;
 import owmii.powah.client.screen.Textures;
-import owmii.powah.inventory.ThermoContainer;
+import owmii.powah.inventory.ThermoMenu;
 import owmii.powah.lib.client.screen.container.PowahBaseEnergyScreen;
 import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Util;
 
-public class ThermoScreen extends PowahBaseEnergyScreen<ThermoBlockEntity, ThermoContainer> {
-    public ThermoScreen(ThermoContainer container, Inventory inv, Component title) {
+public class ThermoScreen extends PowahBaseEnergyScreen<ThermoBlockEntity, ThermoMenu> {
+    public ThermoScreen(ThermoMenu container, Inventory inv, Component title) {
         super(container, inv, title, Textures.THERMO);
 
         addTankArea(te::getTank, 157, 5, 14, 65, "info.lollipop.coolant", (content, lines) -> {
@@ -37,7 +37,7 @@ public class ThermoScreen extends PowahBaseEnergyScreen<ThermoBlockEntity, Therm
         Textures.THERMO_GAUGE.drawScalableH(gui, this.te.getEnergy().subSized(), this.leftPos + 5, this.topPos + 5);
 
         long percent = this.te.getGeneration() > 0 ? (100 * this.te.generating) / this.te.getGeneration() : 0;
-        gui.drawString(font, percent + "%" + " (" + this.te.generating + " FE/t)", this.leftPos + 34, this.topPos + 10, 5592405, false);
+        gui.drawString(font, percent + "%" + " (" + this.te.generating + " FE/t)", this.leftPos + 34, this.topPos + 10, 0xFF555555, false);
     }
 
     @Override

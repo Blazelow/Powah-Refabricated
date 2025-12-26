@@ -3,20 +3,20 @@ package owmii.powah.inventory;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.ender.PowahBaseEnderBlockEntity;
-import owmii.powah.lib.logistics.inventory.AbstractEnergyContainer;
+import owmii.powah.lib.logistics.inventory.BaseEnergyMenu;
 import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 
-public class EnderCellContainer extends AbstractEnergyContainer<PowahBaseEnderBlockEntity<?>> {
-    public EnderCellContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
+public class EnderCellMenu extends BaseEnergyMenu<PowahBaseEnderBlockEntity<?>> {
+    public EnderCellMenu(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.ENDER_CELL.get(), id, inventory, buffer);
     }
 
-    public EnderCellContainer(int id, Inventory inventory, PowahBaseEnderBlockEntity te) {
+    public EnderCellMenu(int id, Inventory inventory, PowahBaseEnderBlockEntity te) {
         super(Containers.ENDER_CELL.get(), id, inventory, te);
     }
 
-    public static EnderCellContainer create(int id, Inventory inventory, FriendlyByteBuf buffer) {
-        return new EnderCellContainer(id, inventory, buffer);
+    public static EnderCellMenu create(int id, Inventory inventory, FriendlyByteBuf buffer) {
+        return new EnderCellMenu(id, inventory, buffer);
     }
 
     @Override

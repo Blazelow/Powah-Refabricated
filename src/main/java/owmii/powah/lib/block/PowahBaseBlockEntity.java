@@ -38,7 +38,7 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
     /**
      * Used when this is instance of {@link ITankHolder}
      **/
-    protected final Tank tank = new Tank(0);
+    protected final Tank tank;
 
     protected V variant;
     protected boolean isContainerOpen;
@@ -49,7 +49,6 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
 
     public PowahBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         this(type, pos, state, IVariant.getEmpty());
-        this.tank.setValidator(stack -> true);
     }
 
     public PowahBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, V variant) {
@@ -59,9 +58,14 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
         if (this instanceof IInventoryHolder) {
             this.inv.setTile((IInventoryHolder) this);
         }
+        this.tank = new Tank(getInternalTankCapacity());
     }
 
     protected int getInternalInventorySize() {
+        return 0;
+    }
+
+    protected int getInternalTankCapacity() {
         return 0;
     }
 
@@ -119,7 +123,7 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
         }
         if (this instanceof ITankHolder tankHolder) {
             if (!tankHolder.keepFluid()) {
-                this.tank.load(input);
+                this.tank.deserialize(input.childOrEmpty("tank"));
             }
         }
         this.redstone = Redstone.values()[input.getIntOr("redstone_mode", 0)];
@@ -135,7 +139,7 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
         }
         if (this instanceof ITankHolder tankHolder) {
             if (!tankHolder.keepFluid()) {
-                this.tank.save(output);
+                this.tank.serialize(output.child("tank"));
             }
         }
         output.putInt("redstone_mode", this.redstone.ordinal());
@@ -148,7 +152,7 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
         }
         if (this instanceof ITankHolder tankHolder) {
             if (tankHolder.keepFluid()) {
-                this.tank.load(input);
+                this.tank.deserialize(input.childOrEmpty("tank"));
             }
         }
     }
@@ -159,7 +163,7 @@ public class PowahBaseBlockEntity<V extends IVariant, B extends PowahBaseBlock<V
         }
         if (this instanceof ITankHolder tankHolder) {
             if (tankHolder.keepFluid()) {
-                this.tank.save(output);
+                this.tank.serialize(output.child("tank"));
             }
         }
     }

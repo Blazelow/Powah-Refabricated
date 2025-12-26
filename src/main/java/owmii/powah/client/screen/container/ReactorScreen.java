@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.api.PowahAPI;
 import owmii.powah.block.reactor.ReactorBlockEntity;
 import owmii.powah.client.screen.Textures;
-import owmii.powah.inventory.ReactorContainer;
+import owmii.powah.inventory.ReactorMenu;
 import owmii.powah.lib.client.screen.container.PowahBaseEnergyScreen;
 import owmii.powah.lib.client.screen.widget.IconButton;
 import owmii.powah.lib.client.util.Text;
@@ -18,10 +18,10 @@ import owmii.powah.network.Network;
 import owmii.powah.network.packet.SwitchGenModePacket;
 import owmii.powah.util.Util;
 
-public class ReactorScreen extends PowahBaseEnergyScreen<ReactorBlockEntity, ReactorContainer> {
+public class ReactorScreen extends PowahBaseEnergyScreen<ReactorBlockEntity, ReactorMenu> {
     private IconButton modeButton = IconButton.EMPTY;
 
-    public ReactorScreen(ReactorContainer container, Inventory inv, Component title) {
+    public ReactorScreen(ReactorMenu container, Inventory inv, Component title) {
         super(container, inv, title, Textures.REACTOR);
 
         addTankArea(te::getTank, 157, 5, 14, 65, "info.lollipop.coolant", (content, lines) -> {

@@ -5,20 +5,21 @@ import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.furnator.FurnatorBlockEntity;
 import owmii.powah.client.screen.Textures;
-import owmii.powah.inventory.FurnatorContainer;
+import owmii.powah.inventory.FurnatorMenu;
 import owmii.powah.lib.client.screen.container.PowahBaseEnergyScreen;
 import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.util.Ticker;
 import owmii.powah.util.Util;
 
-public class FurnatorScreen extends PowahBaseEnergyScreen<FurnatorBlockEntity, FurnatorContainer> {
+public class FurnatorScreen extends PowahBaseEnergyScreen<FurnatorBlockEntity, FurnatorMenu> {
     private final Ticker heat = new Ticker(20);
 
-    public FurnatorScreen(FurnatorContainer container, Inventory inv, Component title) {
+    public FurnatorScreen(FurnatorMenu container, Inventory inv, Component title) {
         super(container, inv, title, Textures.FURNATOR);
         if (this.te.isBurning()) {
             this.heat.setTicks(20);
@@ -40,9 +41,8 @@ public class FurnatorScreen extends PowahBaseEnergyScreen<FurnatorBlockEntity, F
         super.drawBackground(guiGraphics, partialTicks, mouseX, mouseY);
         Textures.FURNATOR_GAUGE.drawScalableH(guiGraphics, this.te.getEnergy().subSized(), this.leftPos + 5, this.topPos + 5);
         Textures.FURNATOR_CARBON_GAUGE.drawScalableH(guiGraphics, this.te.getCarbon().subSized(), this.leftPos + 110, this.topPos + 18);
-        // TODO 26.1 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.heat.subSized());
-        Textures.FURNATOR_BUFFER.draw(guiGraphics, this.leftPos + 94, this.topPos + 43);
-        // TODO 26.1 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        var alpha = this.heat.subSized();
+        Textures.FURNATOR_BUFFER.draw(guiGraphics, this.leftPos + 94, this.topPos + 43, ARGB.white(alpha));
     }
 
     @Override

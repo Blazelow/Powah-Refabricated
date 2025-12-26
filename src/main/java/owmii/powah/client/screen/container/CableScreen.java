@@ -9,17 +9,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.cable.CableBlockEntity;
 import owmii.powah.client.screen.Textures;
-import owmii.powah.inventory.CableContainer;
+import owmii.powah.inventory.CableMenu;
 import owmii.powah.lib.client.screen.container.PowahBaseEnergyScreen;
 import owmii.powah.lib.client.screen.widget.IconButton;
 import owmii.powah.network.Network;
 import owmii.powah.network.packet.NextEnergyConfigPacket;
 
-public class CableScreen extends PowahBaseEnergyScreen<CableBlockEntity, CableContainer> {
+public class CableScreen extends PowahBaseEnergyScreen<CableBlockEntity, CableMenu> {
     private IconButton configButton = IconButton.EMPTY;
     private Direction side;
 
-    public CableScreen(CableContainer container, Inventory inv, Component title) {
+    public CableScreen(CableMenu container, Inventory inv, Component title) {
         super(container, inv, title, Textures.CABLE);
         this.side = container.getSide();
     }
@@ -54,7 +54,7 @@ public class CableScreen extends PowahBaseEnergyScreen<CableBlockEntity, CableCo
         super.drawForeground(gui, mouseX, mouseY);
         String title = I18n.get("info.lollipop.side." + this.side.getName(), ChatFormatting.DARK_GRAY);
         int width = this.font.width(title);
-        gui.drawString(font, title, this.imageWidth / 2 - width / 2, 10, 0x555555, false);
+        gui.drawString(font, title, this.imageWidth / 2 - width / 2, 10, 0xFF555555, false);
     }
 
     @Override

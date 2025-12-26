@@ -25,7 +25,7 @@ import owmii.powah.lib.block.IOwnable;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.logistics.energy.Energy;
-import owmii.powah.lib.logistics.energy.EnergyItemUtil;
+import owmii.powah.util.ChargeUtil;
 import owmii.powah.util.Player;
 import owmii.powah.util.math.RangedInt;
 
@@ -177,7 +177,7 @@ public class PowahBaseEnderBlockEntity<B extends PowahBaseEnergyBlock<EnderConfi
                 return false;
         }
 
-        return EnergyItemUtil.isChargeableItem(stack);
+        return ChargeUtil.isChargeableItem(stack);
     }
 
     @Override

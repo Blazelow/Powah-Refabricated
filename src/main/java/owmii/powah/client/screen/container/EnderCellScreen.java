@@ -2,13 +2,14 @@ package owmii.powah.client.screen.container;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import owmii.powah.api.energy.endernetwork.IEnderExtender;
 import owmii.powah.block.ender.PowahBaseEnderBlockEntity;
 import owmii.powah.client.screen.Textures;
-import owmii.powah.inventory.EnderCellContainer;
+import owmii.powah.inventory.EnderCellMenu;
 import owmii.powah.lib.client.screen.Texture;
 import owmii.powah.lib.client.screen.container.PowahBaseEnergyScreen;
 import owmii.powah.lib.client.screen.widget.IconButton;
@@ -17,10 +18,10 @@ import owmii.powah.network.Network;
 import owmii.powah.network.packet.SetChannelPacket;
 import owmii.powah.util.Util;
 
-public class EnderCellScreen extends PowahBaseEnergyScreen<PowahBaseEnderBlockEntity<?>, EnderCellContainer> {
+public class EnderCellScreen extends PowahBaseEnergyScreen<PowahBaseEnderBlockEntity<?>, EnderCellMenu> {
     private final IconButton[] iconButtons;
 
-    public EnderCellScreen(EnderCellContainer container, Inventory inv, Component title) {
+    public EnderCellScreen(EnderCellMenu container, Inventory inv, Component title) {
         super(container, inv, title, Textures.ENDER_CELL);
         this.iconButtons = new IconButton[this.te.getMaxChannels()];
     }
@@ -56,22 +57,20 @@ public class EnderCellScreen extends PowahBaseEnergyScreen<PowahBaseEnderBlockEn
     protected void drawForeground(GuiGraphics gui, int mouseX, int mouseY) {
         super.drawForeground(gui, mouseX, mouseY);
         gui.pose().pushMatrix();
-        // TODO 26.1 RenderSystem.enableBlend();
-        int a = (int) (255.0D * 0.45D) << 24;
         Energy e = this.te.getEnergy();
         String s = Util.addCommas(e.getStored()) + "/" + Util.numFormat(e.getCapacity()) + " FE";
-        gui.drawString(this.font, s, 38, 13, a + 0x4affde, false);
-        gui.drawString(this.font, Util.numFormat(e.getMaxExtract()) + " FE/t", 38, 27, a + 0x4affde, false);
+        gui.drawString(this.font, s, 38, 13, ARGB.color(0.4f, 0x4affde), false);
+        gui.drawString(this.font, Util.numFormat(e.getMaxExtract()) + " FE/t", 38, 27, ARGB.color(0.4f, 0x4affde), false);
 
         gui.pose().scale(0.5F, 0.5F);
         for (int i = 1; i < 13; i++) {
             var f = i > 9 ? -2 : 0;
             if (i > 1)
                 gui.pose().translate(14F, 0.0F);
-            gui.drawString(this.font, "" + i, 19 + (i * 14) - 14 + f, 119, i <= this.te.getMaxChannels() ? 0x3e8087 : a + 0x3e8087, false);
+            gui.drawString(this.font, "" + i, 19 + (i * 14) - 14 + f, 119, i <= this.te.getMaxChannels() ? 0xff3e8087 : ARGB.color(0.4f, 0x3e8087),
+                    false);
         }
 
-        // TODO 26.1 RenderSystem.disableBlend();
         gui.pose().popMatrix();
     }
 

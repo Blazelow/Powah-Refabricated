@@ -28,11 +28,11 @@ import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.ChargingConfig;
-import owmii.powah.inventory.PlayerTransmitterContainer;
+import owmii.powah.inventory.PlayerTransmitterMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
-import owmii.powah.lib.logistics.inventory.AbstractContainer;
+import owmii.powah.lib.logistics.inventory.BaseMenu;
 
 public class PlayerTransmitterBlock extends PowahBaseEnergyBlock<ChargingConfig, PlayerTransmitterBlock> {
     public static final BooleanProperty TOP = BooleanProperty.create("top");
@@ -69,9 +69,9 @@ public class PlayerTransmitterBlock extends PowahBaseEnergyBlock<ChargingConfig,
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
+    public BaseMenu getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
         if (te instanceof PlayerTransmitterBlockEntity) {
-            return new PlayerTransmitterContainer(id, inventory, (PlayerTransmitterBlockEntity) te);
+            return new PlayerTransmitterMenu(id, inventory, (PlayerTransmitterBlockEntity) te);
         }
         return null;
     }

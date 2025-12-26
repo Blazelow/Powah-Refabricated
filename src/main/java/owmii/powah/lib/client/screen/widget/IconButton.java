@@ -13,6 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.lib.client.screen.Texture;
@@ -79,7 +80,7 @@ public class IconButton extends Button {
         if (!s.isEmpty()) {
             int width = f.width(s);
             TextColor c = getMessage().getStyle().getColor();
-            int color = c == null ? 0x555555 : c.getValue();
+            int color = ARGB.opaque(c == null ? 0x555555 : c.getValue());
             gui.drawString(f, s,
                     Math.round(this.xOffset + this.getX() + 0.5F + this.width / 2.0F - width / 2.0F),
                     Math.round(this.yOffset + this.getY() + this.height / 2.0F - 4),

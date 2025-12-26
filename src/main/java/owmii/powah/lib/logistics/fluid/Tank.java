@@ -2,45 +2,55 @@ package owmii.powah.lib.logistics.fluid;
 
 import java.util.function.Predicate;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
 
-public class Tank extends FluidTank {
+public class Tank extends FluidStacksResourceHandler {
+    private Predicate<FluidStack> validator;
     private Runnable changed = () -> {
     };
 
     public Tank(int capacity) {
-        this(capacity, e -> true);
+        this(capacity, _ -> true);
     }
 
     public Tank(int capacity, Predicate<FluidStack> validator) {
-        super(capacity, validator);
-    }
-
-    public Tank setValidator(Predicate<FluidStack> validator) {
-        super.setValidator(validator);
-        return this;
+        super(1, capacity);
+        this.validator = validator;
     }
 
     @Override
-    public Tank setCapacity(int capacity) {
-        super.setCapacity(capacity);
-        return this;
+    public boolean isValid(int index, FluidResource resource) {
+        return super.isValid(index, resource)
+                && validator.test(resource.toStack(1));
     }
 
-    public Tank setChange(Runnable changed) {
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public FluidStack getFluid() {
+        return stacks.getFirst();
+    }
+
+    public int getFluidAmount() {
+        return getAmountAsInt(0);
+    }
+
+    public boolean isEmpty() {
+        return getFluid().isEmpty();
+    }
+
+    public void setValidator(Predicate<FluidStack> validator) {
+        this.validator = validator;
+    }
+
+    public void setChange(Runnable changed) {
         this.changed = changed;
-        return this;
-    }
-
-    private boolean sendUpdates = true;
-
-    public void setSendUpdates(boolean sendUpdates) {
-        this.sendUpdates = sendUpdates;
     }
 
     @Override
-    public void onContentsChanged() {
-        if (sendUpdates) {
-            this.changed.run();
-        }
+    protected void onContentsChanged(int index, FluidStack previousContents) {
+        this.changed.run();
     }
 }

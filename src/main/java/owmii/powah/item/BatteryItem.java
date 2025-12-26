@@ -22,7 +22,6 @@ import owmii.powah.components.PowahComponents;
 import owmii.powah.config.IEnergyConfig;
 import owmii.powah.config.v2.types.EnergyConfig;
 import owmii.powah.lib.item.EnergyItem;
-import owmii.powah.lib.logistics.energy.EnergyItemUtil;
 import owmii.powah.util.ChargeUtil;
 
 public class BatteryItem extends EnergyItem<Tier, EnergyConfig, BatteryItem> implements IEnderExtender {
@@ -78,13 +77,13 @@ public class BatteryItem extends EnergyItem<Tier, EnergyConfig, BatteryItem> imp
 
     @Override
     public boolean isBarVisible(ItemStack stack) {
-        var energy = EnergyItemUtil.getStored(stack);
+        var energy = ChargeUtil.getStored(stack);
         return energy < getConfig().getCapacity(getVariant());
     }
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        var energy = EnergyItemUtil.getStored(stack);
+        var energy = ChargeUtil.getStored(stack);
         return (int) Math.min(1 + 12 * energy / getConfig().getCapacity(getVariant()), 13);
     }
 
@@ -116,6 +115,6 @@ public class BatteryItem extends EnergyItem<Tier, EnergyConfig, BatteryItem> imp
 
     @Override
     public long getExtendedEnergy(ItemStack stack) {
-        return EnergyItemUtil.getStored(stack);
+        return ChargeUtil.getStored(stack);
     }
 }

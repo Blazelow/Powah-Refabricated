@@ -20,12 +20,12 @@ import owmii.powah.lib.client.util.Draw;
 import owmii.powah.lib.client.util.RenderTypes;
 import owmii.powah.lib.client.util.Text;
 import owmii.powah.lib.logistics.fluid.Tank;
-import owmii.powah.lib.logistics.inventory.AbstractTileContainer;
+import owmii.powah.lib.logistics.inventory.BaseBlockEntityMenu;
 import owmii.powah.network.Network;
 import owmii.powah.network.packet.NextRedstoneModePacket;
 import owmii.powah.util.Util;
 
-public class PowahBaseBlockEntityScreen<T extends PowahBaseBlockEntity<?, ?> & IInventoryHolder, C extends AbstractTileContainer<T>>
+public class PowahBaseBlockEntityScreen<T extends PowahBaseBlockEntity<?, ?> & IInventoryHolder, C extends BaseBlockEntityMenu<T>>
         extends PowahBaseContainerScreen<C> {
     protected final T te;
     protected IconButton redStoneButton = IconButton.EMPTY;
@@ -33,7 +33,7 @@ public class PowahBaseBlockEntityScreen<T extends PowahBaseBlockEntity<?, ?> & I
 
     public PowahBaseBlockEntityScreen(C container, Inventory inv, Component title, Texture backGround) {
         super(container, inv, title, backGround);
-        this.te = container.te;
+        this.te = container.blockEntity;
     }
 
     @Override

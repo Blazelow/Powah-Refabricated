@@ -19,7 +19,6 @@ public class JeiHeatSourceCategory extends AbstractCategory<PassiveHeatSource> {
     public static final IRecipeType<PassiveHeatSource> TYPE = IRecipeType.create(Powah.MOD_ID, "heat_source", PassiveHeatSource.class);
 
     public JeiHeatSourceCategory(IGuiHelper guiHelper) {
-        // TODO 26.1 background: guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build());
         super(guiHelper, Blocks.MAGMA_BLOCK, Component.translatable("gui.powah.jei.category.heat.sources"), 160, 24);
     }
 
@@ -30,7 +29,7 @@ public class JeiHeatSourceCategory extends AbstractCategory<PassiveHeatSource> {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, PassiveHeatSource recipe, IFocusGroup focuses) {
-        var input = builder.addSlot(RecipeIngredientRole.INPUT, 4, 5);
+        var input = builder.addSlot(RecipeIngredientRole.INPUT, 4, 5).setStandardSlotBackground();
 
         if (recipe.block() != null) {
             input.add(recipe.block());
@@ -44,6 +43,6 @@ public class JeiHeatSourceCategory extends AbstractCategory<PassiveHeatSource> {
     public void draw(PassiveHeatSource recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         var minecraft = Minecraft.getInstance();
         guiGraphics.drawString(minecraft.font, ChatFormatting.DARK_GRAY + I18n.get("info.lollipop.temperature") + ": "
-                + ChatFormatting.RESET + I18n.get("info.lollipop.temperature.c", recipe.heat()), 30, 9, 0xc43400, false);
+                + ChatFormatting.RESET + I18n.get("info.lollipop.temperature.c", recipe.heat()), 30, 9, 0xFFc43400, false);
     }
 }

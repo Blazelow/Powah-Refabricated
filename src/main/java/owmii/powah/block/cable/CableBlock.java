@@ -32,10 +32,10 @@ import owmii.powah.Powah;
 import owmii.powah.api.energy.IEnergyConnector;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.CableConfig;
-import owmii.powah.inventory.CableContainer;
+import owmii.powah.inventory.CableMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
-import owmii.powah.lib.logistics.inventory.AbstractContainer;
+import owmii.powah.lib.logistics.inventory.BaseMenu;
 import owmii.powah.util.EnergyUtil;
 
 public class CableBlock extends PowahBaseEnergyBlock<CableConfig, CableBlock> implements SimpleWaterloggedBlock, IEnergyConnector {
@@ -149,10 +149,10 @@ public class CableBlock extends PowahBaseEnergyBlock<CableConfig, CableBlock> im
 
     @Nullable
     @Override
-    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te,
+    public <T extends PowahBaseBlockEntity> BaseMenu getContainer(int id, Inventory inventory, PowahBaseBlockEntity te,
             BlockHitResult result) {
         if (te instanceof CableBlockEntity) {
-            return new CableContainer(id, inventory, (CableBlockEntity) te);
+            return new CableMenu(id, inventory, (CableBlockEntity) te);
         }
         return super.getContainer(id, inventory, te, result);
     }

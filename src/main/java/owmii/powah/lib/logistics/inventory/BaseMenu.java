@@ -12,15 +12,15 @@ import net.minecraft.world.level.Level;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 
-public abstract class AbstractContainer extends AbstractContainerMenu {
+public abstract class BaseMenu extends AbstractContainerMenu {
     public final Player player;
     public final Level world;
 
-    public AbstractContainer(@Nullable MenuType<?> type, int id, Inventory inventory, FriendlyByteBuf buffer) {
+    public BaseMenu(@Nullable MenuType<?> type, int id, Inventory inventory, FriendlyByteBuf buffer) {
         this(type, id, inventory);
     }
 
-    public AbstractContainer(@Nullable MenuType<?> type, int id, Inventory inventory) {
+    public BaseMenu(@Nullable MenuType<?> type, int id, Inventory inventory) {
         super(type, id);
         this.player = inventory.player;
         this.world = this.player.level();

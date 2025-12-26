@@ -13,12 +13,12 @@ import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.EnergyConfig;
-import owmii.powah.inventory.EnergyCellContainer;
+import owmii.powah.inventory.EnergyCellMenu;
 import owmii.powah.item.EnergyCellItem;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
-import owmii.powah.lib.logistics.inventory.AbstractContainer;
+import owmii.powah.lib.logistics.inventory.BaseMenu;
 
 public class EnergyCellBlock extends PowahBaseEnergyBlock<EnergyConfig, EnergyCellBlock> implements SimpleWaterloggedBlock {
     public EnergyCellBlock(Properties properties, Tier tier) {
@@ -43,9 +43,9 @@ public class EnergyCellBlock extends PowahBaseEnergyBlock<EnergyConfig, EnergyCe
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
+    public BaseMenu getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
         if (te instanceof EnergyCellBlockEntity) {
-            return new EnergyCellContainer(id, inventory, (EnergyCellBlockEntity) te);
+            return new EnergyCellMenu(id, inventory, (EnergyCellBlockEntity) te);
         }
         return null;
     }

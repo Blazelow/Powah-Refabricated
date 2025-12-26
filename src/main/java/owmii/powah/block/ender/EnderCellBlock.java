@@ -13,11 +13,11 @@ import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.EnderConfig;
-import owmii.powah.inventory.EnderCellContainer;
+import owmii.powah.inventory.EnderCellMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseEnergyBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
-import owmii.powah.lib.logistics.inventory.AbstractContainer;
+import owmii.powah.lib.logistics.inventory.BaseMenu;
 
 public class EnderCellBlock extends PowahBaseEnergyBlock<EnderConfig, EnderCellBlock> {
     public EnderCellBlock(Properties properties, Tier variant) {
@@ -42,9 +42,9 @@ public class EnderCellBlock extends PowahBaseEnergyBlock<EnderConfig, EnderCellB
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
+    public BaseMenu getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
         if (te instanceof EnderCellBlockEntity) {
-            return new EnderCellContainer(id, inventory, (EnderCellBlockEntity) te);
+            return new EnderCellMenu(id, inventory, (EnderCellBlockEntity) te);
         }
         return null;
     }

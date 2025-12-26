@@ -3,20 +3,20 @@ package owmii.powah.inventory;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.transmitter.PlayerTransmitterBlockEntity;
-import owmii.powah.lib.logistics.inventory.AbstractEnergyContainer;
+import owmii.powah.lib.logistics.inventory.BaseEnergyMenu;
 import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 
-public class PlayerTransmitterContainer extends AbstractEnergyContainer<PlayerTransmitterBlockEntity> {
-    public PlayerTransmitterContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
+public class PlayerTransmitterMenu extends BaseEnergyMenu<PlayerTransmitterBlockEntity> {
+    public PlayerTransmitterMenu(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.PLAYER_TRANSMITTER.get(), id, inventory, buffer);
     }
 
-    public PlayerTransmitterContainer(int id, Inventory inventory, PlayerTransmitterBlockEntity te) {
+    public PlayerTransmitterMenu(int id, Inventory inventory, PlayerTransmitterBlockEntity te) {
         super(Containers.PLAYER_TRANSMITTER.get(), id, inventory, te);
     }
 
-    public static PlayerTransmitterContainer create(int id, Inventory inventory, FriendlyByteBuf buffer) {
-        return new PlayerTransmitterContainer(id, inventory, buffer);
+    public static PlayerTransmitterMenu create(int id, Inventory inventory, FriendlyByteBuf buffer) {
+        return new PlayerTransmitterMenu(id, inventory, buffer);
     }
 
     @Override

@@ -13,6 +13,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
@@ -31,6 +32,8 @@ import owmii.powah.entity.Entities;
 import owmii.powah.inventory.Containers;
 import owmii.powah.item.CreativeTabs;
 import owmii.powah.item.Itms;
+import owmii.powah.lib.block.IInventoryHolder;
+import owmii.powah.lib.block.ITankHolder;
 import owmii.powah.lib.block.PowahBaseEnergyStorageBlockEntity;
 import owmii.powah.lib.item.IEnergyContainingItem;
 import owmii.powah.lib.logistics.energy.EnergyItemHandler;
@@ -66,8 +69,11 @@ public class Powah {
         modEventBus.addListener(RegisterCapabilitiesEvent.class, this::registerTransfer);
         modEventBus.addListener(Network::register);
         modEventBus.addListener(this::registerDataTypeMaps);
-
         modEventBus.addListener(PowahDataGenerator::gatherData);
+
+        NeoForge.EVENT_BUS.addListener((OnDatapackSyncEvent event) -> {
+            event.sendRecipes(Recipes.ENERGIZING.get());
+        });
         NeoForge.EVENT_BUS.addListener((PlayerInteractEvent.RightClickBlock event) -> {
             if (event.getUseBlock() == TriState.FALSE) {
                 return;
@@ -104,12 +110,12 @@ public class Powah {
             }
             return null;
         });
-        // TODO 26.1 event.registerBlockEntity(Capabilities.Item.BLOCK, Tiles.REACTOR_PART.get(), (reactorPart, unused) -> {
-        // TODO 26.1 return reactorPart.getCoreItemHandler();
-        // TODO 26.1 });
-        // TODO 26.1 event.registerBlockEntity(Capabilities.Fluid.BLOCK, Tiles.REACTOR_PART.get(), (reactorPart, unused) -> {
-        // TODO 26.1 return reactorPart.getCoreFluidHandler();
-        // TODO 26.1 });
+        event.registerBlockEntity(Capabilities.Item.BLOCK, Tiles.REACTOR_PART.get(), (reactorPart, unused) -> {
+            return reactorPart.getCoreItemHandler();
+        });
+        event.registerBlockEntity(Capabilities.Fluid.BLOCK, Tiles.REACTOR_PART.get(), (reactorPart, unused) -> {
+            return reactorPart.getCoreFluidHandler();
+        });
 
         for (var entry : Tiles.DR.getEntries()) {
             var validBlock = entry.get().getValidBlocks().stream().iterator().next();
@@ -138,20 +144,20 @@ public class Powah {
                 return energyStorage.getExternalStorage(side);
             });
         }
-        // TODO 26.1 if (IInventoryHolder.class.isAssignableFrom(beClass)) {
-        // TODO 26.1 event.registerBlockEntity(Capabilities.Item.BLOCK, beType, (o, direction) -> {
-        // TODO 26.1 var inv = ((IInventoryHolder) o).getInventory();
-        // TODO 26.1 if (!inv.isBlank()) {
-        // TODO 26.1 return inv;
-        // TODO 26.1 }
-        // TODO 26.1 return null;
-        // TODO 26.1 });
-        // TODO 26.1 }
-        // TODO 26.1 if (ITankHolder.class.isAssignableFrom(beClass)) {
-        // TODO 26.1 event.registerBlockEntity(Capabilities.Fluid.BLOCK, beType, (o, direction) -> {
-        // TODO 26.1 return ((ITankHolder) o).getTank();
-        // TODO 26.1 });
-        // TODO 26.1 }
+        if (IInventoryHolder.class.isAssignableFrom(beClass)) {
+            event.registerBlockEntity(Capabilities.Item.BLOCK, beType, (o, direction) -> {
+                var inv = ((IInventoryHolder) o).getInventory();
+                if (inv.size() > 0) {
+                    return inv;
+                }
+                return null;
+            });
+        }
+        if (ITankHolder.class.isAssignableFrom(beClass)) {
+            event.registerBlockEntity(Capabilities.Fluid.BLOCK, beType, (o, direction) -> {
+                return ((ITankHolder) o).getTank();
+            });
+        }
     }
 
 }

@@ -3,20 +3,20 @@ package owmii.powah.inventory;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.magmator.MagmatorBlockEntity;
-import owmii.powah.lib.logistics.inventory.AbstractEnergyContainer;
+import owmii.powah.lib.logistics.inventory.BaseEnergyMenu;
 import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 
-public class MagmatorContainer extends AbstractEnergyContainer<MagmatorBlockEntity> {
-    public MagmatorContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
+public class MagmatorMenu extends BaseEnergyMenu<MagmatorBlockEntity> {
+    public MagmatorMenu(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.MAGMATOR.get(), id, inventory, buffer);
     }
 
-    public MagmatorContainer(int id, Inventory inventory, MagmatorBlockEntity te) {
+    public MagmatorMenu(int id, Inventory inventory, MagmatorBlockEntity te) {
         super(Containers.MAGMATOR.get(), id, inventory, te);
     }
 
-    public static MagmatorContainer create(int id, Inventory inventory, FriendlyByteBuf buffer) {
-        return new MagmatorContainer(id, inventory, buffer);
+    public static MagmatorMenu create(int id, Inventory inventory, FriendlyByteBuf buffer) {
+        return new MagmatorMenu(id, inventory, buffer);
     }
 
     @Override

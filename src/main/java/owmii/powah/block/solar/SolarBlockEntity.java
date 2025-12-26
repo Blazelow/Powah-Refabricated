@@ -14,7 +14,7 @@ import owmii.powah.block.Tiles;
 import owmii.powah.item.Itms;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
-import owmii.powah.lib.logistics.energy.EnergyItemUtil;
+import owmii.powah.util.ChargeUtil;
 import owmii.powah.util.Misc;
 
 public class SolarBlockEntity extends PowahBaseGeneratorBlockEntity<SolarBlock> implements IInventoryHolder {
@@ -111,7 +111,7 @@ public class SolarBlockEntity extends PowahBaseGeneratorBlockEntity<SolarBlock> 
 
     @Override
     public boolean canInsert(int slot, ItemStack stack) {
-        return EnergyItemUtil.isChargeableItem(stack);
+        return ChargeUtil.isChargeableItem(stack);
     }
 
     @Override

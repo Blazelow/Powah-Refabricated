@@ -13,17 +13,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
 import owmii.powah.block.Tier;
 import owmii.powah.config.v2.types.GeneratorConfig;
-import owmii.powah.inventory.ThermoContainer;
+import owmii.powah.inventory.ThermoMenu;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
 import owmii.powah.lib.block.PowahBaseGeneratorBlock;
 import owmii.powah.lib.item.EnergyBlockItem;
 import owmii.powah.lib.logistics.fluid.Tank;
-import owmii.powah.lib.logistics.inventory.AbstractContainer;
+import owmii.powah.lib.logistics.inventory.BaseMenu;
 
 public class ThermoBlock extends PowahBaseGeneratorBlock<ThermoBlock> {
     public ThermoBlock(Properties properties, Tier variant) {
@@ -52,7 +52,7 @@ public class ThermoBlock extends PowahBaseGeneratorBlock<ThermoBlock> {
         BlockEntity tile = pLevel.getBlockEntity(pPos);
         if (tile instanceof ThermoBlockEntity genTile) {
             Tank tank = genTile.getTank();
-            if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, tank)) {
+            if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, pPos, tank)) {
                 genTile.sync();
                 return InteractionResult.SUCCESS;
             }
@@ -62,9 +62,9 @@ public class ThermoBlock extends PowahBaseGeneratorBlock<ThermoBlock> {
 
     @Nullable
     @Override
-    public AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
+    public BaseMenu getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
         if (te instanceof ThermoBlockEntity) {
-            return new ThermoContainer(id, inventory, (ThermoBlockEntity) te);
+            return new ThermoMenu(id, inventory, (ThermoBlockEntity) te);
         }
         return null;
     }

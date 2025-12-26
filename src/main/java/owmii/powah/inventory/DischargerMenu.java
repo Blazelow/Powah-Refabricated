@@ -3,20 +3,20 @@ package owmii.powah.inventory;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.discharger.EnergyDischargerBlockEntity;
-import owmii.powah.lib.logistics.inventory.AbstractEnergyContainer;
+import owmii.powah.lib.logistics.inventory.BaseEnergyMenu;
 import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 
-public class DischargerContainer extends AbstractEnergyContainer<EnergyDischargerBlockEntity> {
-    public DischargerContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
+public class DischargerMenu extends BaseEnergyMenu<EnergyDischargerBlockEntity> {
+    public DischargerMenu(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.DISCHARGER.get(), id, inventory, buffer);
     }
 
-    public DischargerContainer(int id, Inventory inventory, EnergyDischargerBlockEntity te) {
+    public DischargerMenu(int id, Inventory inventory, EnergyDischargerBlockEntity te) {
         super(Containers.DISCHARGER.get(), id, inventory, te);
     }
 
-    public static DischargerContainer create(int id, Inventory inventory, FriendlyByteBuf buffer) {
-        return new DischargerContainer(id, inventory, buffer);
+    public static DischargerMenu create(int id, Inventory inventory, FriendlyByteBuf buffer) {
+        return new DischargerMenu(id, inventory, buffer);
     }
 
     @Override

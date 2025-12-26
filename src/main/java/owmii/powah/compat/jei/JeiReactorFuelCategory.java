@@ -24,7 +24,6 @@ public class JeiReactorFuelCategory extends AbstractCategory<JeiReactorFuelCateg
 
     public JeiReactorFuelCategory(IGuiHelper guiHelper) {
         super(guiHelper, Blcks.URANINITE.get(), Component.translatable("gui.powah.jei.category.reactor.fuels"), 160, 24);
-        // TODO 26.1: guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build());
     }
 
     @Override
@@ -34,7 +33,7 @@ public class JeiReactorFuelCategory extends AbstractCategory<JeiReactorFuelCateg
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, Recipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 4, 5).add(recipe.input());
+        builder.addSlot(RecipeIngredientRole.INPUT, 4, 5).setStandardSlotBackground().add(recipe.input());
     }
 
     @Override
@@ -45,12 +44,12 @@ public class JeiReactorFuelCategory extends AbstractCategory<JeiReactorFuelCateg
                 .append(Component.translatable("info.lollipop.mb", recipe.reactorFuel.fuelAmount()));
 
         var minecraft = Minecraft.getInstance();
-        guiGraphics.drawString(minecraft.font, amount, 30, 3, 0x444444, false);
+        guiGraphics.drawString(minecraft.font, amount, 30, 3, 0xff444444, false);
 
         var coloredTemperature = Component.literal(String.valueOf(recipe.reactorFuel.temperature())).withStyle(ChatFormatting.DARK_RED);
         var temperatureText = Component.translatable("info.lollipop.temperature").append(": ")
                 .append(Component.translatable("info.lollipop.temperature.c", coloredTemperature));
-        guiGraphics.drawString(minecraft.font, temperatureText, 30, 15, 0x444444, false);
+        guiGraphics.drawString(minecraft.font, temperatureText, 30, 15, 0xff444444, false);
     }
 
     public static List<Recipe> createRecipes() {

@@ -11,9 +11,10 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
@@ -29,9 +30,9 @@ public class ReactorPartBlockEntity extends PowahBaseBlockEntity<Tier, ReactorBl
     @Nullable
     private BlockCapabilityCache<EnergyHandler, Direction> coreEnergyCache;
     @Nullable
-    private BlockCapabilityCache<IItemHandler, Direction> coreItemCache;
+    private BlockCapabilityCache<ResourceHandler<ItemResource>, Direction> coreItemCache;
     @Nullable
-    private BlockCapabilityCache<IFluidHandler, Direction> coreFluidCache;
+    private BlockCapabilityCache<ResourceHandler<FluidResource>, Direction> coreFluidCache;
 
     public ReactorPartBlockEntity(BlockPos pos, BlockState state, Tier variant) {
         super(Tiles.REACTOR_PART.get(), pos, state, variant);
@@ -77,26 +78,26 @@ public class ReactorPartBlockEntity extends PowahBaseBlockEntity<Tier, ReactorBl
     }
 
     @Nullable
-    public IItemHandler getCoreItemHandler() {
+    public ResourceHandler<ItemResource> getCoreItemHandler() {
         if (this.level instanceof ServerLevel serverLevel) {
             if (coreItemCache == null) {
-                // TODO 26.1 coreItemCache = BlockCapabilityCache.create(Capabilities.Item.BLOCK, serverLevel, getCorePos(), null);
+                coreItemCache = BlockCapabilityCache.create(Capabilities.Item.BLOCK, serverLevel, getCorePos(), null);
             }
             return coreItemCache.getCapability();
         } else {
-            return null; // TODO 26.1 return level.getCapability(Capabilities.Item.BLOCK, getCorePos(), null);
+            return level.getCapability(Capabilities.Item.BLOCK, getCorePos(), null);
         }
     }
 
     @Nullable
-    public IFluidHandler getCoreFluidHandler() {
+    public ResourceHandler<FluidResource> getCoreFluidHandler() {
         if (this.level instanceof ServerLevel serverLevel) {
             if (coreFluidCache == null) {
-                // TODO 26.1 coreFluidCache = BlockCapabilityCache.create(Capabilities.Fluid.BLOCK, serverLevel, getCorePos(), null);
+                coreFluidCache = BlockCapabilityCache.create(Capabilities.Fluid.BLOCK, serverLevel, getCorePos(), null);
             }
             return coreFluidCache.getCapability();
         } else {
-            return null; // TODO 26.1 return level.getCapability(Capabilities.Fluid.BLOCK, getCorePos(), null);
+            return level.getCapability(Capabilities.Fluid.BLOCK, getCorePos(), null);
         }
     }
 

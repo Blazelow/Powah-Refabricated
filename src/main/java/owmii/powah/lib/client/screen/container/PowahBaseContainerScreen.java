@@ -8,10 +8,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import owmii.powah.lib.client.screen.Texture;
-import owmii.powah.lib.logistics.inventory.AbstractContainer;
+import owmii.powah.lib.logistics.inventory.BaseMenu;
 import owmii.powah.lib.logistics.inventory.slot.ITexturedSlot;
 
-public class PowahBaseContainerScreen<C extends AbstractContainer> extends net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<C> {
+public class PowahBaseContainerScreen<C extends BaseMenu> extends net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<C> {
     protected final Texture backGround;
 
     public PowahBaseContainerScreen(C container, Inventory inv, Component title, Texture backGround) {

@@ -14,6 +14,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import owmii.powah.Powah;
 import owmii.powah.block.Blcks;
+import owmii.powah.client.PowahClient;
 import owmii.powah.compat.common.FluidCoolant;
 import owmii.powah.compat.common.MagmatorFuel;
 import owmii.powah.compat.common.PassiveHeatSource;
@@ -38,23 +39,23 @@ public class PowahJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(Blcks.ENERGIZING_ORB.get(), JeiEnergizingCategory.TYPE.get());
-        Blcks.ENERGIZING_ROD.getAll().forEach(block -> registration.addRecipeCatalyst(block, JeiEnergizingCategory.TYPE.get()));
-        Blcks.MAGMATOR.getAll().forEach(block -> registration.addRecipeCatalyst(block, JeiMagmatorCategory.TYPE));
+        registration.addCraftingStation(JeiEnergizingCategory.TYPE.get(), Blcks.ENERGIZING_ORB.get());
+        Blcks.ENERGIZING_ROD.getAll().forEach(block -> registration.addCraftingStation(JeiEnergizingCategory.TYPE.get(), block));
+        Blcks.MAGMATOR.getAll().forEach(block -> registration.addCraftingStation(JeiMagmatorCategory.TYPE, block));
         Blcks.THERMO_GENERATOR.getAll().forEach(block -> {
-            registration.addRecipeCatalyst(block, JeiHeatSourceCategory.TYPE);
-            registration.addRecipeCatalyst(block, JeiFluidCoolantCategory.TYPE);
+            registration.addCraftingStation(JeiHeatSourceCategory.TYPE, block);
+            registration.addCraftingStation(JeiFluidCoolantCategory.TYPE, block);
         });
         Blcks.REACTOR.getAll().forEach(block -> {
-            registration.addRecipeCatalyst(block, JeiSolidCoolantCategory.TYPE);
-            registration.addRecipeCatalyst(block, JeiFluidCoolantCategory.TYPE);
-            registration.addRecipeCatalyst(block, JeiReactorFuelCategory.TYPE);
+            registration.addCraftingStation(JeiSolidCoolantCategory.TYPE, block);
+            registration.addCraftingStation(JeiFluidCoolantCategory.TYPE, block);
+            registration.addCraftingStation(JeiReactorFuelCategory.TYPE, block);
         });
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        registration.addRecipes(JeiEnergizingCategory.TYPE.get(), JeiEnergizingCategory.getAllRecipes());
+        registration.addRecipes(JeiEnergizingCategory.TYPE.get(), PowahClient.ENERGIZING_RECIPES);
         registration.addRecipes(JeiMagmatorCategory.TYPE, MagmatorFuel.getAll());
         registration.addRecipes(JeiFluidCoolantCategory.TYPE, FluidCoolant.getAll());
         registration.addRecipes(JeiSolidCoolantCategory.TYPE, SolidCoolant.getAll());

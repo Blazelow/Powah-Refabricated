@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import owmii.powah.block.Tier;
 import owmii.powah.block.Tiles;
 import owmii.powah.config.v2.types.EnergyConfig;
@@ -31,8 +32,11 @@ public class EnergyDischargerBlockEntity extends PowahBaseEnergyStorageBlockEnti
         long extracted = 0;
         if (!isRemote()) {
             if (checkRedstone()) {
-                extracted = ChargeUtil.dischargeItemsInInventory(this.inv, getEnergyTransfer(), getEnergyCapacity() - energy.getStored());
-                this.energy.produce(extracted);
+                try (var tx = Transaction.openRoot()) {
+                    extracted = ChargeUtil.dischargeItemsInInventory(this.inv, getEnergyTransfer(), getEnergyCapacity() - energy.getStored(), tx);
+                    this.energy.insertEnergy(extracted, tx);
+                    tx.commit();
+                }
             }
             extracted += extractFromSides(world);
         }
@@ -51,7 +55,7 @@ public class EnergyDischargerBlockEntity extends PowahBaseEnergyStorageBlockEnti
 
     @Override
     public boolean canInsert(int slot, ItemStack stack) {
-        return ChargeUtil.canDischarge(stack);
+        return ChargeUtil.isChargeableItem(stack);
     }
 
     @Override

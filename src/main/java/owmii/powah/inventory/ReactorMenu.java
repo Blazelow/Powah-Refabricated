@@ -3,20 +3,20 @@ package owmii.powah.inventory;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.reactor.ReactorBlockEntity;
-import owmii.powah.lib.logistics.inventory.AbstractEnergyContainer;
+import owmii.powah.lib.logistics.inventory.BaseEnergyMenu;
 import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 
-public class ReactorContainer extends AbstractEnergyContainer<ReactorBlockEntity> {
-    public ReactorContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
+public class ReactorMenu extends BaseEnergyMenu<ReactorBlockEntity> {
+    public ReactorMenu(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.REACTOR.get(), id, inventory, buffer);
     }
 
-    public ReactorContainer(int id, Inventory inventory, ReactorBlockEntity te) {
+    public ReactorMenu(int id, Inventory inventory, ReactorBlockEntity te) {
         super(Containers.REACTOR.get(), id, inventory, te);
     }
 
-    public static ReactorContainer create(int id, Inventory inventory, FriendlyByteBuf buffer) {
-        return new ReactorContainer(id, inventory, buffer);
+    public static ReactorMenu create(int id, Inventory inventory, FriendlyByteBuf buffer) {
+        return new ReactorMenu(id, inventory, buffer);
     }
 
     @Override

@@ -6,7 +6,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import owmii.powah.Powah;
-import owmii.powah.lib.logistics.inventory.AbstractTileContainer;
+import owmii.powah.lib.logistics.inventory.BaseBlockEntityMenu;
 import owmii.powah.network.ServerboundPacket;
 
 public record InteractWithTankPacket(int containerId, boolean drain) implements ServerboundPacket {
@@ -25,7 +25,7 @@ public record InteractWithTankPacket(int containerId, boolean drain) implements 
 
     @Override
     public void handleOnServer(ServerPlayer player) {
-        if (player.containerMenu instanceof AbstractTileContainer<?> tileContainer && tileContainer.containerId == containerId) {
+        if (player.containerMenu instanceof BaseBlockEntityMenu<?> tileContainer && tileContainer.containerId == containerId) {
             tileContainer.interactWithTank(drain);
         }
     }

@@ -3,19 +3,19 @@ package owmii.powah.inventory;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.solar.SolarBlockEntity;
-import owmii.powah.lib.logistics.inventory.AbstractEnergyContainer;
+import owmii.powah.lib.logistics.inventory.BaseEnergyMenu;
 
-public class SolarContainer extends AbstractEnergyContainer<SolarBlockEntity> {
-    public SolarContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
+public class SolarMenu extends BaseEnergyMenu<SolarBlockEntity> {
+    public SolarMenu(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.SOLAR.get(), id, inventory, buffer);
     }
 
-    public SolarContainer(int id, Inventory inventory, SolarBlockEntity te) {
+    public SolarMenu(int id, Inventory inventory, SolarBlockEntity te) {
         super(Containers.SOLAR.get(), id, inventory, te);
     }
 
-    public static SolarContainer create(int id, Inventory inventory, FriendlyByteBuf buffer) {
-        return new SolarContainer(id, inventory, buffer);
+    public static SolarMenu create(int id, Inventory inventory, FriendlyByteBuf buffer) {
+        return new SolarMenu(id, inventory, buffer);
     }
 
     @Override

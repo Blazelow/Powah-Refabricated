@@ -43,7 +43,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
-import owmii.powah.lib.logistics.inventory.AbstractContainer;
+import owmii.powah.lib.logistics.inventory.BaseMenu;
 import owmii.powah.lib.registry.IVariant;
 import owmii.powah.lib.registry.IVariantEntry;
 
@@ -182,7 +182,7 @@ public abstract class PowahBaseBlock<V extends IVariant, B extends PowahBaseBloc
     }
 
     @Nullable
-    public <T extends PowahBaseBlockEntity> AbstractContainer getContainer(int id, Inventory inventory, PowahBaseBlockEntity te,
+    public <T extends PowahBaseBlockEntity> BaseMenu getContainer(int id, Inventory inventory, PowahBaseBlockEntity te,
             BlockHitResult result) {
         return null;
     }

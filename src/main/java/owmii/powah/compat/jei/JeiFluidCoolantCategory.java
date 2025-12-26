@@ -20,7 +20,6 @@ public class JeiFluidCoolantCategory extends AbstractCategory<FluidCoolant> {
 
     public JeiFluidCoolantCategory(IGuiHelper guiHelper) {
         super(guiHelper, Items.WATER_BUCKET, Component.translatable("gui.powah.jei.category.coolant"), 160, 24);
-        // TODO 26.1: guiHelper.drawableBuilder(Assets.MISC, 0, 0, 160, 24).addPadding(1, 0, 0, 0).build());
     }
 
     @Override
@@ -30,13 +29,13 @@ public class JeiFluidCoolantCategory extends AbstractCategory<FluidCoolant> {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, FluidCoolant recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 4, 5).add(recipe.fluid());
+        builder.addSlot(RecipeIngredientRole.INPUT, 4, 5).setStandardSlotBackground().add(recipe.fluid());
     }
 
     @Override
     public void draw(FluidCoolant recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         var minecraft = Minecraft.getInstance();
         guiGraphics.drawString(minecraft.font, I18n.get("info.lollipop.temperature") + ": "
-                + I18n.get("info.lollipop.temperature.c", "" + ChatFormatting.DARK_AQUA + recipe.coldness()), 30, 9, 0x444444, false);
+                + I18n.get("info.lollipop.temperature.c", "" + ChatFormatting.DARK_AQUA + recipe.coldness()), 30, 9, 0xFF444444, false);
     }
 }
