@@ -11,7 +11,6 @@ plugins {
     id 'maven-publish'
 }
 
-
 apply plugin: "me.shedaniel.unified-publishing"
 
 dependencies {
