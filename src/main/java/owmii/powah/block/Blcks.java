@@ -90,6 +90,7 @@ public class Blcks {
     static {
         for (var entry : DR.getEntries()) {
             Itms.DR.registerItem(entry.getId().getPath(), props -> {
+                props.useBlockDescriptionPrefix();
                 BlockItem blockItem;
                 Block block = entry.get();
                 if (block instanceof PowahBaseBlock<?> iBlock) {
