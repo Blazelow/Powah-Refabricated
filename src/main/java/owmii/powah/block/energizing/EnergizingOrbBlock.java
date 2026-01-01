@@ -53,8 +53,7 @@ public class EnergizingOrbBlock extends PowahBaseBlock<EnergizingOrbBlock> imple
     protected InteractionResult useItemOn(ItemStack held, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
             BlockHitResult hitResult) {
         BlockEntity tileentity = level.getBlockEntity(pos);
-        if (tileentity instanceof EnergizingOrbBlockEntity) {
-            EnergizingOrbBlockEntity orb = (EnergizingOrbBlockEntity) tileentity;
+        if (tileentity instanceof EnergizingOrbBlockEntity orb) {
             Inventory inv = orb.getInventory();
             ItemStack output = inv.getStackInSlot(0);
             if (held.isEmpty() || !output.isEmpty()) {

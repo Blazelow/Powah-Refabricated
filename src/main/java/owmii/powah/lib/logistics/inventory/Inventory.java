@@ -174,7 +174,9 @@ public class Inventory extends ItemStackHandler {
     public ItemStack addNext(ItemStack stack) {
         try (var tx = Transaction.openRoot()) {
             var inserted = insert(ItemResource.of(stack), stack.getCount(), tx);
-            return stack.copyWithCount(inserted);
+            var result = stack.copyWithCount(inserted);
+            tx.commit();
+            return result;
         }
     }
 
