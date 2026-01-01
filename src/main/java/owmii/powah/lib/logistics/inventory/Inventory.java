@@ -87,17 +87,6 @@ public class Inventory extends ItemStackHandler {
         return super.extract(index, resource, amount, transaction);
     }
 
-    public ItemStack extractItemFromSlot(int slot, int amount, boolean simulate) {
-        try (var tx = Transaction.openRoot()) {
-            var what = getResource(slot);
-            var extracted = extract(slot, what, amount, tx);
-            if (!simulate) {
-                tx.commit();
-            }
-            return what.toStack(extracted);
-        }
-    }
-
     public boolean canExtract(int slot, ItemStack stack) {
         if (this.tile != null) {
             return this.tile.canExtract(slot, stack);

@@ -27,8 +27,9 @@ public class EnergyDischargerBlockEntity extends PowahBaseEnergyStorageBlockEnti
         if (!isRemote()) {
             if (checkRedstone()) {
                 try (var tx = Transaction.openRoot()) {
-                    extracted = ChargeUtil.dischargeItemsInInventory(this.inv, getEnergyTransfer(), getEnergyCapacity() - energy.getStored(), tx);
-                    this.energy.insertEnergy(extracted, tx);
+                    extracted = ChargeUtil.dischargeItemsInInventory(this.inv, getEnergyTransfer(), getEnergyCapacity() - getEnergy().getStored(),
+                            tx);
+                    getEnergy().insertEnergy(extracted, tx);
                     tx.commit();
                 }
             }

@@ -58,7 +58,7 @@ public class ThermoBlockEntity extends PowahBaseGeneratorBlockEntity<ThermoBlock
                 BlockPos heatPos = this.worldPosition.below();
                 BlockState state = world.getBlockState(heatPos);
                 int heat = PowahAPI.getHeatSource(state);
-                if (!this.energy.isFull() && heat != 0) {
+                if (!getEnergy().isFull() && heat != 0) {
                     double heatRatio = heat / 1000.0;
                     // The formula I want is:
                     // (water) 0 °C -> ratio of 1
@@ -68,7 +68,7 @@ public class ThermoBlockEntity extends PowahBaseGeneratorBlockEntity<ThermoBlock
                     // So we do -temperature/2 with a max to handle the 0 °C case
                     double coolantRatio = Math.max(1D, -fluidCooling.getAsInt() / 2D);
                     this.generating = (int) (heatRatio * coolantRatio * getEnergyGeneration());
-                    this.energy.produce(this.generating);
+                    getEnergy().produce(this.generating);
                     if (world.getGameTime() % 40 == 0L) {
                         ResourceHandlerUtil.extractFirst(this.tank, _ -> true, 1, null);
                     }

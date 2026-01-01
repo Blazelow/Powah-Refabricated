@@ -47,7 +47,9 @@ public class EnderNetwork extends SavedData {
 
     private EnderNetwork(Packed packed) {
         for (var network : packed.networks()) {
-            setEnergy(network.owner, network.channel, network.energy);
+            var energy = getEnergy(network.owner, network.channel);
+            energy.setCapacity(network.capacity);
+            energy.setStored(network.stored);
         }
     }
 
@@ -57,7 +59,7 @@ public class EnderNetwork extends SavedData {
             var owner = entry.getKey();
             for (int channel = 0; channel < entry.getValue().size(); channel++) {
                 var energy = entry.getValue().get(channel);
-                packedNetworks.add(new PackedNetwork(owner, channel, energy));
+                packedNetworks.add(new PackedNetwork(owner, channel, energy.getEnergyStored(), energy.getCapacity()));
             }
         }
         return new Packed(packedNetworks);
@@ -79,7 +81,6 @@ public class EnderNetwork extends SavedData {
 
     public void setEnergy(UUID uuid, int channel, Energy energy) {
         getEnergy(uuid, channel).clone(energy);
-        setDirty();
     }
 
     public ImmutableList<Energy> getChannels(IOwnable ownable) {
@@ -97,11 +98,12 @@ public class EnderNetwork extends SavedData {
         return IntStream.range(0, MAX_CHANNELS).mapToObj(i -> Energy.create(0)).collect(ImmutableList.toImmutableList());
     }
 
-    record PackedNetwork(UUID owner, int channel, Energy energy) {
+    record PackedNetwork(UUID owner, int channel, long stored, long capacity) {
         public static Codec<PackedNetwork> CODEC = RecordCodecBuilder.create(builder -> builder.group(
                 UUIDUtil.STRING_CODEC.fieldOf("owner").forGetter(PackedNetwork::owner),
                 Codec.INT.fieldOf("channel").forGetter(PackedNetwork::channel),
-                Energy.STORAGE_CODEC.fieldOf("energy").forGetter(PackedNetwork::energy)).apply(builder, PackedNetwork::new));
+                Codec.LONG.fieldOf("stored").forGetter(PackedNetwork::stored),
+                Codec.LONG.fieldOf("capacity").forGetter(PackedNetwork::capacity)).apply(builder, PackedNetwork::new));
     }
 
     record Packed(List<PackedNetwork> networks) {

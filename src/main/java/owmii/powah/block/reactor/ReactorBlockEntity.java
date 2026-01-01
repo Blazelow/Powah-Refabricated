@@ -116,7 +116,7 @@ public class ReactorBlockEntity extends PowahBaseGeneratorBlockEntity<ReactorBlo
         boolean flag2 = false;
 
         if (checkRedstone() && this.generate) {
-            boolean generating = !this.energy.isFull() && !this.fuel.isEmpty();
+            boolean generating = !getEnergy().isFull() && !this.fuel.isEmpty();
             boolean b0 = processFuel();
             boolean b1 = processCarbon(world, generating);
             boolean b2 = processRedstone(world, generating);
@@ -127,7 +127,7 @@ public class ReactorBlockEntity extends PowahBaseGeneratorBlockEntity<ReactorBlo
 
             if (generating) {
                 this.fuel.back(calcConsumption());
-                this.energy.produce((long) calcProduction());
+                getEnergy().produce((long) calcProduction());
                 flag = true;
                 flag2 = true;
             }
@@ -171,9 +171,9 @@ public class ReactorBlockEntity extends PowahBaseGeneratorBlockEntity<ReactorBlo
 
     private void checkGenMode() {
         if (this.genModeOn) {
-            if (this.energy.isFull()) {
+            if (getEnergy().isFull()) {
                 this.generate = false;
-            } else if (this.energy.getPercent() <= 70) {
+            } else if (getEnergy().getPercent() <= 70) {
                 this.generate = true;
             }
         }

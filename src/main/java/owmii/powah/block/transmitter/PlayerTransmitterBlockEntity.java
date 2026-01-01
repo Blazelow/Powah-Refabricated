@@ -40,7 +40,7 @@ public class PlayerTransmitterBlockEntity extends PowahBaseEnergyStorageBlockEnt
                         long charging = getBlock().getChargingSpeed();
                         try (var tx = Transaction.openRoot()) {
                             extracted = ChargeUtil.chargeItemsInPlayerInv(player, charging, getEnergy().getStored(), tx);
-                            energy.extractEnergy(extracted, tx);
+                            getEnergy().extractEnergy(extracted, tx);
                             tx.commit();
                         }
                     }

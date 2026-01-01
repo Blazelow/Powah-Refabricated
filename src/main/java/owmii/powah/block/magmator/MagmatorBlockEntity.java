@@ -44,13 +44,13 @@ public class MagmatorBlockEntity extends PowahBaseGeneratorBlockEntity<MagmatorB
     @Override
     public void readSync(ValueInput input) {
         super.readSync(input);
-        this.energy.read(input, "energy_buffer", true, false);
+        getEnergy().read(input, "energy_buffer", true, false);
         this.burning = input.getBooleanOr("burning", false);
     }
 
     @Override
     public void writeSync(ValueOutput output) {
-        this.energy.write(output, "energy_buffer", true, false);
+        getEnergy().write(output, "energy_buffer", true, false);
         output.putBoolean("burning", this.burning);
         super.writeSync(output);
     }
@@ -73,8 +73,8 @@ public class MagmatorBlockEntity extends PowahBaseGeneratorBlockEntity<MagmatorB
                 }
 
                 long min = Math.min(getEnergyGeneration(), this.buffer.getStored());
-                if (min > 0 && this.energy.getEmpty() >= min) {
-                    this.energy.produce(min);
+                if (min > 0 && getEnergy().getEmpty() >= min) {
+                    getEnergy().produce(min);
                     this.buffer.consume(min);
                     burningTicks = 5; // show to be generating power for ~250ms
                     sync(4);

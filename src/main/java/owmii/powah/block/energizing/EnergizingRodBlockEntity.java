@@ -39,7 +39,7 @@ public class EnergizingRodBlockEntity extends PowahBaseEnergyStorageBlockEntity<
         boolean flag = false;
         EnergizingOrbBlockEntity orb = getOrbTile();
         if (orb != null) {
-            if (orb.containRecipe() && this.energy.hasEnergy()) {
+            if (orb.containRecipe() && getEnergy().hasEnergy()) {
                 this.coolDown.onward();
                 flag = true;
             } else if (this.coolDown.getTicks() > 0) {
@@ -48,8 +48,8 @@ public class EnergizingRodBlockEntity extends PowahBaseEnergyStorageBlockEntity<
             }
 
             if (this.coolDown.ended()) {
-                long fill = Math.min(this.energy.getEnergyStored(), getEnergyTransfer());
-                this.energy.consume(orb.fillEnergy(fill));
+                long fill = Math.min(getEnergy().getEnergyStored(), getEnergyTransfer());
+                getEnergy().consume(orb.fillEnergy(fill));
                 flag = true;
             }
         }

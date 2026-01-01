@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.api.energy.endernetwork.IEnderExtender;
@@ -34,8 +35,31 @@ public class PowahBaseEnderBlockEntity<B extends PowahBaseEnderBlock<B>> extends
     @Nullable
     private GameProfile owner;
 
+    private final EnderNetworkSaver saver = new EnderNetworkSaver();
+
     public PowahBaseEnderBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
+    }
+
+    @Override
+    public Energy getEnergy() {
+        if (level instanceof ServerLevel serverLevel) {
+            return getNetworkEnergy(serverLevel);
+        } else {
+            return getLocalEnergy();
+        }
+    }
+
+    protected final Energy getNetworkEnergy(ServerLevel serverLevel) {
+        return EnderNetwork.get(serverLevel).getEnergy(this, this.channel.get()).setTransfer(getEnergyTransfer());
+    }
+
+    private void saveNetwork() {
+        EnderNetwork.get((ServerLevel) level).setDirty();
+    }
+
+    protected final Energy getLocalEnergy() {
+        return super.getEnergy();
     }
 
     @Override
@@ -59,29 +83,28 @@ public class PowahBaseEnderBlockEntity<B extends PowahBaseEnderBlock<B>> extends
     }
 
     @Override
-    protected int postTick(Level world) {
-        if (!isRemote()) {
-            if (this.energy.clone(getEnergy())) {
+    protected int postTick(Level level) {
+        if (level instanceof ServerLevel serverLevel) {
+            var networkEnergy = getNetworkEnergy(serverLevel);
+            if (getLocalEnergy().clone(networkEnergy)) {
                 sync(5);
             }
         }
-        return chargeItems(1, 3) + extractFromSides(world) > 0 ? 10 : -1;
+        return chargeItems(1, 3) + extractFromSides(level) > 0 ? 10 : -1;
     }
 
     @Override
     public void onSlotChanged(int slot) {
-        if (this.level != null && slot == 0) {
+        if (this.level instanceof ServerLevel serverLevel && slot == 0) {
             ItemStack stack = this.inv.getStackInSlot(0);
             if (isExtender() && stack.getItem() instanceof IEnderExtender e) {
-                Energy energy = getEnergy();
+                var energy = getNetworkEnergy(serverLevel);
                 long cap = e.getExtendedCapacity(stack);
                 long newCap = energy.getCapacity() + cap;
                 if (cap <= Energy.MAX && newCap > 0 && newCap <= Energy.MAX) {
-                    if (!isRemote()) {
-                        energy.setCapacity(newCap);
-                        energy.setStored(e.getExtendedEnergy(stack) + getEnergy().getStored());
-                        setEnergy(energy);
-                    }
+                    energy.setCapacity(newCap);
+                    energy.setStored(e.getExtendedEnergy(stack) + getEnergy().getStored());
+                    saveNetwork();
                     stack.shrink(1);
                     this.level.playSound(null, this.worldPosition, SoundEvents.ENDER_EYE_DEATH, SoundSource.BLOCKS, 1.0F, 1.0F);
                 }
@@ -91,16 +114,20 @@ public class PowahBaseEnderBlockEntity<B extends PowahBaseEnderBlock<B>> extends
 
     @Override
     public long insertEnergy(long maxReceive, TransactionContext tx, @Nullable Direction side) {
-        final long l = super.insertEnergy(maxReceive, tx, side);
-        setEnergy(getEnergy());
-        return l;
+        var amount = super.insertEnergy(maxReceive, tx, side);
+        if (amount > 0) {
+            saver.updateSnapshots(tx);
+        }
+        return amount;
     }
 
     @Override
     public long extractEnergy(long maxExtract, TransactionContext tx, @Nullable Direction side) {
-        final long l = super.extractEnergy(maxExtract, tx, side);
-        setEnergy(getEnergy());
-        return l;
+        var amount = super.extractEnergy(maxExtract, tx, side);
+        if (amount > 0) {
+            saver.updateSnapshots(tx);
+        }
+        return amount;
     }
 
     @Override
@@ -121,13 +148,6 @@ public class PowahBaseEnderBlockEntity<B extends PowahBaseEnderBlock<B>> extends
         }
     }
 
-    public void setEnergy(Energy energy) {
-        if (level instanceof ServerLevel serverLevel && this.owner != null) {
-            EnderNetwork network = EnderNetwork.get(serverLevel);
-            network.setEnergy(this.owner.id(), this.channel.get(), energy);
-        }
-    }
-
     public boolean isExtender() {
         return true;
     }
@@ -141,15 +161,6 @@ public class PowahBaseEnderBlockEntity<B extends PowahBaseEnderBlock<B>> extends
     @Override
     public void setOwner(@Nullable GameProfile owner) {
         this.owner = owner;
-    }
-
-    @Override
-    public Energy getEnergy() {
-        if (level instanceof ServerLevel serverLevel) {
-            return EnderNetwork.get(serverLevel).getEnergy(this, this.channel.get()).setTransfer(getEnergyTransfer());
-        } else {
-            return this.energy;
-        }
     }
 
     public RangedInt getChannel() {
@@ -181,5 +192,22 @@ public class PowahBaseEnderBlockEntity<B extends PowahBaseEnderBlock<B>> extends
     @Override
     public boolean canExtract(int slot, ItemStack stack) {
         return true;
+    }
+
+    class EnderNetworkSaver extends SnapshotJournal<Void> {
+        @Override
+        protected Void createSnapshot() {
+            return null;
+        }
+
+        @Override
+        protected void revertToSnapshot(Void snapshot) {
+        }
+
+        @Override
+        protected void onRootCommit(Void originalState) {
+            super.onRootCommit(originalState);
+            saveNetwork();
+        }
     }
 }

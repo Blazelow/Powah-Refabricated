@@ -58,9 +58,9 @@ public class SolarBlockEntity extends PowahBaseGeneratorBlockEntity<SolarBlock> 
                     sync();
                 }
             }
-            if (!this.energy.isFull()) {
+            if (!getEnergy().isFull()) {
                 if ((this.canSeeSky || this.hasLensOfEnder) && (world.dimensionType().hasSkyLight() && world.getSkyDarken() < 4)) {
-                    this.energy.produce(getEnergyGeneration());
+                    getEnergy().produce(getEnergyGeneration());
                     flag = true;
                 }
             }

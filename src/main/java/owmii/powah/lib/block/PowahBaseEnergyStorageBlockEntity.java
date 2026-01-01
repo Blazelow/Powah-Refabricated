@@ -27,7 +27,7 @@ public abstract class PowahBaseEnergyStorageBlockEntity<B extends PowahBaseEnerg
         extends PowahBaseTickingBlockEntity<B>
         implements IRedstoneInteract {
     protected final SideConfig sideConfig = new SideConfig(this);
-    protected final Energy energy = Energy.create(0);
+    private final Energy energy = Energy.create(0);
     private final @Nullable EnergyHandler[] externalAdapters = new EnergyHandler[Direction.values().length + 1];
     @SuppressWarnings("unchecked")
     private final BlockCapabilityCache<EnergyHandler, @Nullable Direction>[] capabilityCaches = new BlockCapabilityCache[6];
@@ -141,7 +141,7 @@ public abstract class PowahBaseEnergyStorageBlockEntity<B extends PowahBaseEnerg
     public long insertEnergy(long maxReceive, TransactionContext tx, @Nullable Direction side) {
         if (!canReceiveEnergy(side))
             return 0;
-        var result = energy.insertEnergy(maxReceive, tx);
+        var result = getEnergy().insertEnergy(maxReceive, tx);
         if (result > 0) {
             sync(10, tx);
         }

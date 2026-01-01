@@ -72,9 +72,9 @@ public class FurnatorBlockEntity extends PowahBaseGeneratorBlockEntity<FurnatorB
                 }
             }
             if (!this.carbon.isEmpty()) {
-                if (!this.energy.isFull()) {
-                    long toProduce = Math.min(this.energy.getEmpty(), Math.min(getEnergyGeneration(), (long) this.carbon.getTicks()));
-                    this.energy.produce(toProduce);
+                if (!getEnergy().isFull()) {
+                    long toProduce = Math.min(getEnergy().getEmpty(), Math.min(getEnergyGeneration(), (long) this.carbon.getTicks()));
+                    getEnergy().produce(toProduce);
                     this.carbon.back(toProduce);
                     if (this.carbon.isEmpty()) {
                         this.carbon.setAll(0);

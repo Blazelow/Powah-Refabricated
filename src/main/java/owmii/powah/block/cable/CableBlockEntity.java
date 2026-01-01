@@ -182,7 +182,7 @@ public class CableBlockEntity extends PowahBaseEnergyStorageBlockEntity<CableBlo
             if (!this.energySides.contains(side))
                 continue;
 
-            long amount = Math.min(maxReceive - received, this.energy.getMaxExtract());
+            long amount = Math.min(maxReceive - received, getEnergy().getMaxExtract());
             if (amount <= 0)
                 break;
             if (cable.equals(this) && side.equals(direction) || !canExtractEnergy(side))

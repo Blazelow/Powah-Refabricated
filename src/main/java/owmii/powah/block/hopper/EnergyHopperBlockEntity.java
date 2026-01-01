@@ -27,8 +27,8 @@ public class EnergyHopperBlockEntity extends PowahBaseEnergyStorageBlockEntity<E
             BlockEntity tile = world.getBlockEntity(this.worldPosition.relative(side));
             if (tile instanceof Container container) {
                 try (var tx = Transaction.openRoot()) {
-                    extracted = ChargeUtil.chargeItemsInContainer(container, getBlock().getChargingRate(), energy.getStored(), tx);
-                    energy.extractEnergy(extracted, tx);
+                    extracted = ChargeUtil.chargeItemsInContainer(container, getBlock().getChargingRate(), getEnergy().getStored(), tx);
+                    getEnergy().extractEnergy(extracted, tx);
                     tx.commit();
                 }
             }

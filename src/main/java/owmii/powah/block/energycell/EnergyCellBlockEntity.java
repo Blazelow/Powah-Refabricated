@@ -29,7 +29,7 @@ public class EnergyCellBlockEntity extends PowahBaseEnergyStorageBlockEntity<Ene
     protected void onFirstTick(Level world) {
         super.onFirstTick(world);
         if (isCreative()) {
-            this.energy.setStored(getEnergyCapacity());
+            getEnergy().setStored(getEnergyCapacity());
         }
     }
 
