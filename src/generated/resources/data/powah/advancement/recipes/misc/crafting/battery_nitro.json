@@ -1,0 +1,76 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_battery_spirited": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:battery_spirited"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_capacitor_nitro": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:capacitor_nitro"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_crystal_nitro": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:crystal_nitro"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dielectric_paste": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:dielectric_paste"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_redstone_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:redstone_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "powah:crafting/battery_nitro"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_redstone_block",
+      "has_battery_spirited",
+      "has_capacitor_nitro",
+      "has_dielectric_paste",
+      "has_crystal_nitro"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "powah:crafting/battery_nitro"
+    ]
+  }
+}

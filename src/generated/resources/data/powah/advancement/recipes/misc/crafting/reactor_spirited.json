@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_capacitor_spirited": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:capacitor_spirited"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_reactor_niotic": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:reactor_niotic"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "powah:crafting/reactor_spirited"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_uraninite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:uraninite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_uraninite",
+      "has_capacitor_spirited",
+      "has_reactor_niotic"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "powah:crafting/reactor_spirited"
+    ]
+  }
+}

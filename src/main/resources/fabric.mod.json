@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "powah",
+  "version": "${version}",
+  "name": "Powah! (Rearchitected)",
+  "description": "A tech mod with various ways to generate, store and transmit energy.",
+  "authors": ["owmii", "Technici4n"],
+  "license": "LGPL-3.0",
+  "icon": "assets/powah/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["owmii.powah.Powah"],
+    "client": ["owmii.powah.client.PowahClient"],
+    "fabric-datagen": ["owmii.powah.data.PowahDataGenerator"]
+  },
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*",
+    "team_reborn_energy": "*",
+    "cloth-config": "*"
+  },
+  "suggests": {
+    "emi": "*",
+    "roughlyenoughitems": "*",
+    "jei": "*"
+  }
+}

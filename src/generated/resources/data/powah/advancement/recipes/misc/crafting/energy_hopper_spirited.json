@@ -1,0 +1,65 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_capacitor_spirited": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:capacitor_spirited"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dielectric_casing": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:dielectric_casing"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dielectric_paste": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:dielectric_paste"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_energy_hopper_niotic": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:energy_hopper_niotic"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "powah:crafting/energy_hopper_spirited"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_capacitor_spirited",
+      "has_dielectric_paste",
+      "has_dielectric_casing",
+      "has_energy_hopper_niotic"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "powah:crafting/energy_hopper_spirited"
+    ]
+  }
+}

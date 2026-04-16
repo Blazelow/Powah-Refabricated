@@ -1,0 +1,65 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_capacitor_hardened": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:capacitor_hardened"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dielectric_casing": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:dielectric_casing"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dielectric_rod": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:dielectric_rod"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_player_transmitter_basic": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:player_transmitter_basic"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "powah:crafting/player_tranmitter_hardened"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_player_transmitter_basic",
+      "has_capacitor_hardened",
+      "has_dielectric_casing",
+      "has_dielectric_rod"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "powah:crafting/player_tranmitter_hardened"
+    ]
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_capacitor_blazing": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:capacitor_blazing"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dielectric_casing": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:dielectric_casing"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dielectric_paste": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:dielectric_paste"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "powah:crafting/energy_discharger_blazing"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_capacitor_blazing",
+      "has_dielectric_paste",
+      "has_dielectric_casing"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "powah:crafting/energy_discharger_blazing"
+    ]
+  }
+}

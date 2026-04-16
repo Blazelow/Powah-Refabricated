@@ -1,0 +1,65 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_capacitor_nitro": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:capacitor_nitro"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dielectric_casing": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:dielectric_casing"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dielectric_rod": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:dielectric_rod"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_player_transmitter_spirited": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:player_transmitter_spirited"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "powah:crafting/player_tranmitter_nitro"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_player_transmitter_spirited",
+      "has_capacitor_nitro",
+      "has_dielectric_casing",
+      "has_dielectric_rod"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "powah:crafting/player_tranmitter_nitro"
+    ]
+  }
+}

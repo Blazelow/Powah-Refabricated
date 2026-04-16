@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_steel_energized": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:steel_energized"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "powah:crafting/energized_steel_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_steel_energized"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "powah:crafting/energized_steel_block"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_crystal_nitro": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:crystal_nitro"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "powah:crafting/nitro_crystal_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_crystal_nitro"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "powah:crafting/nitro_crystal_block"
+    ]
+  }
+}
