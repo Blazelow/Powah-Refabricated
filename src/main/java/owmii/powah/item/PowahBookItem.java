@@ -1,6 +1,5 @@
 package owmii.powah.item;
 
-import guideme.GuidesCommon;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -20,8 +19,8 @@ public class PowahBookItem extends ItemBase {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
-        ItemStack stack = playerIn.getItemInHand(handIn);
-        GuidesCommon.openGuide(playerIn, GUIDE_ID);
-        return InteractionResultHolder.success(stack);
+        // GuideME has no Fabric release - book opening is a no-op for now.
+        // TODO: integrate with a Fabric-compatible guide mod when available.
+        return InteractionResultHolder.pass(playerIn.getItemInHand(handIn));
     }
 }

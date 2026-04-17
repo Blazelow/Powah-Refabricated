@@ -11,6 +11,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import owmii.powah.Powah;
+import owmii.powah.compat.trinkets.TrinketsTagsProvider;
 import owmii.powah.world.gen.Features;
 
 public class PowahDataGenerator implements DataGeneratorEntrypoint {
@@ -25,6 +26,7 @@ public class PowahDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(RecipeProvider::new);
         pack.addProvider((output, registries) -> createLoot(output, registries));
         pack.addProvider(PowahFabricDataMapProvider::new);
+        pack.addProvider(TrinketsTagsProvider::new);
     }
 
     @Override

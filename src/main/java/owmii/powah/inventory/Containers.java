@@ -1,45 +1,50 @@
 package owmii.powah.inventory;
 
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import owmii.powah.Powah;
 
 public class Containers {
 
     public static final MenuType<EnergyCellContainer> ENERGY_CELL = register("energy_cell",
-            (syncId, inv, buf) -> EnergyCellContainer.create(syncId, inv, buf));
+            EnergyCellContainer::new, BlockPos.STREAM_CODEC);
     public static final MenuType<EnderCellContainer> ENDER_CELL = register("ender_cell",
-            (syncId, inv, buf) -> EnderCellContainer.create(syncId, inv, buf));
+            EnderCellContainer::new, BlockPos.STREAM_CODEC);
     public static final MenuType<FurnatorContainer> FURNATOR = register("furnator",
-            (syncId, inv, buf) -> FurnatorContainer.create(syncId, inv, buf));
+            FurnatorContainer::new, BlockPos.STREAM_CODEC);
     public static final MenuType<MagmatorContainer> MAGMATOR = register("magmator",
-            (syncId, inv, buf) -> MagmatorContainer.create(syncId, inv, buf));
+            MagmatorContainer::new, BlockPos.STREAM_CODEC);
     public static final MenuType<PlayerTransmitterContainer> PLAYER_TRANSMITTER = register("player_transmitter",
-            (syncId, inv, buf) -> PlayerTransmitterContainer.create(syncId, inv, buf));
+            PlayerTransmitterContainer::new, BlockPos.STREAM_CODEC);
     public static final MenuType<EnergyHopperContainer> ENERGY_HOPPER = register("energy_hopper",
-            (syncId, inv, buf) -> EnergyHopperContainer.create(syncId, inv, buf));
+            EnergyHopperContainer::new, BlockPos.STREAM_CODEC);
     public static final MenuType<CableContainer> CABLE = register("cable",
-            (syncId, inv, buf) -> CableContainer.create(syncId, inv, buf));
+            CableContainer::new, BlockPos.STREAM_CODEC);
     public static final MenuType<ReactorContainer> REACTOR = register("reactor",
-            (syncId, inv, buf) -> ReactorContainer.create(syncId, inv, buf));
+            ReactorContainer::new, BlockPos.STREAM_CODEC);
     public static final MenuType<SolarContainer> SOLAR = register("solar",
-            (syncId, inv, buf) -> SolarContainer.create(syncId, inv, buf));
+            SolarContainer::new, BlockPos.STREAM_CODEC);
     public static final MenuType<ThermoContainer> THERMO = register("thermo",
-            (syncId, inv, buf) -> ThermoContainer.create(syncId, inv, buf));
+            ThermoContainer::new, BlockPos.STREAM_CODEC);
     public static final MenuType<DischargerContainer> DISCHARGER = register("discharger",
-            (syncId, inv, buf) -> DischargerContainer.create(syncId, inv, buf));
+            DischargerContainer::new, BlockPos.STREAM_CODEC);
 
-    @SuppressWarnings("deprecation")
-    private static <T extends net.minecraft.world.inventory.AbstractContainerMenu> MenuType<T> register(
-            String name, ScreenHandlerRegistry.ExtendedClientHandlerFactory<T> factory) {
-        return ScreenHandlerRegistry.registerExtended(
-                ResourceLocation.fromNamespaceAndPath(Powah.MOD_ID, name), factory);
+    private static <T extends AbstractContainerMenu, D> MenuType<T> register(
+            String name,
+            ExtendedScreenHandlerType.ExtendedFactory<T, D> factory,
+            StreamCodec<? super RegistryFriendlyByteBuf, D> codec) {
+        return Registry.register(
+                BuiltInRegistries.MENU,
+                ResourceLocation.fromNamespaceAndPath(Powah.MOD_ID, name),
+                new ExtendedScreenHandlerType<>(factory, codec));
     }
 
-    public static void init() {
-        // Called to trigger class loading and static registration
-    }
+    public static void init() {}
 }

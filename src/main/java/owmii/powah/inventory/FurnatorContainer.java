@@ -1,5 +1,6 @@
 package owmii.powah.inventory;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.furnator.FurnatorTile;
@@ -9,6 +10,10 @@ import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 public class FurnatorContainer extends AbstractEnergyContainer<FurnatorTile> {
     public FurnatorContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.FURNATOR, id, inventory, buffer);
+    }
+
+    public FurnatorContainer(int id, Inventory inventory, BlockPos pos) {
+        super(Containers.FURNATOR, id, inventory, pos);
     }
 
     public FurnatorContainer(int id, Inventory inventory, FurnatorTile te) {

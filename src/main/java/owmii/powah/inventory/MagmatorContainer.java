@@ -1,5 +1,6 @@
 package owmii.powah.inventory;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.magmator.MagmatorTile;
@@ -9,6 +10,10 @@ import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 public class MagmatorContainer extends AbstractEnergyContainer<MagmatorTile> {
     public MagmatorContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.MAGMATOR, id, inventory, buffer);
+    }
+
+    public MagmatorContainer(int id, Inventory inventory, BlockPos pos) {
+        super(Containers.MAGMATOR, id, inventory, pos);
     }
 
     public MagmatorContainer(int id, Inventory inventory, MagmatorTile te) {

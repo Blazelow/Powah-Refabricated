@@ -26,6 +26,10 @@ public abstract class AbstractTileContainer<T extends AbstractTileEntity<?, ?> &
         this(containerType, id, inventory, getInventory(inventory.player, buffer.readBlockPos()));
     }
 
+    public AbstractTileContainer(@Nullable MenuType<?> containerType, int id, Inventory inventory, BlockPos pos) {
+        this(containerType, id, inventory, getInventory(inventory.player, pos));
+    }
+
     public AbstractTileContainer(@Nullable MenuType<?> type, int id, Inventory inventory, T te) {
         super(type, id, inventory);
         this.te = te;

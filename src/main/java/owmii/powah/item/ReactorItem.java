@@ -34,15 +34,6 @@ public class ReactorItem extends EnergyBlockItem<GeneratorConfig, ReactorBlock> 
         super(block, properties, group);
     }
 
-    @SuppressWarnings("unused") // overridden on Forge
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                return new ReactorItemRenderer();
-            }
-        });
-    }
 
     @Override
     public InteractionResult place(BlockPlaceContext context) {

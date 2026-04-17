@@ -1,5 +1,6 @@
 package owmii.powah.inventory;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.thermo.ThermoTile;
@@ -9,6 +10,10 @@ import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 public class ThermoContainer extends AbstractEnergyContainer<ThermoTile> {
     public ThermoContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.THERMO, id, inventory, buffer);
+    }
+
+    public ThermoContainer(int id, Inventory inventory, BlockPos pos) {
+        super(Containers.THERMO, id, inventory, pos);
     }
 
     public ThermoContainer(int id, Inventory inventory, ThermoTile te) {

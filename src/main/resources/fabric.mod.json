@@ -4,14 +4,29 @@
   "version": "${version}",
   "name": "Powah! (Rearchitected)",
   "description": "A tech mod with various ways to generate, store and transmit energy.",
-  "authors": ["owmii", "Technici4n"],
+  "authors": [
+    "owmii",
+    "Technici4n"
+  ],
   "license": "LGPL-3.0",
   "icon": "assets/powah/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": ["owmii.powah.Powah"],
-    "client": ["owmii.powah.client.PowahClient"],
-    "fabric-datagen": ["owmii.powah.data.PowahDataGenerator"]
+    "main": [
+      "owmii.powah.Powah"
+    ],
+    "client": [
+      "owmii.powah.client.PowahClient"
+    ],
+    "fabric-datagen": [
+      "owmii.powah.data.PowahDataGenerator"
+    ],
+    "rei-plugins-client": [
+      "owmii.powah.compat.rei.PowahREIPluginProvider"
+    ],
+    "emi": [
+      "owmii.powah.compat.emi.PowahEmiPlugin"
+    ]
   },
   "mixins": [],
   "depends": {
@@ -25,6 +40,7 @@
   "suggests": {
     "emi": "*",
     "roughlyenoughitems": "*",
-    "jei": "*"
+    "jei": "*",
+    "trinkets": "*"
   }
 }

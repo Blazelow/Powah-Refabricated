@@ -1,5 +1,6 @@
 package owmii.powah.inventory;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.reactor.ReactorTile;
@@ -9,6 +10,10 @@ import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 public class ReactorContainer extends AbstractEnergyContainer<ReactorTile> {
     public ReactorContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.REACTOR, id, inventory, buffer);
+    }
+
+    public ReactorContainer(int id, Inventory inventory, BlockPos pos) {
+        super(Containers.REACTOR, id, inventory, pos);
     }
 
     public ReactorContainer(int id, Inventory inventory, ReactorTile te) {

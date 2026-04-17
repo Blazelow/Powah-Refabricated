@@ -1,5 +1,6 @@
 package owmii.powah.inventory;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.ender.AbstractEnderTile;
@@ -9,6 +10,10 @@ import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 public class EnderCellContainer extends AbstractEnergyContainer<AbstractEnderTile<?>> {
     public EnderCellContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.ENDER_CELL, id, inventory, buffer);
+    }
+
+    public EnderCellContainer(int id, Inventory inventory, BlockPos pos) {
+        super(Containers.ENDER_CELL, id, inventory, pos);
     }
 
     public EnderCellContainer(int id, Inventory inventory, AbstractEnderTile te) {

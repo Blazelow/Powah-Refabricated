@@ -15,6 +15,10 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -169,9 +173,23 @@ public abstract class AbstractBlock<V extends IVariant, B extends AbstractBlock<
             AbstractContainerMenu container = provider.createMenu(0, player.getInventory(), player);
             if (container != null) {
                 if (player instanceof ServerPlayer serverPlayer) {
-                    serverPlayer.openMenu(provider, buffer -> {
-                        buffer.writeBlockPos(pos);
-                        additionalGuiData(buffer, state, world, pos, player, result);
+                    // Fabric: use ExtendedScreenHandlerFactory to send BlockPos to client via codec
+                    final BlockPos menuPos = pos;
+                    serverPlayer.openMenu(new ExtendedScreenHandlerFactory<BlockPos>() {
+                        @Override
+                        public BlockPos getScreenOpeningData(ServerPlayer player) {
+                            return menuPos;
+                        }
+
+                        @Override
+                        public Component getDisplayName() {
+                            return provider.getDisplayName();
+                        }
+
+                        @Override
+                        public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player p) {
+                            return provider.createMenu(syncId, inv, p);
+                        }
                     });
                 }
                 return InteractionResult.SUCCESS;

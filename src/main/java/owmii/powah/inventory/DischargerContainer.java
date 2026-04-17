@@ -1,5 +1,6 @@
 package owmii.powah.inventory;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import owmii.powah.block.discharger.EnergyDischargerTile;
@@ -9,6 +10,10 @@ import owmii.powah.lib.logistics.inventory.slot.SlotBase;
 public class DischargerContainer extends AbstractEnergyContainer<EnergyDischargerTile> {
     public DischargerContainer(int id, Inventory inventory, FriendlyByteBuf buffer) {
         super(Containers.DISCHARGER, id, inventory, buffer);
+    }
+
+    public DischargerContainer(int id, Inventory inventory, BlockPos pos) {
+        super(Containers.DISCHARGER, id, inventory, pos);
     }
 
     public DischargerContainer(int id, Inventory inventory, EnergyDischargerTile te) {

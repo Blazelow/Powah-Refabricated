@@ -34,6 +34,7 @@ import owmii.powah.network.Network;
 import owmii.powah.recipe.ReactorFuel;
 import owmii.powah.recipe.Recipes;
 import owmii.powah.util.Wrench;
+import owmii.powah.compat.trinkets.TrinketsCompat;
 import owmii.powah.world.gen.Features;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -86,6 +87,11 @@ public class Powah implements ModInitializer {
                 (world, chunk) -> CableNet.removeChunk(world, chunk));
 
         // World gen
+        // Trinkets compat - charge batteries worn in trinket slots
+        if (FabricLoader.getInstance().isModLoaded("trinkets")) {
+            TrinketsCompat.init();
+        }
+
         Features.registerBiomeModifications();
     }
 
