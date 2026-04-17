@@ -3,10 +3,6 @@ package owmii.powah.api;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.world.level.material.Fluid;
-
-import owmii.powah.Powah;
-
 /**
  * Fuel for the {@link owmii.powah.block.magmator.MagmatorTile}.
  *
@@ -17,7 +13,4 @@ public record MagmatorFuelValue(int energyProduced) {
             .group(
                     Codec.INT.fieldOf("energy_produced").forGetter(MagmatorFuelValue::energyProduced))
             .apply(builder, MagmatorFuelValue::new));
-
-            .synced(CODEC, true)
-            .build();
 }

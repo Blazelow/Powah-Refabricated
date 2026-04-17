@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 
 import java.util.List;
 import java.util.function.Supplier;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.OrePlacements;
@@ -23,8 +22,6 @@ import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguratio
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
-
-
 
 import owmii.powah.Powah;
 import owmii.powah.block.Blcks;
@@ -101,23 +98,6 @@ public class Features {
     }
 
 
-    private static void addFeatureToBiomes(BootstrapContext<BiomeModifier> bootstrap,
-            HolderSet<Biome> biomes,
-            ResourceKey<PlacedFeature> featureKey,
-            GenerationStep.Decoration step) {
-
-        // Just name the modifier the same as the feature
-        var modifierKey = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, featureKey.location());
-
-        var features = bootstrap.lookup(Registries.PLACED_FEATURE);
-        var modifier = new BiomeModifiers.AddFeaturesBiomeModifier(
-                biomes,
-                HolderSet.direct(features.getOrThrow(featureKey)),
-                step);
-
-        bootstrap.register(modifierKey, modifier);
-    }
-
     /** Called from Powah.onInitialize() to register ore generation via FAPI BiomeModifications. */
     public static void registerBiomeModifications() {
         BiomeModifications.addFeature(
@@ -138,3 +118,4 @@ public class Features {
                 GenerationStep.Decoration.UNDERGROUND_ORES,
                 PLACED_DRY_ICE);
     }
+}

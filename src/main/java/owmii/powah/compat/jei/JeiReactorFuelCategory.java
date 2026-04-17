@@ -57,12 +57,11 @@ public class JeiReactorFuelCategory extends AbstractCategory<JeiReactorFuelCateg
 
     public static List<Recipe> createRecipes() {
         List<Recipe> recipes = new ArrayList<>();
-        for (var item : BuiltInRegistries.ITEM) { var fuel = PowahDataLoader.getReactorFuel(item); if (fuel == null) continue;
-            var key = entry.getKey();
-            var item = BuiltInRegistries.ITEM.get(key);
-            if (item != null) {
-                recipes.add(new Recipe(item.getDefaultInstance(), key.location(), entry.getValue()));
-            }
+        for (var item : BuiltInRegistries.ITEM) {
+            var fuel = PowahDataLoader.getReactorFuel(item);
+            if (fuel == null) continue;
+            var key = BuiltInRegistries.ITEM.getKey(item);
+            recipes.add(new Recipe(item.getDefaultInstance(), key, fuel));
         }
         return recipes;
     }

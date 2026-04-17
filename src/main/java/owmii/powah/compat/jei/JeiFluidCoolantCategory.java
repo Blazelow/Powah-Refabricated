@@ -31,7 +31,7 @@ public class JeiFluidCoolantCategory extends AbstractCategory<FluidCoolant> {
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, FluidCoolant recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 4, 5)
-                .addFluidStack(recipe.fluid(, 1000L));
+                .addFluidStack(recipe.fluid(), 1000L);
     }
 
     @Override

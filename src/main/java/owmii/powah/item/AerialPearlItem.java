@@ -28,7 +28,9 @@ public class AerialPearlItem extends ItemBase {
                         || target.getClass() == Husk.class) {
                     if (!playerIn.level().isClientSide) {
                         ItemStack stack1 = playerIn.getItemInHand(hand);
-                        (playerIn.getInventory().add(new ItemStack(Itms.PLAYER_AERIAL_PEARL) || playerIn.drop(new ItemStack(Itms.PLAYER_AERIAL_PEARL, false)));
+                        if (!playerIn.getInventory().add(new ItemStack(Itms.PLAYER_AERIAL_PEARL))) {
+                            playerIn.drop(new ItemStack(Itms.PLAYER_AERIAL_PEARL), false);
+                        }
                         target.playSound(SoundEvents.ZOMBIE_DEATH, 0.5F, 1.0F);
                         target.remove(Entity.RemovalReason.KILLED);
                         if (!playerIn.isCreative()) {

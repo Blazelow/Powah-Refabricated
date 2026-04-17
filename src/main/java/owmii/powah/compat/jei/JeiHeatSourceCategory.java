@@ -36,7 +36,7 @@ public class JeiHeatSourceCategory extends AbstractCategory<PassiveHeatSource> {
             input.addItemLike(recipe.block());
         }
         if (recipe.fluid() != null) {
-            input.addFluidStack(recipe.fluid(, 1000L));
+            input.addFluidStack(recipe.fluid(), 1000L);
         }
     }
 

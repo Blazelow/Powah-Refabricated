@@ -27,7 +27,9 @@ public class PhotoelectricPaneItem extends ItemBase {
                     if (!playerIn.isCreative()) {
                         stack1.shrink(1);
                     }
-                    (playerIn.getInventory().add(new ItemStack(Itms.LENS_OF_ENDER) || playerIn.drop(new ItemStack(Itms.LENS_OF_ENDER, false)));
+                    if (!playerIn.getInventory().add(new ItemStack(Itms.LENS_OF_ENDER))) {
+                        playerIn.drop(new ItemStack(Itms.LENS_OF_ENDER), false);
+                    }
                     target.playSound(SoundEvents.ENDERMAN_DEATH, 0.5F, 1.0F);
                     target.remove(Entity.RemovalReason.KILLED);
                 }

@@ -52,7 +52,6 @@ public class ThermoBlock extends AbstractGeneratorBlock<ThermoBlock> {
         BlockEntity tile = pLevel.getBlockEntity(pPos);
         if (tile instanceof ThermoTile genTile) {
             Tank tank = genTile.getTank();
-            {
             try (var transaction = net.fabricmc.fabric.api.transfer.v1.transaction.Transaction.openOuter()) {
                 var ctx = net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext.ofPlayerHand(pPlayer, pHand);
                 var itemFluid = net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage.ITEM.find(pPlayer.getItemInHand(pHand), ctx);

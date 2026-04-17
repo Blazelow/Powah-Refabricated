@@ -30,7 +30,7 @@ public class JeiMagmatorCategory extends AbstractCategory<MagmatorFuel> {
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, MagmatorFuel recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 4, 5)
-                .addFluidStack(recipe.fluid(, 1000L));
+                .addFluidStack(recipe.fluid(), 1000L);
     }
 
     @Override
