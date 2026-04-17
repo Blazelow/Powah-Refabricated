@@ -41,7 +41,7 @@ repositories {
         content {
             includeGroup 'dev.emi'
             includeGroup 'io.github.ladysnake'
-            includeModuleByRegex 'dev\.emi', 'trinkets.*'
+            includeModuleByRegex "dev\.emi", "trinkets.*"
         }
     }
     mavenCentral()
