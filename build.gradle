@@ -42,7 +42,6 @@ repositories {
             includeGroup 'dev.emi'
             includeGroup 'io.github.ladysnake'
             includeGroup 'org.ladysnake'
-            includeGroupByRegex 'org\.ladysnake\..*'
         }
     }
     mavenCentral()
