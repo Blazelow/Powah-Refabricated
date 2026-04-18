@@ -35,15 +35,6 @@ repositories {
             includeGroup 'teamreborn'
         }
     }
-    maven {
-        name = 'Ladysnake'
-        url = 'https://maven.ladysnake.org/releases'
-        content {
-            includeGroup 'dev.emi'
-            includeGroup 'io.github.ladysnake'
-            includeGroup 'org.ladysnake'
-        }
-    }
     mavenCentral()
 }
 
@@ -89,8 +80,6 @@ dependencies {
     modImplementation "teamreborn:energy:${project.team_reborn_energy_version}"
 
     modImplementation "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}"
-
-    modCompileOnly "dev.emi:trinkets:${project.trinkets_version}"
 
     // Optional compat — compile-only
     modCompileOnly "dev.emi:emi-fabric:${project.emi_version}:api"
