@@ -27,25 +27,25 @@ public class TagsProvider {
         protected void addTags(HolderLookup.Provider provider) {
             // Remove non-dry ice if Forge handles them in the future
             tag(ITags.Blocks.ICES).addTag(ITags.Blocks.ICES_ICE).addTag(ITags.Blocks.ICES_PACKED).addTag(ITags.Blocks.ICES_BLUE);
-            tag(ITags.Blocks.ICES_ICE).add(net.minecraft.world.level.block.Blocks.ICE);
-            tag(ITags.Blocks.ICES_PACKED).add(net.minecraft.world.level.block.Blocks.PACKED_ICE);
-            tag(ITags.Blocks.ICES_BLUE).add(net.minecraft.world.level.block.Blocks.BLUE_ICE);
+            tag(ITags.Blocks.ICES_ICE).add(net.minecraft.world.level.block.Blocks.ICE.builtInRegistryHolder().key());
+            tag(ITags.Blocks.ICES_PACKED).add(net.minecraft.world.level.block.Blocks.PACKED_ICE.builtInRegistryHolder().key());
+            tag(ITags.Blocks.ICES_BLUE).add(net.minecraft.world.level.block.Blocks.BLUE_ICE.builtInRegistryHolder().key());
             tag(ITags.Blocks.ICES).addTag(ITags.Blocks.ICES_DRY);
-            tag(ITags.Blocks.ICES_DRY).add(Blcks.DRY_ICE);
+            tag(ITags.Blocks.ICES_DRY).add(Blcks.DRY_ICE.builtInRegistryHolder().key());
 
-            tag(ITags.Blocks.URANINITE_ORE).add(Blcks.URANINITE_ORE).add(Blcks.URANINITE_ORE_POOR)
-                    .add(Blcks.URANINITE_ORE_DENSE);
-            tag(ITags.Blocks.URANINITE_ORE).add(Blcks.DEEPSLATE_URANINITE_ORE).add(Blcks.DEEPSLATE_URANINITE_ORE_POOR)
-                    .add(Blcks.DEEPSLATE_URANINITE_ORE_DENSE);
+            tag(ITags.Blocks.URANINITE_ORE).add(Blcks.URANINITE_ORE).add(Blcks.URANINITE_ORE_POOR.builtInRegistryHolder().key())
+                    .add(Blcks.URANINITE_ORE_DENSE.builtInRegistryHolder().key());
+            tag(ITags.Blocks.URANINITE_ORE).add(Blcks.DEEPSLATE_URANINITE_ORE).add(Blcks.DEEPSLATE_URANINITE_ORE_POOR.builtInRegistryHolder().key())
+                    .add(Blcks.DEEPSLATE_URANINITE_ORE_DENSE.builtInRegistryHolder().key());
             tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags.ORES).addTag(ITags.Blocks.URANINITE_ORE);
 
-            tag(ITags.Blocks.URANINITE_ORE_REGULAR).add(Blcks.URANINITE_ORE, Blcks.DEEPSLATE_URANINITE_ORE);
+            tag(ITags.Blocks.URANINITE_ORE_REGULAR).add(Blcks.URANINITE_ORE.builtInRegistryHolder().key(), Blcks.DEEPSLATE_URANINITE_ORE.builtInRegistryHolder().key());
             tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags.ORES).addTag(ITags.Blocks.URANINITE_ORE_REGULAR);
 
-            tag(ITags.Blocks.URANINITE_ORE_POOR).add(Blcks.URANINITE_ORE_POOR, Blcks.DEEPSLATE_URANINITE_ORE_POOR);
+            tag(ITags.Blocks.URANINITE_ORE_POOR).add(Blcks.URANINITE_ORE_POOR.builtInRegistryHolder().key(), Blcks.DEEPSLATE_URANINITE_ORE_POOR.builtInRegistryHolder().key());
             tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags.ORES).addTag(ITags.Blocks.URANINITE_ORE_POOR);
 
-            tag(ITags.Blocks.URANINITE_ORE_DENSE).add(Blcks.URANINITE_ORE_DENSE, Blcks.DEEPSLATE_URANINITE_ORE_DENSE);
+            tag(ITags.Blocks.URANINITE_ORE_DENSE).add(Blcks.URANINITE_ORE_DENSE.builtInRegistryHolder().key(), Blcks.DEEPSLATE_URANINITE_ORE_DENSE.builtInRegistryHolder().key());
             tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags.ORES).addTag(ITags.Blocks.URANINITE_ORE_DENSE);
 
             tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags.ORES_IN_GROUND_DEEPSLATE).add(Blcks.DEEPSLATE_URANINITE_ORE,
@@ -53,8 +53,8 @@ public class TagsProvider {
             tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags.ORES_IN_GROUND_STONE).add(Blcks.URANINITE_ORE, Blcks.URANINITE_ORE_DENSE,
                     Blcks.URANINITE_ORE_POOR);
 
-            tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags.STORAGE_BLOCKS).add(Blcks.URANINITE);
-            tag(ITags.Blocks.URANINITE_BLOCK).add(Blcks.URANINITE);
+            tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags.STORAGE_BLOCKS).add(Blcks.URANINITE.builtInRegistryHolder().key());
+            tag(ITags.Blocks.URANINITE_BLOCK).add(Blcks.URANINITE.builtInRegistryHolder().key());
 
             varReg(ITags.Blocks.ENERGY_CELLS, Blcks.ENERGY_CELL);
             varReg(ITags.Blocks.ENDER_CELLS, Blcks.ENDER_CELL);
@@ -73,7 +73,7 @@ public class TagsProvider {
             // All of our blocks are mineable with a pickaxe
             for (var block : BuiltInRegistries.BLOCK) {
                 if (BuiltInRegistries.BLOCK.getKey(block).getNamespace().equals(Powah.MOD_ID)) {
-                    tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
+                    tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.builtInRegistryHolder().key());
                 }
             }
             // However the uraninite ores require at least an iron pickaxe
@@ -81,26 +81,28 @@ public class TagsProvider {
         }
 
         private void varReg(TagKey<Block> tagKey, VarReg<Tier, Block> varReg) {
-            tag(tagKey).add(varReg.getArr(Block[]::new));
+            for (Block b : varReg.getArr(Block[]::new)) {
+                tag(tagKey).add(b.builtInRegistryHolder().key());
+            }
         }
     }
 
     public static class Items extends FabricTagProvider.ItemTagProvider {
         public Items(net.fabricmc.fabric.api.datagen.v1.FabricDataOutput output, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<net.minecraft.data.tags.TagsProvider.TagLookup<Block>> blockTagProvider) {
-            super(output, provider, blockTagProvider);
+            super(output, provider, blockTagProvider.contentsGetter());
         }
 
         @Override
         protected void addTags(HolderLookup.Provider arg) {
-            tag(ITags.Items.URANINITE_RAW).add(Itms.URANINITE_RAW);
+            tag(ITags.Items.URANINITE_RAW).add(Itms.URANINITE_RAW.builtInRegistryHolder().key());
             tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.RAW_MATERIALS).addTag(ITags.Items.URANINITE_RAW);
 
-            tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.INGOTS).add(Itms.ENERGIZED_STEEL);
-            tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.GEMS).add(Itms.BLAZING_CRYSTAL, Itms.NIOTIC_CRYSTAL, Itms.SPIRITED_CRYSTAL, Itms.NITRO_CRYSTAL);
+            tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.INGOTS).add(Itms.ENERGIZED_STEEL.builtInRegistryHolder().key());
+            tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.GEMS).add(Itms.BLAZING_CRYSTAL.builtInRegistryHolder().key(), Itms.NIOTIC_CRYSTAL.builtInRegistryHolder().key(), Itms.SPIRITED_CRYSTAL.builtInRegistryHolder().key(), Itms.NITRO_CRYSTAL.builtInRegistryHolder().key());
 
-            tag(ITags.Items.WRENCHES).add(Itms.WRENCH);
+            tag(ITags.Items.WRENCHES).add(Itms.WRENCH.builtInRegistryHolder().key());
 
-            tag(ITags.Items.QUARTZ_BLOCKS).add(net.minecraft.world.item.Items.QUARTZ_BLOCK);
+            tag(ITags.Items.QUARTZ_BLOCKS).add(net.minecraft.world.item.Items.QUARTZ_BLOCK.builtInRegistryHolder().key());
 
             // BlockItem tags below
 

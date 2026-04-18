@@ -10,6 +10,8 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.ItemStack;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -27,7 +29,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
     }
 
     @Override
-    protected void buildRecipes(RecipeOutput output) {
+    public void buildRecipes(RecipeOutput output) {
         battery(output);
 
         tools(output);
@@ -1395,10 +1397,10 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .pattern("dld")
                 .pattern("lpl")
                 .pattern("dld")
-                .define('p', Tags.Items.GLASS_PANES)
+                .define('p', ItemTags.create(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "glass_panes")))
                 .define('l', Items.LAPIS_LAZULI)
                 .define('d', Itms.DIELECTRIC_PASTE)
-                .unlockedBy("has_glass_panes", has(Tags.Items.GLASS_PANES))
+                .unlockedBy("has_glass_panes", has(ItemTags.create(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "glass_panes"))))
                 .unlockedBy(getHasName(Items.LAPIS_LAZULI), has(Items.LAPIS_LAZULI))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .save(output, Powah.id("crafting/photoelectric_pane"));
@@ -1900,48 +1902,48 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
 
     private void energizingRecipes(RecipeOutput output) {
         output.accept(Powah.id("energizing/blazing_crystal"),
-                new EnergizingRecipe(Itms.BLAZING_CRYSTAL.toStack(), 120000, List.of(Ingredient.of(Items.BLAZE_POWDER),
+                new EnergizingRecipe(new ItemStack(Itms.BLAZING_CRYSTAL), 120000, List.of(Ingredient.of(Items.BLAZE_POWDER),
                         Ingredient.of(Items.BLAZE_POWDER), Ingredient.of(Items.BLAZE_POWDER), Ingredient.of(Items.BLAZE_POWDER))),
                 null);
         output.accept(Powah.id("energizing/blazing_crystal_2"),
-                new EnergizingRecipe(Itms.BLAZING_CRYSTAL.toStack(), 120000, List.of(Ingredient.of(Tags.Items.RODS_BLAZE))), null);
+                new EnergizingRecipe(new ItemStack(Itms.BLAZING_CRYSTAL), 120000, List.of(Ingredient.of(ItemTags.BLAZE_RODS))), null);
         output.accept(Powah.id("energizing/charged_snowball"),
-                new EnergizingRecipe(Itms.CHARGED_SNOWBALL.toStack(), 500000, List.of(Ingredient.of(Items.SNOWBALL))), null);
-        output.accept(Powah.id("energizing/dry_ice"), new EnergizingRecipe(Blcks.DRY_ICE.toStack(), 10000,
+                new EnergizingRecipe(new ItemStack(Itms.CHARGED_SNOWBALL), 500000, List.of(Ingredient.of(Items.SNOWBALL))), null);
+        output.accept(Powah.id("energizing/dry_ice"), new EnergizingRecipe(new ItemStack(Blcks.DRY_ICE.asItem()), 10000,
                 List.of(Ingredient.of(ITags.Items.ICES_BLUE), Ingredient.of(ITags.Items.ICES_BLUE))), null);
         output.accept(Powah.id("energizing/ender_core"),
-                new EnergizingRecipe(Itms.ENDER_CORE.toStack(), 50000,
+                new EnergizingRecipe(new ItemStack(Itms.ENDER_CORE), 50000,
                         List.of(Ingredient.of(Items.ENDER_EYE), Ingredient.of(Itms.DIELECTRIC_CASING), Ingredient.of(Itms.CAPACITOR_BASIC_TINY))),
                 null);
-        output.accept(Powah.id("energizing/energized_steel"), new EnergizingRecipe(Itms.ENERGIZED_STEEL.toStack(2), 10000,
-                List.of(Ingredient.of(net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.INGOTS_IRON), Ingredient.of(net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.INGOTS_GOLD))), null);
+        output.accept(Powah.id("energizing/energized_steel"), new EnergizingRecipe(new ItemStack(Itms.ENERGIZED_STEEL, 2), 10000,
+                List.of(Ingredient.of(net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.IRON_INGOTS), Ingredient.of(net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.GOLD_INGOTS))), null);
         output.accept(Powah.id("energizing/niotic_crystal"),
-                new EnergizingRecipe(Itms.NIOTIC_CRYSTAL.toStack(), 300000, List.of(Ingredient.of(Tags.Items.GEMS_DIAMOND))), null);
+                new EnergizingRecipe(new ItemStack(Itms.NIOTIC_CRYSTAL), 300000, List.of(Ingredient.of(ItemTags.DIAMONDS))), null);
         output.accept(Powah.id("energizing/nitro_crystal"),
-                new EnergizingRecipe(Itms.NITRO_CRYSTAL.toStack(16), 20000000,
-                        List.of(Ingredient.of(Tags.Items.NETHER_STARS), Ingredient.of(Tags.Items.STORAGE_BLOCKS_REDSTONE),
-                                Ingredient.of(Tags.Items.STORAGE_BLOCKS_REDSTONE), Ingredient.of(Blcks.BLAZING_CRYSTAL))),
+                new EnergizingRecipe(new ItemStack(Itms.NITRO_CRYSTAL, 16), 20000000,
+                        List.of(Ingredient.of(ItemTags.create(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "nether_stars"))), Ingredient.of(ItemTags.create(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "storage_blocks/redstone"))),
+                                Ingredient.of(ItemTags.create(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "storage_blocks/redstone"))), Ingredient.of(Blcks.BLAZING_CRYSTAL.asItem()))),
                 null);
         output.accept(Powah.id("energizing/spirited_crystal"),
-                new EnergizingRecipe(Itms.SPIRITED_CRYSTAL.toStack(), 1000000, List.of(Ingredient.of(Tags.Items.GEMS_EMERALD))), null);
+                new EnergizingRecipe(new ItemStack(Itms.SPIRITED_CRYSTAL), 1000000, List.of(Ingredient.of(ItemTags.EMERALDS))), null);
         output.accept(Powah.id("energizing/uraninite_from_ore"),
-                new EnergizingRecipe(Itms.URANINITE.toStack(5), 50000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE_REGULAR))), null);
+                new EnergizingRecipe(new ItemStack(Itms.URANINITE, 5), 50000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE_REGULAR))), null);
         output.accept(Powah.id("energizing/uraninite_from_ore_dense"),
-                new EnergizingRecipe(Itms.URANINITE.toStack(10), 100000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE_DENSE))), null);
+                new EnergizingRecipe(new ItemStack(Itms.URANINITE, 10), 100000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE_DENSE))), null);
         output.accept(Powah.id("energizing/uraninite_from_ore_poor"),
-                new EnergizingRecipe(Itms.URANINITE.toStack(3), 25000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE_POOR))), null);
+                new EnergizingRecipe(new ItemStack(Itms.URANINITE, 3), 25000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE_POOR))), null);
         output.accept(Powah.id("energizing/uraninite_from_raw"),
-                new EnergizingRecipe(Itms.URANINITE.toStack(2), 2000, List.of(Ingredient.of(Itms.URANINITE_RAW))), null);
+                new EnergizingRecipe(new ItemStack(Itms.URANINITE, 2), 2000, List.of(Ingredient.of(Itms.URANINITE_RAW))), null);
         // NOTE: NeoForge recipe condition removed (was: conditional on Uranium Ingot tag being non-empty)
         output.accept(Powah.id("energizing/uraninite_from_uranium"),
-                new EnergizingRecipe(Itms.URANINITE.toStack(), 30000, List.of(Ingredient.of(ITags.Items.URANIUM_INGOTS))), null);
+                new EnergizingRecipe(new ItemStack(Itms.URANINITE), 30000, List.of(Ingredient.of(ITags.Items.URANIUM_INGOTS))), null);
     }
 
     private void smelting(RecipeOutput output) {
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(Itms.URANINITE_RAW), RecipeCategory.MISC, Itms.URANINITE.toStack(), 0.7f, 200)
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(Itms.URANINITE_RAW), RecipeCategory.MISC, new ItemStack(Itms.URANINITE), 0.7f, 200)
                 .unlockedBy(getHasName(Itms.URANINITE_RAW), has(Itms.URANINITE_RAW))
                 .save(output, Powah.id("smelting/uraninite_from_raw"));
-        SimpleCookingRecipeBuilder.blasting(Ingredient.of(Itms.URANINITE_RAW), RecipeCategory.MISC, Itms.URANINITE.toStack(), 0.7f, 100)
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(Itms.URANINITE_RAW), RecipeCategory.MISC, new ItemStack(Itms.URANINITE), 0.7f, 100)
                 .unlockedBy(getHasName(Itms.URANINITE_RAW), has(Itms.URANINITE_RAW))
                 .save(output, Powah.id("smelting/uraninite_from_raw_blasting"));
     }

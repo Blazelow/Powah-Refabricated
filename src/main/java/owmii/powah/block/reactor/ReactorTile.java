@@ -6,7 +6,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
@@ -19,7 +18,9 @@ import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.ITankHolder;
 import owmii.powah.lib.logistics.energy.Energy;
 import owmii.powah.lib.logistics.fluid.Tank;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import owmii.powah.recipe.ReactorFuel;
+import owmii.powah.data.PowahDataLoader;
 import owmii.powah.util.EnergyUtil;
 import owmii.powah.util.Ticker;
 import owmii.powah.util.Util;
@@ -246,7 +247,7 @@ public class ReactorTile extends AbstractEnergyProvider<ReactorBlock> implements
         boolean flag = false;
         if (this.redstone.isEmpty()) {
             ItemStack stack = this.inv.getStackInSlot(3);
-            if (stack.is(ConventionalItemTags.DUSTS_REDSTONE)) {
+            if (stack.is(ConventionalItemTags.REDSTONE_DUSTS)) {
                 this.redstone.setAll(18);
             } else if (stack.is(ConventionalItemTags.STORAGE_BLOCKS_REDSTONE)) {
                 this.redstone.setAll(162);
@@ -275,7 +276,7 @@ public class ReactorTile extends AbstractEnergyProvider<ReactorBlock> implements
         if (this.carbon.isEmpty()) {
             ItemStack stack = this.inv.getStackInSlot(2);
             if (!stack.isEmpty()) {
-                int carbon = stack.getBurnTime(RecipeType.SMELTING);
+                int carbon = AbstractFurnaceBlockEntity.getFuel().getOrDefault(stack.getItem(), 0);
                 if (carbon > 0) {
                     this.carbon.setAll(carbon);
                     this.carbonTemp = 180;
@@ -302,7 +303,7 @@ public class ReactorTile extends AbstractEnergyProvider<ReactorBlock> implements
 
         var stack = this.inv.getStackInSlot(1);
         if (!stack.isEmpty()) {
-            var fuel = ReactorFuel.getFuel(stack.getItem());
+            var fuel = PowahDataLoader.getReactorFuel(stack.getItem());
             if (fuel != null) {
                 // Try not to waste fuel
                 if (this.fuel.isEmpty() || this.fuel.getTicks() + fuel.fuelAmount() <= this.fuel.getMax()) {
@@ -342,11 +343,11 @@ public class ReactorTile extends AbstractEnergyProvider<ReactorBlock> implements
     @Override
     public boolean canInsert(int slot, ItemStack stack) {
         if (slot == 1) {
-            return ReactorFuel.getFuel(stack.getItem()) != null;
+            return PowahDataLoader.getReactorFuel(stack.getItem()) != null;
         } else if (slot == 2) {
-            return stack.getBurnTime(RecipeType.SMELTING) > 0 && !stack.hasCraftingRemainingItem();
+            return AbstractFurnaceBlockEntity.getFuel().getOrDefault(stack.getItem(), 0) > 0;
         } else if (slot == 3) {
-            return stack.is(ConventionalItemTags.DUSTS_REDSTONE) || stack.is(ConventionalItemTags.STORAGE_BLOCKS_REDSTONE);
+            return stack.is(ConventionalItemTags.REDSTONE_DUSTS) || stack.is(ConventionalItemTags.STORAGE_BLOCKS_REDSTONE);
         } else if (slot == 4) {
             var coolant = PowahAPI.getSolidCoolant(stack.getItem());
             return coolant.amount() > 0 && coolant.temperature() < 2;

@@ -59,7 +59,7 @@ public class FluidTank extends SingleVariantStorage<FluidVariant> {
         return validator.test(variant);
     }
 
-    public int getCapacity() {
+    public int getCapacityBuckets() {
         return (int) Math.min(this.capacity, Integer.MAX_VALUE);
     }
 
@@ -95,7 +95,7 @@ public class FluidTank extends SingleVariantStorage<FluidVariant> {
     public FluidTank readFromNBT(CompoundTag nbt, HolderLookup.Provider registries) {
         if (nbt.contains("tank")) {
             var inner = nbt.getCompound("tank");
-            this.variant = FluidVariant.fromNbt(inner.getCompound("variant"));
+            this.variant = FluidVariant.fromNbt(inner.getCompound("variant"), registries);
             this.amount = inner.getLong("amount");
         } else {
             this.variant = FluidVariant.blank();
@@ -107,7 +107,7 @@ public class FluidTank extends SingleVariantStorage<FluidVariant> {
     public CompoundTag writeToNBT(CompoundTag nbt, HolderLookup.Provider registries) {
         if (!this.isResourceBlank()) {
             var inner = new CompoundTag();
-            inner.put("variant", this.variant.toNbt());
+            inner.put("variant", this.variant.toNbt(registries));
             inner.putLong("amount", this.amount);
             nbt.put("tank", inner);
         }

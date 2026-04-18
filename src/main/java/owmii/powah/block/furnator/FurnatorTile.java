@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import owmii.powah.Powah;
@@ -59,12 +59,12 @@ public class FurnatorTile extends AbstractEnergyProvider<FurnatorBlock> implemen
             if (this.carbon.isEmpty()) {
                 ItemStack stack = this.inv.getStackInSlot(1);
                 if (!stack.isEmpty()) {
-                    int burnTime = stack.getBurnTime(RecipeType.SMELTING);
+                    int burnTime = AbstractFurnaceBlockEntity.getFuel().getOrDefault(stack.getItem(), 0);
                     if (burnTime > 0) {
                         long perFuelTick = Powah.config().general.energy_per_fuel_tick;
                         this.carbon.setAll(burnTime * perFuelTick);
-                        if (stack.hasCraftingRemainingItem()) {
-                            this.inv.setStackInSlot(1, stack.getCraftingRemainingItem());
+                        if (stack.getItem().hasCraftingRemainingItem()) {
+                            this.inv.setStackInSlot(1, new net.minecraft.world.item.ItemStack(stack.getItem().getCraftingRemainingItem()));
                         } else {
                             stack.shrink(1);
                         }
@@ -104,7 +104,7 @@ public class FurnatorTile extends AbstractEnergyProvider<FurnatorBlock> implemen
 
     @Override
     public boolean canInsert(int index, ItemStack stack) {
-        return index == 1 && stack.getBurnTime(RecipeType.SMELTING) > 0
+        return index == 1 && AbstractFurnaceBlockEntity.getFuel().getOrDefault(stack.getItem(), 0) > 0
                 || index == 0 && Energy.chargeable(stack);
     }
 

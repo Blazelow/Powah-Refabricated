@@ -1,16 +1,16 @@
 package owmii.powah.client;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import owmii.powah.client.handler.HudHandler;
 import owmii.powah.client.handler.ReactorOverlayHandler;
 import owmii.powah.client.model.PowahLayerDefinitions;
 import owmii.powah.client.render.entity.EntityRenderer;
-import owmii.powah.client.render.tile.BlockEntityRenderers;
+import owmii.powah.client.render.tile.BlockEntityRendererRegistry;
 import owmii.powah.client.screen.Screens;
 import owmii.powah.lib.client.util.MC;
 import owmii.powah.client.render.tile.ReactorItemRenderer;
@@ -27,7 +27,7 @@ public final class PowahClient implements ClientModInitializer {
         HudHandler.register();
         EntityRenderer.register();
         Screens.register();
-        BlockEntityRenderers.register();
+        BlockEntityRendererRegistry.register();
 
         ClientTickEvents.END_CLIENT_TICK.register(mc -> MC.onTick());
 

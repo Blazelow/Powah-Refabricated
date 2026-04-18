@@ -37,7 +37,7 @@ public class LootTableGenerator extends BlockLootSubProvider {
     }
 
     @Override
-    protected void generate() {
+    public void generate() {
     }
 
     @Override

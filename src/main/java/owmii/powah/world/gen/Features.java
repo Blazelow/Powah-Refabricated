@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.function.Supplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.data.worldgen.placement.OrePlacements;
+import net.minecraft.world.level.levelgen.placement.BiomeFilter;
+import net.minecraft.world.level.levelgen.placement.CountPlacement;
+import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
@@ -51,12 +53,12 @@ public class Features {
 
     public static void initConfiguredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> bootstrap) {
 
-        registerConfiguredFeature(bootstrap, DRY_ICE, Blcks.DRY_ICE, Blcks.DRY_ICE, 17);
-        registerConfiguredFeature(bootstrap, URANINITE_POOR, Blcks.URANINITE_ORE_POOR,
-                Blcks.DEEPSLATE_URANINITE_ORE_POOR, 5);
-        registerConfiguredFeature(bootstrap, URANINITE, Blcks.URANINITE_ORE, Blcks.DEEPSLATE_URANINITE_ORE, 4);
-        registerConfiguredFeature(bootstrap, URANINITE_DENSE, Blcks.URANINITE_ORE_DENSE,
-                Blcks.DEEPSLATE_URANINITE_ORE_DENSE, 3);
+        registerConfiguredFeature(bootstrap, DRY_ICE, () -> Blcks.DRY_ICE, () -> Blcks.DRY_ICE, 17);
+        registerConfiguredFeature(bootstrap, URANINITE_POOR, () -> Blcks.URANINITE_ORE_POOR,
+                () -> Blcks.DEEPSLATE_URANINITE_ORE_POOR, 5);
+        registerConfiguredFeature(bootstrap, URANINITE, () -> Blcks.URANINITE_ORE, () -> Blcks.DEEPSLATE_URANINITE_ORE, 4);
+        registerConfiguredFeature(bootstrap, URANINITE_DENSE, () -> Blcks.URANINITE_ORE_DENSE,
+                () -> Blcks.DEEPSLATE_URANINITE_ORE_DENSE, 3);
 
     }
 
@@ -91,9 +93,7 @@ public class Features {
                 .orElseThrow();
 
         var placed = new PlacedFeature(configuredFeature,
-                OrePlacements.commonOrePlacement(
-                        veinsPerChunk,
-                        HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(maxY))));
+                java.util.List.of(CountPlacement.of(veinsPerChunk), InSquarePlacement.spread(), HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(maxY)), BiomeFilter.biome()));
         bootstrap.register(key, placed);
     }
 
@@ -114,7 +114,7 @@ public class Features {
                 PLACED_URANINITE_DENSE);
         // Dry ice: biome tag filtering handled via BiomeSelectors.tag
         BiomeModifications.addFeature(
-                ctx -> ctx.getBiomeRegistryEntry().isIn(DRY_ICE_BIOME),
+                ctx -> ctx.getBiomeRegistryEntry().is(DRY_ICE_BIOME),
                 GenerationStep.Decoration.UNDERGROUND_ORES,
                 PLACED_DRY_ICE);
     }

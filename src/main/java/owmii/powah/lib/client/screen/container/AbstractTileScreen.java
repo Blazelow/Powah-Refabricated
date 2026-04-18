@@ -44,7 +44,7 @@ public class AbstractTileScreen<T extends AbstractTileEntity<?, ?> & IInventoryH
                 List<Component> list = new ArrayList<>();
                 if (!tank.isEmpty()) {
                     list.add(Component.translatable(tankArea.purposeTranslationKey()).withStyle(ChatFormatting.GRAY).append(Text.COLON)
-                            .append(net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering.getName(tank.getFluid()).plainCopy().withStyle(ChatFormatting.AQUA)));
+                            .append(net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering.getTooltip(tank.getFluid(), net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering.TooltipContext.EMPTY).stream().findFirst().orElse(net.minecraft.network.chat.Component.empty()).copy().withStyle(ChatFormatting.AQUA)));
                     list.add(Component.translatable("info.lollipop.stored").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                             .append(Util.formatTankContent(tank)));
                     tankArea.extraInfoSupplier().accept(tank.getFluid(), list);
@@ -123,7 +123,7 @@ public class AbstractTileScreen<T extends AbstractTileEntity<?, ?> & IInventoryH
                     float blue = (color & 0xFF) / 255.0F;
                     RenderSystem.setShaderColor(red, green, blue, 1.0F);
                     bindTexture(InventoryMenu.BLOCK_ATLAS);
-                    Draw.gaugeV(sprite, this.leftPos + tankArea.x, this.topPos + tankArea.y, tankArea.width, tankArea.height(), tank.getCapacity(),
+                    Draw.gaugeV(sprite, this.leftPos + tankArea.x, this.topPos + tankArea.y, tankArea.width, tankArea.height(), tank.getCapacityBuckets(),
                             tank.getFluidAmount());
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
                 }

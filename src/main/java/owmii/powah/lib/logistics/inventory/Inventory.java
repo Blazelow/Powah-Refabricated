@@ -357,8 +357,8 @@ public class Inventory extends ItemStackHandler {
         }
 
         @Override
-        public java.util.Iterator<SingleSlotStorage<ItemVariant>> iterator() {
-            return new java.util.Iterator<>() {
+        public java.util.Iterator<net.fabricmc.fabric.api.transfer.v1.storage.StorageView<ItemVariant>> iterator() {
+            return new java.util.Iterator<net.fabricmc.fabric.api.transfer.v1.storage.StorageView<ItemVariant>>() {
                 int i = 0;
                 @Override public boolean hasNext() { return i < getSlots(); }
                 @Override public SingleSlotStorage<ItemVariant> next() {
