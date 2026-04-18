@@ -1,16 +1,15 @@
 package owmii.powah.client.render.tile;
 
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererFactories;
-import owmii.powah.block.Tiles;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 
-public class BlockEntityRenderers {
+public class BlockEntityRendererRegistry {
     public static void register() {
-        BlockEntityRendererFactories.register(Tiles.CABLE, CableRenderer::new);
-        BlockEntityRendererFactories.register(Tiles.ENERGIZING_ORB, EnergizingOrbRenderer::new);
-        BlockEntityRendererFactories.register(Tiles.ENERGIZING_ROD, EnergizingRodRenderer::new);
-        BlockEntityRendererFactories.register(Tiles.FURNATOR, FurnatorRenderer::new);
-        BlockEntityRendererFactories.register(Tiles.MAGMATOR, MagmatorRenderer::new);
-        BlockEntityRendererFactories.register(Tiles.REACTOR, ReactorRenderer::new);
-        BlockEntityRendererFactories.register(Tiles.REACTOR_PART, ReactorPartRenderer::new);
+        BlockEntityRenderers.register(Tiles.CABLE, CableRenderer::new);
+        BlockEntityRenderers.register(Tiles.ENERGIZING_ORB, EnergizingOrbRenderer::new);
+        BlockEntityRenderers.register(Tiles.ENERGIZING_ROD, EnergizingRodRenderer::new);
+        BlockEntityRenderers.register(Tiles.FURNATOR, FurnatorRenderer::new);
+        BlockEntityRenderers.register(Tiles.MAGMATOR, MagmatorRenderer::new);
+        BlockEntityRenderers.register(Tiles.REACTOR, ReactorRenderer::new);
+        BlockEntityRenderers.register(Tiles.REACTOR_PART, ReactorPartRenderer::new);
     }
 }
