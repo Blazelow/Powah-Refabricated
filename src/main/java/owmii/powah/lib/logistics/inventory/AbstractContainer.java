@@ -40,9 +40,9 @@ public abstract class AbstractContainer extends AbstractContainerMenu {
                 slot.set(items.get(i));
             }
         }
-
         this.setCarried(carried);
-        this.setStateId(stateId);
+        // stateId is managed internally by AbstractContainerMenu
+        super.initializeContents(stateId, items, carried);
     }
 
     protected void addPlayerInventory(Inventory playerInventory, int x, int y, int yDif) {

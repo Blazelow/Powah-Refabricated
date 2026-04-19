@@ -48,10 +48,8 @@ public class TagsProvider {
             tag(ITags.Blocks.URANINITE_ORE_DENSE).add(Blcks.URANINITE_ORE_DENSE.builtInRegistryHolder().key(), Blcks.DEEPSLATE_URANINITE_ORE_DENSE.builtInRegistryHolder().key());
             tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags.ORES).addTag(ITags.Blocks.URANINITE_ORE_DENSE);
 
-            tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags.ORES_IN_GROUND_DEEPSLATE).add(Blcks.DEEPSLATE_URANINITE_ORE,
-                    Blcks.DEEPSLATE_URANINITE_ORE_DENSE, Blcks.DEEPSLATE_URANINITE_ORE_POOR);
-            tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags.ORES_IN_GROUND_STONE).add(Blcks.URANINITE_ORE, Blcks.URANINITE_ORE_DENSE,
-                    Blcks.URANINITE_ORE_POOR);
+            tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags.ORES_IN_GROUND_DEEPSLATE).add(Blcks.DEEPSLATE_URANINITE_ORE.builtInRegistryHolder().key()).add(Blcks.DEEPSLATE_URANINITE_ORE_DENSE.builtInRegistryHolder().key()).add(Blcks.DEEPSLATE_URANINITE_ORE_POOR.builtInRegistryHolder().key());
+            tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags.ORES_IN_GROUND_STONE).add(Blcks.URANINITE_ORE.builtInRegistryHolder().key()).add(Blcks.URANINITE_ORE_DENSE.builtInRegistryHolder().key()).add(Blcks.URANINITE_ORE_POOR.builtInRegistryHolder().key());
 
             tag(net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags.STORAGE_BLOCKS).add(Blcks.URANINITE.builtInRegistryHolder().key());
             tag(ITags.Blocks.URANINITE_BLOCK).add(Blcks.URANINITE.builtInRegistryHolder().key());
@@ -88,7 +86,7 @@ public class TagsProvider {
     }
 
     public static class Items extends FabricTagProvider.ItemTagProvider {
-        public Items(net.fabricmc.fabric.api.datagen.v1.FabricDataOutput output, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<net.minecraft.data.tags.TagsProvider.TagLookup<Block>> blockTagProvider) {
+        public Items(net.fabricmc.fabric.api.datagen.v1.FabricDataOutput output, CompletableFuture<HolderLookup.Provider> provider, net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.BlockTagProvider blockTagProvider) {
             super(output, provider, blockTagProvider);
         }
 

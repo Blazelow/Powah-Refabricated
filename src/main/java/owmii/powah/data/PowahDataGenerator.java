@@ -22,7 +22,7 @@ public class PowahDataGenerator implements DataGeneratorEntrypoint {
 
         var blockTagsProvider = pack.addProvider(TagsProvider.Blocks::new);
         pack.addProvider((output, registries) ->
-                new TagsProvider.Items(output, registries, blockTagsProvider.contentsGetter()));
+                new TagsProvider.Items(output, registries, blockTagsProvider));
         pack.addProvider(RecipeProvider::new);
         pack.addProvider((output, registries) -> createLoot(output, registries));
         pack.addProvider(PowahFabricDataMapProvider::new);

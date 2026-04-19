@@ -1918,14 +1918,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
         output.accept(Powah.id("energizing/energized_steel"), new EnergizingRecipe(new ItemStack(Itms.ENERGIZED_STEEL, 2), 10000,
                 List.of(Ingredient.of(net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.IRON_INGOTS), Ingredient.of(net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.GOLD_INGOTS))), null);
         output.accept(Powah.id("energizing/niotic_crystal"),
-                new EnergizingRecipe(new ItemStack(Itms.NIOTIC_CRYSTAL), 300000, List.of(Ingredient.of(net.minecraft.tags.ItemTags.DIAMONDS))), null);
+                new EnergizingRecipe(new ItemStack(Itms.NIOTIC_CRYSTAL), 300000, List.of(Ingredient.of(net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.GEMS_DIAMOND))), null);
         output.accept(Powah.id("energizing/nitro_crystal"),
                 new EnergizingRecipe(new ItemStack(Itms.NITRO_CRYSTAL, 16), 20000000,
                         List.of(Ingredient.of(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "nether_stars"))), Ingredient.of(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "storage_blocks/redstone"))),
                                 Ingredient.of(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "storage_blocks/redstone"))), Ingredient.of(Blcks.BLAZING_CRYSTAL.asItem()))),
                 null);
         output.accept(Powah.id("energizing/spirited_crystal"),
-                new EnergizingRecipe(new ItemStack(Itms.SPIRITED_CRYSTAL), 1000000, List.of(Ingredient.of(net.minecraft.tags.ItemTags.EMERALDS))), null);
+                new EnergizingRecipe(new ItemStack(Itms.SPIRITED_CRYSTAL), 1000000, List.of(Ingredient.of(net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.GEMS_EMERALD))), null);
         output.accept(Powah.id("energizing/uraninite_from_ore"),
                 new EnergizingRecipe(new ItemStack(Itms.URANINITE, 5), 50000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE_REGULAR))), null);
         output.accept(Powah.id("energizing/uraninite_from_ore_dense"),
