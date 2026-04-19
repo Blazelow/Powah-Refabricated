@@ -41,7 +41,8 @@ public class BindingCardItem extends ItemBase {
                     if (!playerIn.level().isClientSide) {
                         ItemStack stack1 = playerIn.getItemInHand(hand);
                         ItemStack stack2 = new ItemStack(Itms.BINDING_CARD_DIM);
-                        stack2.copyFrom(stack1, PowahComponents.BOUND_PLAYER);
+                        var boundPlayerData = stack1.get(PowahComponents.BOUND_PLAYER);
+                        if (boundPlayerData != null) stack2.set(PowahComponents.BOUND_PLAYER, boundPlayerData);
                         playerIn.setItemInHand(hand, stack2);
                         target.playSound(SoundEvents.ENDERMAN_DEATH, 0.5F, 1.0F);
                         target.remove(Entity.RemovalReason.KILLED);

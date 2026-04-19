@@ -5,14 +5,9 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Single-slot fluid tank backed by FAPI SingleVariantStorage<FluidVariant>.
- *
- * NeoForge IFluidHandler has been replaced with FAPI's storage API.
- * Internal logic (fill/drain amounts) is the same; only the API surface changed.
- */
 @SuppressWarnings("UnstableApiUsage")
 public class FluidTank extends SingleVariantStorage<FluidVariant> {
 
@@ -68,13 +63,10 @@ public class FluidTank extends SingleVariantStorage<FluidVariant> {
         return this.variant;
     }
 
-    /** Returns stored amount in millibuckets (1 bucket = 1000 mb on Fabric = 81000 droplets). */
     public int getFluidAmount() {
-        // Convert from droplets (FAPI unit) to mB for API compatibility
         return (int) Math.min(this.amount / 81, Integer.MAX_VALUE);
     }
 
-    /** Returns stored amount in FAPI droplets. */
     public long getFluidAmountDroplets() {
         return this.amount;
     }
@@ -95,7 +87,10 @@ public class FluidTank extends SingleVariantStorage<FluidVariant> {
     public FluidTank readFromNBT(CompoundTag nbt, HolderLookup.Provider registries) {
         if (nbt.contains("tank")) {
             var inner = nbt.getCompound("tank");
-            this.variant = FluidVariant.fromNbt(inner.getCompound("variant"), registries);
+            // Use codec with registry ops for 1.21.1 compatibility
+            var ops = registries.createSerializationContext(NbtOps.INSTANCE);
+            this.variant = FluidVariant.CODEC.parse(ops, inner.get("variant"))
+                    .result().orElse(FluidVariant.blank());
             this.amount = inner.getLong("amount");
         } else {
             this.variant = FluidVariant.blank();
@@ -107,7 +102,9 @@ public class FluidTank extends SingleVariantStorage<FluidVariant> {
     public CompoundTag writeToNBT(CompoundTag nbt, HolderLookup.Provider registries) {
         if (!this.isResourceBlank()) {
             var inner = new CompoundTag();
-            inner.put("variant", this.variant.toNbt(registries));
+            var ops = registries.createSerializationContext(NbtOps.INSTANCE);
+            FluidVariant.CODEC.encodeStart(ops, this.variant)
+                    .result().ifPresent(tag -> inner.put("variant", tag));
             inner.putLong("amount", this.amount);
             nbt.put("tank", inner);
         }
@@ -122,12 +119,7 @@ public class FluidTank extends SingleVariantStorage<FluidVariant> {
     protected void onContentsChanged() {
     }
 
-    /**
-     * Returns this tank as a FAPI Storage<FluidVariant>.
-     * SingleVariantStorage already implements Storage<FluidVariant>, so this returns `this`.
-     */
     public net.fabricmc.fabric.api.transfer.v1.storage.Storage<FluidVariant> asFabricStorage() {
         return this;
     }
-
 }

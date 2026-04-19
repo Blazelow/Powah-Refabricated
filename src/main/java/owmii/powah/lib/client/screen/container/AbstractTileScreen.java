@@ -44,7 +44,7 @@ public class AbstractTileScreen<T extends AbstractTileEntity<?, ?> & IInventoryH
                 List<Component> list = new ArrayList<>();
                 if (!tank.isEmpty()) {
                     list.add(Component.translatable(tankArea.purposeTranslationKey()).withStyle(ChatFormatting.GRAY).append(Text.COLON)
-                            .append(net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering.getTooltip(tank.getFluid(), net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering.TooltipContext.EMPTY).stream().findFirst().orElse(net.minecraft.network.chat.Component.empty()).copy().withStyle(ChatFormatting.AQUA)));
+                            .append(net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering.getTooltip(tank.getFluid(), net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering.TooltipContext.SHORT).stream().findFirst().orElse(net.minecraft.network.chat.Component.empty()).copy().withStyle(ChatFormatting.AQUA)));
                     list.add(Component.translatable("info.lollipop.stored").withStyle(ChatFormatting.GRAY).append(Text.COLON)
                             .append(Util.formatTankContent(tank)));
                     tankArea.extraInfoSupplier().accept(tank.getFluid(), list);

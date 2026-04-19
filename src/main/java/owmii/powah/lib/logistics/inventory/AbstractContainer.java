@@ -42,7 +42,7 @@ public abstract class AbstractContainer extends AbstractContainerMenu {
         }
 
         this.setCarried(carried);
-        this.stateId = stateId;
+        this.setStateId(stateId);
     }
 
     protected void addPlayerInventory(Inventory playerInventory, int x, int y, int yDif) {

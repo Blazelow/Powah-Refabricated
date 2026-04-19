@@ -53,7 +53,7 @@ public class PowahREIPlugin implements REIClientPlugin {
     public void registerDisplays(DisplayRegistry registry) {
         registry.registerRecipeFiller(EnergizingRecipe.class, Recipes.ENERGIZING, EnergizingDisplay::new);
         for (var item : BuiltInRegistries.ITEM) { var fuel = PowahDataLoader.getReactorFuel(item); if (fuel == null) continue;
-            registry.add(new ReactorFuelDisplay(entry.getKey().location(), entry.getValue()));
+            registry.add(new ReactorFuelDisplay(BuiltInRegistries.ITEM.getKey(item), fuel));
         }
         MagmatorFuel.getAll().forEach(recipe -> registry.add(new MagmatorDisplay(recipe)));
         FluidCoolant.getAll().forEach(recipe -> registry.add(new CoolantDisplay(recipe)));

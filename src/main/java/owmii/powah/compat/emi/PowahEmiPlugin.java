@@ -59,7 +59,7 @@ public class PowahEmiPlugin implements EmiPlugin {
 
         adaptRecipeType(registry, Recipes.ENERGIZING, EmiEnergizingRecipe::new);
         for (var item : BuiltInRegistries.ITEM) { var fuel = PowahDataLoader.getReactorFuel(item); if (fuel == null) continue;
-            registry.addRecipe(new EmiReactorFuelRecipe(entry.getKey().location(), entry.getValue()));
+            registry.addRecipe(new EmiReactorFuelRecipe(BuiltInRegistries.ITEM.getKey(item), fuel));
         }
 
         MagmatorFuel.getAll().forEach(recipe -> registry.addRecipe(new EmiMagmatorRecipe(recipe)));

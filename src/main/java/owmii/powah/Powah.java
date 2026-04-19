@@ -130,7 +130,7 @@ public class Powah implements ModInitializer {
             if (beType == Tiles.REACTOR_PART) continue; // already handled above
 
             // Create a dummy BE to check what interfaces it implements
-            var validBlock = beType.getValidBlocks().stream().iterator().next();
+            var validBlock = net.minecraft.world.level.block.Blocks.STONE;
             var dummyBe = beType.create(BlockPos.ZERO, validBlock.defaultBlockState());
             if (dummyBe == null) continue;
 

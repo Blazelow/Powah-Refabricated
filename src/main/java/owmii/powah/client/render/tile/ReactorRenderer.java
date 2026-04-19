@@ -43,12 +43,7 @@ public class ReactorRenderer extends AbstractTileRenderer<ReactorTile> {
         matrix.popPose();
     }
 
-    @Override
-    public boolean shouldRenderOffScreen(ReactorTile te) {
-        return te.isBuilt();
-    }
 
-    @Override
     public AABB getRenderBoundingBox(ReactorTile blockEntity) {
         return new AABB(blockEntity.getBlockPos()).inflate(1.0D, 3.0D, 1.0D);
     }

@@ -1397,10 +1397,10 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .pattern("dld")
                 .pattern("lpl")
                 .pattern("dld")
-                .define('p', ItemTags.create(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "glass_panes")))
+                .define('p', net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "glass_panes")))
                 .define('l', Items.LAPIS_LAZULI)
                 .define('d', Itms.DIELECTRIC_PASTE)
-                .unlockedBy("has_glass_panes", has(ItemTags.create(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "glass_panes"))))
+                .unlockedBy("has_glass_panes", has(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "glass_panes"))))
                 .unlockedBy(getHasName(Items.LAPIS_LAZULI), has(Items.LAPIS_LAZULI))
                 .unlockedBy(getHasName(Itms.DIELECTRIC_PASTE), has(Itms.DIELECTRIC_PASTE))
                 .save(output, Powah.id("crafting/photoelectric_pane"));
@@ -1906,7 +1906,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                         Ingredient.of(Items.BLAZE_POWDER), Ingredient.of(Items.BLAZE_POWDER), Ingredient.of(Items.BLAZE_POWDER))),
                 null);
         output.accept(Powah.id("energizing/blazing_crystal_2"),
-                new EnergizingRecipe(new ItemStack(Itms.BLAZING_CRYSTAL), 120000, List.of(Ingredient.of(ItemTags.BLAZE_RODS))), null);
+                new EnergizingRecipe(new ItemStack(Itms.BLAZING_CRYSTAL), 120000, List.of(Ingredient.of(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "rods/blaze"))))), null);
         output.accept(Powah.id("energizing/charged_snowball"),
                 new EnergizingRecipe(new ItemStack(Itms.CHARGED_SNOWBALL), 500000, List.of(Ingredient.of(Items.SNOWBALL))), null);
         output.accept(Powah.id("energizing/dry_ice"), new EnergizingRecipe(new ItemStack(Blcks.DRY_ICE.asItem()), 10000,
@@ -1918,14 +1918,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
         output.accept(Powah.id("energizing/energized_steel"), new EnergizingRecipe(new ItemStack(Itms.ENERGIZED_STEEL, 2), 10000,
                 List.of(Ingredient.of(net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.IRON_INGOTS), Ingredient.of(net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags.GOLD_INGOTS))), null);
         output.accept(Powah.id("energizing/niotic_crystal"),
-                new EnergizingRecipe(new ItemStack(Itms.NIOTIC_CRYSTAL), 300000, List.of(Ingredient.of(ItemTags.DIAMONDS))), null);
+                new EnergizingRecipe(new ItemStack(Itms.NIOTIC_CRYSTAL), 300000, List.of(Ingredient.of(net.minecraft.tags.ItemTags.DIAMONDS))), null);
         output.accept(Powah.id("energizing/nitro_crystal"),
                 new EnergizingRecipe(new ItemStack(Itms.NITRO_CRYSTAL, 16), 20000000,
-                        List.of(Ingredient.of(ItemTags.create(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "nether_stars"))), Ingredient.of(ItemTags.create(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "storage_blocks/redstone"))),
-                                Ingredient.of(ItemTags.create(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "storage_blocks/redstone"))), Ingredient.of(Blcks.BLAZING_CRYSTAL.asItem()))),
+                        List.of(Ingredient.of(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "nether_stars"))), Ingredient.of(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "storage_blocks/redstone"))),
+                                Ingredient.of(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("c", "storage_blocks/redstone"))), Ingredient.of(Blcks.BLAZING_CRYSTAL.asItem()))),
                 null);
         output.accept(Powah.id("energizing/spirited_crystal"),
-                new EnergizingRecipe(new ItemStack(Itms.SPIRITED_CRYSTAL), 1000000, List.of(Ingredient.of(ItemTags.EMERALDS))), null);
+                new EnergizingRecipe(new ItemStack(Itms.SPIRITED_CRYSTAL), 1000000, List.of(Ingredient.of(net.minecraft.tags.ItemTags.EMERALDS))), null);
         output.accept(Powah.id("energizing/uraninite_from_ore"),
                 new EnergizingRecipe(new ItemStack(Itms.URANINITE, 5), 50000, List.of(Ingredient.of(ITags.Items.URANINITE_ORE_REGULAR))), null);
         output.accept(Powah.id("energizing/uraninite_from_ore_dense"),
@@ -1940,10 +1940,10 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
     }
 
     private void smelting(RecipeOutput output) {
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(Itms.URANINITE_RAW), RecipeCategory.MISC, new ItemStack(Itms.URANINITE), 0.7f, 200)
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(Itms.URANINITE_RAW), RecipeCategory.MISC, Itms.URANINITE, 0.7f, 200)
                 .unlockedBy(getHasName(Itms.URANINITE_RAW), has(Itms.URANINITE_RAW))
                 .save(output, Powah.id("smelting/uraninite_from_raw"));
-        SimpleCookingRecipeBuilder.blasting(Ingredient.of(Itms.URANINITE_RAW), RecipeCategory.MISC, new ItemStack(Itms.URANINITE), 0.7f, 100)
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(Itms.URANINITE_RAW), RecipeCategory.MISC, Itms.URANINITE, 0.7f, 100)
                 .unlockedBy(getHasName(Itms.URANINITE_RAW), has(Itms.URANINITE_RAW))
                 .save(output, Powah.id("smelting/uraninite_from_raw_blasting"));
     }

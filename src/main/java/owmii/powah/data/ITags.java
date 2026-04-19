@@ -1,8 +1,7 @@
 package owmii.powah.data;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -10,7 +9,6 @@ import owmii.powah.Powah;
 
 public class ITags {
     public static class Blocks {
-        // Remove non-dry ice if Forge handles them in the future
         public static final TagKey<Block> ICES = tag("ices");
         public static final TagKey<Block> ICES_ICE = tag("ices/ice");
         public static final TagKey<Block> ICES_PACKED = tag("ices/packed");
@@ -37,16 +35,15 @@ public class ITags {
         public static final TagKey<Block> ENERGY_DISCHARGERS = powah("energy_dischargers");
 
         private static TagKey<Block> tag(String name) {
-            return BlockTags.create(ResourceLocation.fromNamespaceAndPath("c", name));
+            return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", name));
         }
 
         private static TagKey<Block> powah(String name) {
-            return BlockTags.create(Powah.id(name));
+            return TagKey.create(Registries.BLOCK, Powah.id(name));
         }
     }
 
     public static class Items {
-        // Remove non-dry ice if Forge handles them in the future
         public static final TagKey<Item> ICES = tag("ices");
         public static final TagKey<Item> ICES_ICE = tag("ices/ice");
         public static final TagKey<Item> ICES_PACKED = tag("ices/packed");
@@ -77,11 +74,11 @@ public class ITags {
         public static final TagKey<Item> ENERGY_DISCHARGERS = powah("energy_dischargers");
 
         private static TagKey<Item> tag(String name) {
-            return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", name));
+            return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", name));
         }
 
         private static TagKey<Item> powah(String name) {
-            return ItemTags.create(Powah.id(name));
+            return TagKey.create(Registries.ITEM, Powah.id(name));
         }
     }
 }

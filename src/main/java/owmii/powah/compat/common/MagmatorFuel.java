@@ -30,7 +30,7 @@ public record MagmatorFuel(ResourceLocation id, Fluid fluid, Set<BucketItem> buc
 
             var buckets = new HashSet<BucketItem>();
             var bucket = fluid.getBucket();
-            if (bucket instanceof BucketItem bucketItem && bucketItem.content == fluid) {
+            if (bucket instanceof BucketItem bucketItem) {
                 buckets.add(bucketItem);
             }
 

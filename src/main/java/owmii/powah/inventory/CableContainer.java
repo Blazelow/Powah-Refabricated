@@ -15,6 +15,10 @@ public class CableContainer extends AbstractEnergyContainer<CableTile> {
         this.side = Direction.from3DDataValue(buffer.readInt());
     }
 
+    public CableContainer(int id, Inventory inventory, BlockPos pos) {
+        super(Containers.CABLE, id, inventory, pos);
+    }
+
     public CableContainer(int id, Inventory inventory, CableTile te) {
         super(Containers.CABLE, id, inventory, te);
     }

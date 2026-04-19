@@ -71,7 +71,7 @@ public class PowahAPI {
     public static int getHeatSource(BlockState blockState) {
         var heatFromBlock = 0;
         var heatFromFluid = 0;
-        if (!blockState.isEmpty()) {
+        if (!blockState.isAir()) {
             heatFromBlock = getHeatSource(blockState.getBlock());
         }
         var fluidState = blockState.getFluidState();

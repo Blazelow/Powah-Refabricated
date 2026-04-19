@@ -109,7 +109,6 @@ public class EnergizingRodRenderer extends AbstractTileRenderer<EnergizingRodTil
                 .setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 
-    @Override
     public AABB getRenderBoundingBox(EnergizingRodTile blockEntity) {
         int range = Powah.config().general.energizing_range;
         return new AABB(blockEntity.getBlockPos()).inflate(range);
