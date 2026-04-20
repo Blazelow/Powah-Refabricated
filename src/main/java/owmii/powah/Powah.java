@@ -6,11 +6,9 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import owmii.powah.block.Blcks;
@@ -86,7 +84,6 @@ public class Powah implements ModInitializer {
         net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents.CHUNK_UNLOAD.register(
                 (world, chunk) -> CableNet.removeChunk(world, chunk));
 
-        // World gen
         // Trinkets compat - charge batteries worn in trinket slots
         if (FabricLoader.getInstance().isModLoaded("trinkets")) {
             TrinketsCompat.init();
@@ -112,32 +109,100 @@ public class Powah implements ModInitializer {
     }
 
     private void registerCapabilities() {
-        // Reactor part: delegate capability lookups to the core tile
+        // ---- Reactor part: delegate capability lookups to the core tile ----
         EnergyStorage.SIDED.registerForBlockEntity(
                 (reactorPart, side) -> reactorPart.isExtractor() ? reactorPart.getCoreEnergyStorage() : null,
                 Tiles.REACTOR_PART);
         ItemStorage.SIDED.registerForBlockEntity(
                 (reactorPart, side) -> reactorPart.getCoreItemHandler(),
                 Tiles.REACTOR_PART);
-        net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage.SIDED.registerForBlockEntity(
+        FluidStorage.SIDED.registerForBlockEntity(
                 (reactorPart, side) -> reactorPart.getCoreFluidHandler(),
                 Tiles.REACTOR_PART);
 
-        // All other block entities
-        for (var entry : BuiltInRegistries.BLOCK_ENTITY_TYPE.entrySet()) {
-            if (!entry.getKey().location().getNamespace().equals(MOD_ID)) continue;
-            var beType = (BlockEntityType<?>) entry.getValue();
-            if (beType == Tiles.REACTOR_PART) continue; // already handled above
+        // ---- Energy Cell: energy + inventory ----
+        EnergyStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getExternalStorage(side), Tiles.ENERGY_CELL);
+        ItemStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getInventory().asFabricStorage(), Tiles.ENERGY_CELL);
 
-            // Create a dummy BE to check what interfaces it implements
-            var validBlock = net.minecraft.world.level.block.Blocks.STONE;
-            var dummyBe = beType.create(BlockPos.ZERO, validBlock.defaultBlockState());
-            if (dummyBe == null) continue;
+        // ---- Ender Cell: energy + inventory ----
+        EnergyStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getExternalStorage(side), Tiles.ENDER_CELL);
+        ItemStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getInventory().asFabricStorage(), Tiles.ENDER_CELL);
 
-            registerBlockEntityCapabilities(beType, dummyBe.getClass());
-        }
+        // ---- Ender Gate: energy only ----
+        EnergyStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getExternalStorage(side), Tiles.ENDER_GATE);
 
-        // Energy-containing items
+        // ---- Cable: energy only ----
+        EnergyStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getExternalStorage(side), Tiles.CABLE);
+
+        // ---- Energizing Rod: energy only ----
+        EnergyStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getExternalStorage(side), Tiles.ENERGIZING_ROD);
+
+        // ---- Energizing Orb: inventory only (no energy storage on the orb itself) ----
+        ItemStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getInventory().asFabricStorage(), Tiles.ENERGIZING_ORB);
+
+        // ---- Solar Panel: energy + inventory ----
+        EnergyStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getExternalStorage(side), Tiles.SOLAR_PANEL);
+        ItemStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getInventory().asFabricStorage(), Tiles.SOLAR_PANEL);
+
+        // ---- Furnator: energy + inventory ----
+        EnergyStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getExternalStorage(side), Tiles.FURNATOR);
+        ItemStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getInventory().asFabricStorage(), Tiles.FURNATOR);
+
+        // ---- Magmator: energy + inventory + fluid ----
+        EnergyStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getExternalStorage(side), Tiles.MAGMATOR);
+        ItemStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getInventory().asFabricStorage(), Tiles.MAGMATOR);
+        FluidStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getTank(), Tiles.MAGMATOR);
+
+        // ---- Thermo Generator: energy + inventory + fluid ----
+        EnergyStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getExternalStorage(side), Tiles.THERMO_GEN);
+        ItemStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getInventory().asFabricStorage(), Tiles.THERMO_GEN);
+        FluidStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getTank(), Tiles.THERMO_GEN);
+
+        // ---- Reactor: energy + inventory + fluid ----
+        EnergyStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getExternalStorage(side), Tiles.REACTOR);
+        ItemStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getInventory().asFabricStorage(), Tiles.REACTOR);
+        FluidStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getTank(), Tiles.REACTOR);
+
+        // ---- Player Transmitter: energy + inventory ----
+        EnergyStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getExternalStorage(side), Tiles.PLAYER_TRANSMITTER);
+        ItemStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getInventory().asFabricStorage(), Tiles.PLAYER_TRANSMITTER);
+
+        // ---- Energy Hopper: energy + inventory ----
+        EnergyStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getExternalStorage(side), Tiles.ENERGY_HOPPER);
+        ItemStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getInventory().asFabricStorage(), Tiles.ENERGY_HOPPER);
+
+        // ---- Energy Discharger: energy + inventory ----
+        EnergyStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getExternalStorage(side), Tiles.ENERGY_DISCHARGER);
+        ItemStorage.SIDED.registerForBlockEntity(
+                (be, side) -> be.getInventory().asFabricStorage(), Tiles.ENERGY_DISCHARGER);
+
+        // ---- Energy-containing items ----
         for (var item : BuiltInRegistries.ITEM) {
             if (item instanceof IEnergyContainingItem eci) {
                 EnergyStorage.ITEM.registerForItems((stack, ctx) -> {
@@ -146,27 +211,6 @@ public class Powah implements ModInitializer {
                     return new Energy.Item(stack, info).createItemCapability();
                 }, item);
             }
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <BE extends net.minecraft.world.level.block.entity.BlockEntity>
-            void registerBlockEntityCapabilities(BlockEntityType<BE> beType, Class<?> beClass) {
-        if (AbstractEnergyStorage.class.isAssignableFrom(beClass)) {
-            EnergyStorage.SIDED.registerForBlockEntity((be, side) -> {
-                var energyStorage = (AbstractEnergyStorage<?, ?>) be;
-                return energyStorage.getExternalStorage(side);
-            }, beType);
-        }
-        if (IInventoryHolder.class.isAssignableFrom(beClass)) {
-            ItemStorage.SIDED.registerForBlockEntity((be, side) -> {
-                var inv = ((IInventoryHolder) be).getInventory();
-                return inv.asFabricStorage();
-            }, beType);
-        }
-        if (ITankHolder.class.isAssignableFrom(beClass)) {
-            net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage.SIDED.registerForBlockEntity(
-                    (be, side) -> ((ITankHolder) be).getTank(), beType);
         }
     }
 }
