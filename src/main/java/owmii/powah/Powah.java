@@ -56,7 +56,6 @@ public class Powah implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        // Trigger static registration of all registries (order matters: blocks first)
         Blcks.init();
         registerBlockItems();
         Tiles.init();
@@ -72,7 +71,6 @@ public class Powah implements ModInitializer {
 
         registerCapabilities();
 
-        // Use block (right-click) event for wrench
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
             if (Wrench.removeWithWrench(player, world, hand, hitResult)) {
                 return InteractionResult.sidedSuccess(world.isClientSide);
@@ -80,11 +78,9 @@ public class Powah implements ModInitializer {
             return InteractionResult.PASS;
         });
 
-        // Chunk unload: clean up cable networks
         net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents.CHUNK_UNLOAD.register(
                 (world, chunk) -> CableNet.removeChunk(world, chunk));
 
-        // Trinkets compat - charge batteries worn in trinket slots
         if (FabricLoader.getInstance().isModLoaded("trinkets")) {
             TrinketsCompat.init();
         }
@@ -109,58 +105,55 @@ public class Powah implements ModInitializer {
     }
 
     private void registerCapabilities() {
-        // ---- Reactor part: delegate capability lookups to the core tile ----
+        // ---- Reactor part ----
         EnergyStorage.SIDED.registerForBlockEntity(
-                (reactorPart, side) -> reactorPart.isExtractor() ? reactorPart.getCoreEnergyStorage() : null,
-                Tiles.REACTOR_PART);
+                (be, side) -> be.isExtractor() ? be.getCoreEnergyStorage() : null, Tiles.REACTOR_PART);
         ItemStorage.SIDED.registerForBlockEntity(
-                (reactorPart, side) -> reactorPart.getCoreItemHandler(),
-                Tiles.REACTOR_PART);
+                (be, side) -> be.getCoreItemHandler(), Tiles.REACTOR_PART);
         FluidStorage.SIDED.registerForBlockEntity(
-                (reactorPart, side) -> reactorPart.getCoreFluidHandler(),
-                Tiles.REACTOR_PART);
+                (be, side) -> be.getCoreFluidHandler(), Tiles.REACTOR_PART);
 
-        // ---- Energy Cell: energy + inventory ----
+        // ---- Energy Cell ----
         EnergyStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getExternalStorage(side), Tiles.ENERGY_CELL);
         ItemStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getInventory().asFabricStorage(), Tiles.ENERGY_CELL);
 
-        // ---- Ender Cell: energy + inventory ----
+        // ---- Ender Cell ----
         EnergyStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getExternalStorage(side), Tiles.ENDER_CELL);
         ItemStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getInventory().asFabricStorage(), Tiles.ENDER_CELL);
 
-        // ---- Ender Gate: energy only ----
+        // ---- Ender Gate ----
         EnergyStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getExternalStorage(side), Tiles.ENDER_GATE);
 
-        // ---- Cable: energy only ----
+        // ---- Cable ----
         EnergyStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getExternalStorage(side), Tiles.CABLE);
 
-        // ---- Energizing Rod: energy only ----
+        // ---- Energizing Rod ----
         EnergyStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getExternalStorage(side), Tiles.ENERGIZING_ROD);
 
-        // ---- Energizing Orb: inventory only (no energy storage on the orb itself) ----
+        // ---- Energizing Orb (inventory only, no energy storage) ----
         ItemStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getInventory().asFabricStorage(), Tiles.ENERGIZING_ORB);
 
-        // ---- Solar Panel: energy + inventory ----
+        // ---- Solar Panel ----
         EnergyStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getExternalStorage(side), Tiles.SOLAR_PANEL);
         ItemStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getInventory().asFabricStorage(), Tiles.SOLAR_PANEL);
 
-        // ---- Furnator: energy + inventory ----
+        // ---- Furnator ----
         EnergyStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getExternalStorage(side), Tiles.FURNATOR);
         ItemStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getInventory().asFabricStorage(), Tiles.FURNATOR);
 
-        // ---- Magmator: energy + inventory + fluid ----
+        // ---- Magmator ----
         EnergyStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getExternalStorage(side), Tiles.MAGMATOR);
         ItemStorage.SIDED.registerForBlockEntity(
@@ -168,7 +161,7 @@ public class Powah implements ModInitializer {
         FluidStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getTank(), Tiles.MAGMATOR);
 
-        // ---- Thermo Generator: energy + inventory + fluid ----
+        // ---- Thermo Generator ----
         EnergyStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getExternalStorage(side), Tiles.THERMO_GEN);
         ItemStorage.SIDED.registerForBlockEntity(
@@ -176,7 +169,7 @@ public class Powah implements ModInitializer {
         FluidStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getTank(), Tiles.THERMO_GEN);
 
-        // ---- Reactor: energy + inventory + fluid ----
+        // ---- Reactor ----
         EnergyStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getExternalStorage(side), Tiles.REACTOR);
         ItemStorage.SIDED.registerForBlockEntity(
@@ -184,19 +177,19 @@ public class Powah implements ModInitializer {
         FluidStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getTank(), Tiles.REACTOR);
 
-        // ---- Player Transmitter: energy + inventory ----
+        // ---- Player Transmitter ----
         EnergyStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getExternalStorage(side), Tiles.PLAYER_TRANSMITTER);
         ItemStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getInventory().asFabricStorage(), Tiles.PLAYER_TRANSMITTER);
 
-        // ---- Energy Hopper: energy + inventory ----
+        // ---- Energy Hopper ----
         EnergyStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getExternalStorage(side), Tiles.ENERGY_HOPPER);
         ItemStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getInventory().asFabricStorage(), Tiles.ENERGY_HOPPER);
 
-        // ---- Energy Discharger: energy + inventory ----
+        // ---- Energy Discharger ----
         EnergyStorage.SIDED.registerForBlockEntity(
                 (be, side) -> be.getExternalStorage(side), Tiles.ENERGY_DISCHARGER);
         ItemStorage.SIDED.registerForBlockEntity(

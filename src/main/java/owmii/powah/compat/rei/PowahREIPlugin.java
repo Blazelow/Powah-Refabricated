@@ -21,7 +21,6 @@ import owmii.powah.compat.rei.magmator.MagmatorCategory;
 import owmii.powah.compat.rei.magmator.MagmatorDisplay;
 import owmii.powah.item.Itms;
 import owmii.powah.lib.client.screen.container.AbstractContainerScreen;
-import owmii.powah.recipe.ReactorFuel;
 import owmii.powah.data.PowahDataLoader;
 import owmii.powah.recipe.Recipes;
 
@@ -51,8 +50,16 @@ public class PowahREIPlugin implements REIClientPlugin {
 
     @Override
     public void registerDisplays(DisplayRegistry registry) {
-        registry.registerRecipeFiller(EnergizingRecipe.class, Recipes.ENERGIZING, EnergizingDisplay::new);
-        for (var item : BuiltInRegistries.ITEM) { var fuel = PowahDataLoader.getReactorFuel(item); if (fuel == null) continue;
+        // Use registerFiller instead of registerRecipeFiller for compatibility with REI 16.0.799+
+        registry.registerFiller(
+            EnergizingRecipe.class,
+            recipe -> recipe.value().getType() == Recipes.ENERGIZING,
+            EnergizingDisplay::new
+        );
+
+        for (var item : BuiltInRegistries.ITEM) {
+            var fuel = PowahDataLoader.getReactorFuel(item);
+            if (fuel == null) continue;
             registry.add(new ReactorFuelDisplay(BuiltInRegistries.ITEM.getKey(item), fuel));
         }
         MagmatorFuel.getAll().forEach(recipe -> registry.add(new MagmatorDisplay(recipe)));
