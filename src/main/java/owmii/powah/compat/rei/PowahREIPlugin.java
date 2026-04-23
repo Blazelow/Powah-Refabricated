@@ -8,6 +8,7 @@ import me.shedaniel.rei.api.common.util.EntryStacks;
 import me.shedaniel.rei.plugin.client.BuiltinClientPlugin;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import owmii.powah.Powah;
 import owmii.powah.block.Blcks;
 import owmii.powah.block.energizing.EnergizingRecipe;
@@ -50,11 +51,11 @@ public class PowahREIPlugin implements REIClientPlugin {
 
     @Override
     public void registerDisplays(DisplayRegistry registry) {
-        // Use registerFiller instead of registerRecipeFiller for compatibility with REI 16.0.799+
-        registry.registerFiller(
-            EnergizingRecipe.class,
-            recipe -> recipe.value().getType() == Recipes.ENERGIZING,
-            EnergizingDisplay::new
+        // registerRecipeFiller correctly takes RecipeHolder<T> — T must be the holder, not the recipe directly
+        registry.registerRecipeFiller(
+                (Class<RecipeHolder<EnergizingRecipe>>) (Class<?>) RecipeHolder.class,
+                Recipes.ENERGIZING,
+                EnergizingDisplay::new
         );
 
         for (var item : BuiltInRegistries.ITEM) {

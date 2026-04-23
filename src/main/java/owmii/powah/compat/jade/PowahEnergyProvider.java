@@ -38,6 +38,7 @@ public class PowahEnergyProvider implements IBlockComponentProvider, IServerData
         if (max <= 0) return;
 
         IElementHelper helper = IElementHelper.get();
+        // Use the no-arg progress overload to avoid BoxStyle issues across Jade versions
         IElement bar = helper.progress(
                 (float) stored / max,
                 net.minecraft.network.chat.Component.literal(
@@ -45,7 +46,7 @@ public class PowahEnergyProvider implements IBlockComponentProvider, IServerData
                 helper.progressStyle()
                         .color(0xFF3355FF, 0xFF223399)
                         .textColor(0xFFFFFFFF),
-                new snownee.jade.api.ui.BoxStyle(snownee.jade.api.ui.BoxStyle.DEFAULT),
+                null,
                 true);
         tooltip.add(bar);
     }
