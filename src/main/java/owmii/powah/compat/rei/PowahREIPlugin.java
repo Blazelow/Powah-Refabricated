@@ -8,7 +8,6 @@ import me.shedaniel.rei.api.common.util.EntryStacks;
 import me.shedaniel.rei.plugin.client.BuiltinClientPlugin;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import owmii.powah.Powah;
 import owmii.powah.block.Blcks;
 import owmii.powah.block.energizing.EnergizingRecipe;
@@ -51,12 +50,8 @@ public class PowahREIPlugin implements REIClientPlugin {
 
     @Override
     public void registerDisplays(DisplayRegistry registry) {
-        // registerRecipeFiller correctly takes RecipeHolder<T> — T must be the holder, not the recipe directly
-        registry.registerRecipeFiller(
-                (Class<RecipeHolder<EnergizingRecipe>>) (Class<?>) RecipeHolder.class,
-                Recipes.ENERGIZING,
-                EnergizingDisplay::new
-        );
+        // T is the recipe class itself; REI wraps it in RecipeHolder internally
+        registry.registerRecipeFiller(EnergizingRecipe.class, Recipes.ENERGIZING, EnergizingDisplay::new);
 
         for (var item : BuiltInRegistries.ITEM) {
             var fuel = PowahDataLoader.getReactorFuel(item);
