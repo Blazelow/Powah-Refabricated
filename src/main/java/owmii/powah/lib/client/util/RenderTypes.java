@@ -27,7 +27,7 @@ public class RenderTypes {
     public static RenderPipeline BLENDED_NO_DEPTH = copy(RenderPipelines.ENTITY_TRANSLUCENT_EMISSIVE)
             .withColorTargetState(new ColorTargetState(BlendFunction.LIGHTNING))
             .withCull(false)
-            .withDepthStencilState(new DepthStencilState(CompareOp.LESS_THAN_OR_EQUAL, false))
+            .withDepthStencilState(new DepthStencilState(CompareOp.GREATER_THAN_OR_EQUAL, false))
             .withLocation(Powah.id("blended_no_depth"))
             .build();
 
@@ -61,6 +61,8 @@ public class RenderTypes {
     public static RenderType entityBlendedNoDepthWrite(Identifier location) {
         return RenderType.create("powah_blended_no_depth", RenderSetup.builder(BLENDED_NO_DEPTH)
                 .withTexture("Sampler0", location)
+                .useLightmap()
+                .useOverlay()
                 .sortOnUpload()
                 .affectsCrumbling()
                 .createRenderSetup());
@@ -69,6 +71,8 @@ public class RenderTypes {
     public static RenderType createReactorOverlay(Identifier location) {
         return RenderType.create("powah_reactor_overlay", RenderSetup.builder(REACTOR_OVERLAY)
                 .withTexture("Sampler0", location)
+                .useLightmap()
+                .useOverlay()
                 .sortOnUpload()
                 .createRenderSetup());
     }

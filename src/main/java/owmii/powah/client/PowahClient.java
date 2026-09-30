@@ -6,6 +6,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.recipe.v1.sync.ClientRecipeSynchronizedEvent;
 import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.special.SpecialModelRenderers;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -25,6 +26,7 @@ import owmii.powah.client.render.hud.ItemHudRenderer;
 import owmii.powah.client.render.tile.BlockEntityRenderers;
 import owmii.powah.client.render.tile.ReactorItemRenderer;
 import owmii.powah.client.screen.Screens;
+import owmii.powah.lib.client.util.RenderTypes;
 import owmii.powah.lib.datamap.DataMaps;
 import owmii.powah.recipe.Recipes;
 
@@ -33,6 +35,9 @@ public final class PowahClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        RenderPipelines.register(RenderTypes.GUI_TEXTURED_NOBLEND);
+        RenderPipelines.register(RenderTypes.REACTOR_OVERLAY);
+        RenderPipelines.register(RenderTypes.BLENDED_NO_DEPTH);
         PowahLayerDefinitions.register();
         HudHandler.register(this);
         EntityRenderer.register();
