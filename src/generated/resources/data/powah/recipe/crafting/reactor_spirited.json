@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "l": "powah:capacitor_spirited",
+    "r": "powah:reactor_niotic",
+    "u": "powah:uraninite"
+  },
+  "pattern": [
+    "rlr",
+    "lul",
+    "rlr"
+  ],
+  "result": {
+    "count": 4,
+    "id": "powah:reactor_spirited"
+  }
+}

@@ -1,0 +1,61 @@
+{
+ "id": "items/binding_card",
+ "title": "Bağlantı Kartı",
+ "parent": "items/index",
+ "icon": "powah:binding_card",
+ "position": 4,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Bağlantı Kartı"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Bağlantı Kartı, bir oyuncuyu aynı boyuttaki bir Oyuncu Vericisi ile bağlamak için kullanılır."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Oyuncu vericisine eklemeden önce onu kendinize bağlamanız gerekir, Bağlamak için sağ tıklayın."
+    }
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:binding_card",
+     "count": 1,
+     "grid": [
+      [
+       "powah:blank_card"
+      ],
+      [
+       "minecraft:redstone"
+      ],
+      null,
+      [
+       "minecraft:redstone"
+      ],
+      [
+       "minecraft:rotten_flesh"
+      ],
+      null,
+      null,
+      null,
+      null
+     ]
+    }
+   ]
+  }
+ ]
+}

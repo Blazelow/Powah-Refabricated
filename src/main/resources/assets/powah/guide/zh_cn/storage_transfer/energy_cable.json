@@ -1,0 +1,136 @@
+{
+ "id": "storage_transfer/energy_cable",
+ "title": "能量线缆",
+ "parent": "storage_transfer/index",
+ "icon": "powah:energy_cable_starter",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "能量线缆"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/energy_cable.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "线缆可被用于转移能量。"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "你可以通过手持设置为配置模式的扳手右击线缆来改变其转移模式。"
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [],
+     [
+      {
+       "t": "最大输入输出"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cable_starter"
+      }
+     ],
+     [
+      {
+       "t": "500 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cable_basic"
+      }
+     ],
+     [
+      {
+       "t": "2,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cable_hardened"
+      }
+     ],
+     [
+      {
+       "t": "5,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cable_blazing"
+      }
+     ],
+     [
+      {
+       "t": "20,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cable_niotic"
+      }
+     ],
+     [
+      {
+       "t": "50,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cable_spirited"
+      }
+     ],
+     [
+      {
+       "t": "200,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cable_nitro"
+      }
+     ],
+     [
+      {
+       "t": "1,000,000 FE/t"
+      }
+     ]
+    ]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,25 @@
+{
+ "id": "items/lens_of_ender",
+ "title": "Lens Of Ender",
+ "parent": "items/index",
+ "icon": "powah:lens_of_ender",
+ "position": 6,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Lens Of Ender"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "When Applying a Lens Of Ender to a Solar Panel will make it see through blocks."
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,25 @@
+{
+ "id": "items/lens_of_ender",
+ "title": "Lente de Ender",
+ "parent": "items/index",
+ "icon": "powah:lens_of_ender",
+ "position": 6,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Lente de Ender"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Ao aplicar uma Lente de Ender a um painel solar, ele verá através dos blocos."
+    }
+   ]
+  }
+ ]
+}

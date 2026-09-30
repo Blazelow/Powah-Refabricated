@@ -1,0 +1,33 @@
+{
+ "id": "items/binding_card_dim",
+ "title": "Cartão de Ligação (Dimensional)",
+ "parent": "items/index",
+ "icon": "powah:binding_card_dim",
+ "position": 5,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Cartão de Ligação (Dimensional)"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Cartão de Ligação (Dimensional) é usado para conectar um jogador a um Transmissor de Jogador entre dimensões."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Você precisa vinculá-lo a você antes de adicioná-lo ao Transmissor do Jogador. Clique com o botão direito para vinculá-lo."
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,462 @@
+{
+ "id": "storage_transfer/energy_cell",
+ "title": "Cellules d'énergies",
+ "parent": "storage_transfer/index",
+ "icon": "powah:energy_cell_starter",
+ "position": 0,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Cellules d'énergies"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/energy_cell.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "La cellule d'énergie est un bloc utilisé pour stocker de l'énergie (FE)."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Peut également être utilisé pour ajouter de la capacité à un canal du réseau de l'End en faisant clic droit avec dans une cellule de l'End. Si la cellule d'énergie contient de l'énergie, elle sera également appliquée au canal du réseau de l'End."
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [],
+     [
+      {
+       "t": "Capacity"
+      }
+     ],
+     [
+      {
+       "t": "Max I/O"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cell_starter"
+      }
+     ],
+     [
+      {
+       "t": "1,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "1,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cell_basic"
+      }
+     ],
+     [
+      {
+       "t": "4,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "4,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cell_hardened"
+      }
+     ],
+     [
+      {
+       "t": "10,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "10,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cell_blazing"
+      }
+     ],
+     [
+      {
+       "t": "40,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "40,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cell_niotic"
+      }
+     ],
+     [
+      {
+       "t": "100,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "100,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cell_spirited"
+      }
+     ],
+     [
+      {
+       "t": "400,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "400,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cell_nitro"
+      }
+     ],
+     [
+      {
+       "t": "2,000,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "2,000,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cell_creative"
+      }
+     ],
+     [
+      {
+       "t": "9,000,000,000,000,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "9,000,000,000,000,000,000 FE/t"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:energy_cell_starter",
+     "count": 1,
+     "grid": [
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:capacitor_basic_tiny"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:capacitor_basic_tiny"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_basic_tiny"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:capacitor_basic_tiny"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ]
+     ]
+    },
+    {
+     "result": "powah:energy_cell_basic",
+     "count": 1,
+     "grid": [
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:capacitor_basic"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:capacitor_basic"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_basic"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:capacitor_basic"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ]
+     ]
+    },
+    {
+     "result": "powah:energy_cell_basic",
+     "count": 1,
+     "grid": [
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:energy_cell_starter"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:energy_cell_starter"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ]
+     ]
+    },
+    {
+     "result": "powah:energy_cell_hardened",
+     "count": 1,
+     "grid": [
+      [
+       "powah:steel_energized"
+      ],
+      [
+       "powah:capacitor_hardened"
+      ],
+      [
+       "powah:steel_energized"
+      ],
+      [
+       "powah:energy_cell_basic"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:energy_cell_basic"
+      ],
+      [
+       "powah:steel_energized"
+      ],
+      [
+       "powah:capacitor_hardened"
+      ],
+      [
+       "powah:steel_energized"
+      ]
+     ]
+    },
+    {
+     "result": "powah:energy_cell_blazing",
+     "count": 1,
+     "grid": [
+      [
+       "powah:crystal_blazing"
+      ],
+      [
+       "powah:capacitor_blazing"
+      ],
+      [
+       "powah:crystal_blazing"
+      ],
+      [
+       "powah:energy_cell_hardened"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:energy_cell_hardened"
+      ],
+      [
+       "powah:crystal_blazing"
+      ],
+      [
+       "powah:capacitor_blazing"
+      ],
+      [
+       "powah:crystal_blazing"
+      ]
+     ]
+    },
+    {
+     "result": "powah:energy_cell_niotic",
+     "count": 1,
+     "grid": [
+      [
+       "powah:crystal_niotic"
+      ],
+      [
+       "powah:capacitor_niotic"
+      ],
+      [
+       "powah:crystal_niotic"
+      ],
+      [
+       "powah:energy_cell_blazing"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:energy_cell_blazing"
+      ],
+      [
+       "powah:crystal_niotic"
+      ],
+      [
+       "powah:capacitor_niotic"
+      ],
+      [
+       "powah:crystal_niotic"
+      ]
+     ]
+    },
+    {
+     "result": "powah:energy_cell_spirited",
+     "count": 1,
+     "grid": [
+      [
+       "powah:crystal_spirited"
+      ],
+      [
+       "powah:capacitor_spirited"
+      ],
+      [
+       "powah:crystal_spirited"
+      ],
+      [
+       "powah:energy_cell_niotic"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:energy_cell_niotic"
+      ],
+      [
+       "powah:crystal_spirited"
+      ],
+      [
+       "powah:capacitor_spirited"
+      ],
+      [
+       "powah:crystal_spirited"
+      ]
+     ]
+    },
+    {
+     "result": "powah:energy_cell_nitro",
+     "count": 1,
+     "grid": [
+      [
+       "powah:crystal_nitro"
+      ],
+      [
+       "powah:capacitor_nitro"
+      ],
+      [
+       "powah:crystal_nitro"
+      ],
+      [
+       "powah:energy_cell_spirited"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:energy_cell_spirited"
+      ],
+      [
+       "powah:crystal_nitro"
+      ],
+      [
+       "powah:capacitor_nitro"
+      ],
+      [
+       "powah:crystal_nitro"
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}

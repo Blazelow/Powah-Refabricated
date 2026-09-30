@@ -1,0 +1,10 @@
+{
+  "type": "powah:energizing",
+  "energy": 120000,
+  "ingredients": [
+    "#c:rods/blaze"
+  ],
+  "result": {
+    "id": "powah:crystal_blazing"
+  }
+}

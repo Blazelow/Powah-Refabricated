@@ -1,0 +1,39 @@
+{
+ "id": "materials/uraninite",
+ "title": "Minério de Uraninita",
+ "parent": "materials/index",
+ "icon": "powah:uraninite_ore_dense",
+ "position": 0,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Minério de Uraninita"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/uraninite.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Minério de Uraninita é um minério raramente encontrado no subsolo nos níveis 1 - 64 para pobres, nos níveis 1 - 32 para o normal, e nos níveis 1 - 16 para denso, e é encontrado em depósitos de 1 - 4 blocos."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Um ferro ou uma picareta melhor é necessária para minerá-lo e, quando extraído, ele dropará 1 pedaço de uraninita bruta com base no tipo de minério (a quantidade dropada é afetada pela fortuna)."
+    }
+   ]
+  }
+ ]
+}

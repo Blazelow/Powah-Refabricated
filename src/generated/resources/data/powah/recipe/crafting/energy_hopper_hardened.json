@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "powah:capacitor_hardened",
+    "d": "powah:dielectric_casing",
+    "h": "powah:energy_hopper_basic",
+    "p": "powah:dielectric_paste"
+  },
+  "pattern": [
+    "ppp",
+    "cdc",
+    "php"
+  ],
+  "result": {
+    "id": "powah:energy_hopper_hardened"
+  }
+}

@@ -1,0 +1,24 @@
+{
+ "id": "materials/index",
+ "title": "Malzemeler",
+ "parent": null,
+ "icon": "powah:uraninite",
+ "position": 5,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Malzemeler"
+    }
+   ]
+  },
+  {
+   "type": "links",
+   "pages": [
+    "materials/uraninite",
+    "materials/dry_ice"
+   ]
+  }
+ ]
+}

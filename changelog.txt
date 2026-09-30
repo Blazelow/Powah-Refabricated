@@ -1,0 +1,136 @@
+2.3.16
+- Added the ability to Let Energizing Orb be placed on any direction - Thanks to BlueAgent
+- Added colors to Energizing Rod Beams based on tier color - Thanks to BlueAgent
+- Bump MC version to 1.16.5
+- Updated lollipop to v3.2.9
+
+2.3.15
+- Added curio support for batteries - Thanks to BlueAgent
+
+2.3.14
+- Fixed Ender Cells Void inserted cells on Server Restart - Thanks to BlueAgent
+- Updated lollipop to v3.2.8
+
+2.3.13
+- Fixed Ender Channels 2-12 being the same - Thanks to BlueAgent
+- Fixed powah manual Crafting Panel crash and recipe arrows - Thanks to BlueAgent.
+- Fixed energy Capability Implementation - Thanks to BlueAgent.
+- Fixed Broken Heatsource Recipe - Thanks to BlueAgent
+- Updated lollipop to v3.2.7
+
+2.3.12
+- Fixed Energising rod beam doesn't appear when directly over orb, closes #136 - Thanks to BlueAgent
+- Fixed Solar Panel allowing sky light to pass through - Thanks to BlueAgent.
+- Fixed Solar Panel working under blocks without Lens of Ender - Thanks to BlueAgent.
+- Fixed Mod loading error has occurred message on game launch, closes #150 - Thanks to BlueAgent
+- Added Russian translation ru_ru.json - Thanks to Fr0stmatic
+- Updated lollipop to v3.2.6
+
+2.3.11
+- Added dry ice tags - Thanks to BlueAgent
+
+2.3.10
+- Added Simplified Chinese translation zh_cn.json - Thanks to WuzgXY
+- Updated lollipop to v3.2.5
+
+2.3.9
+- Added Traditional Chinese translation zh_tw.json - Thanks to Jeffku0107
+
+2.3.8
+- Added brazilian translation pt_br.json - Thanks to Mikeliro
+- Added french translation fr_fr.json - Thanks to jordanamr
+
+2.3.7
+- Fixed Powah's dry ice and uraninite ores ConfiguredFeatures should be registered, closes #129.
+- Fixed Solar Panel has wrong time, closes #132.
+- Fixed Ender Cell/Ender Gate channel mismatch, closes #131.
+
+2.3.6
+- Fixed Configs for thermo_gen and magmator are mixed up, Closes #126.
+- Fixed Excessive cable network size issues, Closes #128.
+- Added uraninite storage blocks tags.
+- Updated lollipop to v3.2.3.
+
+2.3.5
+- Fixed Impossible to disable worldgen, Closes #124.
+
+2.3.4 (1.16.4)
+- Initial port to 1.16.4
+
+2.3.4
+- Disabled energizing particle temporary to fix a crash.
+
+2.3.3
+- Fix Client Crash Using Powah and Forge 34.1.27+, Closes #119
+
+2.3.2
+- Fixed opening GUI instantly crashes Forge server, Closes #115.
+- Updated lollipop to v3.2.2
+
+2.3.1
+- Fixed reactor gen mode not stopping reactor when is full.
+- Fixed JEI not showing info.
+- Random bug fixes.
+- Updated lollipop to v3.2.1
+
+2.3.0
+- Did a full rewrite to the Powah: manual.
+- Improved all tooltips.
+- Added Energizing orb particles.
+- Added Energizing orb progress overlay.
+- Fixed player transmitter and energy hopper bounding boxes (voxel shapes).
+- Fixed reactor and some other non chargeable blocks getting charged.
+- Fixed graphics on Energy Cable are counter intuitive, Closes #107.
+- Fixed cables not stacking, Closes #104.
+- Moved to 1.16.3
+- Clean-up.
+- Updated lollipop to v3.2.0
+
+2.2.0
+- Fix player transmitter not checking top part position, Closes #100.
+- Fix Uraninite ores breaking hardness.
+- Fixed random bugs.
+- Updated lollipop to v3.0.0
+
+2.1.3
+- Added Reactor generation mode (if set to on the reactor will stop if is full and start when has less than 70% of energy).
+- Fixed losing side config when chunk load/unload.
+- Fixed Player transmitter not breaking properly.
+- Updated lollipop to v2.1.3.
+
+2.1.2
+- Fixed magmator creates ungodly amount of pings in server, Closes #97.
+- Added all uraninite ores to the forge:ores and forge:ores/uraninite tags, Closes #96.
+- Updated lollipop to v2.1.2.
+
+2.1.1
+- Ignored breaking change from newer forge to fix the crash (now should work with all forge versions without crashing).
+- Changed min forge version to 32.0.14.
+- Updated lollipop to v2.1.1.
+
+2.1.0
+- Fixed crash caused by the breaking change from forge 32.0.67.
+- Changed min forge version to 32.0.67.
+- Updated lollipop to v2.1.0.
+
+2.0.4
+- Re-implemented Powah! manual.
+- Re-implemented missing discharger functions.
+- Fixed Redstone configuration for all blocks.
+- The fixed reactor not accepting solid coolant.
+- Updated lollipop to v2.0.2.
+
+2.0.3
+- Fixed crash when adding a binding card to the player transmitter, Closes #90.
+- Fixed binding card not rendering correctly.
+
+2.0.2
+- Fixed Energizing rods cannot be placed on cables.
+- Re-Added curios support for the player transmitter.
+- Updated lollipop to v2.0.1.
+
+2.0.1
+- Fixed reactor placing overlay not showing.
+
+2.0.0
+- First 1.16 beta release.

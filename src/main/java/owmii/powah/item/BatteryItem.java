@@ -1,0 +1,124 @@
+package owmii.powah.item;
+
+import com.google.common.primitives.Ints;
+import java.util.Objects;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.item.PlayerInventoryStorage;
+import team.reborn.energy.api.EnergyStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import org.jspecify.annotations.Nullable;
+import owmii.powah.Powah;
+import owmii.powah.api.energy.endernetwork.IEnderExtender;
+import owmii.powah.block.Tier;
+import owmii.powah.components.PowahComponents;
+import owmii.powah.lib.item.EnergyItem;
+import owmii.powah.util.ChargeUtil;
+
+public class BatteryItem extends EnergyItem implements IEnderExtender {
+    public BatteryItem(Item.Properties properties, Tier tier) {
+        super(properties, tier);
+    }
+
+    @Override
+    public long getEnergyCapacity() {
+        return Powah.config().devices.batteries.getCapacity(getTier());
+    }
+
+    @Override
+    public long getEnergyTransfer() {
+        return Powah.config().devices.batteries.getCapacity(getTier());
+    }
+
+    @Override
+    public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
+        if (owner instanceof Player player && isCharging(itemStack)) {
+            // Annoyingly we need to figure out where in the inventory we are, and same item/same components
+            // is not enough, since we're about to modify.
+            ContainerItemContext ourAccess = null;
+            var playerInv = player.getInventory();
+            for (int i = 0; i < playerInv.getContainerSize(); i++) {
+                if (playerInv.getItem(i) == itemStack) {
+                    ourAccess = ContainerItemContext.ofPlayerSlot(player, PlayerInventoryStorage.of(player).getSlots().get(i));
+                    break;
+                }
+            }
+
+            if (ourAccess == null) {
+                return;
+            }
+
+            var storage = EnergyStorage.ITEM.find(itemStack, ourAccess);
+            if (storage != null) {
+                long maxExtract = getEnergyTransfer();
+                try (var tx = Transaction.openOuter()) {
+                    long charged = ChargeUtil.chargeItemsInPlayerInv(player, maxExtract, storage.getAmount(),
+                            s -> !(s.getItem() instanceof BatteryItem), tx);
+                    storage.extract(charged, tx);
+                    tx.commit();
+                }
+            }
+        }
+    }
+
+    @Override
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        if (player.isShiftKeyDown()) {
+            switchCharging(stack);
+            return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
+        }
+        return super.use(world, player, hand);
+    }
+
+    @Override
+    public boolean isBarVisible(ItemStack stack) {
+        var energy = ChargeUtil.getStored(stack);
+        return energy < getEnergyCapacity();
+    }
+
+    @Override
+    public int getBarWidth(ItemStack stack) {
+        var energy = ChargeUtil.getStored(stack);
+        return (int) Math.min(1 + 12 * energy / getEnergyCapacity(), 13);
+    }
+
+    @Override
+    public boolean isFoil(ItemStack stack) {
+        return isCharging(stack);
+    }
+
+    private void switchCharging(ItemStack stack) {
+        setCharging(stack, !isCharging(stack));
+    }
+
+    private boolean isCharging(ItemStack stack) {
+        return Objects.requireNonNullElse(stack.get(PowahComponents.CHARGING), false);
+    }
+
+    private void setCharging(ItemStack stack, boolean charging) {
+        if (!charging) {
+            stack.remove(PowahComponents.CHARGING);
+        } else {
+            stack.set(PowahComponents.CHARGING, true);
+        }
+    }
+
+    @Override
+    public long getExtendedCapacity(ItemStack stack) {
+        return getEnergyCapacity();
+    }
+
+    @Override
+    public long getExtendedEnergy(ItemStack stack) {
+        return ChargeUtil.getStored(stack);
+    }
+}

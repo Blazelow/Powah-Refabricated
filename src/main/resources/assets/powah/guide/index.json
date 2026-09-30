@@ -1,0 +1,32 @@
+{
+ "pages": [
+  "energy_blocks/energizing",
+  "energy_blocks/energy_discharger",
+  "energy_blocks/energy_hopper",
+  "energy_blocks/index",
+  "energy_blocks/player_transmitter",
+  "generators/furnator",
+  "generators/index",
+  "generators/magmator",
+  "generators/reactor",
+  "generators/solar_panel",
+  "generators/thermo_generator",
+  "index",
+  "items/battery",
+  "items/binding_card",
+  "items/binding_card_dim",
+  "items/charged_snowball",
+  "items/index",
+  "items/lens_of_ender",
+  "items/player_aerial_pearl",
+  "items/wrench",
+  "materials/dry_ice",
+  "materials/index",
+  "materials/uraninite",
+  "storage_transfer/ender_cell",
+  "storage_transfer/ender_gate",
+  "storage_transfer/energy_cable",
+  "storage_transfer/energy_cell",
+  "storage_transfer/index"
+ ]
+}

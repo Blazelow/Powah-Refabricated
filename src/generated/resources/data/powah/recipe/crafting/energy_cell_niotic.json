@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": "powah:crystal_niotic",
+    "c": "powah:energy_cell_blazing",
+    "d": "powah:dielectric_casing",
+    "n": "powah:capacitor_niotic"
+  },
+  "pattern": [
+    "bnb",
+    "cdc",
+    "bnb"
+  ],
+  "result": {
+    "id": "powah:energy_cell_niotic"
+  }
+}

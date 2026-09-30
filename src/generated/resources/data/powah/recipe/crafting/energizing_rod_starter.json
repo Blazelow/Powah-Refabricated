@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": "powah:capacitor_basic_tiny",
+    "c": "powah:dielectric_casing",
+    "h": "powah:dielectric_rod",
+    "q": "minecraft:quartz"
+  },
+  "pattern": [
+    " q ",
+    "bcb",
+    " h "
+  ],
+  "result": {
+    "id": "powah:energizing_rod_starter"
+  }
+}

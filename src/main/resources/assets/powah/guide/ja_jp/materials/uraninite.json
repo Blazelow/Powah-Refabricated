@@ -1,0 +1,39 @@
+{
+ "id": "materials/uraninite",
+ "title": "ウラニナイト鉱石",
+ "parent": "materials/index",
+ "icon": "powah:uraninite_ore_dense",
+ "position": 0,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "ウラニナイト鉱石"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/uraninite.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "ウラニナイト鉱石は、低密度は64未満、通常は20未満、高密度は0未満の高さで地下でめったに見つからない鉱石であり、1〜5ブロックの鉱脈で発見されます。"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "採掘には鉄以上のツルハシが必要であり、採掘すると鉱石の密度に応じてウラニナイトの原石が1個ドロップします(ドロップする量は幸運の影響を受けます)。"
+    }
+   ]
+  }
+ ]
+}

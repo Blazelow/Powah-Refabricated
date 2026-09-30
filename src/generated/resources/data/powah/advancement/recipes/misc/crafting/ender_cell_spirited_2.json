@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ender_cell_spirited": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:ender_cell_spirited"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "powah:crafting/ender_cell_spirited_2"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_ender_cell_spirited"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "powah:crafting/ender_cell_spirited_2"
+    ]
+  }
+}

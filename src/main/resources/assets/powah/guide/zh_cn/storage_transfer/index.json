@@ -1,0 +1,26 @@
+{
+ "id": "storage_transfer/index",
+ "title": "能量存储/转移",
+ "parent": null,
+ "icon": "powah:energy_cell_blazing",
+ "position": 2,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "能量存储/转移"
+    }
+   ]
+  },
+  {
+   "type": "links",
+   "pages": [
+    "storage_transfer/energy_cell",
+    "storage_transfer/energy_cable",
+    "storage_transfer/ender_cell",
+    "storage_transfer/ender_gate"
+   ]
+  }
+ ]
+}

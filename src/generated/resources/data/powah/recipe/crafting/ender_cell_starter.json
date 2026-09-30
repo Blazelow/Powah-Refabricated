@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "powah:ender_core",
+    "i": "minecraft:iron_nugget",
+    "o": "minecraft:obsidian"
+  },
+  "pattern": [
+    "oio",
+    "ici",
+    "oio"
+  ],
+  "result": {
+    "id": "powah:ender_cell_starter"
+  }
+}

@@ -1,0 +1,47 @@
+package owmii.powah.block.energycell;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import org.jspecify.annotations.Nullable;
+import owmii.powah.Powah;
+import owmii.powah.block.Tier;
+import owmii.powah.inventory.EnergyCellMenu;
+import owmii.powah.item.EnergyCellItem;
+import owmii.powah.lib.block.PowahBaseBlockEntity;
+import owmii.powah.lib.block.PowahBaseEnergyBlock;
+import owmii.powah.lib.item.EnergyBlockItem;
+import owmii.powah.lib.logistics.inventory.BaseMenu;
+
+public class EnergyCellBlock extends PowahBaseEnergyBlock<EnergyCellBlock> implements SimpleWaterloggedBlock {
+    public EnergyCellBlock(Properties properties, Tier tier) {
+        var config = Powah.config().devices.energy_cells;
+        super(properties, tier, () -> config.getCapacity(tier), () -> config.getTransfer(tier));
+    }
+
+    @Override
+    public EnergyBlockItem getBlockItem(Item.Properties properties, @Nullable ResourceKey<CreativeModeTab> group) {
+        return new EnergyCellItem(this, properties.stacksTo(1), group);
+    }
+
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new EnergyCellBlockEntity(pos, state);
+    }
+
+    @Nullable
+    @Override
+    public BaseMenu getContainer(int id, Inventory inventory, PowahBaseBlockEntity te, BlockHitResult result) {
+        if (te instanceof EnergyCellBlockEntity) {
+            return new EnergyCellMenu(id, inventory, (EnergyCellBlockEntity) te);
+        }
+        return null;
+    }
+}

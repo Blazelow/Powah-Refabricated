@@ -1,0 +1,27 @@
+{
+ "id": "generators/index",
+ "title": "Jeneratörler",
+ "parent": null,
+ "icon": "powah:magmator_niotic",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Jeneratörler"
+    }
+   ]
+  },
+  {
+   "type": "links",
+   "pages": [
+    "generators/furnator",
+    "generators/magmator",
+    "generators/thermo_generator",
+    "generators/solar_panel",
+    "generators/reactor"
+   ]
+  }
+ ]
+}

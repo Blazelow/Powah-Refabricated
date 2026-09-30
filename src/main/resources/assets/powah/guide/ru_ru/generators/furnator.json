@@ -1,0 +1,452 @@
+{
+ "id": "generators/furnator",
+ "title": "Углегенератор",
+ "parent": "generators/index",
+ "icon": "powah:furnator_starter",
+ "position": 0,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Углегенератор"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/furnator.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Углегенаратор вырабатывает FE-энергию при сгорании твёрдого топлива по типу угля или древесины."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Генераторы более продвинутого уровня вырабатывают и отдают больше FE/t, а также быстрее расходуют топливо при тех же затратах."
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [],
+     [
+      {
+       "t": "Общая ёмкость"
+      }
+     ],
+     [
+      {
+       "t": "Выработка"
+      }
+     ],
+     [
+      {
+       "t": "Макс. отдача"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:furnator_starter"
+      }
+     ],
+     [
+      {
+       "t": "20,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "20 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "80 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:furnator_basic"
+      }
+     ],
+     [
+      {
+       "t": "80,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "80 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "320 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:furnator_hardened"
+      }
+     ],
+     [
+      {
+       "t": "200,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "200 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "800 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:furnator_blazing"
+      }
+     ],
+     [
+      {
+       "t": "800,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "800 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "3,200 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:furnator_niotic"
+      }
+     ],
+     [
+      {
+       "t": "2,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "2,000 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "8,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:furnator_spirited"
+      }
+     ],
+     [
+      {
+       "t": "8,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "8,000 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "32,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:furnator_nitro"
+      }
+     ],
+     [
+      {
+       "t": "40,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "40,000 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "160,000 FE/t"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:furnator_starter",
+     "count": 1,
+     "grid": [
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_basic_tiny"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_basic_tiny"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "minecraft:furnace"
+      ],
+      [
+       "powah:dielectric_paste"
+      ]
+     ]
+    },
+    {
+     "result": "powah:furnator_basic",
+     "count": 1,
+     "grid": [
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:capacitor_basic"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_basic"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:furnator_starter"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ]
+     ]
+    },
+    {
+     "result": "powah:furnator_hardened",
+     "count": 1,
+     "grid": [
+      [
+       "powah:steel_energized"
+      ],
+      [
+       "powah:steel_energized"
+      ],
+      [
+       "powah:steel_energized"
+      ],
+      [
+       "powah:capacitor_hardened"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_hardened"
+      ],
+      [
+       "powah:steel_energized"
+      ],
+      [
+       "powah:furnator_basic"
+      ],
+      [
+       "powah:steel_energized"
+      ]
+     ]
+    },
+    {
+     "result": "powah:furnator_blazing",
+     "count": 1,
+     "grid": [
+      [
+       "powah:crystal_blazing"
+      ],
+      [
+       "powah:crystal_blazing"
+      ],
+      [
+       "powah:crystal_blazing"
+      ],
+      [
+       "powah:capacitor_blazing"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_blazing"
+      ],
+      [
+       "powah:crystal_blazing"
+      ],
+      [
+       "powah:furnator_hardened"
+      ],
+      [
+       "powah:crystal_blazing"
+      ]
+     ]
+    },
+    {
+     "result": "powah:furnator_niotic",
+     "count": 1,
+     "grid": [
+      [
+       "powah:crystal_niotic"
+      ],
+      [
+       "powah:crystal_niotic"
+      ],
+      [
+       "powah:crystal_niotic"
+      ],
+      [
+       "powah:capacitor_niotic"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_niotic"
+      ],
+      [
+       "powah:crystal_niotic"
+      ],
+      [
+       "powah:furnator_blazing"
+      ],
+      [
+       "powah:crystal_niotic"
+      ]
+     ]
+    },
+    {
+     "result": "powah:furnator_spirited",
+     "count": 1,
+     "grid": [
+      [
+       "powah:crystal_spirited"
+      ],
+      [
+       "powah:crystal_spirited"
+      ],
+      [
+       "powah:crystal_spirited"
+      ],
+      [
+       "powah:capacitor_spirited"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_spirited"
+      ],
+      [
+       "powah:crystal_spirited"
+      ],
+      [
+       "powah:furnator_niotic"
+      ],
+      [
+       "powah:crystal_spirited"
+      ]
+     ]
+    },
+    {
+     "result": "powah:furnator_nitro",
+     "count": 1,
+     "grid": [
+      [
+       "powah:crystal_nitro"
+      ],
+      [
+       "powah:crystal_nitro"
+      ],
+      [
+       "powah:crystal_nitro"
+      ],
+      [
+       "powah:capacitor_nitro"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_nitro"
+      ],
+      [
+       "powah:crystal_nitro"
+      ],
+      [
+       "powah:furnator_spirited"
+      ],
+      [
+       "powah:crystal_nitro"
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}

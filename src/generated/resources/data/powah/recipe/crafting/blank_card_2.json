@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "p": "powah:dielectric_rod"
+  },
+  "pattern": [
+    "pp"
+  ],
+  "result": {
+    "id": "powah:blank_card"
+  }
+}

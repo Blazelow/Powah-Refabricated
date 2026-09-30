@@ -1,0 +1,491 @@
+{
+ "id": "storage_transfer/ender_gate",
+ "title": "Эндер-шлюзы",
+ "parent": "storage_transfer/index",
+ "icon": "powah:ender_gate_starter",
+ "position": 3,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Эндер-шлюзы"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/ender_gate.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Эндер-шлюзы являются проводником FE-энергии между прикреплённым устройством/кабелем и вашей эндер-сетью."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "К сожалению, из интерфейса шлюза невозможно расширить вашу эндер-сеть, как с эндер-ячейкой."
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [],
+     [
+      {
+       "t": "Макс. передача"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:ender_gate_starter"
+      }
+     ],
+     [
+      {
+       "t": "500 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:ender_gate_basic"
+      }
+     ],
+     [
+      {
+       "t": "2,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:ender_gate_hardened"
+      }
+     ],
+     [
+      {
+       "t": "5,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:ender_gate_blazing"
+      }
+     ],
+     [
+      {
+       "t": "20,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:ender_gate_niotic"
+      }
+     ],
+     [
+      {
+       "t": "50,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:ender_gate_spirited"
+      }
+     ],
+     [
+      {
+       "t": "200,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:ender_gate_nitro"
+      }
+     ],
+     [
+      {
+       "t": "1,000,000 FE/t"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:ender_gate_starter",
+     "count": 4,
+     "grid": [
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_starter"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_starter"
+      ],
+      [
+       "powah:ender_core"
+      ],
+      [
+       "powah:energy_cable_starter"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_starter"
+      ],
+      [
+       "minecraft:obsidian"
+      ]
+     ]
+    },
+    {
+     "result": "powah:ender_gate_starter",
+     "count": 1,
+     "grid": [
+      [
+       "powah:ender_gate_starter"
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "result": "powah:ender_gate_basic",
+     "count": 4,
+     "grid": [
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_basic"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_basic"
+      ],
+      [
+       "powah:ender_core"
+      ],
+      [
+       "powah:energy_cable_basic"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_basic"
+      ],
+      [
+       "minecraft:obsidian"
+      ]
+     ]
+    },
+    {
+     "result": "powah:ender_gate_basic",
+     "count": 1,
+     "grid": [
+      [
+       "powah:ender_gate_basic"
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "result": "powah:ender_gate_hardened",
+     "count": 4,
+     "grid": [
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_hardened"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_hardened"
+      ],
+      [
+       "powah:ender_core"
+      ],
+      [
+       "powah:energy_cable_hardened"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_hardened"
+      ],
+      [
+       "minecraft:obsidian"
+      ]
+     ]
+    },
+    {
+     "result": "powah:ender_gate_hardened",
+     "count": 1,
+     "grid": [
+      [
+       "powah:ender_gate_hardened"
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "result": "powah:ender_gate_blazing",
+     "count": 4,
+     "grid": [
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_blazing"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_blazing"
+      ],
+      [
+       "powah:ender_core"
+      ],
+      [
+       "powah:energy_cable_blazing"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_blazing"
+      ],
+      [
+       "minecraft:obsidian"
+      ]
+     ]
+    },
+    {
+     "result": "powah:ender_gate_blazing",
+     "count": 1,
+     "grid": [
+      [
+       "powah:ender_gate_blazing"
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "result": "powah:ender_gate_niotic",
+     "count": 4,
+     "grid": [
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_niotic"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_niotic"
+      ],
+      [
+       "powah:ender_core"
+      ],
+      [
+       "powah:energy_cable_niotic"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_niotic"
+      ],
+      [
+       "minecraft:obsidian"
+      ]
+     ]
+    },
+    {
+     "result": "powah:ender_gate_niotic",
+     "count": 1,
+     "grid": [
+      [
+       "powah:ender_gate_niotic"
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "result": "powah:ender_gate_spirited",
+     "count": 4,
+     "grid": [
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_spirited"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_spirited"
+      ],
+      [
+       "powah:ender_core"
+      ],
+      [
+       "powah:energy_cable_spirited"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_spirited"
+      ],
+      [
+       "minecraft:obsidian"
+      ]
+     ]
+    },
+    {
+     "result": "powah:ender_gate_spirited",
+     "count": 1,
+     "grid": [
+      [
+       "powah:ender_gate_spirited"
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "result": "powah:ender_gate_nitro",
+     "count": 4,
+     "grid": [
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_nitro"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_nitro"
+      ],
+      [
+       "powah:ender_core"
+      ],
+      [
+       "powah:energy_cable_nitro"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:energy_cable_nitro"
+      ],
+      [
+       "minecraft:obsidian"
+      ]
+     ]
+    },
+    {
+     "result": "powah:ender_gate_nitro",
+     "count": 1,
+     "grid": [
+      [
+       "powah:ender_gate_nitro"
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": "powah:crystal_blazing",
+    "c": "powah:energy_cell_hardened",
+    "d": "powah:dielectric_casing",
+    "g": "powah:capacitor_blazing"
+  },
+  "pattern": [
+    "bgb",
+    "cdc",
+    "bgb"
+  ],
+  "result": {
+    "id": "powah:energy_cell_blazing"
+  }
+}

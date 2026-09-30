@@ -1,0 +1,61 @@
+{
+ "id": "items/binding_card",
+ "title": "Cartão de Ligação",
+ "parent": "items/index",
+ "icon": "powah:binding_card",
+ "position": 4,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Cartão de Ligação"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Cartão de Ligação usado para vincular um jogador a um Transmissor de Jogador na mesma dimensão."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Você precisa vinculá-lo a você antes de adicioná-lo ao Transmissor de Jogador. Clique com o botão direito para vinculá-lo."
+    }
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:binding_card",
+     "count": 1,
+     "grid": [
+      [
+       "powah:blank_card"
+      ],
+      [
+       "minecraft:redstone"
+      ],
+      null,
+      [
+       "minecraft:redstone"
+      ],
+      [
+       "minecraft:rotten_flesh"
+      ],
+      null,
+      null,
+      null,
+      null
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": "powah:crystal_blazing",
+    "c": "powah:capacitor_blazing",
+    "d": "powah:dielectric_casing",
+    "f": "powah:magmator_hardened"
+  },
+  "pattern": [
+    "bbb",
+    "cdc",
+    "bfb"
+  ],
+  "result": {
+    "id": "powah:magmator_blazing"
+  }
+}

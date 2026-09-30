@@ -1,0 +1,76 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_battery_blazing": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:battery_blazing"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_capacitor_niotic": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:capacitor_niotic"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_crystal_niotic": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:crystal_niotic"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dielectric_paste": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:dielectric_paste"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_redstone_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:redstone_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "powah:crafting/battery_niotic"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_redstone_block",
+      "has_battery_blazing",
+      "has_capacitor_niotic",
+      "has_dielectric_paste",
+      "has_crystal_niotic"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "powah:crafting/battery_niotic"
+    ]
+  }
+}

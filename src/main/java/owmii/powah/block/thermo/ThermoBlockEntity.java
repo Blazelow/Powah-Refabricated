@@ -1,0 +1,109 @@
+package owmii.powah.block.thermo;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import owmii.powah.lib.logistics.fluid.FluidStack;
+import owmii.powah.api.PowahAPI;
+import owmii.powah.block.Tiles;
+import owmii.powah.lib.block.IInventoryHolder;
+import owmii.powah.lib.block.ITankHolder;
+import owmii.powah.lib.block.PowahBaseGeneratorBlockEntity;
+import owmii.powah.util.ChargeUtil;
+import owmii.powah.util.Util;
+
+public class ThermoBlockEntity extends PowahBaseGeneratorBlockEntity<ThermoBlock> implements IInventoryHolder, ITankHolder {
+    public long generating;
+
+    public ThermoBlockEntity(BlockPos pos, BlockState state) {
+        super(Tiles.THERMO_GEN.get(), pos, state);
+        this.tank.setValidator(stack -> PowahAPI.getCoolant(stack.getFluid()).isPresent());
+        this.tank.setChange(() -> ThermoBlockEntity.this.sync(10));
+    }
+
+    @Override
+    protected int getInternalInventorySize() {
+        return 1;
+    }
+
+    @Override
+    protected int getInternalTankCapacity() {
+        return Util.bucketAmount() * 4;
+    }
+
+    @Override
+    public void readSync(ValueInput input) {
+        super.readSync(input);
+        this.generating = input.getLongOr("generating", 0);
+    }
+
+    @Override
+    public void writeSync(ValueOutput output) {
+        output.putLong("generating", this.generating);
+        super.writeSync(output);
+    }
+
+    @Override
+    protected int postTick(Level world) {
+        boolean flag = chargeItems(1) + extractFromSides(world) > 0;
+        int i = 0;
+        if (!isRemote() && checkRedstone() && !this.tank.isEmpty()) {
+            FluidStack fluid = this.tank.getFluid();
+            var fluidCooling = PowahAPI.getCoolant(fluid.getFluid());
+            if (fluidCooling.isPresent()) {
+                BlockPos heatPos = this.worldPosition.below();
+                BlockState state = world.getBlockState(heatPos);
+                int heat = PowahAPI.getHeatSource(state);
+                if (!getEnergy().isFull() && heat != 0) {
+                    double heatRatio = heat / 1000.0;
+                    // The formula I want is:
+                    // (water) 0 °C -> ratio of 1
+                    // (water) -10 °C -> ratio of 5
+                    // (water) -20 °C -> ratio of 10
+                    // and so on...
+                    // So we do -temperature/2 with a max to handle the 0 °C case
+                    double coolantRatio = Math.max(1D, -fluidCooling.getAsInt() / 2D);
+                    this.generating = (int) (heatRatio * coolantRatio * getEnergyGeneration());
+                    getEnergy().produce(this.generating);
+                    if (world.getGameTime() % 40 == 0L) {
+                        this.tank.drain(1);
+                    }
+                } else {
+                    this.generating = 0;
+                }
+            } else {
+                this.generating = 0;
+            }
+        }
+
+        return flag || this.generating > 0 ? 5 : -1;
+    }
+
+    @Override
+    public boolean keepEnergy() {
+        return true;
+    }
+
+    @Override
+    public boolean keepFluid() {
+        return true;
+    }
+
+    @Override
+    public int getSlotLimit(int slot) {
+        return 1;
+    }
+
+    @Override
+    public boolean canInsert(int slot, ItemStack stack) {
+        return ChargeUtil.isChargeableItem(stack);
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack) {
+        return true;
+    }
+}

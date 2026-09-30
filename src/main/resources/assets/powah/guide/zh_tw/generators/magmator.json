@@ -1,0 +1,452 @@
+{
+ "id": "generators/magmator",
+ "title": "熔岩發電機",
+ "parent": "generators/index",
+ "icon": "powah:magmator_starter",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "熔岩發電機"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/magmator.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "藉由消耗岩漿這樣的高溫液體來產生(FE)能量."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "高等級產生更多FE/t，同時燃料消耗得更快，單位燃料產生的能量不變。"
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [],
+     [
+      {
+       "t": "Capacity"
+      }
+     ],
+     [
+      {
+       "t": "Generates"
+      }
+     ],
+     [
+      {
+       "t": "Max Extract"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:magmator_starter"
+      }
+     ],
+     [
+      {
+       "t": "20,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "20 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "80 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:magmator_basic"
+      }
+     ],
+     [
+      {
+       "t": "80,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "80 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "320 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:magmator_hardened"
+      }
+     ],
+     [
+      {
+       "t": "200,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "200 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "800 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:magmator_blazing"
+      }
+     ],
+     [
+      {
+       "t": "800,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "800 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "3,200 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:magmator_niotic"
+      }
+     ],
+     [
+      {
+       "t": "2,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "2,000 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "8,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:magmator_spirited"
+      }
+     ],
+     [
+      {
+       "t": "8,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "8,000 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "32,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:magmator_nitro"
+      }
+     ],
+     [
+      {
+       "t": "40,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "40,000 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "160,000 FE/t"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:magmator_starter",
+     "count": 1,
+     "grid": [
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_basic_tiny"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_basic_tiny"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "minecraft:bucket"
+      ],
+      [
+       "powah:dielectric_paste"
+      ]
+     ]
+    },
+    {
+     "result": "powah:magmator_basic",
+     "count": 1,
+     "grid": [
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:capacitor_basic"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_basic"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:magmator_starter"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ]
+     ]
+    },
+    {
+     "result": "powah:magmator_hardened",
+     "count": 1,
+     "grid": [
+      [
+       "powah:steel_energized"
+      ],
+      [
+       "powah:steel_energized"
+      ],
+      [
+       "powah:steel_energized"
+      ],
+      [
+       "powah:capacitor_hardened"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_hardened"
+      ],
+      [
+       "powah:steel_energized"
+      ],
+      [
+       "powah:magmator_basic"
+      ],
+      [
+       "powah:steel_energized"
+      ]
+     ]
+    },
+    {
+     "result": "powah:magmator_blazing",
+     "count": 1,
+     "grid": [
+      [
+       "powah:crystal_blazing"
+      ],
+      [
+       "powah:crystal_blazing"
+      ],
+      [
+       "powah:crystal_blazing"
+      ],
+      [
+       "powah:capacitor_blazing"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_blazing"
+      ],
+      [
+       "powah:crystal_blazing"
+      ],
+      [
+       "powah:magmator_hardened"
+      ],
+      [
+       "powah:crystal_blazing"
+      ]
+     ]
+    },
+    {
+     "result": "powah:magmator_niotic",
+     "count": 1,
+     "grid": [
+      [
+       "powah:crystal_niotic"
+      ],
+      [
+       "powah:crystal_niotic"
+      ],
+      [
+       "powah:crystal_niotic"
+      ],
+      [
+       "powah:capacitor_niotic"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_niotic"
+      ],
+      [
+       "powah:crystal_niotic"
+      ],
+      [
+       "powah:magmator_blazing"
+      ],
+      [
+       "powah:crystal_niotic"
+      ]
+     ]
+    },
+    {
+     "result": "powah:magmator_spirited",
+     "count": 1,
+     "grid": [
+      [
+       "powah:crystal_spirited"
+      ],
+      [
+       "powah:crystal_spirited"
+      ],
+      [
+       "powah:crystal_spirited"
+      ],
+      [
+       "powah:capacitor_spirited"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_spirited"
+      ],
+      [
+       "powah:crystal_spirited"
+      ],
+      [
+       "powah:magmator_niotic"
+      ],
+      [
+       "powah:crystal_spirited"
+      ]
+     ]
+    },
+    {
+     "result": "powah:magmator_nitro",
+     "count": 1,
+     "grid": [
+      [
+       "powah:crystal_nitro"
+      ],
+      [
+       "powah:crystal_nitro"
+      ],
+      [
+       "powah:crystal_nitro"
+      ],
+      [
+       "powah:capacitor_nitro"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_nitro"
+      ],
+      [
+       "powah:crystal_nitro"
+      ],
+      [
+       "powah:magmator_spirited"
+      ],
+      [
+       "powah:crystal_nitro"
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}

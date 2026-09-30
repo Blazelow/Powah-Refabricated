@@ -1,0 +1,31 @@
+{
+ "id": "materials/dry_ice",
+ "title": "Kuru Buz",
+ "parent": "materials/index",
+ "icon": "powah:dry_ice",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Kuru Buz"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/dry_ice.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Kuru Buz esas olarak reaktörleri soğutmak için kullanılır, 64'ün altındaki seviyelerde yeraltında bulunabilir, ayrıca iki parça mavi buza enerji vererek de elde edebilirsiniz."
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "id": "items/player_aerial_pearl",
+ "title": "玩家天線珍珠",
+ "parent": "items/index",
+ "icon": "powah:player_aerial_pearl",
+ "position": 3,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "玩家天線珍珠"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "用於製作玩家發信器."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "使用天線珍珠右鍵殭屍或屍殼獲得。"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "id": "items/binding_card_dim",
+ "title": "綁定卡 (維度)",
+ "parent": "items/index",
+ "icon": "powah:binding_card_dim",
+ "position": 5,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "綁定卡 (維度)"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "用於將玩家與跨維度的玩家發信器連接。"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "在連接玩家發信器前,需先將它與你綁定,右鍵綁定."
+    }
+   ]
+  }
+ ]
+}

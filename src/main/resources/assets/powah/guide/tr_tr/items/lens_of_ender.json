@@ -1,0 +1,25 @@
+{
+ "id": "items/lens_of_ender",
+ "title": "Ender'in Lensi",
+ "parent": "items/index",
+ "icon": "powah:lens_of_ender",
+ "position": 6,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Ender'in Lensi"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Bir Güneş Paneli'ne Ender'in Lensi Uygulandığında blokların içinden görecektir."
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,25 @@
+{
+ "id": "items/charged_snowball",
+ "title": "Энергоснежок",
+ "parent": "items/index",
+ "icon": "powah:charged_snowball",
+ "position": 2,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Энергоснежок"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Создаётся путём электризации обычного снежка в зарядной сфере. После броска создаёт удар молнии в точке падения."
+    }
+   ]
+  }
+ ]
+}

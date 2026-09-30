@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "powah:dielectric_casing",
+    "i": "powah:capacitor_basic_tiny",
+    "p": "powah:player_aerial_pearl",
+    "r": "powah:dielectric_rod"
+  },
+  "pattern": [
+    " p ",
+    "ici",
+    " r "
+  ],
+  "result": {
+    "id": "powah:player_transmitter_starter"
+  }
+}

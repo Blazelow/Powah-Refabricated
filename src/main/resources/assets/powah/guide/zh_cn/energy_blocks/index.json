@@ -1,0 +1,26 @@
+{
+ "id": "energy_blocks/index",
+ "title": "功能性方块",
+ "parent": null,
+ "icon": "powah:player_transmitter_spirited",
+ "position": 3,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "功能性方块"
+    }
+   ]
+  },
+  {
+   "type": "links",
+   "pages": [
+    "energy_blocks/energizing",
+    "energy_blocks/player_transmitter",
+    "energy_blocks/energy_hopper",
+    "energy_blocks/energy_discharger"
+   ]
+  }
+ ]
+}

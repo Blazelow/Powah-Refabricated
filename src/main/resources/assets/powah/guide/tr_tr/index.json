@@ -1,0 +1,27 @@
+{
+ "id": "index",
+ "title": "Powah",
+ "parent": null,
+ "icon": null,
+ "position": 0,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Powah"
+    }
+   ]
+  },
+  {
+   "type": "links",
+   "pages": [
+    "generators/index",
+    "storage_transfer/index",
+    "energy_blocks/index",
+    "items/index",
+    "materials/index"
+   ]
+  }
+ ]
+}

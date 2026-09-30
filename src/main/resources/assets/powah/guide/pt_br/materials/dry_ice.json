@@ -1,0 +1,31 @@
+{
+ "id": "materials/dry_ice",
+ "title": "Gelo Seco",
+ "parent": "materials/index",
+ "icon": "powah:dry_ice",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Gelo Seco"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/dry_ice.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Gelo Seco é usado principalmente para resfriar reatores, pode ser encontrado no subsolo nos níveis 1 - 64, você também pode obtê-lo energizando dois pedaços de gelo azul."
+    }
+   ]
+  }
+ ]
+}

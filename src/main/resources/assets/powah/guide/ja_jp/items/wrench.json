@@ -1,0 +1,79 @@
+{
+ "id": "items/wrench",
+ "title": "レンチ",
+ "parent": "items/index",
+ "icon": "powah:wrench",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "レンチ"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "レンチには3つのモードがあります:"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "設定モード:ケーブルの入出力設定を変更するために使用されます。"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "リンクモード:エナジャイジングオーブやロッドなどのリンク可能なブロックをリンクするために使用されます。"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "回転モード:ブロックを水平方向に回転するために使用されます。"
+    }
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:wrench",
+     "count": 1,
+     "grid": [
+      null,
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      null,
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      null,
+      null
+     ]
+    }
+   ]
+  }
+ ]
+}

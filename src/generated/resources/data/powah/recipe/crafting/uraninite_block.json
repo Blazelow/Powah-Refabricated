@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "powah:uraninite",
+    "powah:uraninite",
+    "powah:uraninite",
+    "powah:uraninite",
+    "powah:uraninite",
+    "powah:uraninite",
+    "powah:uraninite",
+    "powah:uraninite",
+    "powah:uraninite"
+  ],
+  "result": {
+    "id": "powah:uraninite_block"
+  }
+}

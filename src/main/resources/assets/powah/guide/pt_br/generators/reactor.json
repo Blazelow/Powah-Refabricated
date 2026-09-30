@@ -1,0 +1,452 @@
+{
+ "id": "generators/reactor",
+ "title": "Reator",
+ "parent": "generators/index",
+ "icon": "powah:reactor_starter",
+ "position": 4,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Reator"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/reactor.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "O Reator é um gerador multibloco (FE) que usa uraninita como combustível principal."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Para construí-lo, você precisará de 36 blocos de reator em sua mão e colocá-los em uma área substituível de 3X4, então o Reator completará a construção automaticamente."
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [],
+     [
+      {
+       "t": "Capacidade"
+      }
+     ],
+     [
+      {
+       "t": "Fator de Geração"
+      }
+     ],
+     [
+      {
+       "t": "Extração Máxima"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:reactor_starter"
+      }
+     ],
+     [
+      {
+       "t": "250,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "250 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "1,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:reactor_basic"
+      }
+     ],
+     [
+      {
+       "t": "1,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "1,000 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "4,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:reactor_hardened"
+      }
+     ],
+     [
+      {
+       "t": "2,500,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "2,500 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "10,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:reactor_blazing"
+      }
+     ],
+     [
+      {
+       "t": "10,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "10,000 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "40,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:reactor_niotic"
+      }
+     ],
+     [
+      {
+       "t": "25,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "25,000 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "100,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:reactor_spirited"
+      }
+     ],
+     [
+      {
+       "t": "100,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "100,000 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "400,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:reactor_nitro"
+      }
+     ],
+     [
+      {
+       "t": "500,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "500,000 FE/t"
+      }
+     ],
+     [
+      {
+       "t": "2,000,000 FE/t"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:reactor_starter",
+     "count": 4,
+     "grid": [
+      [
+       "powah:uraninite"
+      ],
+      [
+       "powah:capacitor_basic_tiny"
+      ],
+      [
+       "powah:uraninite"
+      ],
+      [
+       "powah:capacitor_basic_tiny"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_basic_tiny"
+      ],
+      [
+       "powah:uraninite"
+      ],
+      [
+       "powah:capacitor_basic_tiny"
+      ],
+      [
+       "powah:uraninite"
+      ]
+     ]
+    },
+    {
+     "result": "powah:reactor_basic",
+     "count": 4,
+     "grid": [
+      [
+       "powah:reactor_starter"
+      ],
+      [
+       "powah:capacitor_basic_large"
+      ],
+      [
+       "powah:reactor_starter"
+      ],
+      [
+       "powah:capacitor_basic_large"
+      ],
+      [
+       "powah:uraninite"
+      ],
+      [
+       "powah:capacitor_basic_large"
+      ],
+      [
+       "powah:reactor_starter"
+      ],
+      [
+       "powah:capacitor_basic_large"
+      ],
+      [
+       "powah:reactor_starter"
+      ]
+     ]
+    },
+    {
+     "result": "powah:reactor_hardened",
+     "count": 4,
+     "grid": [
+      [
+       "powah:reactor_basic"
+      ],
+      [
+       "powah:capacitor_hardened"
+      ],
+      [
+       "powah:reactor_basic"
+      ],
+      [
+       "powah:capacitor_hardened"
+      ],
+      [
+       "powah:uraninite"
+      ],
+      [
+       "powah:capacitor_hardened"
+      ],
+      [
+       "powah:reactor_basic"
+      ],
+      [
+       "powah:capacitor_hardened"
+      ],
+      [
+       "powah:reactor_basic"
+      ]
+     ]
+    },
+    {
+     "result": "powah:reactor_blazing",
+     "count": 4,
+     "grid": [
+      [
+       "powah:reactor_hardened"
+      ],
+      [
+       "powah:capacitor_blazing"
+      ],
+      [
+       "powah:reactor_hardened"
+      ],
+      [
+       "powah:capacitor_blazing"
+      ],
+      [
+       "powah:uraninite"
+      ],
+      [
+       "powah:capacitor_blazing"
+      ],
+      [
+       "powah:reactor_hardened"
+      ],
+      [
+       "powah:capacitor_blazing"
+      ],
+      [
+       "powah:reactor_hardened"
+      ]
+     ]
+    },
+    {
+     "result": "powah:reactor_niotic",
+     "count": 4,
+     "grid": [
+      [
+       "powah:reactor_blazing"
+      ],
+      [
+       "powah:capacitor_niotic"
+      ],
+      [
+       "powah:reactor_blazing"
+      ],
+      [
+       "powah:capacitor_niotic"
+      ],
+      [
+       "powah:uraninite"
+      ],
+      [
+       "powah:capacitor_niotic"
+      ],
+      [
+       "powah:reactor_blazing"
+      ],
+      [
+       "powah:capacitor_niotic"
+      ],
+      [
+       "powah:reactor_blazing"
+      ]
+     ]
+    },
+    {
+     "result": "powah:reactor_spirited",
+     "count": 4,
+     "grid": [
+      [
+       "powah:reactor_niotic"
+      ],
+      [
+       "powah:capacitor_spirited"
+      ],
+      [
+       "powah:reactor_niotic"
+      ],
+      [
+       "powah:capacitor_spirited"
+      ],
+      [
+       "powah:uraninite"
+      ],
+      [
+       "powah:capacitor_spirited"
+      ],
+      [
+       "powah:reactor_niotic"
+      ],
+      [
+       "powah:capacitor_spirited"
+      ],
+      [
+       "powah:reactor_niotic"
+      ]
+     ]
+    },
+    {
+     "result": "powah:reactor_nitro",
+     "count": 4,
+     "grid": [
+      [
+       "powah:reactor_spirited"
+      ],
+      [
+       "powah:capacitor_nitro"
+      ],
+      [
+       "powah:reactor_spirited"
+      ],
+      [
+       "powah:capacitor_nitro"
+      ],
+      [
+       "powah:uraninite"
+      ],
+      [
+       "powah:capacitor_nitro"
+      ],
+      [
+       "powah:reactor_spirited"
+      ],
+      [
+       "powah:capacitor_nitro"
+      ],
+      [
+       "powah:reactor_spirited"
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}

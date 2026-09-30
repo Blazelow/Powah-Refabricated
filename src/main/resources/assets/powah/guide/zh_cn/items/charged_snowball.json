@@ -1,0 +1,25 @@
+{
+ "id": "items/charged_snowball",
+ "title": "带电雪球",
+ "parent": "items/index",
+ "icon": "powah:charged_snowball",
+ "position": 2,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "带电雪球"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "落地时或命中生物时会召唤闪电。充能雪球以获得。"
+    }
+   ]
+  }
+ ]
+}

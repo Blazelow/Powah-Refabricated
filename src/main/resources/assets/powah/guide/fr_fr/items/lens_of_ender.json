@@ -1,0 +1,25 @@
+{
+ "id": "items/lens_of_ender",
+ "title": "Lentille de l'End",
+ "parent": "items/index",
+ "icon": "powah:lens_of_ender",
+ "position": 6,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Lentille de l'End"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "L'application d'une lentille de l'End sur un panneau solaire lui permet de voir à travers des blocs."
+    }
+   ]
+  }
+ ]
+}

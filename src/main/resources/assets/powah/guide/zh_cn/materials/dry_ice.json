@@ -1,0 +1,31 @@
+{
+ "id": "materials/dry_ice",
+ "title": "干冰",
+ "parent": "materials/index",
+ "icon": "powah:dry_ice",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "干冰"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/dry_ice.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "干冰主要被用于降低反应堆的温度。它生成于 1-64 层，但也可以通过同时充能两个蓝冰获得。"
+    }
+   ]
+  }
+ ]
+}

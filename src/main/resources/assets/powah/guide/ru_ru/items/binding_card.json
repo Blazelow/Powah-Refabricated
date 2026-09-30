@@ -1,0 +1,61 @@
+{
+ "id": "items/binding_card",
+ "title": "Карта связи",
+ "parent": "items/index",
+ "icon": "powah:binding_card",
+ "position": 4,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Карта связи"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Данная карта используется для привязки конкретного игрока к беспроводному заряднику в пределах одного измерения."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Перед установкой в устройство её необходимо привязать, для этого нажмите ПКМ с ней в руке."
+    }
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:binding_card",
+     "count": 1,
+     "grid": [
+      [
+       "powah:blank_card"
+      ],
+      [
+       "minecraft:redstone"
+      ],
+      null,
+      [
+       "minecraft:redstone"
+      ],
+      [
+       "minecraft:rotten_flesh"
+      ],
+      null,
+      null,
+      null,
+      null
+     ]
+    }
+   ]
+  }
+ ]
+}

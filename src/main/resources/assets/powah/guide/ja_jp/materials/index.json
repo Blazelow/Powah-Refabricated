@@ -1,0 +1,24 @@
+{
+ "id": "materials/index",
+ "title": "素材",
+ "parent": null,
+ "icon": "powah:uraninite",
+ "position": 5,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "素材"
+    }
+   ]
+  },
+  {
+   "type": "links",
+   "pages": [
+    "materials/uraninite",
+    "materials/dry_ice"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,11 @@
+{
+  "type": "powah:energizing",
+  "energy": 2000,
+  "ingredients": [
+    "powah:uraninite_raw"
+  ],
+  "result": {
+    "count": 2,
+    "id": "powah:uraninite"
+  }
+}

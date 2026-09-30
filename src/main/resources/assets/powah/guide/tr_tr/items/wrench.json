@@ -1,0 +1,79 @@
+{
+ "id": "items/wrench",
+ "title": "İngiliz Anahtarı",
+ "parent": "items/index",
+ "icon": "powah:wrench",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "İngiliz Anahtarı"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "İngiliz Anahtarı'nın 3 modu vardır:"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Yapılandırma Modu: kabloların G/Ç yapılandırmasını değiştirmek için kullanılır."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Bağlantı Modu: enerji veren küre ve çubuklar gibi bağlanabilir blokları bağlamak için kullanılır."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Döndür Modu: blokları yatay olarak döndürmek için kullanılır."
+    }
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:wrench",
+     "count": 1,
+     "grid": [
+      null,
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      null,
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      null,
+      null
+     ]
+    }
+   ]
+  }
+ ]
+}

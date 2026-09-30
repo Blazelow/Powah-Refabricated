@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "powah:capacitor_nitro",
+    "d": "powah:dielectric_casing",
+    "f": "powah:furnator_spirited",
+    "g": "powah:crystal_nitro"
+  },
+  "pattern": [
+    "ggg",
+    "cdc",
+    "gfg"
+  ],
+  "result": {
+    "id": "powah:furnator_nitro"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "powah:energizing",
+  "energy": 120000,
+  "ingredients": [
+    "minecraft:blaze_powder",
+    "minecraft:blaze_powder",
+    "minecraft:blaze_powder",
+    "minecraft:blaze_powder"
+  ],
+  "result": {
+    "id": "powah:crystal_blazing"
+  }
+}

@@ -1,0 +1,61 @@
+{
+ "id": "items/binding_card",
+ "title": "綁定卡",
+ "parent": "items/index",
+ "icon": "powah:binding_card",
+ "position": 4,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "綁定卡"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "用於將玩家與同一維度的玩家發信器連接。"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "在連接玩家發信器前,需先將它與你綁定,右鍵綁定."
+    }
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:binding_card",
+     "count": 1,
+     "grid": [
+      [
+       "powah:blank_card"
+      ],
+      [
+       "minecraft:redstone"
+      ],
+      null,
+      [
+       "minecraft:redstone"
+      ],
+      [
+       "minecraft:rotten_flesh"
+      ],
+      null,
+      null,
+      null,
+      null
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "id": "items/player_aerial_pearl",
+ "title": "Oyuncu Hava İncisi",
+ "parent": "items/index",
+ "icon": "powah:player_aerial_pearl",
+ "position": 3,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Oyuncu Hava İncisi"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Oyuncu Hava İncisi oyuncu vericisini üretmek için kullanılır."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Bir Zombi veya Zombi Kurusu üzerinde Hava İncisi kullanarak elde edebilirsiniz."
+    }
+   ]
+  }
+ ]
+}

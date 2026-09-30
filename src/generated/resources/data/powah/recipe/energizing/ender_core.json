@@ -1,0 +1,12 @@
+{
+  "type": "powah:energizing",
+  "energy": 50000,
+  "ingredients": [
+    "minecraft:ender_eye",
+    "powah:dielectric_casing",
+    "powah:capacitor_basic_tiny"
+  ],
+  "result": {
+    "id": "powah:ender_core"
+  }
+}

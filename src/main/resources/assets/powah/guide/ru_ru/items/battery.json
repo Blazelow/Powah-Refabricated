@@ -1,0 +1,398 @@
+{
+ "id": "items/battery",
+ "title": "Аккумуляторы",
+ "parent": "items/index",
+ "icon": "powah:battery_starter",
+ "position": 0,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Аккумуляторы"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Аккумулятор заряжает предметы в инвентаре игрока. Также им можно расширить ёмкость вашей эндер-сети по нажатию с зажатой клавишей Shift из интерфейса эндер-ячейки (вся накопленная аккумулятором энергия без потерь переместится в энергобуфер активного канала)."
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [],
+     [
+      {
+       "t": "Общая ёмкость"
+      }
+     ],
+     [
+      {
+       "t": "Макс. передача"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:battery_starter"
+      }
+     ],
+     [
+      {
+       "t": "1,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "1,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:battery_basic"
+      }
+     ],
+     [
+      {
+       "t": "4,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "4,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:battery_hardened"
+      }
+     ],
+     [
+      {
+       "t": "10,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "10,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:battery_blazing"
+      }
+     ],
+     [
+      {
+       "t": "40,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "40,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:battery_niotic"
+      }
+     ],
+     [
+      {
+       "t": "100,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "100,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:battery_spirited"
+      }
+     ],
+     [
+      {
+       "t": "400,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "400,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:battery_nitro"
+      }
+     ],
+     [
+      {
+       "t": "2,000,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "2,000,000 FE/t"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:battery_starter",
+     "count": 1,
+     "grid": [
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_basic"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_basic"
+      ],
+      [
+       "minecraft:redstone_block"
+      ],
+      [
+       "powah:capacitor_basic"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_basic"
+      ],
+      [
+       "powah:dielectric_paste"
+      ]
+     ]
+    },
+    {
+     "result": "powah:battery_basic",
+     "count": 1,
+     "grid": [
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_basic_large"
+      ],
+      [
+       "minecraft:redstone_block"
+      ],
+      [
+       "powah:capacitor_basic_large"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:battery_starter"
+      ],
+      [
+       "powah:dielectric_paste"
+      ]
+     ]
+    },
+    {
+     "result": "powah:battery_hardened",
+     "count": 1,
+     "grid": [
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:steel_energized"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_hardened"
+      ],
+      [
+       "minecraft:redstone_block"
+      ],
+      [
+       "powah:capacitor_hardened"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:battery_basic"
+      ],
+      [
+       "powah:dielectric_paste"
+      ]
+     ]
+    },
+    {
+     "result": "powah:battery_blazing",
+     "count": 1,
+     "grid": [
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:crystal_blazing"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_blazing"
+      ],
+      [
+       "minecraft:redstone_block"
+      ],
+      [
+       "powah:capacitor_blazing"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:battery_hardened"
+      ],
+      [
+       "powah:dielectric_paste"
+      ]
+     ]
+    },
+    {
+     "result": "powah:battery_niotic",
+     "count": 1,
+     "grid": [
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:crystal_niotic"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_niotic"
+      ],
+      [
+       "minecraft:redstone_block"
+      ],
+      [
+       "powah:capacitor_niotic"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:battery_blazing"
+      ],
+      [
+       "powah:dielectric_paste"
+      ]
+     ]
+    },
+    {
+     "result": "powah:battery_spirited",
+     "count": 1,
+     "grid": [
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:crystal_spirited"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_spirited"
+      ],
+      [
+       "minecraft:redstone_block"
+      ],
+      [
+       "powah:capacitor_spirited"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:battery_niotic"
+      ],
+      [
+       "powah:dielectric_paste"
+      ]
+     ]
+    },
+    {
+     "result": "powah:battery_nitro",
+     "count": 1,
+     "grid": [
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:crystal_nitro"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_nitro"
+      ],
+      [
+       "minecraft:redstone_block"
+      ],
+      [
+       "powah:capacitor_nitro"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:battery_spirited"
+      ],
+      [
+       "powah:dielectric_paste"
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}

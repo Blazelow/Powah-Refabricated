@@ -1,0 +1,11 @@
+{
+  "type": "powah:energizing",
+  "energy": 10000,
+  "ingredients": [
+    "#c:ices/blue",
+    "#c:ices/blue"
+  ],
+  "result": {
+    "id": "powah:dry_ice"
+  }
+}

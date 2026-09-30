@@ -1,0 +1,142 @@
+{
+ "id": "storage_transfer/energy_cable",
+ "title": "Cables d'énergie",
+ "parent": "storage_transfer/index",
+ "icon": "powah:energy_cable_starter",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Cables d'énergie"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/energy_cable.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Les câbles sont utilisés pour transférer l'énergie entre les machines."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Vous pouvez changer le mode de transfert en faisant un clic droit sur un câble en utilisant "
+    },
+    {
+     "item": "powah:wrench"
+    },
+    {
+     "t": " avec le mode Configuration sélectionné."
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [],
+     [
+      {
+       "t": "Max I/O"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cable_starter"
+      }
+     ],
+     [
+      {
+       "t": "500 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cable_basic"
+      }
+     ],
+     [
+      {
+       "t": "2,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cable_hardened"
+      }
+     ],
+     [
+      {
+       "t": "5,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cable_blazing"
+      }
+     ],
+     [
+      {
+       "t": "20,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cable_niotic"
+      }
+     ],
+     [
+      {
+       "t": "50,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cable_spirited"
+      }
+     ],
+     [
+      {
+       "t": "200,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_cable_nitro"
+      }
+     ],
+     [
+      {
+       "t": "1,000,000 FE/t"
+      }
+     ]
+    ]
+   ]
+  }
+ ]
+}

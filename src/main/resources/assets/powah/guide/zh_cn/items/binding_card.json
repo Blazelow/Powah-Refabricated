@@ -1,0 +1,61 @@
+{
+ "id": "items/binding_card",
+ "title": "绑定卡",
+ "parent": "items/index",
+ "icon": "powah:binding_card",
+ "position": 4,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "绑定卡"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "绑定卡可被用于链接同一维度中的玩家与玩家供电仪。"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "你首先需要将自己绑定与之绑定。右击以完成。"
+    }
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:binding_card",
+     "count": 1,
+     "grid": [
+      [
+       "powah:blank_card"
+      ],
+      [
+       "minecraft:redstone"
+      ],
+      null,
+      [
+       "minecraft:redstone"
+      ],
+      [
+       "minecraft:rotten_flesh"
+      ],
+      null,
+      null,
+      null,
+      null
+     ]
+    }
+   ]
+  }
+ ]
+}

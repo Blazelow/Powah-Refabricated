@@ -1,0 +1,25 @@
+{
+ "id": "items/charged_snowball",
+ "title": "チャージされた雪玉",
+ "parent": "items/index",
+ "icon": "powah:charged_snowball",
+ "position": 2,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "チャージされた雪玉"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "チャージされた雪玉の着弾地点に雷を降らせます。"
+    }
+   ]
+  }
+ ]
+}

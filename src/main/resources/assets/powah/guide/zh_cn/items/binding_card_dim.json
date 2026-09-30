@@ -1,0 +1,33 @@
+{
+ "id": "items/binding_card_dim",
+ "title": "绑定卡（跨维度）",
+ "parent": "items/index",
+ "icon": "powah:binding_card_dim",
+ "position": 5,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "绑定卡（跨维度）"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "绑定卡可被用于链接任意一个或两个维度中的玩家与玩家供电仪。"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "你首先需要将自己绑定与之绑定。右击以完成。"
+    }
+   ]
+  }
+ ]
+}

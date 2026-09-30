@@ -1,0 +1,168 @@
+{
+ "id": "energy_blocks/player_transmitter",
+ "title": "Player Transmitter",
+ "parent": "energy_blocks/index",
+ "icon": "powah:player_transmitter_starter",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Player Transmitter"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/player_transmitter.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "The Player Transmitter its a block used to charge items wirelessly in linked player inventory including armor slots and off-hand anywhere in the same dimension when has a normal binding card and across dimensions when has a dimensional binding card."
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [],
+     [
+      {
+       "t": "Capacity"
+      }
+     ],
+     [
+      {
+       "t": "Max I/O"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:player_transmitter_starter"
+      }
+     ],
+     [
+      {
+       "t": "1,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "1,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:player_transmitter_basic"
+      }
+     ],
+     [
+      {
+       "t": "4,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "4,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:player_transmitter_hardened"
+      }
+     ],
+     [
+      {
+       "t": "10,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "10,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:player_transmitter_blazing"
+      }
+     ],
+     [
+      {
+       "t": "40,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "40,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:player_transmitter_niotic"
+      }
+     ],
+     [
+      {
+       "t": "100,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "100,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:player_transmitter_spirited"
+      }
+     ],
+     [
+      {
+       "t": "400,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "400,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:player_transmitter_nitro"
+      }
+     ],
+     [
+      {
+       "t": "2,000,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "2,000,000 FE/t"
+      }
+     ]
+    ]
+   ]
+  }
+ ]
+}

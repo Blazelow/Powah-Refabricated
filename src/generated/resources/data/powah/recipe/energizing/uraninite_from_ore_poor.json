@@ -1,0 +1,11 @@
+{
+  "type": "powah:energizing",
+  "energy": 25000,
+  "ingredients": [
+    "#c:ores/uraninite_poor"
+  ],
+  "result": {
+    "count": 3,
+    "id": "powah:uraninite"
+  }
+}

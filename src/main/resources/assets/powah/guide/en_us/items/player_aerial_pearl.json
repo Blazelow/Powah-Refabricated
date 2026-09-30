@@ -1,0 +1,33 @@
+{
+ "id": "items/player_aerial_pearl",
+ "title": "Player Aerial Pearl",
+ "parent": "items/index",
+ "icon": "powah:player_aerial_pearl",
+ "position": 3,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Player Aerial Pearl"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Player Aerial Pearl used to craft the player transmitter."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "You can get it by using an Aerial Pearl on a Zombie or Husk."
+    }
+   ]
+  }
+ ]
+}

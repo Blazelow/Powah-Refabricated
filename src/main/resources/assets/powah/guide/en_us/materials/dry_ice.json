@@ -1,0 +1,31 @@
+{
+ "id": "materials/dry_ice",
+ "title": "Dry Ice",
+ "parent": "materials/index",
+ "icon": "powah:dry_ice",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Dry Ice"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/dry_ice.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Dry Ice used mainly to cool down reactors, it can be found underground at levels below 64, you can also obtain it by energizing two pieces of blue ice."
+    }
+   ]
+  }
+ ]
+}

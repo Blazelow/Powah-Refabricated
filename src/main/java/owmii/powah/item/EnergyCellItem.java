@@ -1,0 +1,47 @@
+package owmii.powah.item;
+
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import org.jspecify.annotations.Nullable;
+import owmii.powah.api.energy.endernetwork.IEnderExtender;
+import owmii.powah.block.Tier;
+import owmii.powah.block.energycell.EnergyCellBlock;
+import owmii.powah.lib.item.EnergyBlockItem;
+import owmii.powah.util.ChargeUtil;
+
+public class EnergyCellItem extends EnergyBlockItem<EnergyCellBlock> implements IEnderExtender {
+    public EnergyCellItem(EnergyCellBlock block, Properties properties, @Nullable ResourceKey<CreativeModeTab> group) {
+        super(block, applyRarity(block, properties), group);
+    }
+
+    private static Properties applyRarity(EnergyCellBlock block, Properties properties) {
+        if (block.getTier().equals(Tier.CREATIVE)) {
+            return properties.component(DataComponents.RARITY, Rarity.EPIC);
+        }
+        return properties;
+    }
+
+    @Override
+    public boolean isFoil(ItemStack stack) {
+        return getTier().equals(Tier.CREATIVE) || super.isFoil(stack);
+    }
+
+    @Override
+    public long getExtendedCapacity(ItemStack stack) {
+        if (getTier().equals(Tier.CREATIVE)) {
+            return 0;
+        }
+        return getBlock().getEnergyCapacity();
+    }
+
+    @Override
+    public long getExtendedEnergy(ItemStack stack) {
+        if (getTier().equals(Tier.CREATIVE)) {
+            return 0;
+        }
+        return ChargeUtil.getStored(stack);
+    }
+}

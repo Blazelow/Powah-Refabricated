@@ -1,0 +1,25 @@
+{
+ "id": "items/charged_snowball",
+ "title": "Bola de Neve Carregada",
+ "parent": "items/index",
+ "icon": "powah:charged_snowball",
+ "position": 2,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Bola de Neve Carregada"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Lançar uma Charged Snowball fará com que um raio apareça ao atingir o solo ou quando atingir o mob, obtido pela energização de uma bola de neve."
+    }
+   ]
+  }
+ ]
+}

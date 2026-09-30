@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "powah:capacitor_nitro",
+    "d": "powah:dielectric_casing",
+    "e": "powah:crystal_nitro",
+    "p": "powah:solar_panel_spirited"
+  },
+  "pattern": [
+    "ppp",
+    "cdc",
+    "eee"
+  ],
+  "result": {
+    "id": "powah:solar_panel_nitro"
+  }
+}
