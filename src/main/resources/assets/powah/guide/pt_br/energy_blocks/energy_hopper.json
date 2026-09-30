@@ -1,0 +1,404 @@
+{
+ "id": "energy_blocks/energy_hopper",
+ "title": "Funil de Energia",
+ "parent": "energy_blocks/index",
+ "icon": "powah:energy_hopper_starter",
+ "position": 2,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Funil de Energia"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/energy_hopper.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "O Funil de Energia é um bloco usado para carregar itens carregáveis dentro de um inventário adjacente, como um baú ou qualquer bloco com um inventário acessível e não tem energia de forja."
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [],
+     [
+      {
+       "t": "Capacidade"
+      }
+     ],
+     [
+      {
+       "t": "I/O Máximo"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_hopper_starter"
+      }
+     ],
+     [
+      {
+       "t": "1,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "1,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_hopper_basic"
+      }
+     ],
+     [
+      {
+       "t": "4,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "4,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_hopper_hardened"
+      }
+     ],
+     [
+      {
+       "t": "10,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "10,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_hopper_blazing"
+      }
+     ],
+     [
+      {
+       "t": "40,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "40,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_hopper_niotic"
+      }
+     ],
+     [
+      {
+       "t": "100,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "100,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_hopper_spirited"
+      }
+     ],
+     [
+      {
+       "t": "400,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "400,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energy_hopper_nitro"
+      }
+     ],
+     [
+      {
+       "t": "2,000,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "2,000,000 FE/t"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:energy_hopper_starter",
+     "count": 1,
+     "grid": [
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_basic_tiny"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_basic_tiny"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "minecraft:hopper"
+      ],
+      [
+       "powah:dielectric_paste"
+      ]
+     ]
+    },
+    {
+     "result": "powah:energy_hopper_basic",
+     "count": 1,
+     "grid": [
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_basic"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_basic"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:energy_hopper_starter"
+      ],
+      [
+       "powah:dielectric_paste"
+      ]
+     ]
+    },
+    {
+     "result": "powah:energy_hopper_hardened",
+     "count": 1,
+     "grid": [
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_hardened"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_hardened"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:energy_hopper_basic"
+      ],
+      [
+       "powah:dielectric_paste"
+      ]
+     ]
+    },
+    {
+     "result": "powah:energy_hopper_blazing",
+     "count": 1,
+     "grid": [
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_blazing"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_blazing"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:energy_hopper_hardened"
+      ],
+      [
+       "powah:dielectric_paste"
+      ]
+     ]
+    },
+    {
+     "result": "powah:energy_hopper_niotic",
+     "count": 1,
+     "grid": [
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_niotic"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_niotic"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:energy_hopper_blazing"
+      ],
+      [
+       "powah:dielectric_paste"
+      ]
+     ]
+    },
+    {
+     "result": "powah:energy_hopper_spirited",
+     "count": 1,
+     "grid": [
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_spirited"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_spirited"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:energy_hopper_niotic"
+      ],
+      [
+       "powah:dielectric_paste"
+      ]
+     ]
+    },
+    {
+     "result": "powah:energy_hopper_nitro",
+     "count": 1,
+     "grid": [
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:capacitor_nitro"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_nitro"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "powah:energy_hopper_spirited"
+      ],
+      [
+       "powah:dielectric_paste"
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}

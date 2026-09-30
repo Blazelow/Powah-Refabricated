@@ -1,0 +1,79 @@
+{
+ "id": "items/wrench",
+ "title": "Chave Inglesa",
+ "parent": "items/index",
+ "icon": "powah:wrench",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Chave Inglesa"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "A Chave Inglesa possui 3 modos:"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Modo de configuração: usado para alterar a configuração de I/O dos cabos."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Modo de link: usado para vincular blocos vinculáveis como Orbe Energizante e Hastes."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Modo de rotação: usado para girar blocos horizontalmente."
+    }
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:wrench",
+     "count": 1,
+     "grid": [
+      null,
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      null,
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      null,
+      null
+     ]
+    }
+   ]
+  }
+ ]
+}

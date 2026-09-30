@@ -1,0 +1,25 @@
+{
+ "id": "items/charged_snowball",
+ "title": "Boule de neige chargée",
+ "parent": "items/index",
+ "icon": "powah:charged_snowball",
+ "position": 2,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Boule de neige chargée"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Le lancement d'une boule de neige chargée provoque la formation d'un éclair lorsqu'elle touche le sol ou un monstre, obtenu en chargeant une boule de neige."
+    }
+   ]
+  }
+ ]
+}

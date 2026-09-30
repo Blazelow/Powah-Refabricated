@@ -1,0 +1,33 @@
+{
+ "id": "items/player_aerial_pearl",
+ "title": "Perle aérienne de joueur",
+ "parent": "items/index",
+ "icon": "powah:player_aerial_pearl",
+ "position": 3,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Perle aérienne de joueur"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Utilisée pour fabriquer le transmetteur joueur."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Vous pouvez l'obtenir en utilisant une perle aérienne sur un zombie ou un zombie momifié."
+    }
+   ]
+  }
+ ]
+}

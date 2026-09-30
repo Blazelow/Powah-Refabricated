@@ -1,0 +1,79 @@
+{
+ "id": "items/wrench",
+ "title": "扳手",
+ "parent": "items/index",
+ "icon": "powah:wrench",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "扳手"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "扳手拥有 3 个模式，手持扳手按下 Shift 右击可以切换扳手的模式："
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "配置模式：用于改变线缆的输入输出配置。"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "链接模式：用于链接可链接方块，例如充能台与充能棒。"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "旋转模式：用于水平旋转方块。"
+    }
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:wrench",
+     "count": 1,
+     "grid": [
+      null,
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      null,
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      null,
+      null
+     ]
+    }
+   ]
+  }
+ ]
+}

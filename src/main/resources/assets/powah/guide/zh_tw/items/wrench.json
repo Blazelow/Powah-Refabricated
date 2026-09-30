@@ -1,0 +1,79 @@
+{
+ "id": "items/wrench",
+ "title": "扳手",
+ "parent": "items/index",
+ "icon": "powah:wrench",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "扳手"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "扳手有3種模式："
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "配置模式: 用於更改能量線纜接口配置。"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "連接模式: 用於可連接的方塊，如充能室和充能桿。"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "旋轉模式: 用於水平旋轉方塊。"
+    }
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:wrench",
+     "count": 1,
+     "grid": [
+      null,
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      null,
+      [
+       "powah:dielectric_paste"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:dielectric_paste"
+      ],
+      null,
+      null
+     ]
+    }
+   ]
+  }
+ ]
+}

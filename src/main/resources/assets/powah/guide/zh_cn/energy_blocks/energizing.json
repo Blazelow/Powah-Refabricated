@@ -1,0 +1,394 @@
+{
+ "id": "energy_blocks/energizing",
+ "title": "充能",
+ "parent": "energy_blocks/index",
+ "icon": "powah:energizing_orb",
+ "position": 0,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "充能"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/energizing.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "充能台可被用于为物体充能。其周围 9X9 格内必须有至少 1 个充能棒。充能速度取决于充能棒的数量及其等级。"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "充能台本身不需要能量供应，但充能棒必须位于线缆或 FE 存储方块上方以工作。"
+    }
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:energizing_orb",
+     "count": 1,
+     "grid": [
+      [
+       "minecraft:glass"
+      ],
+      [
+       "minecraft:glass"
+      ],
+      [
+       "minecraft:glass"
+      ],
+      [
+       "minecraft:glass"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "minecraft:glass"
+      ],
+      [
+       "powah:dielectric_rod_horizontal"
+      ],
+      [
+       "powah:dielectric_rod_horizontal"
+      ],
+      [
+       "powah:dielectric_rod_horizontal"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [],
+     [
+      {
+       "t": "电容"
+      }
+     ],
+     [
+      {
+       "t": "最大输入输出"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energizing_rod_starter"
+      }
+     ],
+     [
+      {
+       "t": "10,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "100 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energizing_rod_basic"
+      }
+     ],
+     [
+      {
+       "t": "40,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "400 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energizing_rod_hardened"
+      }
+     ],
+     [
+      {
+       "t": "100,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "1,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energizing_rod_blazing"
+      }
+     ],
+     [
+      {
+       "t": "400,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "4,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energizing_rod_niotic"
+      }
+     ],
+     [
+      {
+       "t": "1,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "10,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energizing_rod_spirited"
+      }
+     ],
+     [
+      {
+       "t": "4,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "40,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:energizing_rod_nitro"
+      }
+     ],
+     [
+      {
+       "t": "20,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "200,000 FE/t"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:energizing_rod_starter",
+     "count": 1,
+     "grid": [
+      null,
+      [
+       "minecraft:quartz"
+      ],
+      null,
+      [
+       "powah:capacitor_basic_tiny"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_basic_tiny"
+      ],
+      null,
+      [
+       "powah:dielectric_rod"
+      ],
+      null
+     ]
+    },
+    {
+     "result": "powah:energizing_rod_basic",
+     "count": 1,
+     "grid": [
+      null,
+      [
+       "minecraft:quartz_block"
+      ],
+      null,
+      [
+       "powah:capacitor_basic"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_basic"
+      ],
+      null,
+      [
+       "powah:energizing_rod_starter"
+      ],
+      null
+     ]
+    },
+    {
+     "result": "powah:energizing_rod_hardened",
+     "count": 1,
+     "grid": [
+      null,
+      [
+       "minecraft:quartz_block"
+      ],
+      null,
+      [
+       "powah:capacitor_hardened"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_hardened"
+      ],
+      null,
+      [
+       "powah:energizing_rod_basic"
+      ],
+      null
+     ]
+    },
+    {
+     "result": "powah:energizing_rod_blazing",
+     "count": 1,
+     "grid": [
+      null,
+      [
+       "minecraft:quartz_block"
+      ],
+      null,
+      [
+       "powah:capacitor_blazing"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_blazing"
+      ],
+      null,
+      [
+       "powah:energizing_rod_hardened"
+      ],
+      null
+     ]
+    },
+    {
+     "result": "powah:energizing_rod_niotic",
+     "count": 1,
+     "grid": [
+      null,
+      [
+       "minecraft:quartz_block"
+      ],
+      null,
+      [
+       "powah:capacitor_niotic"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_niotic"
+      ],
+      null,
+      [
+       "powah:energizing_rod_blazing"
+      ],
+      null
+     ]
+    },
+    {
+     "result": "powah:energizing_rod_spirited",
+     "count": 1,
+     "grid": [
+      null,
+      [
+       "minecraft:quartz_block"
+      ],
+      null,
+      [
+       "powah:capacitor_spirited"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_spirited"
+      ],
+      null,
+      [
+       "powah:energizing_rod_niotic"
+      ],
+      null
+     ]
+    },
+    {
+     "result": "powah:energizing_rod_nitro",
+     "count": 1,
+     "grid": [
+      null,
+      [
+       "minecraft:quartz_block"
+      ],
+      null,
+      [
+       "powah:capacitor_nitro"
+      ],
+      [
+       "powah:dielectric_casing"
+      ],
+      [
+       "powah:capacitor_nitro"
+      ],
+      null,
+      [
+       "powah:energizing_rod_spirited"
+      ],
+      null
+     ]
+    }
+   ]
+  }
+ ]
+}

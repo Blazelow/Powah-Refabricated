@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_capacitor_hardened": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:capacitor_hardened"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_reactor_basic": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:reactor_basic"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "powah:crafting/reactor_hardened"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_uraninite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:uraninite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_uraninite",
+      "has_capacitor_hardened",
+      "has_reactor_basic"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "powah:crafting/reactor_hardened"
+    ]
+  }
+}

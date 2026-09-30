@@ -1,0 +1,31 @@
+{
+ "id": "materials/dry_ice",
+ "title": "Сухой лёд",
+ "parent": "materials/index",
+ "icon": "powah:dry_ice",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Сухой лёд"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/dry_ice.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Блоки сухого льда можно найти в большом количестве в холодных биомах на глубине до 64 блоков или получить путём электризации двух блоков синего льда. Преимущественно используются в охлаждении реактора."
+    }
+   ]
+  }
+ ]
+}

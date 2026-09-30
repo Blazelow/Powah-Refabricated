@@ -1,0 +1,25 @@
+{
+ "id": "items/charged_snowball",
+ "title": "Charged Snowball",
+ "parent": "items/index",
+ "icon": "powah:charged_snowball",
+ "position": 2,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Charged Snowball"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Throwing a Charged Snowball will cause a bolt of lightning to spawn when hitting the ground or when it hits the mob, obtained by energizing a snowball."
+    }
+   ]
+  }
+ ]
+}

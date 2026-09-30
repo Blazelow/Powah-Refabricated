@@ -1,0 +1,491 @@
+{
+ "id": "storage_transfer/ender_cell",
+ "title": "Ender Hücreleri",
+ "parent": "storage_transfer/index",
+ "icon": "powah:ender_cell_starter",
+ "position": 2,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Ender Hücreleri"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/ender_cell.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Ender Hücresi, sahibinin ender ağının belirli bir kanalına enerji (FE) depolamak için kullandığı bir bloktur."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Güç aktarmak istediğiniz Ender Hücresi'nin geçerli kapasiteye sahip aktif bir kanalı varsa, seçilen bir kanalın depoladığı enerjiye dünyanın herhangi bir yerinden erişebilirsiniz."
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [],
+     [
+      {
+       "t": "Maks G/Ç"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:ender_cell_starter"
+      }
+     ],
+     [
+      {
+       "t": "1,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:ender_cell_basic"
+      }
+     ],
+     [
+      {
+       "t": "4,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:ender_cell_hardened"
+      }
+     ],
+     [
+      {
+       "t": "10,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:ender_cell_blazing"
+      }
+     ],
+     [
+      {
+       "t": "40,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:ender_cell_niotic"
+      }
+     ],
+     [
+      {
+       "t": "100,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:ender_cell_spirited"
+      }
+     ],
+     [
+      {
+       "t": "400,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:ender_cell_nitro"
+      }
+     ],
+     [
+      {
+       "t": "2,000,000 FE/t"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "type": "recipes",
+   "recipes": [
+    {
+     "result": "powah:ender_cell_starter",
+     "count": 1,
+     "grid": [
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "minecraft:iron_nugget"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "minecraft:iron_nugget"
+      ],
+      [
+       "powah:ender_core"
+      ],
+      [
+       "minecraft:iron_nugget"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "minecraft:iron_nugget"
+      ],
+      [
+       "minecraft:obsidian"
+      ]
+     ]
+    },
+    {
+     "result": "powah:ender_cell_starter",
+     "count": 1,
+     "grid": [
+      [
+       "powah:ender_cell_starter"
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "result": "powah:ender_cell_basic",
+     "count": 1,
+     "grid": [
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "powah:ender_core"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "minecraft:iron_ingot"
+      ],
+      [
+       "minecraft:obsidian"
+      ]
+     ]
+    },
+    {
+     "result": "powah:ender_cell_basic",
+     "count": 1,
+     "grid": [
+      [
+       "powah:ender_cell_basic"
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "result": "powah:ender_cell_hardened",
+     "count": 1,
+     "grid": [
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:steel_energized"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:steel_energized"
+      ],
+      [
+       "powah:ender_core"
+      ],
+      [
+       "powah:steel_energized"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:steel_energized"
+      ],
+      [
+       "minecraft:obsidian"
+      ]
+     ]
+    },
+    {
+     "result": "powah:ender_cell_hardened",
+     "count": 1,
+     "grid": [
+      [
+       "powah:ender_cell_hardened"
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "result": "powah:ender_cell_blazing",
+     "count": 1,
+     "grid": [
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:crystal_blazing"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:crystal_blazing"
+      ],
+      [
+       "powah:ender_core"
+      ],
+      [
+       "powah:crystal_blazing"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:crystal_blazing"
+      ],
+      [
+       "minecraft:obsidian"
+      ]
+     ]
+    },
+    {
+     "result": "powah:ender_cell_blazing",
+     "count": 1,
+     "grid": [
+      [
+       "powah:ender_cell_blazing"
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "result": "powah:ender_cell_niotic",
+     "count": 1,
+     "grid": [
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:crystal_niotic"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:crystal_niotic"
+      ],
+      [
+       "powah:ender_core"
+      ],
+      [
+       "powah:crystal_niotic"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:crystal_niotic"
+      ],
+      [
+       "minecraft:obsidian"
+      ]
+     ]
+    },
+    {
+     "result": "powah:ender_cell_niotic",
+     "count": 1,
+     "grid": [
+      [
+       "powah:ender_cell_niotic"
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "result": "powah:ender_cell_spirited",
+     "count": 1,
+     "grid": [
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:crystal_spirited"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:crystal_spirited"
+      ],
+      [
+       "powah:ender_core"
+      ],
+      [
+       "powah:crystal_spirited"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:crystal_spirited"
+      ],
+      [
+       "minecraft:obsidian"
+      ]
+     ]
+    },
+    {
+     "result": "powah:ender_cell_spirited",
+     "count": 1,
+     "grid": [
+      [
+       "powah:ender_cell_spirited"
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "result": "powah:ender_cell_nitro",
+     "count": 1,
+     "grid": [
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:crystal_nitro"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:crystal_nitro"
+      ],
+      [
+       "powah:ender_core"
+      ],
+      [
+       "powah:crystal_nitro"
+      ],
+      [
+       "minecraft:obsidian"
+      ],
+      [
+       "powah:crystal_nitro"
+      ],
+      [
+       "minecraft:obsidian"
+      ]
+     ]
+    },
+    {
+     "result": "powah:ender_cell_nitro",
+     "count": 1,
+     "grid": [
+      [
+       "powah:ender_cell_nitro"
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    }
+   ]
+  }
+ ]
+}

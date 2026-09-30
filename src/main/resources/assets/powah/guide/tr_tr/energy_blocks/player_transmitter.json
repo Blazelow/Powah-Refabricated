@@ -1,0 +1,168 @@
+{
+ "id": "energy_blocks/player_transmitter",
+ "title": "Oyuncu Vericisi",
+ "parent": "energy_blocks/index",
+ "icon": "powah:player_transmitter_starter",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Oyuncu Vericisi"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/player_transmitter.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Oyuncu Vericisi, normal bir bağlantı kartına sahip olduğunda aynı boyutta ve boyutsal bir bağlantı kartına sahip olduğunda boyutlar arasında herhangi bir yerde zırh yuvaları ve el dışı dahil olmak üzere bağlantılı oyuncu envanterindeki eşyaları kablosuz olarak şarj etmek için kullanılan bir bloktur."
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [],
+     [
+      {
+       "t": "Kapasite"
+      }
+     ],
+     [
+      {
+       "t": "Maks G/Ç"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:player_transmitter_starter"
+      }
+     ],
+     [
+      {
+       "t": "1,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "1,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:player_transmitter_basic"
+      }
+     ],
+     [
+      {
+       "t": "4,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "4,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:player_transmitter_hardened"
+      }
+     ],
+     [
+      {
+       "t": "10,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "10,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:player_transmitter_blazing"
+      }
+     ],
+     [
+      {
+       "t": "40,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "40,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:player_transmitter_niotic"
+      }
+     ],
+     [
+      {
+       "t": "100,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "100,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:player_transmitter_spirited"
+      }
+     ],
+     [
+      {
+       "t": "400,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "400,000 FE/t"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "item": "powah:player_transmitter_nitro"
+      }
+     ],
+     [
+      {
+       "t": "2,000,000,000 FE"
+      }
+     ],
+     [
+      {
+       "t": "2,000,000 FE/t"
+      }
+     ]
+    ]
+   ]
+  }
+ ]
+}

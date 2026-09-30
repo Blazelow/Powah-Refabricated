@@ -1,0 +1,29 @@
+{
+ "id": "items/index",
+ "title": "Objets",
+ "parent": null,
+ "icon": "powah:battery_nitro",
+ "position": 4,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Objets"
+    }
+   ]
+  },
+  {
+   "type": "links",
+   "pages": [
+    "items/battery",
+    "items/wrench",
+    "items/charged_snowball",
+    "items/player_aerial_pearl",
+    "items/binding_card",
+    "items/binding_card_dim",
+    "items/lens_of_ender"
+   ]
+  }
+ ]
+}

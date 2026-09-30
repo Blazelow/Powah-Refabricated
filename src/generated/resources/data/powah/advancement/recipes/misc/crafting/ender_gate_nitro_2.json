@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ender_gate_nitro": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:ender_gate_nitro"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "powah:crafting/ender_gate_nitro_2"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_ender_gate_nitro"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "powah:crafting/ender_gate_nitro_2"
+    ]
+  }
+}

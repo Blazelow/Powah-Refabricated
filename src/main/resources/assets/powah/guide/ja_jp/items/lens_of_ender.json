@@ -1,0 +1,25 @@
+{
+ "id": "items/lens_of_ender",
+ "title": "エンダーレンズ",
+ "parent": "items/index",
+ "icon": "powah:lens_of_ender",
+ "position": 6,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "エンダーレンズ"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "ソーラーパネルにエンダーレンズを使用するとブロックを透過して発電できるようになります。"
+    }
+   ]
+  }
+ ]
+}

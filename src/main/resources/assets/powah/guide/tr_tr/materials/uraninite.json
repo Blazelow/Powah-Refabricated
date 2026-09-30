@@ -1,0 +1,39 @@
+{
+ "id": "materials/uraninite",
+ "title": "Uraninit Cevheri",
+ "parent": "materials/index",
+ "icon": "powah:uraninite_ore_dense",
+ "position": 0,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Uraninit Cevheri"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/uraninite.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Uraninit Cevheri, fakir için 64'ün, normal için 20'nin ve yoğun için 0'ın altındaki seviyelerde yeraltında nadiren bulunan bir cevherdir ve 1 - 5 blokluk yataklarda bulunur."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Çıkarmak için demir veya daha iyi bir kazma gerekir ve çıkarıldığında cevher türüne bağlı olarak 1 parça Ham Uraninit düşer (düşen miktar servetten etkilenir)."
+    }
+   ]
+  }
+ ]
+}

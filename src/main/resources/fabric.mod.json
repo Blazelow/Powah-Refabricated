@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "powah",
+  "version": "${version}",
+  "name": "Powah! Refabricated",
+  "description": "Various ways to generate, store and transmit energy.",
+  "authors": ["owmii", "Technici4n", "shartte", "Blazelow"],
+  "contact": {
+    "sources": "https://github.com/Blazelow/Powah-Refabricated",
+    "issues": "https://github.com/Blazelow/Powah-Refabricated/issues"
+  },
+  "license": "LGPL-3.0-only",
+  "icon": "assets/powah/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["owmii.powah.Powah"],
+    "client": ["owmii.powah.client.PowahClient"],
+    "rei_client": ["owmii.powah.compat.rei.PowahREIPlugin"],
+    "emi": ["owmii.powah.compat.emi.PowahEmiPlugin"],
+    "jei_mod_plugin": ["owmii.powah.compat.jei.PowahJeiPlugin"]
+  },
+  "accessWidener": "powah.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "fabric-api": "*",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "team_reborn_energy": "*",
+    "cloth-config": "*"
+  },
+  "suggests": {
+    "trinkets": "*"
+  }
+}

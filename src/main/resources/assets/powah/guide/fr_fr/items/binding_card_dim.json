@@ -1,0 +1,33 @@
+{
+ "id": "items/binding_card_dim",
+ "title": "Carte de liaison (Dimensionnelle)",
+ "parent": "items/index",
+ "icon": "powah:binding_card_dim",
+ "position": 5,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Carte de liaison (Dimensionnelle)"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Utilisée pour lier un joueur à un transmetteur joueur à travers les dimensions."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Vous devez le lier à vous avant de l'ajouter au transmetteur joueur. Clic droit pour le lier."
+    }
+   ]
+  }
+ ]
+}

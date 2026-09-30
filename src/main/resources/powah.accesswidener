@@ -1,0 +1,13 @@
+accessWidener v2 named
+
+accessible method net/minecraft/world/entity/LivingEntity onEffectRemoved (Lnet/minecraft/world/effect/MobEffectInstance;)V
+accessible field net/minecraft/world/entity/LivingEntity lastHurtByPlayer Lnet/minecraft/world/entity/player/Player;
+accessible field net/minecraft/world/entity/LivingEntity lastHurtByPlayerTime I
+accessible field net/minecraft/world/entity/monster/Creeper swell I
+accessible method net/minecraft/server/level/ServerPlayer onEffectRemoved (Lnet/minecraft/world/effect/MobEffectInstance;)V
+accessible method net/minecraft/client/gui/screens/inventory/AbstractContainerScreen renderSlot (Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/world/inventory/Slot;)V
+accessible field net/minecraft/world/inventory/AbstractContainerMenu stateId I
+accessible method net/minecraft/data/worldgen/placement/OrePlacements commonOrePlacement (ILnet/minecraft/world/level/levelgen/placement/PlacementModifier;)Ljava/util/List;
+accessible field net/minecraft/client/gui/screens/Screen renderables Ljava/util/List;
+accessible field net/minecraft/world/item/BucketItem content Lnet/minecraft/world/level/material/Fluid;
+accessible field net/minecraft/world/level/block/entity/BlockEntityType validBlocks Ljava/util/Set;

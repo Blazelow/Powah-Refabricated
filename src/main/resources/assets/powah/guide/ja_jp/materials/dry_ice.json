@@ -1,0 +1,31 @@
+{
+ "id": "materials/dry_ice",
+ "title": "ドライアイス",
+ "parent": "materials/index",
+ "icon": "powah:dry_ice",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "ドライアイス"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/dry_ice.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "ドライアイスは主にリアクターの冷却に使用差されy座標64以下の地下で見つけることができ、二つの青氷に通電することでも入手できます。"
+    }
+   ]
+  }
+ ]
+}

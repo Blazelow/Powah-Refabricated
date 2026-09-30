@@ -1,0 +1,25 @@
+{
+ "id": "items/lens_of_ender",
+ "title": "Эндер-линза",
+ "parent": "items/index",
+ "icon": "powah:lens_of_ender",
+ "position": 6,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Эндер-линза"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "После установки на солнечную панель позволяет той игнорировать блоки над ней."
+    }
+   ]
+  }
+ ]
+}

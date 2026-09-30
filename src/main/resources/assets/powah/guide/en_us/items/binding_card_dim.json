@@ -1,0 +1,33 @@
+{
+ "id": "items/binding_card_dim",
+ "title": "Binding Card (Dimensional)",
+ "parent": "items/index",
+ "icon": "powah:binding_card_dim",
+ "position": 5,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Binding Card (Dimensional)"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Dimensional Binding Card used to link a player with a Player Transmitter across dimensions."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "You need to link it with you before adding it to the player transmitter, Right-click it to bind."
+    }
+   ]
+  }
+ ]
+}

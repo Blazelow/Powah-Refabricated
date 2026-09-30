@@ -1,0 +1,31 @@
+{
+ "id": "materials/dry_ice",
+ "title": "Glace carbonique",
+ "parent": "materials/index",
+ "icon": "powah:dry_ice",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Glace carbonique"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/dry_ice.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "La glace carbonique est principalement utilisée pour refroidir les réacteurs, elle se trouve sous terre aux niveaux 1 - 64, vous pouvez également l'obtenir en chargeant deux morceaux de glace bleue."
+    }
+   ]
+  }
+ ]
+}

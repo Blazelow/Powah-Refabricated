@@ -1,0 +1,25 @@
+{
+ "id": "items/charged_snowball",
+ "title": "帶電雪球",
+ "parent": "items/index",
+ "icon": "powah:charged_snowball",
+ "position": 2,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "帶電雪球"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "扔出去會引起閃電。將雪球放入充能室獲得。"
+    }
+   ]
+  }
+ ]
+}

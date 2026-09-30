@@ -1,0 +1,33 @@
+{
+ "id": "items/player_aerial_pearl",
+ "title": "プレイヤーエアリアルパール",
+ "parent": "items/index",
+ "icon": "powah:player_aerial_pearl",
+ "position": 3,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "プレイヤーエアリアルパール"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "プレイヤーエアリアルパールはプレイヤートランスミッターを作成するための中間素材です。"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "ゾンビやハスクにエアリアルパールを使用することで手に入れることができます。"
+    }
+   ]
+  }
+ ]
+}

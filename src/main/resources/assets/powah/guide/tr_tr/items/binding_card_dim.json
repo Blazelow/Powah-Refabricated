@@ -1,0 +1,33 @@
+{
+ "id": "items/binding_card_dim",
+ "title": "Bağlantı Kartı (Boyutsal)",
+ "parent": "items/index",
+ "icon": "powah:binding_card_dim",
+ "position": 5,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Bağlantı Kartı (Boyutsal)"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Boyutsal Bağlantı Kartı, bir oyuncuyu boyutlar arasında bir Oyuncu Vericisi ile bağlamak için kullanılır."
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Oyuncu vericisine eklemeden önce onu kendinize bağlamanız gerekir, Bağlamak için sağ tıklayın."
+    }
+   ]
+  }
+ ]
+}

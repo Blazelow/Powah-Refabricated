@@ -1,0 +1,25 @@
+{
+ "id": "items/charged_snowball",
+ "title": "Şarjlı Kartopu",
+ "parent": "items/index",
+ "icon": "powah:charged_snowball",
+ "position": 2,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "Şarjlı Kartopu"
+    }
+   ]
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "Bir Şarjlı Kartopu fırlatmak, yere çarptığında veya mob'a çarptığında bir yıldırımın ortaya çıkmasına neden olur, bir kartopuna enerji vererek elde edilir"
+    }
+   ]
+  }
+ ]
+}

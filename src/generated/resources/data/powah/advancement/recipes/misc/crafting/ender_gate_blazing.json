@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ender_core": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:ender_core"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_energy_cable_blazing": {
+      "conditions": {
+        "items": [
+          {
+            "items": "powah:energy_cable_blazing"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_obsidian": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:obsidian"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "powah:crafting/ender_gate_blazing"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_ender_core",
+      "has_energy_cable_blazing",
+      "has_obsidian"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "powah:crafting/ender_gate_blazing"
+    ]
+  }
+}

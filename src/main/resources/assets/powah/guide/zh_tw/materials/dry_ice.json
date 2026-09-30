@@ -1,0 +1,31 @@
+{
+ "id": "materials/dry_ice",
+ "title": "乾冰",
+ "parent": "materials/index",
+ "icon": "powah:dry_ice",
+ "position": 1,
+ "blocks": [
+  {
+   "type": "heading",
+   "runs": [
+    {
+     "t": "乾冰"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "texture": "powah:textures/guide/dry_ice.png",
+   "w": 412,
+   "h": 200
+  },
+  {
+   "type": "paragraph",
+   "runs": [
+    {
+     "t": "主要用於冷卻反應堆,可在地下1 - 64層發現,也可使用兩個藍冰在充能室中獲得。"
+    }
+   ]
+  }
+ ]
+}
