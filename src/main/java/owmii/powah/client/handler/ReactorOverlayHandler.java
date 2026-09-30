@@ -4,6 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import java.util.List;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,7 +25,7 @@ import owmii.powah.lib.client.util.RenderTypes;
 public class ReactorOverlayHandler {
     static final Identifier OV_TEXTURE = Powah.id("textures/misc/reactor_ov.png");
 
-    public static void onRenderLast(PoseStack poseStack, CameraRenderState camera) {
+    public static void onRenderLast(PoseStack poseStack, CameraRenderState camera, SubmitNodeCollector collector) {
         Minecraft mc = Minecraft.getInstance();
         net.minecraft.world.entity.player.Player player = mc.player;
         if (player == null || mc.level == null)
@@ -78,19 +80,22 @@ public class ReactorOverlayHandler {
             float g = (color >> 8 & 0xFF) / 255.0F;
             float b = (color & 0xFF) / 255.0F;
 
-            var buffers = mc.renderBuffers().bufferSource();
             var renderType = RenderTypes.createReactorOverlay(OV_TEXTURE);
-            VertexConsumer buffer = buffers.getBuffer(renderType);
-            buffer.addVertex(poseStack.last().pose(), pos.getX(), pos.getY(), pos.getZ() + 3).setColor(r, g, b, 1.0F).setUv(0.0F, 1.0F)
-                    .setLight(Render.MAX_LIGHT);
-            buffer.addVertex(poseStack.last().pose(), pos.getX() + 3, pos.getY(), pos.getZ() + 3).setColor(r, g, b, 1.0F).setUv(1.0F, 1.0F)
-                    .setLight(Render.MAX_LIGHT);
-            buffer.addVertex(poseStack.last().pose(), pos.getX() + 3, pos.getY(), pos.getZ()).setColor(r, g, b, 1.0F).setUv(1.0F, 0.0F)
-                    .setLight(Render.MAX_LIGHT);
-            buffer.addVertex(poseStack.last().pose(), pos.getX(), pos.getY(), pos.getZ()).setColor(r, g, b, 1.0F).setUv(0.0F, 0.0F)
-                    .setLight(Render.MAX_LIGHT);
+            int x = pos.getX();
+            int y = pos.getY();
+            int z = pos.getZ();
+            collector.submitCustomGeometry(poseStack, renderType, (pose, buffer) -> {
+                corner(buffer, pose, x, y, z + 3, r, g, b, 0.0F, 1.0F);
+                corner(buffer, pose, x + 3, y, z + 3, r, g, b, 1.0F, 1.0F);
+                corner(buffer, pose, x + 3, y, z, r, g, b, 1.0F, 0.0F);
+                corner(buffer, pose, x, y, z, r, g, b, 0.0F, 0.0F);
+            });
             poseStack.popPose();
-            buffers.endBatch(renderType);
         }
+    }
+
+    private static void corner(VertexConsumer buffer, PoseStack.Pose pose, float x, float y, float z, float r, float g, float b, float u, float v) {
+        buffer.addVertex(pose, x, y, z).setColor(r, g, b, 1.0F).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(Render.MAX_LIGHT)
+                .setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 }

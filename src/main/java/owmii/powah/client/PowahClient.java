@@ -41,7 +41,8 @@ public final class PowahClient implements ClientModInitializer {
         DataMaps.initClient();
         SpecialModelRenderers.ID_MAPPER.put(ReactorItemRenderer.ID, ReactorItemRenderer.Unbaked.MAP_CODEC);
 
-        LevelRenderEvents.END_MAIN.register(context -> ReactorOverlayHandler.onRenderLast(context.poseStack(), context.levelState().cameraRenderState));
+        LevelRenderEvents.COLLECT_SUBMITS.register(context -> ReactorOverlayHandler.onRenderLast(context.poseStack(), context.levelState().cameraRenderState,
+                context.submitNodeCollector()));
         ClientRecipeSynchronizedEvent.EVENT.register((client, recipes) -> {
             ENERGIZING_RECIPES.clear();
             ENERGIZING_RECIPES.addAll(recipes.<net.minecraft.world.item.crafting.RecipeInput, EnergizingRecipe>getAllOfType(Recipes.ENERGIZING.get()));

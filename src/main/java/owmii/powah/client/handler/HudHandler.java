@@ -18,7 +18,7 @@ public class HudHandler {
     public static void register(PowahClient powahClient) {
         HudElementRegistry.attachElementAfter(VanillaHudElements.MISC_OVERLAYS, Powah.id("hud"), (gui, deltaTracker) -> {
             Minecraft mc = Minecraft.getInstance();
-            if (mc.screen == null) {
+            if (mc.gui.screen() == null) {
                 Player player = mc.player;
                 Level world = mc.level;
                 if (world != null && player != null) {

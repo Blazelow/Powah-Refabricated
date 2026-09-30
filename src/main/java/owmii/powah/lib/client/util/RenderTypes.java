@@ -5,8 +5,8 @@ import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.platform.CompareOp;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import java.util.Optional;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
@@ -14,40 +14,53 @@ import net.minecraft.resources.Identifier;
 import owmii.powah.Powah;
 
 public class RenderTypes {
-    public static final RenderPipeline GUI_TEXTURED_NOBLEND = RenderPipeline.builder(RenderPipelines.MATRICES_PROJECTION_SNIPPET)
-            .withVertexShader("core/position_tex_color")
-            .withFragmentShader("core/position_tex_color")
-            .withSampler("Sampler0")
+    public static final RenderPipeline GUI_TEXTURED_NOBLEND = copy(RenderPipelines.GUI_TEXTURED)
             .withColorTargetState(ColorTargetState.DEFAULT)
-            .withVertexFormat(DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS)
             .withLocation(Powah.id("gui_textured_noblend"))
             .build();
 
-    public static RenderPipeline REACTOR_OVERLAY = RenderPipeline.builder(RenderPipelines.MATRICES_FOG_SNIPPET, RenderPipelines.GLOBALS_SNIPPET)
-            .withVertexShader("core/position_tex_color")
-            .withFragmentShader("core/position_tex_color")
-            .withSampler("Sampler0")
+    public static RenderPipeline REACTOR_OVERLAY = copy(RenderPipelines.ENTITY_TRANSLUCENT_EMISSIVE)
             .withColorTargetState(new ColorTargetState(BlendFunction.LIGHTNING))
-            .withDepthStencilState(DepthStencilState.DEFAULT)
-            .withVertexFormat(DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS)
             .withLocation(Powah.id("reactor_overlay"))
             .build();
 
-    public static RenderPipeline BLENDED_NO_DEPTH = RenderPipeline.builder(RenderPipelines.MATRICES_FOG_SNIPPET, RenderPipelines.GLOBALS_SNIPPET)
-            .withVertexShader("core/position_tex_color")
-            .withFragmentShader("core/position_tex_color")
-            .withSampler("Sampler0")
+    public static RenderPipeline BLENDED_NO_DEPTH = copy(RenderPipelines.ENTITY_TRANSLUCENT_EMISSIVE)
             .withColorTargetState(new ColorTargetState(BlendFunction.LIGHTNING))
             .withCull(false)
             .withDepthStencilState(new DepthStencilState(CompareOp.LESS_THAN_OR_EQUAL, false))
-            .withVertexFormat(DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS)
             .withLocation(Powah.id("blended_no_depth"))
             .build();
+
+    private static RenderPipeline.Builder copy(RenderPipeline base) {
+        var builder = RenderPipeline.builder()
+                .withVertexShader(base.getVertexShader())
+                .withFragmentShader(base.getFragmentShader())
+                .withPrimitiveTopology(base.getPrimitiveTopology())
+                .withCull(base.isCull())
+                .withPolygonMode(base.getPolygonMode())
+                .withColorTargetState(base.getColorTargetState())
+                .withDepthStencilState(Optional.ofNullable(base.getDepthStencilState()));
+        VertexFormat[] bindings = base.getVertexFormatBindings();
+        for (int i = 0; i < bindings.length; i++) {
+            builder.withVertexBinding(i, bindings[i]);
+        }
+        for (var layout : base.getBindGroupLayouts()) {
+            builder.withBindGroupLayout(layout);
+        }
+        base.getShaderDefines().values().forEach((name, value) -> {
+            try {
+                builder.withShaderDefine(name, Integer.parseInt(value));
+            } catch (NumberFormatException e) {
+                builder.withShaderDefine(name, Float.parseFloat(value));
+            }
+        });
+        base.getShaderDefines().flags().forEach(builder::withShaderDefine);
+        return builder;
+    }
 
     public static RenderType entityBlendedNoDepthWrite(Identifier location) {
         return RenderType.create("powah_blended_no_depth", RenderSetup.builder(BLENDED_NO_DEPTH)
                 .withTexture("Sampler0", location)
-                .bufferSize(256)
                 .sortOnUpload()
                 .affectsCrumbling()
                 .createRenderSetup());
@@ -56,7 +69,6 @@ public class RenderTypes {
     public static RenderType createReactorOverlay(Identifier location) {
         return RenderType.create("powah_reactor_overlay", RenderSetup.builder(REACTOR_OVERLAY)
                 .withTexture("Sampler0", location)
-                .bufferSize(256)
                 .sortOnUpload()
                 .createRenderSetup());
     }

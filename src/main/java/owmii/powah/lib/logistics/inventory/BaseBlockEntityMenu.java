@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.lib.block.IInventoryHolder;
 import owmii.powah.lib.block.PowahBaseBlockEntity;
@@ -46,7 +47,7 @@ public abstract class BaseBlockEntityMenu<T extends PowahBaseBlockEntity<?> & II
         if (tile instanceof PowahBaseBlockEntity<?>)
             return (T) tile;
         // What the hell is this?
-        return (T) new PowahBaseBlockEntity<>(BlockEntityType.SIGN, pos, Blocks.AIR.defaultBlockState());
+        return (T) new PowahBaseBlockEntity<>(BlockEntityTypes.SIGN, pos, Blocks.AIR.defaultBlockState());
     }
 
     @Override

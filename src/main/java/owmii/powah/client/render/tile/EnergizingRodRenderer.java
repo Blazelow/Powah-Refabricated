@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
@@ -17,6 +18,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 import owmii.powah.Powah;
+import owmii.powah.lib.client.util.Render;
 import owmii.powah.api.wrench.IWrench;
 import owmii.powah.block.energizing.EnergizingRodBlockEntity;
 import owmii.powah.lib.client.util.RenderTypes;
@@ -123,6 +125,7 @@ public class EnergizingRodRenderer implements BlockEntityRenderer<EnergizingRodB
     }
 
     private void pos(VertexConsumer builder, PoseStack.Pose pose, float x, float y, float z, int r, int g, int b, float u, float v) {
-        builder.addVertex(pose, x, y, z).setColor(r, g, b, 255).setUv(u, v);
+        builder.addVertex(pose, x, y, z).setColor(r, g, b, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(Render.MAX_LIGHT)
+                .setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 }

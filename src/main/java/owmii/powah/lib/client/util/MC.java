@@ -18,7 +18,7 @@ public class MC {
     }
 
     public static void open(Screen screen) {
-        get().setScreen(screen);
+        get().setScreenAndShow(screen);
     }
 
     public static Minecraft get() {

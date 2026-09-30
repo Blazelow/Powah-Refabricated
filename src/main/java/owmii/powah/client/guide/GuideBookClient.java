@@ -10,6 +10,6 @@ public final class GuideBookClient {
     }
 
     public static void open() {
-        Minecraft.getInstance().setScreen(new GuideScreen());
+        Minecraft.getInstance().setScreenAndShow(new GuideScreen());
     }
 }

@@ -1,6 +1,6 @@
 **Powah! Refabricated v7.0.4**
 
-A Fabric port of Powah! for Minecraft 26.1.2, based on the NeoForge version 7.0.4.
+A Fabric port of Powah! for Minecraft 26.2, based on the NeoForge version 7.0.4.
 
 &nbsp;
 
